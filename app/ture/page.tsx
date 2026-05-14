@@ -82,6 +82,7 @@ function TureContent() {
   const searchParams = useSearchParams();
   const pokrajinaFromUrl = searchParams.get("pokrajina") || "vse";
 
+  const [menuOpen, setMenuOpen] = useState(false);
   const [activeRegion, setActiveRegion] = useState(pokrajinaFromUrl);
   const [activeDifficulty, setActiveDifficulty] = useState("Vse");
 
@@ -108,8 +109,35 @@ function TureContent() {
               </a>
             ))}
           </nav>
+
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
+            aria-label="Odpri meni"
+          >
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
+          </button>
         </div>
       </header>
+
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 bg-[#07110b]/95 px-5 pt-24 backdrop-blur-2xl md:hidden">
+          <nav className="flex flex-col">
+            {menuItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="border-b border-white/10 py-6 text-3xl font-semibold"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
 
       <section className="relative flex min-h-[620px] items-center overflow-hidden px-5 pt-24">
         <img
@@ -195,7 +223,6 @@ function TureContent() {
               <article key={tour.title} className="overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10]">
                 <div className="relative h-72 overflow-hidden">
                   <img src={tour.image} alt={tour.title} className="h-full w-full object-cover" />
-
                   <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-[#07110b]/20 to-transparent" />
 
                   <div className="absolute bottom-6 left-6 right-6">
