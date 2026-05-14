@@ -12,8 +12,9 @@ const featuredTrails = [
     distance: "32 km",
     elevation: "890 m",
     difficulty: "Srednja",
-    surface: "65% gozd • 25% makadam • 10% asfalt",
-    text: "Dinamična tura skozi pohorske gozdove, razglede in naravne singletrail odseke.",
+    difficultyStyle: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
+    surface: "Gozdne poti • flow trail • makadam",
+    text: "Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni za pravi kolesarski dan.",
   },
   {
     region: "Slovenske gorice",
@@ -22,8 +23,9 @@ const featuredTrails = [
     distance: "48 km",
     elevation: "620 m",
     difficulty: "Lahka",
-    surface: "45% asfalt • 40% makadam • 15% gozd",
-    text: "Razgledna kolesarska izkušnja med vinogradi, griči in lokalnimi postanki.",
+    difficultyStyle: "border-sky-500/30 bg-sky-500/10 text-sky-300",
+    surface: "Asfalt • makadam • vinske ceste",
+    text: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
   },
   {
     region: "Soška dolina",
@@ -32,15 +34,23 @@ const featuredTrails = [
     distance: "86 km",
     elevation: "1450 m",
     difficulty: "Zahtevna",
-    surface: "50% makadam • 30% asfalt • 20% gozd",
-    text: "Večdnevna alpska avantura ob rekah, prelazih, vasicah in razgledih.",
+    difficultyStyle: "border-orange-500/30 bg-orange-500/10 text-orange-300",
+    surface: "Makadam • asfalt • alpske poti",
+    text: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
   },
 ];
 
-const regions = ["Pohorje", "Maribor", "Slovenske gorice", "Soška dolina", "Istra", "Goriška"];
+const regions = [
+  "Pohorje",
+  "Maribor",
+  "Slovenske gorice",
+  "Soška dolina",
+  "Istra",
+  "Goriška",
+];
 
 const stats = [
-  { value: "30+", label: "ciljna skupina" },
+  { value: "30+", label: "za aktivne raziskovalce" },
   { value: "6", label: "začetnih regij" },
   { value: "MTB", label: "e-bike / gravel" },
 ];
@@ -67,9 +77,21 @@ export default function Home() {
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
             aria-label="Odpri meni"
           >
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "rotate-45" : "-translate-y-1.5"
+              }`}
+            />
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "-rotate-45" : "translate-y-1.5"
+              }`}
+            />
           </button>
         </div>
       </header>
@@ -139,7 +161,10 @@ export default function Home() {
       <section className="border-y border-white/10 bg-zinc-950 px-5 py-8">
         <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-3">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-white/10 bg-black px-6 py-5">
+            <div
+              key={stat.label}
+              className="rounded-2xl border border-white/10 bg-black px-6 py-5"
+            >
               <div className="text-2xl font-black">{stat.value}</div>
               <div className="mt-1 text-sm text-zinc-500">{stat.label}</div>
             </div>
@@ -153,8 +178,9 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Izbrane ture
             </p>
+
             <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
-              Prve ture naj izgledajo kot premium izkušnje.
+              Ture, ki niso samo trase, ampak zgodbe.
             </h2>
           </div>
 
@@ -162,34 +188,44 @@ export default function Home() {
             {featuredTrails.map((trail) => (
               <article
                 key={trail.title}
-                className="rounded-3xl border border-white/10 bg-zinc-950 p-7 transition hover:-translate-y-1 hover:border-white/20"
+                className="group rounded-[2rem] border border-white/10 bg-zinc-950/80 p-7 backdrop-blur transition hover:-translate-y-1 hover:border-white/20 hover:bg-zinc-900/80"
               >
-                <div className="mb-5 flex items-center justify-between text-sm text-zinc-500">
+                <div className="mb-6 flex items-center justify-between text-sm text-zinc-500">
                   <span>{trail.region}</span>
                   <span>{trail.type}</span>
                 </div>
 
-                <h3 className="mb-4 text-2xl font-bold">{trail.title}</h3>
-                <p className="mb-6 leading-7 text-zinc-400">{trail.text}</p>
+                <h3 className="mb-5 text-3xl font-bold leading-tight">
+                  {trail.title}
+                </h3>
 
-                <div className="mb-6 grid grid-cols-3 gap-3 text-center">
-                  <div className="rounded-2xl bg-black p-3">
-                    <div className="font-bold">{trail.distance}</div>
-                    <div className="text-xs text-zinc-500">dolžina</div>
-                  </div>
-                  <div className="rounded-2xl bg-black p-3">
-                    <div className="font-bold">{trail.elevation}</div>
-                    <div className="text-xs text-zinc-500">višinci</div>
-                  </div>
-                  <div className="rounded-2xl bg-black p-3">
-                    <div className="font-bold">{trail.difficulty}</div>
-                    <div className="text-xs text-zinc-500">težavnost</div>
-                  </div>
+                <div className="mb-6 flex flex-wrap gap-3">
+                  <span className="rounded-full border border-white/10 px-4 py-2 text-sm">
+                    {trail.distance}
+                  </span>
+
+                  <span className="rounded-full border border-white/10 px-4 py-2 text-sm">
+                    {trail.elevation}
+                  </span>
+
+                  <span
+                    className={`rounded-full border px-4 py-2 text-sm ${trail.difficultyStyle}`}
+                  >
+                    {trail.difficulty}
+                  </span>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-black p-4 text-sm text-zinc-400">
+                <p className="mb-7 text-lg leading-8 text-zinc-400">
+                  {trail.text}
+                </p>
+
+                <div className="mb-7 rounded-2xl border border-white/10 bg-black p-4 text-sm text-zinc-400">
                   {trail.surface}
                 </div>
+
+                <button className="w-full rounded-full bg-white px-5 py-4 font-semibold text-black transition group-hover:scale-[1.02]">
+                  Oglej si turo
+                </button>
               </article>
             ))}
           </div>
@@ -202,9 +238,11 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Regije
             </p>
+
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Vsaka regija ima svoj ritem.
             </h2>
+
             <p className="text-lg leading-8 text-zinc-400">
               Platforma bo povezovala ture, razglede, zgodbe, kulinariko,
               nastanitve in lokalne ponudnike v eno jasno kolesarsko izkušnjo.
@@ -213,7 +251,10 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-4">
             {regions.map((region) => (
-              <div key={region} className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold">
+              <div
+                key={region}
+                className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold"
+              >
                 {region}
               </div>
             ))}
@@ -227,9 +268,11 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Doživetja ob poti
             </p>
+
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Ne gre samo za kilometre.
             </h2>
+
             <p className="mb-8 text-lg leading-8 text-zinc-400">
               Bojan on Bike bo pomagal sestaviti celoten kolesarski dan:
               turo, postanek, razgled, kosilo, zgodbo in občutek regije.
