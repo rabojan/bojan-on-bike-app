@@ -13,11 +13,7 @@ const featuredTrails = [
     elevation: "890 m",
     difficulty: "Srednja",
     difficultyStyle: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
-    surface: {
-      asphalt: 10,
-      gravel: 25,
-      forest: 65,
-    },
+    surface: { asphalt: 10, gravel: 25, forest: 65 },
     text: "Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni za pravi kolesarski dan.",
   },
   {
@@ -28,11 +24,7 @@ const featuredTrails = [
     elevation: "620 m",
     difficulty: "Lahka",
     difficultyStyle: "border-sky-500/30 bg-sky-500/10 text-sky-300",
-    surface: {
-      asphalt: 45,
-      gravel: 40,
-      forest: 15,
-    },
+    surface: { asphalt: 45, gravel: 40, forest: 15 },
     text: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
   },
   {
@@ -43,11 +35,7 @@ const featuredTrails = [
     elevation: "1450 m",
     difficulty: "Zahtevna",
     difficultyStyle: "border-orange-500/30 bg-orange-500/10 text-orange-300",
-    surface: {
-      asphalt: 30,
-      gravel: 50,
-      forest: 20,
-    },
+    surface: { asphalt: 30, gravel: 50, forest: 20 },
     text: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
   },
 ];
@@ -60,13 +48,25 @@ const stats = [
   { value: "MTB", label: "e-bike / gravel" },
 ];
 
-function SurfaceBar({
-  label,
-  value,
-}: {
-  label: string;
-  value: number;
-}) {
+const howItWorks = [
+  {
+    step: "01",
+    title: "Izberi regijo",
+    text: "Začni pri prostoru: Pohorje, Soška dolina, Istra ali katera od prihodnjih kolesarskih regij.",
+  },
+  {
+    step: "02",
+    title: "Primerjaj ture",
+    text: "Poglej dolžino, višince, težavnost in podlago. Hitro vidiš, katera tura je prava za tvoj dan.",
+  },
+  {
+    step: "03",
+    title: "Sestavi doživetje",
+    text: "Turi dodaš postanke, razglede, kulinariko, nastanitve in lokalne ponudnike ob poti.",
+  },
+];
+
+function SurfaceBar({ label, value }: { label: string; value: number }) {
   return (
     <div>
       <div className="mb-2 flex items-center justify-between text-sm">
@@ -74,10 +74,7 @@ function SurfaceBar({
         <span className="font-semibold text-white">{value}%</span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-white/10">
-        <div
-          className="h-full rounded-full bg-white"
-          style={{ width: `${value}%` }}
-        />
+        <div className="h-full rounded-full bg-white" style={{ width: `${value}%` }} />
       </div>
     </div>
   );
@@ -191,7 +188,6 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Izbrane ture
             </p>
-
             <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
               Ture, ki niso samo trase, ampak zgodbe.
             </h2>
@@ -241,6 +237,29 @@ export default function Home() {
       </section>
 
       <section className="border-y border-white/10 bg-zinc-950 px-5 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 max-w-3xl">
+            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
+              Kako deluje
+            </p>
+            <h2 className="text-4xl font-bold md:text-5xl">
+              Od ideje do popolnega kolesarskega dne.
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {howItWorks.map((item) => (
+              <div key={item.step} className="rounded-[2rem] border border-white/10 bg-black p-8">
+                <div className="mb-8 text-sm font-semibold text-zinc-500">{item.step}</div>
+                <h3 className="mb-4 text-2xl font-bold">{item.title}</h3>
+                <p className="leading-7 text-zinc-400">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 bg-black px-5 py-24">
         <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-center">
           <div>
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
@@ -259,7 +278,7 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-4">
             {regions.map((region) => (
-              <div key={region} className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold">
+              <div key={region} className="rounded-2xl border border-white/10 bg-zinc-950 p-5 text-lg font-semibold">
                 {region}
               </div>
             ))}
