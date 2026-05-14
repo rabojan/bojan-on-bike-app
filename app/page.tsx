@@ -40,14 +40,7 @@ const featuredTrails = [
   },
 ];
 
-const regions = [
-  "Pohorje",
-  "Maribor",
-  "Slovenske gorice",
-  "Soška dolina",
-  "Istra",
-  "Goriška",
-];
+const regions = ["Pohorje", "Maribor", "Slovenske gorice", "Soška dolina", "Istra", "Goriška"];
 
 const stats = [
   { value: "30+", label: "za aktivne raziskovalce" },
@@ -77,21 +70,9 @@ export default function Home() {
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
             aria-label="Odpri meni"
           >
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "rotate-45" : "-translate-y-1.5"
-              }`}
-            />
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "-rotate-45" : "translate-y-1.5"
-              }`}
-            />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
           </button>
         </div>
       </header>
@@ -161,10 +142,7 @@ export default function Home() {
       <section className="border-y border-white/10 bg-zinc-950 px-5 py-8">
         <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-3">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-2xl border border-white/10 bg-black px-6 py-5"
-            >
+            <div key={stat.label} className="rounded-2xl border border-white/10 bg-black px-6 py-5">
               <div className="text-2xl font-black">{stat.value}</div>
               <div className="mt-1 text-sm text-zinc-500">{stat.label}</div>
             </div>
@@ -184,38 +162,30 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid items-stretch gap-6 md:grid-cols-3">
             {featuredTrails.map((trail) => (
               <article
                 key={trail.title}
-                className="group rounded-[2rem] border border-white/10 bg-zinc-950/80 p-7 backdrop-blur transition hover:-translate-y-1 hover:border-white/20 hover:bg-zinc-900/80"
+                className="group flex h-full flex-col rounded-[2rem] border border-white/10 bg-zinc-950/80 p-7 backdrop-blur transition hover:-translate-y-1 hover:border-white/20 hover:bg-zinc-900/80"
               >
                 <div className="mb-6 flex items-center justify-between text-sm text-zinc-500">
                   <span>{trail.region}</span>
                   <span>{trail.type}</span>
                 </div>
 
-                <h3 className="mb-5 text-3xl font-bold leading-tight">
+                <h3 className="mb-5 min-h-[86px] text-3xl font-bold leading-tight">
                   {trail.title}
                 </h3>
 
                 <div className="mb-6 flex flex-wrap gap-3">
-                  <span className="rounded-full border border-white/10 px-4 py-2 text-sm">
-                    {trail.distance}
-                  </span>
-
-                  <span className="rounded-full border border-white/10 px-4 py-2 text-sm">
-                    {trail.elevation}
-                  </span>
-
-                  <span
-                    className={`rounded-full border px-4 py-2 text-sm ${trail.difficultyStyle}`}
-                  >
+                  <span className="rounded-full border border-white/10 px-4 py-2 text-sm">{trail.distance}</span>
+                  <span className="rounded-full border border-white/10 px-4 py-2 text-sm">{trail.elevation}</span>
+                  <span className={`rounded-full border px-4 py-2 text-sm ${trail.difficultyStyle}`}>
                     {trail.difficulty}
                   </span>
                 </div>
 
-                <p className="mb-7 text-lg leading-8 text-zinc-400">
+                <p className="mb-7 min-h-[96px] text-lg leading-8 text-zinc-400">
                   {trail.text}
                 </p>
 
@@ -223,7 +193,7 @@ export default function Home() {
                   {trail.surface}
                 </div>
 
-                <button className="w-full rounded-full bg-white px-5 py-4 font-semibold text-black transition group-hover:scale-[1.02]">
+                <button className="mt-auto w-full rounded-full bg-white px-5 py-4 font-semibold text-black transition group-hover:scale-[1.02]">
                   Oglej si turo
                 </button>
               </article>
@@ -251,10 +221,7 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-4">
             {regions.map((region) => (
-              <div
-                key={region}
-                className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold"
-              >
+              <div key={region} className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold">
                 {region}
               </div>
             ))}
