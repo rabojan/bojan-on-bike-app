@@ -1,65 +1,39 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
-const menuItems = ["Ture", "Regije", "Doživetja", "Ponudniki"];
+const menuItems = ["Ture", "Pokrajine", "Doživetja", "Ponudniki"];
 
-const featuredTrails = [
+const topTrails = [
   {
+    rank: "01",
+    title: "Gozdni flow nad Mariborom",
     region: "Štajerska",
     destination: "Pohorje",
-    type: "MTB",
-    ebike: true,
-    title: "Gozdni flow nad Mariborom",
     distance: "32 km",
-    elevation: "890 m",
-    difficulty: "Srednja",
-    difficultyStyle: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
-    surface: { asphalt: 10, gravel: 25, forest: 65 },
-    highlights: ["flow trail", "gozd", "razgledi"],
-    text: "Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni za pravi kolesarski dan.",
+    type: "MTB",
+    image:
+      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?auto=format&fit=crop&q=85&w=1200",
   },
   {
+    rank: "02",
+    title: "Med vinogradi in griči",
     region: "Štajerska",
     destination: "Slovenske gorice",
-    type: "Gravel",
-    ebike: true,
-    title: "Med vinogradi in griči",
     distance: "48 km",
-    elevation: "620 m",
-    difficulty: "Lahka",
-    difficultyStyle: "border-sky-500/30 bg-sky-500/10 text-sky-300",
-    surface: { asphalt: 45, gravel: 40, forest: 15 },
-    highlights: ["vino", "kulinarika", "razgledi"],
-    text: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
+    type: "Gravel",
+    image:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=85&w=1200",
   },
   {
+    rank: "03",
+    title: "Alpski pobeg ob vodi",
     region: "Primorska",
     destination: "Soška dolina",
-    type: "Bikepacking",
-    ebike: true,
-    title: "Alpski pobeg ob vodi",
     distance: "86 km",
-    elevation: "1450 m",
-    difficulty: "Zahtevna",
-    difficultyStyle: "border-orange-500/30 bg-orange-500/10 text-orange-300",
-    surface: { asphalt: 30, gravel: 50, forest: 20 },
-    highlights: ["reka Soča", "prelazi", "več dni"],
-    text: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
-  },
-  {
-    region: "Primorska",
-    destination: "Istra",
-    type: "Touring",
-    ebike: true,
-    title: "Obala, oljke in razgledi",
-    distance: "41 km",
-    elevation: "540 m",
-    difficulty: "Lahka",
-    difficultyStyle: "border-sky-500/30 bg-sky-500/10 text-sky-300",
-    surface: { asphalt: 55, gravel: 35, forest: 10 },
-    highlights: ["morje", "oljke", "vasice"],
-    text: "Razgledna tura med istrskimi vasicami, oljčniki in morskim zrakom.",
+    type: "Bikepacking",
+    image:
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=1200",
   },
 ];
 
@@ -83,12 +57,12 @@ const howItWorks = [
   {
     step: "01",
     title: "Izberi pokrajino",
-    text: "Začni pri širši pokrajini: Štajerska, Primorska, Koroška, Gorenjska ali druga slovenska regija.",
+    text: "Začni pri širšem prostoru: Štajerska, Primorska, Koroška, Gorenjska ali druga slovenska pokrajina.",
   },
   {
     step: "02",
-    title: "Primerjaj ture",
-    text: "Poglej dolžino, višince, težavnost in podlago. Hitro vidiš, katera tura je prava za tvoj dan.",
+    title: "Odkrij turo",
+    text: "Poglej dolžino, višince, težavnost, podlago in občutek ture.",
   },
   {
     step: "03",
@@ -97,101 +71,8 @@ const howItWorks = [
   },
 ];
 
-const regionFilters = ["Vse", "Štajerska", "Primorska", "Koroška", "Gorenjska", "Notranjska", "Dolenjska", "Prekmurje"];
-const typeFilters = ["Vse", "MTB", "Gravel", "Bikepacking", "Touring"];
-const difficultyFilters = ["Vse", "Lahka", "Srednja", "Zahtevna"];
-
-function SurfaceBar({ label, value }: { label: string; value: number }) {
-  return (
-    <div>
-      <div className="mb-2 flex items-center justify-between text-sm">
-        <span className="text-zinc-400">{label}</span>
-        <span className="font-semibold text-white">{value}%</span>
-      </div>
-      <div className="h-2 overflow-hidden rounded-full bg-white/10">
-        <div className="h-full rounded-full bg-white" style={{ width: `${value}%` }} />
-      </div>
-    </div>
-  );
-}
-
-function TrailCard({ trail }: { trail: (typeof featuredTrails)[number] }) {
-  return (
-    <article className="group flex h-full flex-col rounded-[2rem] border border-white/10 bg-zinc-950/80 p-7 backdrop-blur transition hover:-translate-y-1 hover:border-white/20 hover:bg-zinc-900/80">
-      <div className="mb-6 flex items-start justify-between gap-4 text-sm text-zinc-500">
-        <div className="flex flex-col">
-          <span>{trail.region}</span>
-          <span className="text-xs text-zinc-600">{trail.destination}</span>
-        </div>
-
-        <div className="flex flex-col items-end">
-          <span>{trail.type}</span>
-          {trail.ebike && (
-            <span className="text-xs text-emerald-400">e-bike friendly</span>
-          )}
-        </div>
-      </div>
-
-      <h3 className="mb-5 min-h-[86px] text-3xl font-bold leading-tight">
-        {trail.title}
-      </h3>
-
-      <div className="mb-6 flex flex-wrap gap-3">
-        <span className="rounded-full border border-white/10 px-4 py-2 text-sm">
-          {trail.distance}
-        </span>
-        <span className="rounded-full border border-white/10 px-4 py-2 text-sm">
-          {trail.elevation}
-        </span>
-        <span className={`rounded-full border px-4 py-2 text-sm ${trail.difficultyStyle}`}>
-          {trail.difficulty}
-        </span>
-      </div>
-
-      <p className="mb-6 min-h-[96px] text-lg leading-8 text-zinc-400">
-        {trail.text}
-      </p>
-
-      <div className="mb-6 flex flex-wrap gap-2">
-        {trail.highlights.map((item) => (
-          <span
-            key={item}
-            className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300"
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-
-      <div className="mb-7 space-y-4 rounded-2xl border border-white/10 bg-black p-5">
-        <div className="text-sm font-semibold text-white">Podlaga</div>
-        <SurfaceBar label="Asfalt" value={trail.surface.asphalt} />
-        <SurfaceBar label="Makadam" value={trail.surface.gravel} />
-        <SurfaceBar label="Gozdna pot" value={trail.surface.forest} />
-      </div>
-
-      <button className="mt-auto w-full rounded-full bg-white px-5 py-4 font-semibold text-black transition group-hover:scale-[1.02]">
-        Oglej si turo
-      </button>
-    </article>
-  );
-}
-
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeRegion, setActiveRegion] = useState("Vse");
-  const [activeType, setActiveType] = useState("Vse");
-  const [activeDifficulty, setActiveDifficulty] = useState("Vse");
-
-  const filteredTrails = useMemo(() => {
-    return featuredTrails.filter((trail) => {
-      const regionMatch = activeRegion === "Vse" || trail.region === activeRegion;
-      const typeMatch = activeType === "Vse" || trail.type === activeType;
-      const difficultyMatch = activeDifficulty === "Vse" || trail.difficulty === activeDifficulty;
-
-      return regionMatch && typeMatch && difficultyMatch;
-    });
-  }, [activeRegion, activeType, activeDifficulty]);
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -212,9 +93,21 @@ export default function Home() {
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
             aria-label="Odpri meni"
           >
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "rotate-45" : "-translate-y-1.5"
+              }`}
+            />
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "-rotate-45" : "translate-y-1.5"
+              }`}
+            />
           </button>
         </div>
       </header>
@@ -236,7 +129,7 @@ export default function Home() {
 
           <p className="mt-8 max-w-sm text-zinc-400">
             Premium kolesarska platforma za raziskovanje Slovenije skozi ture,
-            regije in lokalna doživetja.
+            pokrajine in lokalna doživetja.
           </p>
         </div>
       )}
@@ -264,8 +157,8 @@ export default function Home() {
             </h1>
 
             <p className="mb-10 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl">
-              Premium spletna platforma za odkrivanje kolesarskih tur, regij,
-              lokalnih ponudnikov in doživetij ob poti.
+              Premium spletna platforma za odkrivanje kolesarskih tur,
+              pokrajin, lokalnih ponudnikov in doživetij ob poti.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
@@ -274,7 +167,7 @@ export default function Home() {
               </button>
 
               <button className="rounded-full border border-white/25 bg-black/30 px-8 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/10">
-                Odkrij regije
+                Odkrij pokrajine
               </button>
             </div>
           </div>
@@ -284,7 +177,10 @@ export default function Home() {
       <section className="border-y border-white/10 bg-zinc-950 px-5 py-8">
         <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-3">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-white/10 bg-black px-6 py-5">
+            <div
+              key={stat.label}
+              className="rounded-2xl border border-white/10 bg-black px-6 py-5"
+            >
               <div className="text-2xl font-black">{stat.value}</div>
               <div className="mt-1 text-sm text-zinc-500">{stat.label}</div>
             </div>
@@ -294,92 +190,145 @@ export default function Home() {
 
       <section className="px-5 py-24">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10">
+          <div className="mb-12">
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
-              Iskanje tur
+              Zadnja dodana tura
             </p>
+
             <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
-              Najdi turo po svojem ritmu.
+              Sveža ideja za naslednji kolesarski dan.
             </h2>
           </div>
 
-          <div className="mb-10 rounded-[2rem] border border-white/10 bg-zinc-950 p-5">
-            <div className="mb-5">
-              <div className="mb-3 text-sm font-semibold text-zinc-400">Pokrajina</div>
-              <div className="flex flex-wrap gap-3">
-                {regionFilters.map((region) => (
-                  <button
-                    key={region}
-                    onClick={() => setActiveRegion(region)}
-                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
-                      activeRegion === region
-                        ? "border-white bg-white text-black"
-                        : "border-white/10 bg-black text-white hover:border-white/30"
-                    }`}
-                  >
-                    {region}
-                  </button>
-                ))}
-              </div>
+          <article className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950 md:grid-cols-[1.15fr_0.85fr]">
+            <div className="relative min-h-[360px] overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&q=85&w=1800"
+                alt="Gorsko kolesarjenje"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             </div>
 
-            <div className="mb-5">
-              <div className="mb-3 text-sm font-semibold text-zinc-400">Tip ture</div>
-              <div className="flex flex-wrap gap-3">
-                {typeFilters.map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setActiveType(type)}
-                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
-                      activeType === type
-                        ? "border-white bg-white text-black"
-                        : "border-white/10 bg-black text-white hover:border-white/30"
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
+            <div className="flex flex-col justify-center p-8 md:p-12">
+              <div className="mb-6 flex flex-wrap gap-3 text-sm">
+                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
+                  Štajerska
+                </span>
+                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
+                  Pohorje
+                </span>
+                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-emerald-300">
+                  e-bike friendly
+                </span>
               </div>
-            </div>
 
-            <div>
-              <div className="mb-3 text-sm font-semibold text-zinc-400">Težavnost</div>
-              <div className="flex flex-wrap gap-3">
-                {difficultyFilters.map((difficulty) => (
-                  <button
-                    key={difficulty}
-                    onClick={() => setActiveDifficulty(difficulty)}
-                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
-                      activeDifficulty === difficulty
-                        ? "border-white bg-white text-black"
-                        : "border-white/10 bg-black text-white hover:border-white/30"
-                    }`}
-                  >
-                    {difficulty}
-                  </button>
-                ))}
+              <h3 className="mb-5 text-4xl font-black leading-tight">
+                Gozdni flow nad Mariborom
+              </h3>
+
+              <p className="mb-8 text-lg leading-8 text-zinc-400">
+                Tura skozi pohorske gozdove, razglede in spuste, ki so
+                ustvarjeni za pravi kolesarski dan nad mestom.
+              </p>
+
+              <div className="mb-8 grid grid-cols-3 gap-3">
+                <div className="rounded-2xl border border-white/10 bg-black p-4">
+                  <div className="font-bold">32 km</div>
+                  <div className="text-xs text-zinc-500">dolžina</div>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black p-4">
+                  <div className="font-bold">890 m</div>
+                  <div className="text-xs text-zinc-500">višinci</div>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black p-4">
+                  <div className="font-bold">Srednja</div>
+                  <div className="text-xs text-zinc-500">težavnost</div>
+                </div>
               </div>
+
+              <button className="rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-zinc-200">
+                Oglej si turo
+              </button>
             </div>
-          </div>
-
-          <div className="mb-6 text-sm text-zinc-500">
-            Prikazano: {filteredTrails.length} tur
-          </div>
-
-          <div className="grid items-stretch gap-6 md:grid-cols-3">
-            {filteredTrails.map((trail) => (
-              <TrailCard key={trail.title} trail={trail} />
-            ))}
-          </div>
+          </article>
         </div>
       </section>
 
       <section className="border-y border-white/10 bg-zinc-950 px-5 py-24">
         <div className="mx-auto max-w-7xl">
+          <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
+                TOP 3
+              </p>
+
+              <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
+                Ture po izboru kolesarjev.
+              </h2>
+            </div>
+
+            <button className="w-fit rounded-full border border-white/15 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
+              Vse ture
+            </button>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {topTrails.map((trail) => (
+              <article
+                key={trail.title}
+                className="group overflow-hidden rounded-[2rem] border border-white/10 bg-black transition hover:-translate-y-1 hover:border-white/20"
+              >
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={trail.image}
+                    alt={trail.title}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+
+                  <div className="absolute left-5 top-5 rounded-full bg-white px-4 py-2 text-sm font-black text-black">
+                    {trail.rank}
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <div className="mb-3 text-sm text-zinc-500">
+                    {trail.region} • {trail.destination}
+                  </div>
+
+                  <h3 className="mb-5 text-2xl font-bold leading-tight">
+                    {trail.title}
+                  </h3>
+
+                  <div className="mb-6 flex gap-3 text-sm">
+                    <span className="rounded-full border border-white/10 px-3 py-2">
+                      {trail.distance}
+                    </span>
+                    <span className="rounded-full border border-white/10 px-3 py-2">
+                      {trail.type}
+                    </span>
+                  </div>
+
+                  <button className="w-full rounded-full border border-white/15 px-5 py-3 font-semibold transition hover:bg-white hover:text-black">
+                    Poglej več
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 bg-black px-5 py-24">
+        <div className="mx-auto max-w-7xl">
           <div className="mb-12 max-w-3xl">
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Kako deluje
             </p>
+
             <h2 className="text-4xl font-bold md:text-5xl">
               Od ideje do popolnega kolesarskega dne.
             </h2>
@@ -387,9 +336,16 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-3">
             {howItWorks.map((item) => (
-              <div key={item.step} className="rounded-[2rem] border border-white/10 bg-black p-8">
-                <div className="mb-8 text-sm font-semibold text-zinc-500">{item.step}</div>
+              <div
+                key={item.step}
+                className="rounded-[2rem] border border-white/10 bg-zinc-950 p-8"
+              >
+                <div className="mb-8 text-sm font-semibold text-zinc-500">
+                  {item.step}
+                </div>
+
                 <h3 className="mb-4 text-2xl font-bold">{item.title}</h3>
+
                 <p className="leading-7 text-zinc-400">{item.text}</p>
               </div>
             ))}
@@ -397,15 +353,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-b border-white/10 bg-black px-5 py-24">
+      <section className="border-b border-white/10 bg-zinc-950 px-5 py-24">
         <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-center">
           <div>
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Pokrajine
             </p>
+
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Vsaka pokrajina ima svoj ritem.
             </h2>
+
             <p className="text-lg leading-8 text-zinc-400">
               Platforma bo povezovala širše slovenske pokrajine z destinacijami,
               turami, zgodbami, lokalnimi ponudniki in doživetji ob poti.
@@ -414,7 +372,10 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-4">
             {regions.map((region) => (
-              <div key={region} className="rounded-2xl border border-white/10 bg-zinc-950 p-5 text-lg font-semibold">
+              <div
+                key={region}
+                className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold"
+              >
                 {region}
               </div>
             ))}
@@ -428,12 +389,14 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Doživetja ob poti
             </p>
+
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Ne gre samo za kilometre.
             </h2>
+
             <p className="mb-8 text-lg leading-8 text-zinc-400">
               Bojan on Bike bo pomagal sestaviti celoten kolesarski dan:
-              turo, postanek, razgled, kosilo, zgodbo in občutek regije.
+              turo, postanek, razgled, kosilo, zgodbo in občutek pokrajine.
             </p>
 
             <button className="rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-zinc-200">
