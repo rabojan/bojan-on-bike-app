@@ -23,8 +23,9 @@ const trail = {
     "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=2600",
   gallery: [
     "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1200",
-    "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?auto=format&fit=crop&q=85&w=1200",
+    "https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&q=85&w=1200",
     "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=1200",
+    "https://images.unsplash.com/photo-1473773508845-188df298d2d1?auto=format&fit=crop&q=85&w=1200",
   ],
 };
 
@@ -32,6 +33,65 @@ const menuItems = [
   { label: "Ture", href: "/ture" },
   { label: "Doživetja", href: "/#dozivetja" },
   { label: "Ponudniki", href: "#" },
+];
+
+const dayPlan = [
+  {
+    time: "09:00",
+    title: "Start nad mestom",
+    text: "Začetek ture v mirnejšem ritmu, idealno za ogrevanje nog in pripravo na vzpon proti gozdu.",
+  },
+  {
+    time: "10:30",
+    title: "Gozdni odseki in prvi razgledi",
+    text: "Tura se dvigne v pohorske gozdove, kjer pride do izraza pravi MTB občutek: senca, vonj gozda in tekoč ritem.",
+  },
+  {
+    time: "12:00",
+    title: "Postanek ob poti",
+    text: "Čas za domačo hrano, kavo ali pijačo pri ponudniku ob trasi. Tukaj tura postane doživetje, ne samo vožnja.",
+  },
+  {
+    time: "14:00",
+    title: "Flow spust proti Mariboru",
+    text: "Zaključni del je namenjen užitku: gozdna pot, lažji spust in občutek, da si naredil pravi kolesarski dan.",
+  },
+];
+
+const providers = [
+  {
+    name: "Rudijev dom na Pohorju",
+    types: ["Kulinarika", "Prenočitev"],
+    story:
+      "Domača postojanka za topel obrok, pijačo in počitek po gozdnem delu ture.",
+    phone: "031 344 640",
+    website: "Spletna stran",
+    distance: "ob trasi",
+    image:
+      "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?auto=format&fit=crop&q=85&w=1200",
+  },
+  {
+    name: "Pohorska razgledna točka",
+    types: ["Razgled", "Fototočka"],
+    story:
+      "Kratek postanek za fotografijo, razgled proti Mariboru in občutek odprtega prostora nad mestom.",
+    phone: "",
+    website: "",
+    distance: "300 m s trase",
+    image:
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=1200",
+  },
+  {
+    name: "Lokalna kolesarska postaja",
+    types: ["Voda", "Servis", "Polnilnica"],
+    story:
+      "Uporabna točka za dolivanje vode, hiter pregled kolesa in počitek pred zaključnim delom ture.",
+    phone: "",
+    website: "",
+    distance: "blizu trase",
+    image:
+      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&q=85&w=1200",
+  },
 ];
 
 const modes = [
@@ -47,6 +107,7 @@ function SurfaceBar({ label, value }: { label: string; value: number }) {
         <span className="text-zinc-400">{label}</span>
         <span className="font-semibold">{value}%</span>
       </div>
+
       <div className="h-2 rounded-full bg-white/10">
         <div
           className="h-full rounded-full bg-[#c58b46]"
@@ -68,8 +129,21 @@ function weatherIcon(code: number) {
   return "⛅";
 }
 
+function providerIcon(type: string) {
+  if (type === "Kulinarika") return "🍽️";
+  if (type === "Vino") return "🍷";
+  if (type === "Prenočitev") return "🛏️";
+  if (type === "Razgled") return "📸";
+  if (type === "Fototočka") return "📷";
+  if (type === "Voda") return "💧";
+  if (type === "Servis") return "🔧";
+  if (type === "Polnilnica") return "🔋";
+  return "📍";
+}
+
 export default function TrailDetailPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+
   const [weather, setWeather] = useState<
     { label: string; temp: number; icon: string }[]
   >([]);
@@ -89,11 +163,13 @@ export default function TrailDetailPage() {
         const labels = ["Danes", "Jutri", "Pojutrišnjem"];
 
         setWeather(
-          data.daily.temperature_2m_max.slice(0, 3).map((temp: number, i: number) => ({
-            label: labels[i],
-            temp: Math.round(temp),
-            icon: weatherIcon(data.daily.weathercode[i]),
-          }))
+          data.daily.temperature_2m_max
+            .slice(0, 3)
+            .map((temp: number, i: number) => ({
+              label: labels[i],
+              temp: Math.round(temp),
+              icon: weatherIcon(data.daily.weathercode[i]),
+            }))
         );
       })
       .catch(() => setWeather([]));
@@ -152,7 +228,11 @@ export default function TrailDetailPage() {
 
           <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
             {menuItems.map((item) => (
-              <a key={item.label} href={item.href} className="transition hover:text-white">
+              <a
+                key={item.label}
+                href={item.href}
+                className="transition hover:text-white"
+              >
                 {item.label}
               </a>
             ))}
@@ -161,31 +241,27 @@ export default function TrailDetailPage() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
-            aria-label="Odpri meni"
           >
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "rotate-45" : "-translate-y-1.5"
+              }`}
+            />
+
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "-rotate-45" : "translate-y-1.5"
+              }`}
+            />
           </button>
         </div>
       </header>
-
-      {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#07110b]/95 px-5 pt-24 backdrop-blur-2xl md:hidden">
-          <nav className="flex flex-col">
-            {menuItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="border-b border-white/10 py-6 text-3xl font-semibold"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      )}
 
       <section className="relative flex min-h-[720px] items-end overflow-hidden px-5 pb-16 pt-24">
         <img
@@ -202,9 +278,11 @@ export default function TrailDetailPage() {
             <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/15 px-4 py-2 text-[#f4d7ad]">
               {trail.region}
             </span>
+
             <span className="rounded-full border border-white/10 bg-black/25 px-4 py-2 text-zinc-200">
               {trail.destination}
             </span>
+
             <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-emerald-300">
               e-bike friendly
             </span>
@@ -215,297 +293,10 @@ export default function TrailDetailPage() {
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-300">
-            Dinamična MTB tura skozi pohorske gozdove, razglede in spuste nad
-            Mariborom. Primerna za aktivne kolesarje, ki iščejo naravo, ritem
-            in občutek pravega kolesarskega dne.
+            Tura ni samo številka na zemljevidu. Je pobeg nad mesto, vonj
+            pohorskega gozda, postanek ob poti in občutek, da si dan preživel
+            točno tako, kot ga mora kolesar.
           </p>
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-8">
-        <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-5">
-          <div className="rounded-2xl border border-white/10 bg-[#07110b] p-5">
-            <div className="text-2xl font-black text-[#f4d7ad]">
-              {trail.distanceKm} km
-            </div>
-            <div className="mt-1 text-sm text-zinc-500">dolžina</div>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#07110b] p-5">
-            <div className="text-2xl font-black text-[#f4d7ad]">
-              {trail.elevationVm} vm
-            </div>
-            <div className="mt-1 text-sm text-zinc-500">višinci</div>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#07110b] p-5">
-            <div className="text-2xl font-black text-[#f4d7ad]">
-              {trail.difficulty}
-            </div>
-            <div className="mt-1 text-sm text-zinc-500">težavnost</div>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#07110b] p-5">
-            <div className="text-2xl font-black text-[#f4d7ad]">
-              {trail.rating}
-            </div>
-            <div className="mt-1 text-sm text-zinc-500">ocena</div>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#07110b] p-5">
-            <div className="text-xl font-black text-[#f4d7ad]">
-              {trail.season}
-            </div>
-            <div className="mt-1 text-sm text-zinc-500">sezona</div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.65fr_0.35fr]">
-          <div>
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
-              Opis ture
-            </p>
-
-            <h2 className="mb-6 text-4xl font-bold">
-              Gozdna tura z razgledi in ritmom.
-            </h2>
-
-            <p className="mb-6 text-lg leading-8 text-zinc-400">
-              Tura je zasnovana kot doživetje nad mestom: začetek v bližini
-              Maribora, nato vzpon proti pohorskim gozdovom, razgledišča,
-              tekoči makadamski odseki in gozdne poti, ki ustvarijo pravi
-              občutek pobega v naravo.
-            </p>
-
-            <p className="text-lg leading-8 text-zinc-400">
-              Kasneje bomo tukaj dodali GPX sled, priporočene postanke,
-              opozorila, lokalne ponudnike, fotografije uporabnikov in nasvete
-              za izvedbo ture.
-            </p>
-          </div>
-
-          <aside className="space-y-6">
-            <div className="rounded-[2rem] border border-white/10 bg-[#0b1a10] p-6">
-              <h3 className="mb-6 text-xl font-bold">Podlaga</h3>
-
-              <div className="space-y-5">
-                <SurfaceBar label="Asfalt" value={trail.surface.asphalt} />
-                <SurfaceBar label="Makadam" value={trail.surface.gravel} />
-                <SurfaceBar label="Gozdna pot" value={trail.surface.forest} />
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-white/10 bg-[#0b1a10] p-6">
-              <h3 className="mb-5 text-xl font-bold">Vreme na lokaciji ture</h3>
-
-              {weather.length > 0 ? (
-                <div className="space-y-3">
-                  {weather.map((day) => (
-                    <div
-                      key={day.label}
-                      className="flex items-center justify-between border-b border-white/10 pb-3 last:border-b-0 last:pb-0"
-                    >
-                      <span className="text-zinc-400">{day.label}</span>
-                      <span className="font-semibold">
-                        {day.icon} {day.temp}°
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-zinc-500">Vreme se nalaga...</p>
-              )}
-
-              <p className="mt-5 text-xs text-zinc-500">
-                Napoved je vezana na lokacijo ture, ne na lokacijo uporabnika.
-              </p>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10">
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
-              Zemljevid in GPX
-            </p>
-
-            <h2 className="text-4xl font-bold">Trasa ture.</h2>
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-[0.7fr_0.3fr]">
-            <div className="flex min-h-[420px] items-center justify-center rounded-[2rem] border border-white/10 bg-[#07110b]">
-              <div className="text-center">
-                <div className="mb-4 text-5xl">🗺️</div>
-                <h3 className="mb-3 text-2xl font-bold">GPX zemljevid</h3>
-                <p className="max-w-md text-zinc-400">
-                  Tukaj bo prikazana trasa ture iz Strave ali naložene GPX
-                  datoteke.
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-white/10 bg-[#07110b] p-6">
-              <h3 className="mb-4 text-2xl font-bold">Prenos GPX</h3>
-
-              <p className="mb-6 leading-7 text-zinc-400">
-                Ko bo GPX datoteka dodana, bo uporabnik lahko prenesel turo za
-                Garmin, Komoot, Bosch Flow ali drugo aplikacijo.
-              </p>
-
-              <button
-                disabled
-                className="w-full cursor-not-allowed rounded-full bg-white/10 px-6 py-4 font-semibold text-zinc-500"
-              >
-                GPX še ni dodan
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 py-24">
-        <div className="mx-auto max-w-7xl rounded-[2rem] border border-[#c58b46]/20 bg-[#0b1a10] p-6 md:p-8">
-          <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
-            🔋 eBike kalkulator dosega
-          </p>
-
-          <h2 className="mb-4 text-3xl font-bold">
-            Bosch Performance Line CX izračun.
-          </h2>
-
-          <p className="mb-8 max-w-3xl leading-7 text-zinc-400">
-            Vnesi svojo težo, kapaciteto baterije in izberi način vožnje.
-            Izračun je vezan na dolžino in višince te ture.
-          </p>
-
-          <div className="grid gap-8 lg:grid-cols-[0.45fr_0.55fr]">
-            <div className="space-y-5">
-              <label className="block">
-                <span className="mb-2 block text-sm text-zinc-400">
-                  Teža kolesarja (kg)
-                </span>
-                <input
-                  type="number"
-                  value={weight}
-                  onChange={(e) => setWeight(Number(e.target.value))}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-white outline-none focus:border-[#c58b46]"
-                />
-              </label>
-
-              <label className="block">
-                <span className="mb-2 block text-sm text-zinc-400">
-                  Baterija (Wh)
-                </span>
-                <input
-                  type="number"
-                  value={battery}
-                  onChange={(e) => setBattery(Number(e.target.value))}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-white outline-none focus:border-[#c58b46]"
-                />
-              </label>
-
-              <div className="grid grid-cols-3 gap-3">
-                {modes.map((item) => (
-                  <button
-                    key={item.key}
-                    onClick={() => setMode(item.key)}
-                    className={`rounded-2xl border px-4 py-4 font-semibold transition ${
-                      mode === item.key
-                        ? "border-[#c58b46] bg-[#c58b46] text-black"
-                        : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-[#c58b46]/40"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-white/10 bg-[#07110b] p-6">
-              <div className="mb-5 flex items-center justify-between">
-                <span className="text-zinc-400">Poraba za to turo</span>
-                <span className="text-2xl font-black text-[#f4d7ad]">
-                  {batteryResult.totalWh} Wh ({batteryResult.usedPercent}%)
-                </span>
-              </div>
-
-              <div className="mb-4 h-4 overflow-hidden rounded-full bg-white/10">
-                <div
-                  className="h-full rounded-full transition-all"
-                  style={{
-                    width: `${Math.min(batteryResult.usedPercent, 100)}%`,
-                    backgroundColor: batteryResult.color,
-                  }}
-                />
-              </div>
-
-              <div className="mb-6 text-sm text-zinc-500">
-                Ostane po turi: približno {batteryResult.remaining}%
-              </div>
-
-              <div
-                className="rounded-2xl border border-white/10 bg-black/20 p-5 font-semibold"
-                style={{ color: batteryResult.color }}
-              >
-                {batteryResult.message}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10">
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
-              Galerija
-            </p>
-
-            <h2 className="text-4xl font-bold">Utrinki s ture.</h2>
-          </div>
-
-          <div className="flex gap-5 overflow-x-auto pb-4">
-            {trail.gallery.map((image) => (
-              <div
-                key={image}
-                className="min-w-[82%] overflow-hidden rounded-[2rem] border border-white/10 sm:min-w-[48%] lg:min-w-[31%]"
-              >
-                <img
-                  src={image}
-                  alt="Utrinek s ture"
-                  className="h-80 w-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 py-24">
-        <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#102417] to-[#07110b] p-8 md:p-12">
-          <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
-            Doživetje ob poti
-          </p>
-
-          <h2 className="mb-5 text-4xl font-bold">
-            Postanki in ponudniki pridejo v naslednji fazi.
-          </h2>
-
-          <p className="mb-8 max-w-3xl leading-8 text-zinc-400">
-            Na tej turi bomo kasneje dodali priporočene razglede, gostilne,
-            kavarne, kolesarske servise, nastanitve in posebna doživetja.
-          </p>
-
-          <a
-            href="/ture"
-            className="inline-block rounded-full bg-[#c58b46] px-8 py-4 font-semibold text-black transition hover:bg-[#d9a35d]"
-          >
-            Nazaj na vse ture
-          </a>
         </div>
       </section>
     </main>
