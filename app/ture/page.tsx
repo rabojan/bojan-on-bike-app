@@ -20,7 +20,7 @@ const tours = [
     elevation: "890 vm",
     difficulty: "Srednja",
     image:
-      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?auto=format&fit=crop&q=85&w=1400",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=1400",
     surface: { asphalt: 10, gravel: 25, forest: 65 },
   },
   {
@@ -72,7 +72,7 @@ function SurfaceBar({ label, value }: { label: string; value: number }) {
         <span className="font-semibold">{value}%</span>
       </div>
       <div className="h-2 rounded-full bg-white/10">
-        <div className="h-full rounded-full bg-white" style={{ width: `${value}%` }} />
+        <div className="h-full rounded-full bg-[#c58b46]" style={{ width: `${value}%` }} />
       </div>
     </div>
   );
@@ -94,10 +94,10 @@ function TureContent() {
   }, [activeRegion, activeDifficulty]);
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-black/80 px-5 py-5 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <a href="/" className="text-lg font-bold">
+    <main className="min-h-screen bg-[#07110b] text-white">
+      <header className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/80 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
+          <a href="/" className="text-lg font-bold tracking-wide">
             Bojan on Bike
           </a>
 
@@ -111,9 +111,18 @@ function TureContent() {
         </div>
       </header>
 
-      <section className="px-5 py-20">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-white/40">
+      <section className="relative flex min-h-[620px] items-center overflow-hidden px-5 pt-24">
+        <img
+          src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=2400"
+          alt="Kolesarska tura v naravi"
+          className="absolute inset-0 h-full w-full object-cover opacity-55"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07110b]/80 via-[#07110b]/55 to-[#07110b]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/85 via-[#07110b]/35 to-transparent" />
+
+        <div className="relative z-10 mx-auto w-full max-w-7xl">
+          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
             Katalog tur
           </p>
 
@@ -121,16 +130,16 @@ function TureContent() {
             Najdi svojo naslednjo kolesarsko avanturo.
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-white/60">
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-300">
             Tukaj bodo vse ture. Filtriraš jih po pokrajini in težavnosti.
           </p>
         </div>
       </section>
 
-      <section className="border-y border-white/10 px-5 py-10">
+      <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-10">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10">
-            <p className="mb-4 text-sm uppercase tracking-[0.2em] text-white/40">
+            <p className="mb-4 text-sm uppercase tracking-[0.2em] text-[#c58b46]">
               Pokrajina
             </p>
 
@@ -141,8 +150,8 @@ function TureContent() {
                   onClick={() => setActiveRegion(region.value)}
                   className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
                     activeRegion === region.value
-                      ? "border-white bg-white text-black"
-                      : "border-white/10 bg-black text-white/70 hover:border-white/30 hover:bg-white/10 hover:text-white"
+                      ? "border-[#c58b46] bg-[#c58b46] text-black"
+                      : "border-white/10 bg-[#07110b] text-white/70 hover:border-[#c58b46]/40 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   {region.label}
@@ -152,7 +161,7 @@ function TureContent() {
           </div>
 
           <div>
-            <p className="mb-4 text-sm uppercase tracking-[0.2em] text-white/40">
+            <p className="mb-4 text-sm uppercase tracking-[0.2em] text-[#c58b46]">
               Težavnost
             </p>
 
@@ -163,8 +172,8 @@ function TureContent() {
                   onClick={() => setActiveDifficulty(difficulty)}
                   className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
                     activeDifficulty === difficulty
-                      ? "border-white bg-white text-black"
-                      : "border-white/10 bg-black text-white/70 hover:border-white/30 hover:bg-white/10 hover:text-white"
+                      ? "border-[#c58b46] bg-[#c58b46] text-black"
+                      : "border-white/10 bg-[#07110b] text-white/70 hover:border-[#c58b46]/40 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   {difficulty}
@@ -183,11 +192,11 @@ function TureContent() {
 
           <div className="grid gap-8 lg:grid-cols-3">
             {filteredTours.map((tour) => (
-              <article key={tour.title} className="overflow-hidden rounded-[32px] border border-white/10 bg-zinc-950">
+              <article key={tour.title} className="overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10]">
                 <div className="relative h-72 overflow-hidden">
                   <img src={tour.image} alt={tour.title} className="h-full w-full object-cover" />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-[#07110b]/20 to-transparent" />
 
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="mb-3 flex items-center justify-between text-sm text-white/70">
@@ -214,14 +223,14 @@ function TureContent() {
                     </span>
                   </div>
 
-                  <div className="space-y-4 rounded-2xl border border-white/10 bg-black p-5">
+                  <div className="space-y-4 rounded-2xl border border-white/10 bg-[#07110b] p-5">
                     <div className="font-semibold">Podlaga</div>
                     <SurfaceBar label="Asfalt" value={tour.surface.asphalt} />
                     <SurfaceBar label="Makadam" value={tour.surface.gravel} />
                     <SurfaceBar label="Gozdna pot" value={tour.surface.forest} />
                   </div>
 
-                  <button className="w-full rounded-full bg-white px-6 py-4 font-semibold text-black transition hover:bg-white/90">
+                  <button className="w-full rounded-full bg-[#c58b46] px-6 py-4 font-semibold text-black transition hover:bg-[#d9a35d]">
                     Odpri turo
                   </button>
                 </div>
@@ -236,7 +245,7 @@ function TureContent() {
 
 export default function TurePage() {
   return (
-    <Suspense fallback={<main className="min-h-screen bg-black text-white" />}>
+    <Suspense fallback={<main className="min-h-screen bg-[#07110b] text-white" />}>
       <TureContent />
     </Suspense>
   );
