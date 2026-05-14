@@ -39,12 +39,12 @@ export default function Home() {
 
       <section className="relative flex min-h-screen items-center overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?q=80&w=2200&auto=format&fit=crop"
-          alt="Kolesarjenje v naravi"
-          className="absolute inset-0 h-full w-full object-cover opacity-60"
+          src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=2200&auto=format&fit=crop"
+          alt="eMTB kolesar na gozdni poti"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-50"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-black" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-24">
           <div className="max-w-3xl">
