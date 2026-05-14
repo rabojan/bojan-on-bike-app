@@ -6,64 +6,84 @@ const menuItems = ["Ture", "Regije", "Doživetja", "Ponudniki"];
 
 const featuredTrails = [
   {
-    region: "Pohorje",
+    region: "Štajerska",
+    destination: "Pohorje",
     type: "MTB",
+    ebike: true,
     title: "Gozdni flow nad Mariborom",
     distance: "32 km",
     elevation: "890 m",
     difficulty: "Srednja",
     difficultyStyle: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
     surface: { asphalt: 10, gravel: 25, forest: 65 },
+    highlights: ["flow trail", "gozd", "razgledi"],
     text: "Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni za pravi kolesarski dan.",
   },
   {
-    region: "Slovenske gorice",
+    region: "Štajerska",
+    destination: "Slovenske gorice",
     type: "Gravel",
+    ebike: true,
     title: "Med vinogradi in griči",
     distance: "48 km",
     elevation: "620 m",
     difficulty: "Lahka",
     difficultyStyle: "border-sky-500/30 bg-sky-500/10 text-sky-300",
     surface: { asphalt: 45, gravel: 40, forest: 15 },
+    highlights: ["vino", "kulinarika", "razgledi"],
     text: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
   },
   {
-    region: "Soška dolina",
+    region: "Primorska",
+    destination: "Soška dolina",
     type: "Bikepacking",
+    ebike: true,
     title: "Alpski pobeg ob vodi",
     distance: "86 km",
     elevation: "1450 m",
     difficulty: "Zahtevna",
     difficultyStyle: "border-orange-500/30 bg-orange-500/10 text-orange-300",
     surface: { asphalt: 30, gravel: 50, forest: 20 },
+    highlights: ["reka Soča", "prelazi", "več dni"],
     text: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
   },
   {
-    region: "Istra",
-    type: "E-bike",
+    region: "Primorska",
+    destination: "Istra",
+    type: "Touring",
+    ebike: true,
     title: "Obala, oljke in razgledi",
     distance: "41 km",
     elevation: "540 m",
     difficulty: "Lahka",
     difficultyStyle: "border-sky-500/30 bg-sky-500/10 text-sky-300",
     surface: { asphalt: 55, gravel: 35, forest: 10 },
-    text: "Razgledna e-bike tura med istrskimi vasicami, oljčniki in morskim zrakom.",
+    highlights: ["morje", "oljke", "vasice"],
+    text: "Razgledna tura med istrskimi vasicami, oljčniki in morskim zrakom.",
   },
 ];
 
-const regions = ["Pohorje", "Maribor", "Slovenske gorice", "Soška dolina", "Istra", "Goriška"];
+const regions = [
+  "Štajerska",
+  "Koroška",
+  "Gorenjska",
+  "Primorska",
+  "Notranjska",
+  "Dolenjska",
+  "Prekmurje",
+];
 
 const stats = [
   { value: "30+", label: "za aktivne raziskovalce" },
-  { value: "6", label: "začetnih regij" },
-  { value: "MTB", label: "e-bike / gravel" },
+  { value: "7", label: "slovenskih pokrajin" },
+  { value: "100%", label: "e-bike friendly" },
 ];
 
 const howItWorks = [
   {
     step: "01",
-    title: "Izberi regijo",
-    text: "Začni pri prostoru: Pohorje, Soška dolina, Istra ali katera od prihodnjih kolesarskih regij.",
+    title: "Izberi pokrajino",
+    text: "Začni pri širši pokrajini: Štajerska, Primorska, Koroška, Gorenjska ali druga slovenska regija.",
   },
   {
     step: "02",
@@ -77,7 +97,8 @@ const howItWorks = [
   },
 ];
 
-const typeFilters = ["Vse", "MTB", "E-bike", "Gravel", "Bikepacking"];
+const regionFilters = ["Vse", "Štajerska", "Primorska", "Koroška", "Gorenjska", "Notranjska", "Dolenjska", "Prekmurje"];
+const typeFilters = ["Vse", "MTB", "Gravel", "Bikepacking", "Touring"];
 const difficultyFilters = ["Vse", "Lahka", "Srednja", "Zahtevna"];
 
 function SurfaceBar({ label, value }: { label: string; value: number }) {
@@ -97,9 +118,18 @@ function SurfaceBar({ label, value }: { label: string; value: number }) {
 function TrailCard({ trail }: { trail: (typeof featuredTrails)[number] }) {
   return (
     <article className="group flex h-full flex-col rounded-[2rem] border border-white/10 bg-zinc-950/80 p-7 backdrop-blur transition hover:-translate-y-1 hover:border-white/20 hover:bg-zinc-900/80">
-      <div className="mb-6 flex items-center justify-between text-sm text-zinc-500">
-        <span>{trail.region}</span>
-        <span>{trail.type}</span>
+      <div className="mb-6 flex items-start justify-between gap-4 text-sm text-zinc-500">
+        <div className="flex flex-col">
+          <span>{trail.region}</span>
+          <span className="text-xs text-zinc-600">{trail.destination}</span>
+        </div>
+
+        <div className="flex flex-col items-end">
+          <span>{trail.type}</span>
+          {trail.ebike && (
+            <span className="text-xs text-emerald-400">e-bike friendly</span>
+          )}
+        </div>
       </div>
 
       <h3 className="mb-5 min-h-[86px] text-3xl font-bold leading-tight">
@@ -107,16 +137,31 @@ function TrailCard({ trail }: { trail: (typeof featuredTrails)[number] }) {
       </h3>
 
       <div className="mb-6 flex flex-wrap gap-3">
-        <span className="rounded-full border border-white/10 px-4 py-2 text-sm">{trail.distance}</span>
-        <span className="rounded-full border border-white/10 px-4 py-2 text-sm">{trail.elevation}</span>
+        <span className="rounded-full border border-white/10 px-4 py-2 text-sm">
+          {trail.distance}
+        </span>
+        <span className="rounded-full border border-white/10 px-4 py-2 text-sm">
+          {trail.elevation}
+        </span>
         <span className={`rounded-full border px-4 py-2 text-sm ${trail.difficultyStyle}`}>
           {trail.difficulty}
         </span>
       </div>
 
-      <p className="mb-7 min-h-[96px] text-lg leading-8 text-zinc-400">
+      <p className="mb-6 min-h-[96px] text-lg leading-8 text-zinc-400">
         {trail.text}
       </p>
+
+      <div className="mb-6 flex flex-wrap gap-2">
+        {trail.highlights.map((item) => (
+          <span
+            key={item}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
 
       <div className="mb-7 space-y-4 rounded-2xl border border-white/10 bg-black p-5">
         <div className="text-sm font-semibold text-white">Podlaga</div>
@@ -134,18 +179,19 @@ function TrailCard({ trail }: { trail: (typeof featuredTrails)[number] }) {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeRegion, setActiveRegion] = useState("Vse");
   const [activeType, setActiveType] = useState("Vse");
   const [activeDifficulty, setActiveDifficulty] = useState("Vse");
 
   const filteredTrails = useMemo(() => {
     return featuredTrails.filter((trail) => {
+      const regionMatch = activeRegion === "Vse" || trail.region === activeRegion;
       const typeMatch = activeType === "Vse" || trail.type === activeType;
-      const difficultyMatch =
-        activeDifficulty === "Vse" || trail.difficulty === activeDifficulty;
+      const difficultyMatch = activeDifficulty === "Vse" || trail.difficulty === activeDifficulty;
 
-      return typeMatch && difficultyMatch;
+      return regionMatch && typeMatch && difficultyMatch;
     });
-  }, [activeType, activeDifficulty]);
+  }, [activeRegion, activeType, activeDifficulty]);
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -208,7 +254,7 @@ export default function Home() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-28">
           <div className="max-w-3xl">
             <div className="mb-6 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-zinc-200 backdrop-blur">
-              Slovenija • MTB • e-bike • gravel • doživetja
+              Slovenija • MTB • gravel • bikepacking • doživetja
             </div>
 
             <h1 className="mb-7 text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">
@@ -258,6 +304,25 @@ export default function Home() {
           </div>
 
           <div className="mb-10 rounded-[2rem] border border-white/10 bg-zinc-950 p-5">
+            <div className="mb-5">
+              <div className="mb-3 text-sm font-semibold text-zinc-400">Pokrajina</div>
+              <div className="flex flex-wrap gap-3">
+                {regionFilters.map((region) => (
+                  <button
+                    key={region}
+                    onClick={() => setActiveRegion(region)}
+                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                      activeRegion === region
+                        ? "border-white bg-white text-black"
+                        : "border-white/10 bg-black text-white hover:border-white/30"
+                    }`}
+                  >
+                    {region}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="mb-5">
               <div className="mb-3 text-sm font-semibold text-zinc-400">Tip ture</div>
               <div className="flex flex-wrap gap-3">
@@ -336,14 +401,14 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-center">
           <div>
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
-              Regije
+              Pokrajine
             </p>
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
-              Vsaka regija ima svoj ritem.
+              Vsaka pokrajina ima svoj ritem.
             </h2>
             <p className="text-lg leading-8 text-zinc-400">
-              Platforma bo povezovala ture, razglede, zgodbe, kulinariko,
-              nastanitve in lokalne ponudnike v eno jasno kolesarsko izkušnjo.
+              Platforma bo povezovala širše slovenske pokrajine z destinacijami,
+              turami, zgodbami, lokalnimi ponudniki in doživetji ob poti.
             </p>
           </div>
 
