@@ -1,53 +1,94 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+
+const tours = [
+  {
+    title: "Gozdni flow nad Mariborom",
+    region: "Štajerska",
+    regionSlug: "stajerska",
+    destination: "Pohorje",
+    type: "MTB",
+    distance: "32 km",
+    elevation: "890 m",
+    difficulty: "Srednja",
+    image:
+      "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1400&auto=format&fit=crop",
+  },
+  {
+    title: "Med vinogradi in griči",
+    region: "Štajerska",
+    regionSlug: "stajerska",
+    destination: "Slovenske gorice",
+    type: "Gravel",
+    distance: "48 km",
+    elevation: "620 m",
+    difficulty: "Lahka",
+    image:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
+  },
+  {
+    title: "Alpski pobeg ob vodi",
+    region: "Primorska",
+    regionSlug: "primorska",
+    destination: "Soška dolina",
+    type: "Bikepacking",
+    distance: "86 km",
+    elevation: "1450 m",
+    difficulty: "Zahtevna",
+    image:
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1400&auto=format&fit=crop",
+  },
+];
+
+const regions = [
+  { label: "Vse", value: "vse" },
+  { label: "Štajerska", value: "stajerska" },
+  { label: "Gorenjska", value: "gorenjska" },
+  { label: "Primorska", value: "primorska" },
+  { label: "Koroška", value: "koroska" },
+  { label: "Notranjska", value: "notranjska" },
+  { label: "Dolenjska", value: "dolenjska" },
+  { label: "Prekmurje", value: "prekmurje" },
+];
+
+const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
+
 export default function TurePage() {
-  const tours = [
-    {
-      title: "Gozdni flow nad Mariborom",
-      region: "Štajerska",
-      type: "MTB",
-      distance: "32 km",
-      elevation: "890 m",
-      difficulty: "Srednja",
-      image:
-        "https://images.unsplash.com/photo-1541625602330-2277a4c46182?q=80&w=1400&auto=format&fit=crop",
-    },
-    {
-      title: "Med vinogradi in griči",
-      region: "Primorska",
-      type: "Gravel / e-bike",
-      distance: "48 km",
-      elevation: "620 m",
-      difficulty: "Lahka",
-      image:
-        "https://images.unsplash.com/photo-1511994298241-608e28f14fde?q=80&w=1400&auto=format&fit=crop",
-    },
-    {
-      title: "Alpski pobeg ob vodi",
-      region: "Gorenjska",
-      type: "Road / Bikepacking",
-      distance: "86 km",
-      elevation: "1450 m",
-      difficulty: "Zahtevna",
-      image:
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
-    },
-  ];
+  const searchParams = useSearchParams();
+  const pokrajinaFromUrl = searchParams.get("pokrajina") || "vse";
 
-  const regions = [
-    "Vse",
-    "Štajerska",
-    "Gorenjska",
-    "Primorska",
-    "Koroška",
-    "Notranjska",
-    "Dolenjska",
-    "Prekmurje",
-  ];
+  const [activeRegion, setActiveRegion] = useState(pokrajinaFromUrl);
+  const [activeDifficulty, setActiveDifficulty] = useState("Vse");
 
-  const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
+  const filteredTours = useMemo(() => {
+    return tours.filter((tour) => {
+      const regionMatch =
+        activeRegion === "vse" || tour.regionSlug === activeRegion;
+
+      const difficultyMatch =
+        activeDifficulty === "Vse" || tour.difficulty === activeDifficulty;
+
+      return regionMatch && difficultyMatch;
+    });
+  }, [activeRegion, activeDifficulty]);
 
   return (
     <main className="min-h-screen bg-black text-white">
-      <section className="border-b border-white/10 px-6 py-24">
+      <header className="border-b border-white/10 bg-black/80 px-6 py-5">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <a href="/" className="text-lg font-bold">
+            Bojan on Bike
+          </a>
+
+          <a href="/" className="text-sm text-zinc-400 hover:text-white">
+            Nazaj na prvo stran
+          </a>
+        </div>
+      </header>
+
+      <section className="px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <p className="mb-4 text-sm uppercase tracking-[0.3em] text-white/40">
             Katalog tur
@@ -58,13 +99,12 @@ export default function TurePage() {
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-8 text-white/60">
-            Razišči premium MTB, gravel, cestne in e-bike ture po Sloveniji.
-            Filtriraj po pokrajini, težavnosti in tipu ture.
+            Tukaj bodo vse ture. Filtriraš jih po pokrajini in težavnosti.
           </p>
         </div>
       </section>
 
-      <section className="border-b border-white/10 px-6 py-10">
+      <section className="border-y border-white/10 px-6 py-10">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10">
             <p className="mb-4 text-sm uppercase tracking-[0.2em] text-white/40">
@@ -74,10 +114,15 @@ export default function TurePage() {
             <div className="flex flex-wrap gap-3">
               {regions.map((region) => (
                 <button
-                  key={region}
-                  className="rounded-full border border-white/10 px-5 py-3 text-sm text-white/70 transition hover:border-white/30 hover:bg-white/10 hover:text-white"
+                  key={region.value}
+                  onClick={() => setActiveRegion(region.value)}
+                  className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                    activeRegion === region.value
+                      ? "border-white bg-white text-black"
+                      : "border-white/10 bg-black text-white/70 hover:border-white/30 hover:bg-white/10 hover:text-white"
+                  }`}
                 >
-                  {region}
+                  {region.label}
                 </button>
               ))}
             </div>
@@ -92,7 +137,12 @@ export default function TurePage() {
               {difficulties.map((difficulty) => (
                 <button
                   key={difficulty}
-                  className="rounded-full border border-white/10 px-5 py-3 text-sm text-white/70 transition hover:border-white/30 hover:bg-white/10 hover:text-white"
+                  onClick={() => setActiveDifficulty(difficulty)}
+                  className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                    activeDifficulty === difficulty
+                      ? "border-white bg-white text-black"
+                      : "border-white/10 bg-black text-white/70 hover:border-white/30 hover:bg-white/10 hover:text-white"
+                  }`}
                 >
                   {difficulty}
                 </button>
@@ -103,52 +153,60 @@ export default function TurePage() {
       </section>
 
       <section className="px-6 py-20">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-3">
-          {tours.map((tour) => (
-            <div
-              key={tour.title}
-              className="overflow-hidden rounded-[32px] border border-white/10 bg-[#050505]"
-            >
-              <div className="relative h-72 overflow-hidden">
-                <img
-                  src={tour.image}
-                  alt={tour.title}
-                  className="h-full w-full object-cover"
-                />
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 text-sm text-zinc-500">
+            Prikazano: {filteredTours.length} tur
+          </div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+          <div className="grid gap-8 lg:grid-cols-3">
+            {filteredTours.map((tour) => (
+              <article
+                key={tour.title}
+                className="overflow-hidden rounded-[32px] border border-white/10 bg-zinc-950"
+              >
+                <div className="relative h-72 overflow-hidden">
+                  <img
+                    src={tour.image}
+                    alt={tour.title}
+                    className="h-full w-full object-cover"
+                  />
 
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="mb-3 flex items-center justify-between text-sm text-white/70">
-                    <span>{tour.region}</span>
-                    <span>{tour.type}</span>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
-                  <h2 className="text-3xl font-bold">{tour.title}</h2>
-                </div>
-              </div>
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="mb-3 flex items-center justify-between text-sm text-white/70">
+                      <span>
+                        {tour.region} • {tour.destination}
+                      </span>
+                      <span>{tour.type}</span>
+                    </div>
 
-              <div className="space-y-8 p-6">
-                <div className="flex flex-wrap gap-3">
-                  <div className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/80">
-                    {tour.distance}
-                  </div>
-
-                  <div className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/80">
-                    {tour.elevation}
-                  </div>
-
-                  <div className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
-                    {tour.difficulty}
+                    <h2 className="text-3xl font-bold">{tour.title}</h2>
                   </div>
                 </div>
 
-                <button className="w-full rounded-full bg-white px-6 py-4 font-semibold text-black transition hover:bg-white/90">
-                  Odpri turo
-                </button>
-              </div>
-            </div>
-          ))}
+                <div className="space-y-8 p-6">
+                  <div className="flex flex-wrap gap-3">
+                    <span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/80">
+                      {tour.distance}
+                    </span>
+
+                    <span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/80">
+                      {tour.elevation}
+                    </span>
+
+                    <span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/80">
+                      {tour.difficulty}
+                    </span>
+                  </div>
+
+                  <button className="w-full rounded-full bg-white px-6 py-4 font-semibold text-black transition hover:bg-white/90">
+                    Odpri turo
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </main>
