@@ -4,7 +4,6 @@ import { useState } from "react";
 
 const menuItems = [
   { label: "Ture", href: "/ture" },
-  { label: "Pokrajine", href: "#pokrajine" },
   { label: "Doživetja", href: "#dozivetja" },
   { label: "Ponudniki", href: "#" },
 ];
@@ -16,9 +15,10 @@ const topTrails = [
     region: "Štajerska",
     destination: "Pohorje",
     distance: "32 km",
+    elevation: "890 vm",
     type: "MTB",
     image:
-      "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1400",
+      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?auto=format&fit=crop&q=85&w=1400",
   },
   {
     rank: "02",
@@ -26,9 +26,10 @@ const topTrails = [
     region: "Štajerska",
     destination: "Slovenske gorice",
     distance: "48 km",
+    elevation: "620 vm",
     type: "Gravel",
     image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=85&w=1400",
+      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=85&w=1400",
   },
   {
     rank: "03",
@@ -36,9 +37,10 @@ const topTrails = [
     region: "Primorska",
     destination: "Soška dolina",
     distance: "86 km",
+    elevation: "1450 vm",
     type: "Bikepacking",
     image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=1400",
+      "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?auto=format&fit=crop&q=85&w=1400",
   },
 ];
 
@@ -109,7 +111,6 @@ export default function Home() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
-            aria-label="Odpri meni"
           >
             <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
             <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
@@ -200,7 +201,7 @@ export default function Home() {
           <article className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950 md:grid-cols-[1.15fr_0.85fr]">
             <div className="relative min-h-[360px] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1800"
+                src="https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?auto=format&fit=crop&q=85&w=1800"
                 alt="Gorsko kolesarjenje po gozdu"
                 className="absolute inset-0 h-full w-full object-cover"
               />
@@ -230,7 +231,7 @@ export default function Home() {
                   <div className="text-xs text-zinc-500">dolžina</div>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-black p-4">
-                  <div className="font-bold">890 m</div>
+                  <div className="font-bold">890 vm</div>
                   <div className="text-xs text-zinc-500">višinci</div>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-black p-4">
@@ -284,6 +285,7 @@ export default function Home() {
 
                   <div className="mb-6 flex gap-3 text-sm">
                     <span className="rounded-full border border-white/10 px-3 py-2">{trail.distance}</span>
+                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.elevation}</span>
                     <span className="rounded-full border border-white/10 px-3 py-2">{trail.type}</span>
                   </div>
 

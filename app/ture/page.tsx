@@ -3,6 +3,12 @@
 import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+const menuItems = [
+  { label: "Ture", href: "/ture" },
+  { label: "Doživetja", href: "/#dozivetja" },
+  { label: "Ponudniki", href: "#" },
+];
+
 const tours = [
   {
     title: "Gozdni flow nad Mariborom",
@@ -11,10 +17,11 @@ const tours = [
     destination: "Pohorje",
     type: "MTB",
     distance: "32 km",
-    elevation: "890 m",
+    elevation: "890 vm",
     difficulty: "Srednja",
     image:
-      "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?auto=format&fit=crop&q=85&w=1400",
+    surface: { asphalt: 10, gravel: 25, forest: 65 },
   },
   {
     title: "Med vinogradi in griči",
@@ -23,10 +30,11 @@ const tours = [
     destination: "Slovenske gorice",
     type: "Gravel",
     distance: "48 km",
-    elevation: "620 m",
+    elevation: "620 vm",
     difficulty: "Lahka",
     image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=85&w=1400",
+    surface: { asphalt: 45, gravel: 40, forest: 15 },
   },
   {
     title: "Alpski pobeg ob vodi",
@@ -35,10 +43,11 @@ const tours = [
     destination: "Soška dolina",
     type: "Bikepacking",
     distance: "86 km",
-    elevation: "1450 m",
+    elevation: "1450 vm",
     difficulty: "Zahtevna",
     image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?auto=format&fit=crop&q=85&w=1400",
+    surface: { asphalt: 30, gravel: 50, forest: 20 },
   },
 ];
 
@@ -55,6 +64,20 @@ const regions = [
 
 const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
 
+function SurfaceBar({ label, value }: { label: string; value: number }) {
+  return (
+    <div>
+      <div className="mb-2 flex justify-between text-sm">
+        <span className="text-zinc-400">{label}</span>
+        <span className="font-semibold">{value}%</span>
+      </div>
+      <div className="h-2 rounded-full bg-white/10">
+        <div className="h-full rounded-full bg-white" style={{ width: `${value}%` }} />
+      </div>
+    </div>
+  );
+}
+
 function TureContent() {
   const searchParams = useSearchParams();
   const pokrajinaFromUrl = searchParams.get("pokrajina") || "vse";
@@ -64,31 +87,31 @@ function TureContent() {
 
   const filteredTours = useMemo(() => {
     return tours.filter((tour) => {
-      const regionMatch =
-        activeRegion === "vse" || tour.regionSlug === activeRegion;
-
-      const difficultyMatch =
-        activeDifficulty === "Vse" || tour.difficulty === activeDifficulty;
-
+      const regionMatch = activeRegion === "vse" || tour.regionSlug === activeRegion;
+      const difficultyMatch = activeDifficulty === "Vse" || tour.difficulty === activeDifficulty;
       return regionMatch && difficultyMatch;
     });
   }, [activeRegion, activeDifficulty]);
 
   return (
     <main className="min-h-screen bg-black text-white">
-      <header className="border-b border-white/10 bg-black/80 px-6 py-5">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-black/80 px-5 py-5 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <a href="/" className="text-lg font-bold">
             Bojan on Bike
           </a>
 
-          <a href="/" className="text-sm text-zinc-400 hover:text-white">
-            Nazaj na prvo stran
-          </a>
+          <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
+            {menuItems.map((item) => (
+              <a key={item.label} href={item.href} className="transition hover:text-white">
+                {item.label}
+              </a>
+            ))}
+          </nav>
         </div>
       </header>
 
-      <section className="px-6 py-20">
+      <section className="px-5 py-20">
         <div className="mx-auto max-w-7xl">
           <p className="mb-4 text-sm uppercase tracking-[0.3em] text-white/40">
             Katalog tur
@@ -104,7 +127,7 @@ function TureContent() {
         </div>
       </section>
 
-      <section className="border-y border-white/10 px-6 py-10">
+      <section className="border-y border-white/10 px-5 py-10">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10">
             <p className="mb-4 text-sm uppercase tracking-[0.2em] text-white/40">
@@ -152,7 +175,7 @@ function TureContent() {
         </div>
       </section>
 
-      <section className="px-6 py-20">
+      <section className="px-5 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-sm text-zinc-500">
             Prikazano: {filteredTours.length} tur
@@ -160,24 +183,15 @@ function TureContent() {
 
           <div className="grid gap-8 lg:grid-cols-3">
             {filteredTours.map((tour) => (
-              <article
-                key={tour.title}
-                className="overflow-hidden rounded-[32px] border border-white/10 bg-zinc-950"
-              >
+              <article key={tour.title} className="overflow-hidden rounded-[32px] border border-white/10 bg-zinc-950">
                 <div className="relative h-72 overflow-hidden">
-                  <img
-                    src={tour.image}
-                    alt={tour.title}
-                    className="h-full w-full object-cover"
-                  />
+                  <img src={tour.image} alt={tour.title} className="h-full w-full object-cover" />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="mb-3 flex items-center justify-between text-sm text-white/70">
-                      <span>
-                        {tour.region} • {tour.destination}
-                      </span>
+                      <span>{tour.region} • {tour.destination}</span>
                       <span>{tour.type}</span>
                     </div>
 
@@ -185,7 +199,7 @@ function TureContent() {
                   </div>
                 </div>
 
-                <div className="space-y-8 p-6">
+                <div className="space-y-7 p-6">
                   <div className="flex flex-wrap gap-3">
                     <span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/80">
                       {tour.distance}
@@ -198,6 +212,13 @@ function TureContent() {
                     <span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/80">
                       {tour.difficulty}
                     </span>
+                  </div>
+
+                  <div className="space-y-4 rounded-2xl border border-white/10 bg-black p-5">
+                    <div className="font-semibold">Podlaga</div>
+                    <SurfaceBar label="Asfalt" value={tour.surface.asphalt} />
+                    <SurfaceBar label="Makadam" value={tour.surface.gravel} />
+                    <SurfaceBar label="Gozdna pot" value={tour.surface.forest} />
                   </div>
 
                   <button className="w-full rounded-full bg-white px-6 py-4 font-semibold text-black transition hover:bg-white/90">
