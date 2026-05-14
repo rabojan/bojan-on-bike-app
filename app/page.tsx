@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 
-const menuItems = ["Ture", "Pokrajine", "Doživetja", "Ponudniki"];
+const menuItems = [
+  { label: "Ture", href: "/ture" },
+  { label: "Pokrajine", href: "#pokrajine" },
+  { label: "Doživetja", href: "#dozivetja" },
+  { label: "Ponudniki", href: "#" },
+];
 
 const topTrails = [
   {
@@ -13,7 +18,7 @@ const topTrails = [
     distance: "32 km",
     type: "MTB",
     image:
-      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1400",
   },
   {
     rank: "02",
@@ -23,7 +28,7 @@ const topTrails = [
     distance: "48 km",
     type: "Gravel",
     image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=85&w=1400",
   },
   {
     rank: "03",
@@ -33,7 +38,7 @@ const topTrails = [
     distance: "86 km",
     type: "Bikepacking",
     image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=1200",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=1400",
   },
 ];
 
@@ -71,6 +76,17 @@ const howItWorks = [
   },
 ];
 
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace("š", "s")
+    .replace("č", "c")
+    .replace("ž", "z")
+    .replace("ć", "c")
+    .replace("đ", "d")
+    .replace(/\s+/g, "-");
+}
+
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -78,12 +94,14 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white">
       <header className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
-          <div className="text-lg font-bold tracking-wide">Bojan on Bike</div>
+          <a href="/" className="text-lg font-bold tracking-wide">
+            Bojan on Bike
+          </a>
 
           <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
             {menuItems.map((item) => (
-              <a key={item} className="transition hover:text-white" href="#">
-                {item}
+              <a key={item.label} className="transition hover:text-white" href={item.href}>
+                {item.label}
               </a>
             ))}
           </nav>
@@ -93,21 +111,9 @@ export default function Home() {
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
             aria-label="Odpri meni"
           >
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "rotate-45" : "-translate-y-1.5"
-              }`}
-            />
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "-rotate-45" : "translate-y-1.5"
-              }`}
-            />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
           </button>
         </div>
       </header>
@@ -117,20 +123,15 @@ export default function Home() {
           <nav className="flex flex-col">
             {menuItems.map((item) => (
               <a
-                key={item}
-                href="#"
+                key={item.label}
+                href={item.href}
                 onClick={() => setMenuOpen(false)}
                 className="border-b border-white/10 py-6 text-3xl font-semibold"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>
-
-          <p className="mt-8 max-w-sm text-zinc-400">
-            Premium kolesarska platforma za raziskovanje Slovenije skozi ture,
-            pokrajine in lokalna doživetja.
-          </p>
         </div>
       )}
 
@@ -162,13 +163,13 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
-              <button className="rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-zinc-200">
+              <a href="/ture" className="rounded-full bg-white px-8 py-4 text-center font-semibold text-black transition hover:bg-zinc-200">
                 Razišči ture
-              </button>
+              </a>
 
-              <button className="rounded-full border border-white/25 bg-black/30 px-8 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/10">
+              <a href="#pokrajine" className="rounded-full border border-white/25 bg-black/30 px-8 py-4 text-center font-semibold text-white backdrop-blur transition hover:bg-white/10">
                 Odkrij pokrajine
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -177,10 +178,7 @@ export default function Home() {
       <section className="border-y border-white/10 bg-zinc-950 px-5 py-8">
         <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-3">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-2xl border border-white/10 bg-black px-6 py-5"
-            >
+            <div key={stat.label} className="rounded-2xl border border-white/10 bg-black px-6 py-5">
               <div className="text-2xl font-black">{stat.value}</div>
               <div className="mt-1 text-sm text-zinc-500">{stat.label}</div>
             </div>
@@ -194,7 +192,6 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Zadnja dodana tura
             </p>
-
             <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
               Sveža ideja za naslednji kolesarski dan.
             </h2>
@@ -203,8 +200,8 @@ export default function Home() {
           <article className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950 md:grid-cols-[1.15fr_0.85fr]">
             <div className="relative min-h-[360px] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&q=85&w=1800"
-                alt="Gorsko kolesarjenje"
+                src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1800"
+                alt="Gorsko kolesarjenje po gozdu"
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
@@ -212,12 +209,8 @@ export default function Home() {
 
             <div className="flex flex-col justify-center p-8 md:p-12">
               <div className="mb-6 flex flex-wrap gap-3 text-sm">
-                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
-                  Štajerska
-                </span>
-                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
-                  Pohorje
-                </span>
+                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">Štajerska</span>
+                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">Pohorje</span>
                 <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-emerald-300">
                   e-bike friendly
                 </span>
@@ -228,8 +221,7 @@ export default function Home() {
               </h3>
 
               <p className="mb-8 text-lg leading-8 text-zinc-400">
-                Tura skozi pohorske gozdove, razglede in spuste, ki so
-                ustvarjeni za pravi kolesarski dan nad mestom.
+                Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni za pravi kolesarski dan nad mestom.
               </p>
 
               <div className="mb-8 grid grid-cols-3 gap-3">
@@ -237,21 +229,19 @@ export default function Home() {
                   <div className="font-bold">32 km</div>
                   <div className="text-xs text-zinc-500">dolžina</div>
                 </div>
-
                 <div className="rounded-2xl border border-white/10 bg-black p-4">
                   <div className="font-bold">890 m</div>
                   <div className="text-xs text-zinc-500">višinci</div>
                 </div>
-
                 <div className="rounded-2xl border border-white/10 bg-black p-4">
                   <div className="font-bold">Srednja</div>
                   <div className="text-xs text-zinc-500">težavnost</div>
                 </div>
               </div>
 
-              <button className="rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-zinc-200">
+              <a href="/ture?pokrajina=stajerska" className="rounded-full bg-white px-8 py-4 text-center font-semibold text-black transition hover:bg-zinc-200">
                 Oglej si turo
-              </button>
+              </a>
             </div>
           </article>
         </div>
@@ -261,34 +251,23 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
-                TOP 3
-              </p>
-
+              <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">TOP 3</p>
               <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
                 Ture po izboru kolesarjev.
               </h2>
             </div>
 
-            <button className="w-fit rounded-full border border-white/15 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
+            <a href="/ture" className="w-fit rounded-full border border-white/15 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
               Vse ture
-            </button>
+            </a>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
             {topTrails.map((trail) => (
-              <article
-                key={trail.title}
-                className="group overflow-hidden rounded-[2rem] border border-white/10 bg-black transition hover:-translate-y-1 hover:border-white/20"
-              >
+              <article key={trail.title} className="group overflow-hidden rounded-[2rem] border border-white/10 bg-black transition hover:-translate-y-1 hover:border-white/20">
                 <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={trail.image}
-                    alt={trail.title}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
+                  <img src={trail.image} alt={trail.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-
                   <div className="absolute left-5 top-5 rounded-full bg-white px-4 py-2 text-sm font-black text-black">
                     {trail.rank}
                   </div>
@@ -304,17 +283,13 @@ export default function Home() {
                   </h3>
 
                   <div className="mb-6 flex gap-3 text-sm">
-                    <span className="rounded-full border border-white/10 px-3 py-2">
-                      {trail.distance}
-                    </span>
-                    <span className="rounded-full border border-white/10 px-3 py-2">
-                      {trail.type}
-                    </span>
+                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.distance}</span>
+                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.type}</span>
                   </div>
 
-                  <button className="w-full rounded-full border border-white/15 px-5 py-3 font-semibold transition hover:bg-white hover:text-black">
+                  <a href={`/ture?pokrajina=${slugify(trail.region)}`} className="block w-full rounded-full border border-white/15 px-5 py-3 text-center font-semibold transition hover:bg-white hover:text-black">
                     Poglej več
-                  </button>
+                  </a>
                 </div>
               </article>
             ))}
@@ -325,10 +300,7 @@ export default function Home() {
       <section className="border-b border-white/10 bg-black px-5 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 max-w-3xl">
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
-              Kako deluje
-            </p>
-
+            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">Kako deluje</p>
             <h2 className="text-4xl font-bold md:text-5xl">
               Od ideje do popolnega kolesarskega dne.
             </h2>
@@ -336,16 +308,9 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-3">
             {howItWorks.map((item) => (
-              <div
-                key={item.step}
-                className="rounded-[2rem] border border-white/10 bg-zinc-950 p-8"
-              >
-                <div className="mb-8 text-sm font-semibold text-zinc-500">
-                  {item.step}
-                </div>
-
+              <div key={item.step} className="rounded-[2rem] border border-white/10 bg-zinc-950 p-8">
+                <div className="mb-8 text-sm font-semibold text-zinc-500">{item.step}</div>
                 <h3 className="mb-4 text-2xl font-bold">{item.title}</h3>
-
                 <p className="leading-7 text-zinc-400">{item.text}</p>
               </div>
             ))}
@@ -353,55 +318,46 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-b border-white/10 bg-zinc-950 px-5 py-24">
+      <section id="pokrajine" className="border-b border-white/10 bg-zinc-950 px-5 py-24">
         <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-center">
           <div>
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
-              Pokrajine
-            </p>
-
+            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">Pokrajine</p>
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Vsaka pokrajina ima svoj ritem.
             </h2>
-
             <p className="text-lg leading-8 text-zinc-400">
-              Platforma bo povezovala širše slovenske pokrajine z destinacijami,
-              turami, zgodbami, lokalnimi ponudniki in doživetji ob poti.
+              Klik na pokrajino te odpelje na katalog tur, kjer je filter za to pokrajino že vklopljen.
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             {regions.map((region) => (
-              <div
+              <a
                 key={region}
-                className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold"
+                href={`/ture?pokrajina=${slugify(region)}`}
+                className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold transition hover:-translate-y-1 hover:border-white/30 hover:bg-zinc-900"
               >
                 {region}
-              </div>
+              </a>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="px-5 py-24">
+      <section id="dozivetja" className="px-5 py-24">
         <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-gradient-to-br from-zinc-900 to-black p-8 md:p-12">
           <div className="max-w-3xl">
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
-              Doživetja ob poti
-            </p>
-
+            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">Doživetja ob poti</p>
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Ne gre samo za kilometre.
             </h2>
-
             <p className="mb-8 text-lg leading-8 text-zinc-400">
-              Bojan on Bike bo pomagal sestaviti celoten kolesarski dan:
-              turo, postanek, razgled, kosilo, zgodbo in občutek pokrajine.
+              Bojan on Bike bo pomagal sestaviti celoten kolesarski dan: turo, postanek, razgled, kosilo, zgodbo in občutek pokrajine.
             </p>
 
-            <button className="rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-zinc-200">
+            <a href="/ture" className="inline-block rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-zinc-200">
               Začni raziskovati
-            </button>
+            </a>
           </div>
         </div>
       </section>
