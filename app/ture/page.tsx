@@ -12,6 +12,7 @@ const menuItems = [
 const tours = [
   {
     title: "Gozdni flow nad Mariborom",
+    slug: "gozdni-flow-nad-mariborom",
     region: "Štajerska",
     regionSlug: "stajerska",
     destination: "Pohorje",
@@ -25,6 +26,7 @@ const tours = [
   },
   {
     title: "Med vinogradi in griči",
+    slug: "med-vinogradi-in-grici",
     region: "Štajerska",
     regionSlug: "stajerska",
     destination: "Slovenske gorice",
@@ -38,6 +40,7 @@ const tours = [
   },
   {
     title: "Alpski pobeg ob vodi",
+    slug: "alpski-pobeg-ob-vodi",
     region: "Primorska",
     regionSlug: "primorska",
     destination: "Soška dolina",
@@ -71,8 +74,12 @@ function SurfaceBar({ label, value }: { label: string; value: number }) {
         <span className="text-zinc-400">{label}</span>
         <span className="font-semibold">{value}%</span>
       </div>
+
       <div className="h-2 rounded-full bg-white/10">
-        <div className="h-full rounded-full bg-[#c58b46]" style={{ width: `${value}%` }} />
+        <div
+          className="h-full rounded-full bg-[#c58b46]"
+          style={{ width: `${value}%` }}
+        />
       </div>
     </div>
   );
@@ -88,8 +95,12 @@ function TureContent() {
 
   const filteredTours = useMemo(() => {
     return tours.filter((tour) => {
-      const regionMatch = activeRegion === "vse" || tour.regionSlug === activeRegion;
-      const difficultyMatch = activeDifficulty === "Vse" || tour.difficulty === activeDifficulty;
+      const regionMatch =
+        activeRegion === "vse" || tour.regionSlug === activeRegion;
+
+      const difficultyMatch =
+        activeDifficulty === "Vse" || tour.difficulty === activeDifficulty;
+
       return regionMatch && difficultyMatch;
     });
   }, [activeRegion, activeDifficulty]);
@@ -104,7 +115,11 @@ function TureContent() {
 
           <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
             {menuItems.map((item) => (
-              <a key={item.label} href={item.href} className="transition hover:text-white">
+              <a
+                key={item.label}
+                href={item.href}
+                className="transition hover:text-white"
+              >
                 {item.label}
               </a>
             ))}
@@ -115,9 +130,23 @@ function TureContent() {
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
             aria-label="Odpri meni"
           >
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "rotate-45" : "-translate-y-1.5"
+              }`}
+            />
+
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+
+            <span
+              className={`absolute h-[2px] w-5 bg-white transition ${
+                menuOpen ? "-rotate-45" : "translate-y-1.5"
+              }`}
+            />
           </button>
         </div>
       </header>
@@ -220,14 +249,25 @@ function TureContent() {
 
           <div className="grid gap-8 lg:grid-cols-3">
             {filteredTours.map((tour) => (
-              <article key={tour.title} className="overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10]">
+              <article
+                key={tour.title}
+                className="overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10]"
+              >
                 <div className="relative h-72 overflow-hidden">
-                  <img src={tour.image} alt={tour.title} className="h-full w-full object-cover" />
+                  <img
+                    src={tour.image}
+                    alt={tour.title}
+                    className="h-full w-full object-cover"
+                  />
+
                   <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-[#07110b]/20 to-transparent" />
 
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="mb-3 flex items-center justify-between text-sm text-white/70">
-                      <span>{tour.region} • {tour.destination}</span>
+                      <span>
+                        {tour.region} • {tour.destination}
+                      </span>
+
                       <span>{tour.type}</span>
                     </div>
 
@@ -252,14 +292,21 @@ function TureContent() {
 
                   <div className="space-y-4 rounded-2xl border border-white/10 bg-[#07110b] p-5">
                     <div className="font-semibold">Podlaga</div>
+
                     <SurfaceBar label="Asfalt" value={tour.surface.asphalt} />
                     <SurfaceBar label="Makadam" value={tour.surface.gravel} />
-                    <SurfaceBar label="Gozdna pot" value={tour.surface.forest} />
+                    <SurfaceBar
+                      label="Gozdna pot"
+                      value={tour.surface.forest}
+                    />
                   </div>
 
-                  <button className="w-full rounded-full bg-[#c58b46] px-6 py-4 font-semibold text-black transition hover:bg-[#d9a35d]">
+                  <a
+                    href={`/ture/${tour.slug}`}
+                    className="block w-full rounded-full bg-[#c58b46] px-6 py-4 text-center font-semibold text-black transition hover:bg-[#d9a35d]"
+                  >
                     Odpri turo
-                  </button>
+                  </a>
                 </div>
               </article>
             ))}
@@ -272,7 +319,9 @@ function TureContent() {
 
 export default function TurePage() {
   return (
-    <Suspense fallback={<main className="min-h-screen bg-[#07110b] text-white" />}>
+    <Suspense
+      fallback={<main className="min-h-screen bg-[#07110b] text-white" />}
+    >
       <TureContent />
     </Suspense>
   );
