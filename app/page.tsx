@@ -39,17 +39,18 @@ export default function Home() {
 
       <section className="relative flex min-h-screen items-center overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=2200&auto=format&fit=crop"
-          alt="eMTB kolesar na gozdni poti"
-          className="absolute inset-0 h-full w-full object-cover object-center opacity-50"
+          src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&fm=jpg&q=85&w=3000"
+          alt="MTB kolesar na gozdni poti v Sloveniji"
+          className="absolute inset-0 h-full w-full object-cover object-[42%_center] opacity-65 md:object-center"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/30 to-transparent" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-24">
           <div className="max-w-3xl">
             <div className="mb-6 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-zinc-200 backdrop-blur">
-              Slovenija • kolesarske ture • regije • doživetja
+              Slovenija • MTB • e-bike • gravel • doživetja
             </div>
 
             <h1 className="mb-7 text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">
