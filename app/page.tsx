@@ -2,35 +2,42 @@
 
 import { useState } from "react";
 
+const menuItems = ["Ture", "Regije", "Doživetja", "Ponudniki"];
+
 const featuredTrails = [
   {
     region: "Pohorje",
     type: "MTB",
     title: "Gozdni flow nad Mariborom",
-    text: "Ture skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni za pravi kolesarski dan.",
+    distance: "32 km",
+    elevation: "890 m",
+    difficulty: "Srednja",
+    surface: "65% gozd • 25% makadam • 10% asfalt",
+    text: "Dinamična tura skozi pohorske gozdove, razglede in naravne singletrail odseke.",
   },
   {
     region: "Slovenske gorice",
     type: "Gravel / e-bike",
     title: "Med vinogradi in griči",
-    text: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
+    distance: "48 km",
+    elevation: "620 m",
+    difficulty: "Lahka",
+    surface: "45% asfalt • 40% makadam • 15% gozd",
+    text: "Razgledna kolesarska izkušnja med vinogradi, griči in lokalnimi postanki.",
   },
   {
     region: "Soška dolina",
     type: "Bikepacking",
     title: "Alpski pobeg ob vodi",
-    text: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
+    distance: "86 km",
+    elevation: "1450 m",
+    difficulty: "Zahtevna",
+    surface: "50% makadam • 30% asfalt • 20% gozd",
+    text: "Večdnevna alpska avantura ob rekah, prelazih, vasicah in razgledih.",
   },
 ];
 
-const regions = [
-  "Pohorje",
-  "Maribor",
-  "Slovenske gorice",
-  "Soška dolina",
-  "Istra",
-  "Goriška",
-];
+const regions = ["Pohorje", "Maribor", "Slovenske gorice", "Soška dolina", "Istra", "Goriška"];
 
 const stats = [
   { value: "30+", label: "ciljna skupina" },
@@ -45,15 +52,14 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white">
       <header className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
-          <div className="text-lg font-bold tracking-wide">
-            Bojan on Bike
-          </div>
+          <div className="text-lg font-bold tracking-wide">Bojan on Bike</div>
 
           <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
-            <a className="transition hover:text-white" href="#">Ture</a>
-            <a className="transition hover:text-white" href="#">Regije</a>
-            <a className="transition hover:text-white" href="#">Doživetja</a>
-            <a className="transition hover:text-white" href="#">Ponudniki</a>
+            {menuItems.map((item) => (
+              <a key={item} className="transition hover:text-white" href="#">
+                {item}
+              </a>
+            ))}
           </nav>
 
           <button
@@ -61,21 +67,9 @@ export default function Home() {
             className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
             aria-label="Odpri meni"
           >
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "rotate-45" : "-translate-y-1.5"
-              }`}
-            />
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute h-[2px] w-5 bg-white transition ${
-                menuOpen ? "-rotate-45" : "translate-y-1.5"
-              }`}
-            />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
+            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
           </button>
         </div>
       </header>
@@ -83,7 +77,7 @@ export default function Home() {
       {menuOpen && (
         <div className="fixed inset-0 z-40 bg-black/95 px-5 pt-24 backdrop-blur-2xl md:hidden">
           <nav className="flex flex-col">
-            {["Ture", "Regije", "Doživetja", "Ponudniki"].map((item) => (
+            {menuItems.map((item) => (
               <a
                 key={item}
                 href="#"
@@ -145,10 +139,7 @@ export default function Home() {
       <section className="border-y border-white/10 bg-zinc-950 px-5 py-8">
         <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-3">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-2xl border border-white/10 bg-black px-6 py-5"
-            >
+            <div key={stat.label} className="rounded-2xl border border-white/10 bg-black px-6 py-5">
               <div className="text-2xl font-black">{stat.value}</div>
               <div className="mt-1 text-sm text-zinc-500">{stat.label}</div>
             </div>
@@ -160,10 +151,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12">
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
-              Izpostavljeno
+              Izbrane ture
             </p>
             <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
-              Ture, ki niso samo trase, ampak zgodbe.
+              Prve ture naj izgledajo kot premium izkušnje.
             </h2>
           </div>
 
@@ -173,11 +164,32 @@ export default function Home() {
                 key={trail.title}
                 className="rounded-3xl border border-white/10 bg-zinc-950 p-7 transition hover:-translate-y-1 hover:border-white/20"
               >
-                <div className="mb-5 text-sm text-zinc-500">
-                  {trail.region} • {trail.type}
+                <div className="mb-5 flex items-center justify-between text-sm text-zinc-500">
+                  <span>{trail.region}</span>
+                  <span>{trail.type}</span>
                 </div>
+
                 <h3 className="mb-4 text-2xl font-bold">{trail.title}</h3>
-                <p className="leading-7 text-zinc-400">{trail.text}</p>
+                <p className="mb-6 leading-7 text-zinc-400">{trail.text}</p>
+
+                <div className="mb-6 grid grid-cols-3 gap-3 text-center">
+                  <div className="rounded-2xl bg-black p-3">
+                    <div className="font-bold">{trail.distance}</div>
+                    <div className="text-xs text-zinc-500">dolžina</div>
+                  </div>
+                  <div className="rounded-2xl bg-black p-3">
+                    <div className="font-bold">{trail.elevation}</div>
+                    <div className="text-xs text-zinc-500">višinci</div>
+                  </div>
+                  <div className="rounded-2xl bg-black p-3">
+                    <div className="font-bold">{trail.difficulty}</div>
+                    <div className="text-xs text-zinc-500">težavnost</div>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black p-4 text-sm text-zinc-400">
+                  {trail.surface}
+                </div>
               </article>
             ))}
           </div>
@@ -201,10 +213,7 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-4">
             {regions.map((region) => (
-              <div
-                key={region}
-                className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold"
-              >
+              <div key={region} className="rounded-2xl border border-white/10 bg-black p-5 text-lg font-semibold">
                 {region}
               </div>
             ))}
