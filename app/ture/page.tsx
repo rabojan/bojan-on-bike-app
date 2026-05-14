@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 const tours = [
@@ -55,7 +55,7 @@ const regions = [
 
 const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
 
-export default function TurePage() {
+function TureContent() {
   const searchParams = useSearchParams();
   const pokrajinaFromUrl = searchParams.get("pokrajina") || "vse";
 
@@ -210,5 +210,13 @@ export default function TurePage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function TurePage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-black text-white" />}>
+      <TureContent />
+    </Suspense>
   );
 }
