@@ -13,7 +13,11 @@ const featuredTrails = [
     elevation: "890 m",
     difficulty: "Srednja",
     difficultyStyle: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
-    surface: "Gozdne poti • flow trail • makadam",
+    surface: {
+      asphalt: 10,
+      gravel: 25,
+      forest: 65,
+    },
     text: "Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni za pravi kolesarski dan.",
   },
   {
@@ -24,7 +28,11 @@ const featuredTrails = [
     elevation: "620 m",
     difficulty: "Lahka",
     difficultyStyle: "border-sky-500/30 bg-sky-500/10 text-sky-300",
-    surface: "Asfalt • makadam • vinske ceste",
+    surface: {
+      asphalt: 45,
+      gravel: 40,
+      forest: 15,
+    },
     text: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
   },
   {
@@ -35,7 +43,11 @@ const featuredTrails = [
     elevation: "1450 m",
     difficulty: "Zahtevna",
     difficultyStyle: "border-orange-500/30 bg-orange-500/10 text-orange-300",
-    surface: "Makadam • asfalt • alpske poti",
+    surface: {
+      asphalt: 30,
+      gravel: 50,
+      forest: 20,
+    },
     text: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
   },
 ];
@@ -47,6 +59,29 @@ const stats = [
   { value: "6", label: "začetnih regij" },
   { value: "MTB", label: "e-bike / gravel" },
 ];
+
+function SurfaceBar({
+  label,
+  value,
+}: {
+  label: string;
+  value: number;
+}) {
+  return (
+    <div>
+      <div className="mb-2 flex items-center justify-between text-sm">
+        <span className="text-zinc-400">{label}</span>
+        <span className="font-semibold text-white">{value}%</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-white/10">
+        <div
+          className="h-full rounded-full bg-white"
+          style={{ width: `${value}%` }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -189,8 +224,11 @@ export default function Home() {
                   {trail.text}
                 </p>
 
-                <div className="mb-7 rounded-2xl border border-white/10 bg-black p-4 text-sm text-zinc-400">
-                  {trail.surface}
+                <div className="mb-7 space-y-4 rounded-2xl border border-white/10 bg-black p-5">
+                  <div className="text-sm font-semibold text-white">Podlaga</div>
+                  <SurfaceBar label="Asfalt" value={trail.surface.asphalt} />
+                  <SurfaceBar label="Makadam" value={trail.surface.gravel} />
+                  <SurfaceBar label="Gozdna pot" value={trail.surface.forest} />
                 </div>
 
                 <button className="mt-auto w-full rounded-full bg-white px-5 py-4 font-semibold text-black transition group-hover:scale-[1.02]">
