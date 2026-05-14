@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const menuItems = ["Ture", "Regije", "Doživetja", "Ponudniki"];
 
@@ -18,7 +18,7 @@ const featuredTrails = [
   },
   {
     region: "Slovenske gorice",
-    type: "Gravel / e-bike",
+    type: "Gravel",
     title: "Med vinogradi in griči",
     distance: "48 km",
     elevation: "620 m",
@@ -37,6 +37,17 @@ const featuredTrails = [
     difficultyStyle: "border-orange-500/30 bg-orange-500/10 text-orange-300",
     surface: { asphalt: 30, gravel: 50, forest: 20 },
     text: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
+  },
+  {
+    region: "Istra",
+    type: "E-bike",
+    title: "Obala, oljke in razgledi",
+    distance: "41 km",
+    elevation: "540 m",
+    difficulty: "Lahka",
+    difficultyStyle: "border-sky-500/30 bg-sky-500/10 text-sky-300",
+    surface: { asphalt: 55, gravel: 35, forest: 10 },
+    text: "Razgledna e-bike tura med istrskimi vasicami, oljčniki in morskim zrakom.",
   },
 ];
 
@@ -66,6 +77,9 @@ const howItWorks = [
   },
 ];
 
+const typeFilters = ["Vse", "MTB", "E-bike", "Gravel", "Bikepacking"];
+const difficultyFilters = ["Vse", "Lahka", "Srednja", "Zahtevna"];
+
 function SurfaceBar({ label, value }: { label: string; value: number }) {
   return (
     <div>
@@ -80,8 +94,58 @@ function SurfaceBar({ label, value }: { label: string; value: number }) {
   );
 }
 
+function TrailCard({ trail }: { trail: (typeof featuredTrails)[number] }) {
+  return (
+    <article className="group flex h-full flex-col rounded-[2rem] border border-white/10 bg-zinc-950/80 p-7 backdrop-blur transition hover:-translate-y-1 hover:border-white/20 hover:bg-zinc-900/80">
+      <div className="mb-6 flex items-center justify-between text-sm text-zinc-500">
+        <span>{trail.region}</span>
+        <span>{trail.type}</span>
+      </div>
+
+      <h3 className="mb-5 min-h-[86px] text-3xl font-bold leading-tight">
+        {trail.title}
+      </h3>
+
+      <div className="mb-6 flex flex-wrap gap-3">
+        <span className="rounded-full border border-white/10 px-4 py-2 text-sm">{trail.distance}</span>
+        <span className="rounded-full border border-white/10 px-4 py-2 text-sm">{trail.elevation}</span>
+        <span className={`rounded-full border px-4 py-2 text-sm ${trail.difficultyStyle}`}>
+          {trail.difficulty}
+        </span>
+      </div>
+
+      <p className="mb-7 min-h-[96px] text-lg leading-8 text-zinc-400">
+        {trail.text}
+      </p>
+
+      <div className="mb-7 space-y-4 rounded-2xl border border-white/10 bg-black p-5">
+        <div className="text-sm font-semibold text-white">Podlaga</div>
+        <SurfaceBar label="Asfalt" value={trail.surface.asphalt} />
+        <SurfaceBar label="Makadam" value={trail.surface.gravel} />
+        <SurfaceBar label="Gozdna pot" value={trail.surface.forest} />
+      </div>
+
+      <button className="mt-auto w-full rounded-full bg-white px-5 py-4 font-semibold text-black transition group-hover:scale-[1.02]">
+        Oglej si turo
+      </button>
+    </article>
+  );
+}
+
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeType, setActiveType] = useState("Vse");
+  const [activeDifficulty, setActiveDifficulty] = useState("Vse");
+
+  const filteredTrails = useMemo(() => {
+    return featuredTrails.filter((trail) => {
+      const typeMatch = activeType === "Vse" || trail.type === activeType;
+      const difficultyMatch =
+        activeDifficulty === "Vse" || trail.difficulty === activeDifficulty;
+
+      return typeMatch && difficultyMatch;
+    });
+  }, [activeType, activeDifficulty]);
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -184,53 +248,62 @@ export default function Home() {
 
       <section className="px-5 py-24">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12">
+          <div className="mb-10">
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
-              Izbrane ture
+              Iskanje tur
             </p>
             <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
-              Ture, ki niso samo trase, ampak zgodbe.
+              Najdi turo po svojem ritmu.
             </h2>
           </div>
 
+          <div className="mb-10 rounded-[2rem] border border-white/10 bg-zinc-950 p-5">
+            <div className="mb-5">
+              <div className="mb-3 text-sm font-semibold text-zinc-400">Tip ture</div>
+              <div className="flex flex-wrap gap-3">
+                {typeFilters.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setActiveType(type)}
+                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                      activeType === type
+                        ? "border-white bg-white text-black"
+                        : "border-white/10 bg-black text-white hover:border-white/30"
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="mb-3 text-sm font-semibold text-zinc-400">Težavnost</div>
+              <div className="flex flex-wrap gap-3">
+                {difficultyFilters.map((difficulty) => (
+                  <button
+                    key={difficulty}
+                    onClick={() => setActiveDifficulty(difficulty)}
+                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                      activeDifficulty === difficulty
+                        ? "border-white bg-white text-black"
+                        : "border-white/10 bg-black text-white hover:border-white/30"
+                    }`}
+                  >
+                    {difficulty}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-6 text-sm text-zinc-500">
+            Prikazano: {filteredTrails.length} tur
+          </div>
+
           <div className="grid items-stretch gap-6 md:grid-cols-3">
-            {featuredTrails.map((trail) => (
-              <article
-                key={trail.title}
-                className="group flex h-full flex-col rounded-[2rem] border border-white/10 bg-zinc-950/80 p-7 backdrop-blur transition hover:-translate-y-1 hover:border-white/20 hover:bg-zinc-900/80"
-              >
-                <div className="mb-6 flex items-center justify-between text-sm text-zinc-500">
-                  <span>{trail.region}</span>
-                  <span>{trail.type}</span>
-                </div>
-
-                <h3 className="mb-5 min-h-[86px] text-3xl font-bold leading-tight">
-                  {trail.title}
-                </h3>
-
-                <div className="mb-6 flex flex-wrap gap-3">
-                  <span className="rounded-full border border-white/10 px-4 py-2 text-sm">{trail.distance}</span>
-                  <span className="rounded-full border border-white/10 px-4 py-2 text-sm">{trail.elevation}</span>
-                  <span className={`rounded-full border px-4 py-2 text-sm ${trail.difficultyStyle}`}>
-                    {trail.difficulty}
-                  </span>
-                </div>
-
-                <p className="mb-7 min-h-[96px] text-lg leading-8 text-zinc-400">
-                  {trail.text}
-                </p>
-
-                <div className="mb-7 space-y-4 rounded-2xl border border-white/10 bg-black p-5">
-                  <div className="text-sm font-semibold text-white">Podlaga</div>
-                  <SurfaceBar label="Asfalt" value={trail.surface.asphalt} />
-                  <SurfaceBar label="Makadam" value={trail.surface.gravel} />
-                  <SurfaceBar label="Gozdna pot" value={trail.surface.forest} />
-                </div>
-
-                <button className="mt-auto w-full rounded-full bg-white px-5 py-4 font-semibold text-black transition group-hover:scale-[1.02]">
-                  Oglej si turo
-                </button>
-              </article>
+            {filteredTrails.map((trail) => (
+              <TrailCard key={trail.title} trail={trail} />
             ))}
           </div>
         </div>
@@ -265,11 +338,9 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Regije
             </p>
-
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Vsaka regija ima svoj ritem.
             </h2>
-
             <p className="text-lg leading-8 text-zinc-400">
               Platforma bo povezovala ture, razglede, zgodbe, kulinariko,
               nastanitve in lokalne ponudnike v eno jasno kolesarsko izkušnjo.
@@ -292,11 +363,9 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-zinc-500">
               Doživetja ob poti
             </p>
-
             <h2 className="mb-6 text-4xl font-bold md:text-5xl">
               Ne gre samo za kilometre.
             </h2>
-
             <p className="mb-8 text-lg leading-8 text-zinc-400">
               Bojan on Bike bo pomagal sestaviti celoten kolesarski dan:
               turo, postanek, razgled, kosilo, zgodbo in občutek regije.
