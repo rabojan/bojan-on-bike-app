@@ -43,7 +43,7 @@ const moments = [
     time: "popoldan",
     text: "Tekoči odseki, gozdna podlaga in občutek hitrosti brez hitenja. Zaključek ture, ki ostane v nogah in glavi.",
     image:
-      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?q=80&w=1200&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
@@ -197,8 +197,7 @@ export default function TrailPage() {
               className="rounded-2xl border border-white/10 bg-black/20 p-4 md:p-5"
             >
               <div className="text-xl font-black md:text-2xl">{value}</div>
-              <div className="mt-2 text-[10px] uppercase tracking-[0.2em] text-zinc-500 md:text-xs">
-                {label}
+              <div className="text-[7px] uppercase tracking-[0.08em] text-zinc-500 md:text-xs md:tracking-[0.2em]">{label}
               </div>
             </div>
           ))}
@@ -376,8 +375,7 @@ export default function TrailPage() {
                 key={label}
                 className="rounded-2xl border border-white/10 bg-black/20 p-4 md:rounded-[28px] md:p-6"
               >
-                <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">
-                  {label}
+                <div className="text-[7px] uppercase tracking-[0.08em] text-zinc-500 md:text-xs md:tracking-[0.2em]">{label}
                 </div>
                 <div className="mt-3 text-3xl md:mt-4 md:text-4xl">{icon}</div>
                 <div className="mt-2 text-xl font-black md:mt-4 md:text-3xl">{temp}</div>
