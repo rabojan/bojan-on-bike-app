@@ -50,6 +50,7 @@ const moments = [
 const providers = [
   {
     name: "Rudijev dom na Pohorju",
+    slug: "rudijev-dom-na-pohorju",
     types: ["Kulinarika", "Prenočišče"],
     charging: true,
     distance: "ob trasi",
@@ -64,6 +65,7 @@ const providers = [
   },
   {
     name: "Gorska hiša Pohorje",
+    slug: "gorska-hisa-pohorje",
     types: ["Prenočišče", "Kulinarika"],
     charging: true,
     distance: "500 m od trase",
@@ -221,6 +223,7 @@ export default function TrailPage() {
                 latitude: provider.latitude,
                 longitude: provider.longitude,
                 distance: provider.distance,
+                slug: provider.slug,
                 types: provider.types,
                 charging: provider.charging,
               }))}

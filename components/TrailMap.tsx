@@ -7,6 +7,7 @@ import { CircleMarker, MapContainer, Popup, TileLayer } from "react-leaflet";
 
 type Poi = {
   name: string;
+  slug: string;
   latitude: number;
   longitude: number;
   distance: string;
@@ -60,7 +61,7 @@ export default function TrailMap({
 
         {pois.map((poi) => (
           <CircleMarker
-            key={poi.name}
+            key={poi.slug}
             center={[poi.latitude, poi.longitude]}
             radius={9}
             eventHandlers={{
@@ -131,15 +132,16 @@ export default function TrailMap({
             </div>
 
             <p className="mt-6 leading-8 text-zinc-300">
-              Ta ponudnik je dodan kot postanek ob izbrani turi. Kasneje bo tukaj
-              še opis ponudbe, fotografije, odpiralni čas, kontakt in povezava na
-              celoten profil ponudnika.
+              Ta ponudnik je dodan kot postanek ob izbrani turi.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">
+              <a
+                href={`/ponudniki#${selectedPoi.slug}`}
+                className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
+              >
                 Odpri ponudnika
-              </button>
+              </a>
 
               <button
                 onClick={() => setSelectedPoi(null)}

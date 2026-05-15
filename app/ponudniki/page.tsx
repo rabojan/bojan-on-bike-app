@@ -142,6 +142,7 @@ export default function ProvidersPage() {
             {filteredProviders.map((provider) => (
               <article
                 key={provider.name}
+              id={provider.slug}
                 className="flex h-full flex-col overflow-hidden rounded-[36px] border border-white/10 bg-[#0b1a10]"
               >
                 <div className="relative h-72 overflow-hidden">
