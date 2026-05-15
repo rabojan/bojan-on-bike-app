@@ -84,7 +84,7 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
             <Link
               href="/ture"
               onClick={() => setMenuOpen(false)}
-              className="border-b border-white/10 py-7 text-5xl font-black text-white"
+              className="border-b border-white/10 py-7 text-4xl font-black text-white"
             >
               Ture
             </Link>
@@ -92,7 +92,7 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
             <Link
               href="/#dozivetja"
               onClick={() => setMenuOpen(false)}
-              className="border-b border-white/10 py-7 text-5xl font-black text-white"
+              className="border-b border-white/10 py-7 text-4xl font-black text-white"
             >
               Doživetja
             </Link>
@@ -100,7 +100,7 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
             <Link
               href="/ponudniki"
               onClick={() => setMenuOpen(false)}
-              className="border-b border-white/10 py-7 text-5xl font-black text-white"
+              className="border-b border-white/10 py-7 text-4xl font-black text-white"
             >
               Ponudniki
             </Link>
