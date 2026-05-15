@@ -136,30 +136,39 @@ export default function TrailPage() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/95 backdrop-blur">
         <div className="mx-auto max-w-6xl px-5 py-4 md:px-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-4">
             <Link href="/" className="text-xl font-black tracking-tight">
               Bojan on Bike
             </Link>
 
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-2xl leading-none text-white md:hidden"
-              aria-label="Odpri meni"
-            >
-              ☰
-            </button>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/ture"
+                className="inline-flex rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-zinc-300"
+              >
+                ← Nazaj
+              </Link>
 
-            <nav className="hidden gap-7 text-sm md:flex">
-              <Link href="/ture" className="text-[#c58b46]">
-                Ture
-              </Link>
-              <Link href="/#dozivetja" className="hover:text-[#c58b46]">
-                Doživetja
-              </Link>
-              <Link href="/ponudniki" className="hover:text-[#c58b46]">
-                Ponudniki
-              </Link>
-            </nav>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-2xl leading-none text-white md:hidden"
+                aria-label="Odpri meni"
+              >
+                ☰
+              </button>
+
+              <nav className="hidden gap-7 text-sm md:flex">
+                <Link href="/ture" className="text-[#c58b46]">
+                  Ture
+                </Link>
+                <Link href="/#dozivetja" className="hover:text-[#c58b46]">
+                  Doživetja
+                </Link>
+                <Link href="/ponudniki" className="hover:text-[#c58b46]">
+                  Ponudniki
+                </Link>
+              </nav>
+            </div>
           </div>
 
           {mobileMenuOpen && (
@@ -175,15 +184,6 @@ export default function TrailPage() {
               </Link>
             </nav>
           )}
-
-          <div className="mt-4">
-            <Link
-              href="/ture"
-              className="inline-flex rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-zinc-300"
-            >
-              ← Nazaj
-            </Link>
-          </div>
         </div>
       </header>
 
