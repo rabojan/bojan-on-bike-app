@@ -122,6 +122,13 @@ export default function AdminPage() {
 
           <div className="flex items-center gap-3">
             <Link
+              href="/admin/ture"
+              className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-zinc-300"
+            >
+              Ture
+            </Link>
+
+            <Link
               href="/"
               className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-zinc-300"
             >
