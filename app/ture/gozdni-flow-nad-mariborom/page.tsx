@@ -53,6 +53,8 @@ const providers = [
     types: ["Kulinarika", "Prenočišče"],
     charging: true,
     distance: "ob trasi",
+    latitude: 46.5639,
+    longitude: 15.6226,
     moment: "idealno za kosilo po gozdnem delu",
     description:
       "Topel domač obrok, terasa med gozdovi in dobra točka za pravi kolesarski postanek.",
@@ -65,6 +67,8 @@ const providers = [
     types: ["Prenočišče", "Kulinarika"],
     charging: true,
     distance: "500 m od trase",
+    latitude: 46.5528,
+    longitude: 15.6079,
     moment: "za vikend pobeg ali večdnevno turo",
     description:
       "Mirna nastanitev za kolesarje, z možnostjo večerje, zajtrka in varnega prostora za kolesa.",
@@ -157,7 +161,18 @@ export default function TrailPage() {
           <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">Zemljevid ture</div>
           <h2 className="text-4xl font-black">Trasa ture.</h2>
           <div className="mt-10 overflow-hidden rounded-[28px] border border-white/10">
-            <TrailMap latitude={trail.latitude} longitude={trail.longitude} title={trail.title} />
+            <TrailMap
+              latitude={trail.latitude}
+              longitude={trail.longitude}
+              title={trail.title}
+              pois={providers.map((provider) => ({
+                name: provider.name,
+                latitude: provider.latitude,
+                longitude: provider.longitude,
+                distance: provider.distance,
+                types: provider.types,
+              }))}
+            />
           </div>
           <div className="mt-6 flex flex-wrap gap-4">
             <button disabled className="cursor-not-allowed rounded-2xl bg-white/10 px-6 py-3 text-sm font-semibold text-zinc-500">GPX še ni dodan</button>
