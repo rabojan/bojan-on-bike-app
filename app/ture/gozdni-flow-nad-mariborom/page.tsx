@@ -184,7 +184,7 @@ export default function TrailPage() {
       </section>
 
       <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-8">
-        <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-5">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 md:grid-cols-5">
           {[
             [`${trail.distanceKm} km`, "dolžina"],
             [`${trail.elevationVm} vm`, "višina"],
@@ -194,10 +194,10 @@ export default function TrailPage() {
           ].map(([value, label]) => (
             <div
               key={label}
-              className="rounded-2xl border border-white/10 bg-black/20 p-5"
+              className="rounded-2xl border border-white/10 bg-black/20 p-4 md:p-5"
             >
-              <div className="text-2xl font-black">{value}</div>
-              <div className="mt-2 text-xs uppercase tracking-[0.2em] text-zinc-500">
+              <div className="text-xl font-black md:text-2xl">{value}</div>
+              <div className="mt-2 text-[10px] uppercase tracking-[0.2em] text-zinc-500 md:text-xs">
                 {label}
               </div>
             </div>
@@ -366,7 +366,7 @@ export default function TrailPage() {
             Vreme na turi
           </div>
           <h2 className="text-4xl font-black">Prognoza za lokacijo ture.</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="mt-8 grid grid-cols-3 gap-3 md:mt-10 md:gap-5">
             {[
               ["Danes", "18°", "🌤️"],
               ["Jutri", "15°", "🌦️"],
@@ -374,13 +374,13 @@ export default function TrailPage() {
             ].map(([label, temp, icon]) => (
               <div
                 key={label}
-                className="rounded-[28px] border border-white/10 bg-black/20 p-6"
+                className="rounded-2xl border border-white/10 bg-black/20 p-4 md:rounded-[28px] md:p-6"
               >
                 <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">
                   {label}
                 </div>
-                <div className="mt-4 text-4xl">{icon}</div>
-                <div className="mt-4 text-3xl font-black">{temp}</div>
+                <div className="mt-3 text-3xl md:mt-4 md:text-4xl">{icon}</div>
+                <div className="mt-3 text-2xl font-black md:mt-4 md:text-3xl">{temp}</div>
               </div>
             ))}
           </div>
@@ -431,7 +431,7 @@ export default function TrailPage() {
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
+            <div className="rounded-2xl border border-white/10 bg-black/20 p-4 md:rounded-[28px] md:p-6">
               <div className="flex items-center justify-between">
                 <div className="text-zinc-400">Poraba za turo</div>
                 <div className="text-2xl font-black">
