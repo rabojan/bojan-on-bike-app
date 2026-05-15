@@ -22,45 +22,47 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
             Bojan on Bike
           </Link>
 
-          <button
-            onClick={() => setMobileMenuOpen(true)}
-            className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-black/20 text-4xl leading-none text-white md:hidden"
-            aria-label="Odpri meni"
-          >
-            ≡
-          </button>
-
-          <nav className="hidden items-center gap-7 text-sm md:flex">
+          <div className="flex items-center gap-3">
             {backHref && (
               <Link
                 href={backHref}
-                className="rounded-full border border-white/10 bg-black/20 px-5 py-3 font-semibold text-zinc-300"
+                className="flex h-14 items-center justify-center rounded-full border border-white/10 bg-black/20 px-5 text-sm font-semibold text-zinc-300"
               >
                 ← Nazaj
               </Link>
             )}
 
-            <Link href="/ture" className={navClass("ture")}>
-              Ture
-            </Link>
-            <Link href="/#dozivetja" className={navClass("dozivetja")}>
-              Doživetja
-            </Link>
-            <Link href="/ponudniki" className={navClass("ponudniki")}>
-              Ponudniki
-            </Link>
-          </nav>
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-black/20 text-4xl leading-none text-white md:hidden"
+              aria-label="Odpri meni"
+            >
+              ≡
+            </button>
+
+            <nav className="hidden items-center gap-7 text-sm md:flex">
+              {backHref && (
+                <Link
+                  href={backHref}
+                  className="rounded-full border border-white/10 bg-black/20 px-5 py-3 font-semibold text-zinc-300"
+                >
+                  ← Nazaj
+                </Link>
+              )}
+
+              <Link href="/ture" className={navClass("ture")}>
+                Ture
+              </Link>
+              <Link href="/#dozivetja" className={navClass("dozivetja")}>
+                Doživetja
+              </Link>
+              <Link href="/ponudniki" className={navClass("ponudniki")}>
+                Ponudniki
+              </Link>
+            </nav>
+          </div>
         </div>
       </header>
-
-      {backHref && (
-        <Link
-          href={backHref}
-          className="fixed left-5 top-28 z-40 rounded-full border border-white/10 bg-black/35 px-5 py-3 text-sm font-semibold text-zinc-200 backdrop-blur md:hidden"
-        >
-          ← Nazaj
-        </Link>
-      )}
 
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[9999] bg-[#07110b] text-white md:hidden">
