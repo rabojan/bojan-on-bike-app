@@ -197,7 +197,7 @@ export default function TrailPage() {
               className="rounded-2xl border border-white/10 bg-black/20 p-4 md:p-5"
             >
               <div className="text-xl font-black md:text-2xl">{value}</div>
-              <div className="text-[7px] uppercase tracking-[0.08em] text-zinc-500 md:text-xs md:tracking-[0.2em]">{label}
+              <div className="text-[9px] uppercase tracking-[0.04em] text-zinc-500 md:text-xs md:tracking-[0.2em]">{label}
               </div>
             </div>
           ))}
@@ -375,7 +375,7 @@ export default function TrailPage() {
                 key={label}
                 className="rounded-2xl border border-white/10 bg-black/20 p-4 md:rounded-[28px] md:p-6"
               >
-                <div className="text-[7px] uppercase tracking-[0.08em] text-zinc-500 md:text-xs md:tracking-[0.2em]">{label}
+                <div className="text-[9px] uppercase tracking-[0.04em] text-zinc-500 md:text-xs md:tracking-[0.2em]">{label}
                 </div>
                 <div className="mt-3 text-3xl md:mt-4 md:text-4xl">{icon}</div>
                 <div className="mt-2 text-xl font-black md:mt-4 md:text-3xl">{temp}</div>
