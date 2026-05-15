@@ -35,7 +35,7 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
             <Link href="/ture" className={navClass("ture")}>
               Ture
             </Link>
-            <Link href="/#dozivetja" className={navClass("dozivetja")}>
+            <Link href="/dozivetja" className={navClass("dozivetja")}>
               Doživetja
             </Link>
             <Link href="/ponudniki" className={navClass("ponudniki")}>
@@ -90,7 +90,7 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
             </Link>
 
             <Link
-              href="/#dozivetja"
+              href="/dozivetja"
               onClick={() => setMenuOpen(false)}
               className="border-b border-white/10 py-7 text-4xl font-black text-white"
             >
