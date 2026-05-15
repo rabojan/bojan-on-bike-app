@@ -17,6 +17,11 @@ const trail = {
   season: "April - November",
   latitude: 46.5547,
   longitude: 15.6459,
+  surface: {
+    asphalt: 10,
+    gravel: 25,
+    forest: 65,
+  },
   hero: "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop",
 };
 
@@ -185,6 +190,67 @@ export default function TrailPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="px-6 py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
+            Podlaga ture
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-[0.7fr_1.3fr] md:items-center">
+            <div>
+              <h2 className="text-4xl font-black">Kakšna je vožnja?</h2>
+              <p className="mt-5 max-w-xl leading-8 text-zinc-400">
+                Podlaga pove, kakšen občutek lahko pričakuješ na turi: koliko je
+                asfalta, makadama in gozdnih poti.
+              </p>
+            </div>
+
+            <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
+              <div className="space-y-6">
+                <div>
+                  <div className="mb-2 flex justify-between text-sm">
+                    <span className="text-zinc-400">Asfalt</span>
+                    <span className="font-bold">{trail.surface.asphalt}%</span>
+                  </div>
+                  <div className="h-3 overflow-hidden rounded-full bg-white/10">
+                    <div
+                      className="h-full rounded-full bg-[#c58b46]"
+                      style={{ width: `${trail.surface.asphalt}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex justify-between text-sm">
+                    <span className="text-zinc-400">Makadam</span>
+                    <span className="font-bold">{trail.surface.gravel}%</span>
+                  </div>
+                  <div className="h-3 overflow-hidden rounded-full bg-white/10">
+                    <div
+                      className="h-full rounded-full bg-[#c58b46]"
+                      style={{ width: `${trail.surface.gravel}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex justify-between text-sm">
+                    <span className="text-zinc-400">Gozdna pot</span>
+                    <span className="font-bold">{trail.surface.forest}%</span>
+                  </div>
+                  <div className="h-3 overflow-hidden rounded-full bg-white/10">
+                    <div
+                      className="h-full rounded-full bg-[#c58b46]"
+                      style={{ width: `${trail.surface.forest}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
