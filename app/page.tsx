@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SiteHeader from "@/components/SiteHeader";
 
 const menuItems = [
   { label: "Ture", href: "/ture" },
@@ -90,52 +91,12 @@ function slugify(value: string) {
 }
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
+  
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
-      <header className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
-          <a href="/" className="text-lg font-bold tracking-wide">
-            Bojan on Bike
-          </a>
+      <SiteHeader />
 
-          <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
-            {menuItems.map((item) => (
-              <a key={item.label} className="transition hover:text-white" href={item.href}>
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 md:hidden"
-            aria-label="Odpri meni"
-          >
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "opacity-0" : "opacity-100"}`} />
-            <span className={`absolute h-[2px] w-5 bg-white transition ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`} />
-          </button>
-        </div>
-      </header>
-
-      {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#07110b]/95 px-5 pt-24 backdrop-blur-2xl md:hidden">
-          <nav className="flex flex-col">
-            {menuItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="border-b border-white/10 py-6 text-3xl font-semibold"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      )}
+      
 
       <section className="relative flex min-h-screen items-center overflow-hidden">
         <img
