@@ -18,14 +18,38 @@ const trail = {
   season: "April - November",
   latitude: 46.5547,
   longitude: 15.6459,
-
-  // Ko boš imel pravo datoteko/link, vpišeš sem:
   gpxUrl: "",
   stravaUrl: "",
-
   hero:
-    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop",
 };
+
+const experienceMoments = [
+  {
+    title: "Vstop v pohorski gozd",
+    km: "4 km",
+    bestTime: "dopoldan",
+    text: "Ko mesto ostane za tabo, se ritem ture spremeni. Cesta postane tišja, zrak hladnejši, vožnja pa bolj osredotočena.",
+    image:
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1400&auto=format&fit=crop",
+  },
+  {
+    title: "Razgled nad Mariborom",
+    km: "13 km",
+    bestTime: "pozno dopoldne",
+    text: "Kratek postanek za pogled proti mestu. To je trenutek, ko tura ni več samo vožnja, ampak občutek prostora.",
+    image:
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
+  },
+  {
+    title: "Flow spust skozi gozd",
+    km: "24 km",
+    bestTime: "popoldan",
+    text: "Tekoči odseki, gozdna podlaga in občutek hitrosti brez hitenja. Zaključek ture, ki ostane v nogah in glavi.",
+    image:
+      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?q=80&w=1400&auto=format&fit=crop",
+  },
+];
 
 const galleryImages = [
   "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1400&auto=format&fit=crop",
@@ -201,12 +225,62 @@ export default function TrailPage() {
       <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-4 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
+            Kaj te čaka na poti
+          </div>
+
+          <h2 className="max-w-4xl text-5xl font-black">
+            Doživetveni trenutki ture.
+          </h2>
+
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-300">
+            Tukaj tura dobi svojo zgodbo. Ne gre samo za kilometre, ampak za
+            občutke, razglede, postanke in trenutke, zaradi katerih si turo
+            zapomniš.
+          </p>
+
+          <div className="mt-14 grid gap-8 lg:grid-cols-3">
+            {experienceMoments.map((moment) => (
+              <article
+                key={moment.title}
+                className="overflow-hidden rounded-[36px] border border-white/10 bg-[#07110b]"
+              >
+                <div className="h-72 overflow-hidden">
+                  <img
+                    src={moment.image}
+                    alt={moment.title}
+                    className="h-full w-full object-cover transition duration-500 hover:scale-105"
+                  />
+                </div>
+
+                <div className="p-8">
+                  <div className="mb-5 flex flex-wrap gap-3">
+                    <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-4 py-2 text-sm text-[#f4d7ad]">
+                      {moment.km}
+                    </span>
+                    <span className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm text-zinc-300">
+                      {moment.bestTime}
+                    </span>
+                  </div>
+
+                  <h3 className="text-3xl font-black">{moment.title}</h3>
+
+                  <p className="mt-5 leading-8 text-zinc-400">
+                    {moment.text}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-[#07110b] px-6 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-4 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
             Vreme na turi
           </div>
 
-          <h2 className="text-5xl font-black">
-            Prognoza za lokacijo ture.
-          </h2>
+          <h2 className="text-5xl font-black">Prognoza za lokacijo ture.</h2>
 
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {[
