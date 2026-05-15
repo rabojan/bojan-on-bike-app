@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import SiteHeader from "@/components/SiteHeader";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 
@@ -90,8 +91,6 @@ const gallery = [
 ];
 
 export default function TrailPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const [weight, setWeight] = useState(88);
   const [battery, setBattery] = useState(900);
   const [mode, setMode] = useState("Trail");
@@ -134,58 +133,7 @@ export default function TrailPage() {
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
-      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/95 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-5 py-4 md:px-6">
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/" className="text-xl font-black tracking-tight">
-              Bojan on Bike
-            </Link>
-
-            <div className="flex items-center gap-3">
-              <Link
-                href="/ture"
-                className="inline-flex rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-zinc-300"
-              >
-                ← Nazaj
-              </Link>
-
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-black/20 text-3xl leading-none text-white md:hidden"
-                aria-label="Odpri meni"
-              >
-                ☰
-              </button>
-
-              <nav className="hidden gap-7 text-sm md:flex">
-                <Link href="/ture" className="text-[#c58b46]">
-                  Ture
-                </Link>
-                <Link href="/#dozivetja" className="hover:text-[#c58b46]">
-                  Doživetja
-                </Link>
-                <Link href="/ponudniki" className="hover:text-[#c58b46]">
-                  Ponudniki
-                </Link>
-              </nav>
-            </div>
-          </div>
-
-          {mobileMenuOpen && (
-            <nav className="mt-4 flex gap-5 border-t border-white/10 pt-4 text-sm md:hidden">
-              <Link href="/ture" className="text-[#c58b46]">
-                Ture
-              </Link>
-              <Link href="/#dozivetja" className="hover:text-[#c58b46]">
-                Doživetja
-              </Link>
-              <Link href="/ponudniki" className="hover:text-[#c58b46]">
-                Ponudniki
-              </Link>
-            </nav>
-          )}
-        </div>
-      </header>
+      <SiteHeader backHref="/ture" active="ture" />
 
       <section className="relative flex min-h-[680px] items-end overflow-hidden pt-28">
         <img
