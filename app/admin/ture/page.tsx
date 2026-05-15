@@ -166,9 +166,12 @@ export default function AdminTrailsPage() {
                   </div>
 
                   <div className="mt-6 flex flex-wrap gap-3">
-                    <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">
+                    <Link
+                      href={`/admin/ture/${trail.slug}`}
+                      className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
+                    >
                       Uredi
-                    </button>
+                    </Link>
 
                     <Link
                       href={`/ture/${trail.slug}`}
