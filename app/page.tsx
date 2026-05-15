@@ -5,7 +5,7 @@ import { useState } from "react";
 const menuItems = [
   { label: "Ture", href: "/ture" },
   { label: "Doživetja", href: "#dozivetja" },
-  { label: "Ponudniki", href: "#" },
+  { label: "Ponudniki", href: "/ponudniki" },
 ];
 
 const topTrails = [

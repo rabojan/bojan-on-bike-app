@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 const menuItems = [
   { label: "Ture", href: "/ture" },
   { label: "Doživetja", href: "/#dozivetja" },
-  { label: "Ponudniki", href: "#" },
+  { label: "Ponudniki", href: "/ponudniki" },
 ];
 
 const tours = [

@@ -81,7 +81,7 @@ export default function TrailPage() {
             <Link href="/#dozivetja" className="hover:text-[#c58b46]">
               Doživetja
             </Link>
-            <Link href="/" className="hover:text-[#c58b46]">
+            <Link href="/ponudniki" className="hover:text-[#c58b46]">
               Ponudniki
             </Link>
           </nav>
