@@ -461,67 +461,68 @@ export default function TrailPage() {
             Utrinki s ture
           </div>
 
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <h2 className="text-4xl font-black">Doživetje poti.</h2>
-              <p className="mt-4 max-w-2xl leading-7 text-zinc-400">
-                Galerija prikazuje največ tri utrinke na računalniku in enega
-                na telefonu. Ostale slike pregleduješ s premikom levo/desno.
-              </p>
+          <h2 className="text-4xl font-black">Doživetje poti.</h2>
+
+          <p className="mt-4 max-w-2xl leading-7 text-zinc-400">
+            Galerija prikazuje izbrane trenutke ture. Na računalniku vidiš tri
+            fotografije, na telefonu eno — naprej in nazaj se premikaš s
+            puščicami na robu slike.
+          </p>
+
+          <div className="relative mt-10 hidden md:block">
+            <button
+              onClick={prevGallery}
+              className="absolute left-0 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/50 px-5 py-4 text-3xl font-light text-white backdrop-blur transition hover:bg-[#c58b46] hover:text-black"
+            >
+              ‹
+            </button>
+
+            <div className="grid grid-cols-3 gap-5">
+              {desktopGallery.map((image, index) => (
+                <img
+                  key={`${image}-${index}`}
+                  src={image}
+                  alt="Galerija ture"
+                  className="h-[300px] w-full rounded-[28px] object-cover"
+                />
+              ))}
             </div>
 
-            <div className="hidden gap-3 md:flex">
-              <button
-                onClick={prevGallery}
-                className="rounded-full border border-white/10 bg-black/20 px-5 py-3 font-semibold"
-              >
-                ←
-              </button>
-              <button
-                onClick={nextGallery}
-                className="rounded-full bg-[#c58b46] px-5 py-3 font-semibold text-black"
-              >
-                →
-              </button>
+            <button
+              onClick={nextGallery}
+              className="absolute right-0 top-1/2 z-20 translate-x-1/2 -translate-y-1/2 rounded-full bg-black/50 px-5 py-4 text-3xl font-light text-white backdrop-blur transition hover:bg-[#c58b46] hover:text-black"
+            >
+              ›
+            </button>
+
+            <div className="mt-5 text-center text-sm text-zinc-500">
+              {galleryIndex + 1} / {gallery.length}
             </div>
           </div>
 
-          <div className="mt-10 hidden grid-cols-3 gap-5 md:grid">
-            {desktopGallery.map((image, index) => (
-              <img
-                key={`${image}-${index}`}
-                src={image}
-                alt="Galerija ture"
-                className="h-[260px] w-full rounded-[28px] object-cover"
-              />
-            ))}
-          </div>
-
-          <div className="mt-10 md:hidden">
+          <div className="relative mt-10 md:hidden">
             <img
               src={gallery[galleryIndex]}
               alt="Galerija ture"
-              className="h-[320px] w-full rounded-[28px] object-cover"
+              className="h-[340px] w-full rounded-[28px] object-cover"
             />
 
-            <div className="mt-5 flex items-center justify-between">
-              <button
-                onClick={prevGallery}
-                className="rounded-full border border-white/10 bg-black/20 px-5 py-3 font-semibold"
-              >
-                ← Nazaj
-              </button>
+            <button
+              onClick={prevGallery}
+              className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/50 px-4 py-3 text-3xl font-light text-white backdrop-blur"
+            >
+              ‹
+            </button>
 
-              <div className="text-sm text-zinc-500">
-                {galleryIndex + 1} / {gallery.length}
-              </div>
+            <button
+              onClick={nextGallery}
+              className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/50 px-4 py-3 text-3xl font-light text-white backdrop-blur"
+            >
+              ›
+            </button>
 
-              <button
-                onClick={nextGallery}
-                className="rounded-full bg-[#c58b46] px-5 py-3 font-semibold text-black"
-              >
-                Naprej →
-              </button>
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-sm text-white backdrop-blur">
+              {galleryIndex + 1} / {gallery.length}
             </div>
           </div>
         </div>
