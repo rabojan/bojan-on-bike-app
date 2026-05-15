@@ -3,47 +3,57 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-const filters = ["Vsi", "Kulinarika", "Vino", "Prenočišče", "Polnilnica"];
+const filters = ["Vsi", "Kulinarika", "Vino", "Prenočišče"];
 
 const providers = [
   {
     name: "Rudijev dom na Pohorju",
     region: "Štajerska",
     location: "Pohorje",
-    types: ["Kulinarika", "Prenočišče", "Polnilnica"],
+    types: ["Kulinarika", "Prenočišče"],
+    hasCharging: true,
     description:
       "Topel domač obrok, terasa med gozdovi in dobra izhodiščna točka za kolesarski dan na Pohorju.",
     phone: "031 344 640",
     website: "#",
     image:
       "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?q=80&w=1400&auto=format&fit=crop",
-    nearbyTrail: "Gozdni flow nad Mariborom",
+    nearbyTrails: [
+      { name: "Gozdni flow nad Mariborom", distance: "ob trasi" },
+      { name: "Pohorski razgledi", distance: "700 m od trase" },
+    ],
   },
   {
     name: "Vinska klet med griči",
     region: "Štajerska",
     location: "Slovenske gorice",
     types: ["Vino", "Kulinarika"],
+    hasCharging: false,
     description:
       "Butična vinska izkušnja med griči, primerna za počasnejše gravel ali e-bike ture.",
     phone: "040 222 111",
     website: "#",
     image:
       "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1400&auto=format&fit=crop",
-    nearbyTrail: "Med vinogradi in griči",
+    nearbyTrails: [
+      { name: "Med vinogradi in griči", distance: "300 m od trase" },
+    ],
   },
   {
     name: "Gorska hiša Pohorje",
     region: "Štajerska",
     location: "Pohorje",
     types: ["Prenočišče", "Kulinarika"],
+    hasCharging: true,
     description:
       "Mirna nastanitev za kolesarje, z možnostjo večerje, zajtrka in varnega prostora za kolesa.",
     phone: "041 555 888",
     website: "#",
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
-    nearbyTrail: "Gozdni flow nad Mariborom",
+    nearbyTrails: [
+      { name: "Gozdni flow nad Mariborom", distance: "500 m od trase" },
+    ],
   },
 ];
 
@@ -96,8 +106,8 @@ export default function ProvidersPage() {
           </h1>
 
           <p className="mt-8 max-w-3xl text-xl leading-9 text-zinc-300">
-            Kulinarika, vino, prenočišča in e-bike polnilnice ob izbranih
-            kolesarskih turah po Sloveniji.
+            Kulinarika, vino in prenočišča ob izbranih kolesarskih turah po
+            Sloveniji.
           </p>
         </div>
       </section>
@@ -132,7 +142,7 @@ export default function ProvidersPage() {
             {filteredProviders.map((provider) => (
               <article
                 key={provider.name}
-                className="overflow-hidden rounded-[36px] border border-white/10 bg-[#0b1a10]"
+                className="flex h-full flex-col overflow-hidden rounded-[36px] border border-white/10 bg-[#0b1a10]"
               >
                 <div className="relative h-72 overflow-hidden">
                   <img
@@ -144,7 +154,7 @@ export default function ProvidersPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
                 </div>
 
-                <div className="p-8">
+                <div className="flex flex-1 flex-col p-8">
                   <div className="mb-5 flex flex-wrap gap-2">
                     {provider.types.map((type) => (
                       <span
@@ -154,6 +164,12 @@ export default function ProvidersPage() {
                         {type}
                       </span>
                     ))}
+
+                    {provider.hasCharging && (
+                      <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
+                        🔋 e-bike polnilnica
+                      </span>
+                    )}
                   </div>
 
                   <div className="mb-3 text-sm text-zinc-500">
@@ -166,14 +182,29 @@ export default function ProvidersPage() {
                     {provider.description}
                   </p>
 
-                  <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-zinc-300">
-                    Ob turi:{" "}
-                    <span className="font-semibold text-[#f4d7ad]">
-                      {provider.nearbyTrail}
-                    </span>
+                  <div className="mt-7 rounded-2xl border border-white/10 bg-black/20 p-5">
+                    <div className="mb-4 text-sm uppercase tracking-[0.2em] text-[#c58b46]">
+                      Ture ob ponudniku
+                    </div>
+
+                    <div className="space-y-3">
+                      {provider.nearbyTrails.map((trail) => (
+                        <div
+                          key={trail.name}
+                          className="flex items-start justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0"
+                        >
+                          <span className="font-semibold text-[#f4d7ad]">
+                            {trail.name}
+                          </span>
+                          <span className="shrink-0 text-right text-sm text-zinc-500">
+                            {trail.distance}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="mt-6 flex flex-wrap gap-3">
+                  <div className="mt-auto flex flex-wrap gap-3 pt-7">
                     <a
                       href={`tel:${provider.phone.replace(/\s/g, "")}`}
                       className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40"
