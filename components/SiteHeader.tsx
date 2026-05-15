@@ -9,102 +9,98 @@ type SiteHeaderProps = {
 };
 
 export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navClass = (item: string) =>
-    active === item ? "text-[#c58b46]" : "text-white hover:text-[#c58b46]";
+    active === item ? "text-[#c58b46]" : "text-zinc-300 hover:text-white";
 
   return (
     <>
-      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/95 backdrop-blur">
-        <div className="mx-auto flex h-24 max-w-6xl items-center justify-between px-5 md:px-6">
-          <Link href="/" className="text-xl font-black tracking-tight text-white">
+      <header className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/80 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
+          <Link href="/" className="text-lg font-bold tracking-wide text-white">
             Bojan on Bike
           </Link>
 
-          <div className="flex items-center gap-3">
+          <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
             {backHref && (
               <Link
                 href={backHref}
-                className="flex h-14 items-center justify-center rounded-full border border-white/10 bg-black/20 px-5 text-sm font-semibold text-zinc-300"
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-zinc-300 hover:text-white"
+              >
+                ← Nazaj
+              </Link>
+            )}
+
+            <Link href="/ture" className={navClass("ture")}>
+              Ture
+            </Link>
+            <Link href="/#dozivetja" className={navClass("dozivetja")}>
+              Doživetja
+            </Link>
+            <Link href="/ponudniki" className={navClass("ponudniki")}>
+              Ponudniki
+            </Link>
+          </nav>
+
+          <div className="flex items-center gap-3 md:hidden">
+            {backHref && (
+              <Link
+                href={backHref}
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-300"
               >
                 ← Nazaj
               </Link>
             )}
 
             <button
-              onClick={() => setMobileMenuOpen(true)}
-              className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-black/20 text-4xl leading-none text-white md:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5"
               aria-label="Odpri meni"
             >
-              ≡
+              <span
+                className={`absolute h-[2px] w-5 bg-white transition ${
+                  menuOpen ? "rotate-45" : "-translate-y-1.5"
+                }`}
+              />
+              <span
+                className={`absolute h-[2px] w-5 bg-white transition ${
+                  menuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute h-[2px] w-5 bg-white transition ${
+                  menuOpen ? "-rotate-45" : "translate-y-1.5"
+                }`}
+              />
             </button>
-
-            <nav className="hidden items-center gap-7 text-sm md:flex">
-              {backHref && (
-                <Link
-                  href={backHref}
-                  className="rounded-full border border-white/10 bg-black/20 px-5 py-3 font-semibold text-zinc-300"
-                >
-                  ← Nazaj
-                </Link>
-              )}
-
-              <Link href="/ture" className={navClass("ture")}>
-                Ture
-              </Link>
-              <Link href="/#dozivetja" className={navClass("dozivetja")}>
-                Doživetja
-              </Link>
-              <Link href="/ponudniki" className={navClass("ponudniki")}>
-                Ponudniki
-              </Link>
-            </nav>
           </div>
         </div>
       </header>
 
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[9999] bg-[#07110b] text-white md:hidden">
-          <div className="flex h-24 items-center justify-between border-b border-white/10 px-5">
-            <Link
-              href="/"
-              className="text-xl font-black tracking-tight text-white"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Bojan on Bike
-            </Link>
-
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5 text-5xl font-light leading-none text-white"
-              aria-label="Zapri meni"
-            >
-              ×
-            </button>
-          </div>
-
-          <nav className="px-5 pt-16">
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 bg-[#07110b]/95 px-5 pt-24 backdrop-blur-2xl md:hidden">
+          <nav className="flex flex-col">
             <Link
               href="/ture"
-              className="block border-b border-white/10 py-7 text-5xl font-black"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => setMenuOpen(false)}
+              className="border-b border-white/10 py-7 text-5xl font-black text-white"
             >
               Ture
             </Link>
 
             <Link
               href="/#dozivetja"
-              className="block border-b border-white/10 py-7 text-5xl font-black"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => setMenuOpen(false)}
+              className="border-b border-white/10 py-7 text-5xl font-black text-white"
             >
               Doživetja
             </Link>
 
             <Link
               href="/ponudniki"
-              className="block border-b border-white/10 py-7 text-5xl font-black"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => setMenuOpen(false)}
+              className="border-b border-white/10 py-7 text-5xl font-black text-white"
             >
               Ponudniki
             </Link>
