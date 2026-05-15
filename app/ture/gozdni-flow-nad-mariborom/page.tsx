@@ -380,7 +380,7 @@ export default function TrailPage() {
                   {label}
                 </div>
                 <div className="mt-3 text-3xl md:mt-4 md:text-4xl">{icon}</div>
-                <div className="mt-3 text-2xl font-black md:mt-4 md:text-3xl">{temp}</div>
+                <div className="mt-2 text-xl font-black md:mt-4 md:text-3xl">{temp}</div>
               </div>
             ))}
           </div>
