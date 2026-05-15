@@ -25,7 +25,7 @@ const experiences = [
     title: "Pohorski flow in kosilo",
     subtitle: "Maribor",
     image:
-      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=1400&auto=format&fit=crop",
     description:
       "Gozdni odseki, občutek svobode, nato pa zaslužen postanek pri lokalnem ponudniku ob poti.",
     tags: ["MTB", "Gozd", "Kosilo"],
@@ -48,7 +48,7 @@ export default function DozivetjaPage() {
 
       <section className="relative flex min-h-[760px] items-end overflow-hidden pt-24">
         <img
-          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1800&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop"
           alt="Veselo druženje po kolesarski turi"
           className="absolute inset-0 h-full w-full object-cover opacity-55"
         />
@@ -165,11 +165,11 @@ export default function DozivetjaPage() {
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {themes.map((theme) => (
               <div
                 key={theme}
-                className="rounded-[24px] border border-white/10 bg-black/20 p-6 text-xl font-black"
+                className="rounded-[22px] border border-white/10 bg-black/20 p-4 text-base font-black sm:p-6 sm:text-xl"
               >
                 {theme}
               </div>
