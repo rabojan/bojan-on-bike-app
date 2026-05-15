@@ -4,9 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 
-const TrailMap = dynamic(() => import("@/components/TrailMap"), {
-  ssr: false,
-});
+const TrailMap = dynamic(() => import("@/components/TrailMap"), { ssr: false });
 
 const trail = {
   title: "Gozdni flow nad Mariborom",
@@ -18,72 +16,68 @@ const trail = {
   season: "April - November",
   latitude: 46.5547,
   longitude: 15.6459,
-  gpxUrl: "",
-  stravaUrl: "",
   hero:
     "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop",
 };
 
-const experienceMoments = [
+const moments = [
   {
     title: "Vstop v pohorski gozd",
     km: "4 km",
-    bestTime: "dopoldan",
+    time: "dopoldan",
     text: "Ko mesto ostane za tabo, se ritem ture spremeni. Zrak je hladnejši, gozd gostejši in vožnja bolj osredotočena.",
     image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
   },
   {
     title: "Razgled nad Mariborom",
     km: "13 km",
-    bestTime: "pozno dopoldne",
+    time: "pozno dopoldne",
     text: "Kratek postanek za pogled proti mestu. To je trenutek, ko tura ni več samo vožnja, ampak občutek prostora.",
     image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop",
   },
   {
     title: "Flow spust skozi gozd",
     km: "24 km",
-    bestTime: "popoldan",
+    time: "popoldan",
     text: "Tekoči odseki, gozdna podlaga in občutek hitrosti brez hitenja. Zaključek ture, ki ostane v nogah in glavi.",
     image:
-      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
-const trailProviders = [
+const providers = [
   {
     name: "Rudijev dom na Pohorju",
-    type: ["Kulinarika", "Prenočišče"],
+    types: ["Kulinarika", "Prenočišče"],
     charging: true,
     distance: "ob trasi",
     moment: "idealno za kosilo po gozdnem delu",
     description:
       "Topel domač obrok, terasa med gozdovi in dobra točka za pravi kolesarski postanek.",
     phone: "031 344 640",
-    website: "#",
     image:
-      "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?q=80&w=1200&auto=format&fit=crop",
   },
   {
     name: "Gorska hiša Pohorje",
-    type: ["Prenočišče", "Kulinarika"],
+    types: ["Prenočišče", "Kulinarika"],
     charging: true,
     distance: "500 m od trase",
     moment: "za vikend pobeg ali večdnevno turo",
     description:
       "Mirna nastanitev za kolesarje, z možnostjo večerje, zajtrka in varnega prostora za kolesa.",
     phone: "041 555 888",
-    website: "#",
     image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
-const galleryImages = [
-  "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1400&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?q=80&w=1400&auto=format&fit=crop",
+const gallery = [
+  "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?q=80&w=1200&auto=format&fit=crop",
 ];
 
 export default function TrailPage() {
@@ -92,22 +86,13 @@ export default function TrailPage() {
   const [mode, setMode] = useState("Trail");
 
   const batteryResult = useMemo(() => {
-    const baseConsumption =
-      mode === "Eco" ? 180 : mode === "Trail" ? 280 : 420;
-
-    const weightFactor = weight * 0.9;
-    const elevationFactor = trail.elevationVm * 0.12;
-    const totalConsumption = baseConsumption + weightFactor + elevationFactor;
-
-    const usedPercent = Math.min(
-      Math.round((totalConsumption / battery) * 100),
-      100
-    );
-
+    const base = mode === "Eco" ? 180 : mode === "Trail" ? 280 : 420;
+    const usedWh = Math.round(base + weight * 0.9 + trail.elevationVm * 0.12);
+    const usedPercent = Math.min(Math.round((usedWh / battery) * 100), 100);
     const remaining = Math.max(100 - usedPercent, 0);
 
     return {
-      usedWh: Math.round(totalConsumption),
+      usedWh,
       usedPercent,
       remaining,
       message:
@@ -123,56 +108,29 @@ export default function TrailPage() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-xl font-black tracking-tight">
+          <Link href="/" className="text-xl font-black">
             Bojan on Bike
           </Link>
-
           <nav className="hidden gap-7 text-sm md:flex">
-            <Link href="/ture" className="hover:text-[#c58b46]">
-              Ture
-            </Link>
-            <Link href="/#dozivetja" className="hover:text-[#c58b46]">
-              Doživetja
-            </Link>
-            <Link href="/ponudniki" className="hover:text-[#c58b46]">
-              Ponudniki
-            </Link>
+            <Link href="/ture" className="hover:text-[#c58b46]">Ture</Link>
+            <Link href="/#dozivetja" className="hover:text-[#c58b46]">Doživetja</Link>
+            <Link href="/ponudniki" className="hover:text-[#c58b46]">Ponudniki</Link>
           </nav>
         </div>
       </header>
 
       <section className="relative flex min-h-[680px] items-end overflow-hidden pt-28">
-        <img
-          src={trail.hero}
-          alt={trail.title}
-          className="absolute inset-0 h-full w-full object-cover opacity-35"
-        />
-
+        <img src={trail.hero} alt={trail.title} className="absolute inset-0 h-full w-full object-cover opacity-35" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#07110b]/60 to-[#07110b]" />
-
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20">
           <div className="flex flex-wrap gap-3">
-            <div className="rounded-full border border-[#c58b46]/40 bg-[#c58b46]/10 px-4 py-2 text-sm">
-              {trail.region}
-            </div>
-
-            <div className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm">
-              {trail.destination}
-            </div>
-
-            <div className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
-              e-bike friendly
-            </div>
+            <span className="rounded-full border border-[#c58b46]/40 bg-[#c58b46]/10 px-4 py-2 text-sm">{trail.region}</span>
+            <span className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm">{trail.destination}</span>
+            <span className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">e-bike friendly</span>
           </div>
-
-          <h1 className="mt-7 max-w-4xl text-5xl font-black leading-tight md:text-7xl">
-            {trail.title}
-          </h1>
-
+          <h1 className="mt-7 max-w-4xl text-5xl font-black leading-tight md:text-7xl">{trail.title}</h1>
           <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-300">
-            Tura ni samo številka na zemljevidu. Je pobeg nad mesto, vonj
-            pohorskega gozda, postanek ob poti in občutek, da si dan preživel
-            točno tako, kot ga mora kolesar.
+            Tura ni samo številka na zemljevidu. Je pobeg nad mesto, vonj pohorskega gozda, postanek ob poti in občutek, da si dan preživel točno tako, kot ga mora kolesar.
           </p>
         </div>
       </section>
@@ -185,16 +143,10 @@ export default function TrailPage() {
             [trail.difficulty, "težavnost"],
             ["★★★★☆", "ocena"],
             [trail.season, "sezona"],
-          ].map((item) => (
-            <div
-              key={item[0]}
-              className="rounded-2xl border border-white/10 bg-black/20 p-5"
-            >
-              <div className="text-2xl font-black">{item[0]}</div>
-
-              <div className="mt-2 text-xs uppercase tracking-[0.2em] text-zinc-500">
-                {item[1]}
-              </div>
+          ].map(([value, label]) => (
+            <div key={label} className="rounded-2xl border border-white/10 bg-black/20 p-5">
+              <div className="text-2xl font-black">{value}</div>
+              <div className="mt-2 text-xs uppercase tracking-[0.2em] text-zinc-500">{label}</div>
             </div>
           ))}
         </div>
@@ -202,86 +154,137 @@ export default function TrailPage() {
 
       <section className="px-6 py-20">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-            Zemljevid ture
-          </div>
-
+          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">Zemljevid ture</div>
           <h2 className="text-4xl font-black">Trasa ture.</h2>
-
           <div className="mt-10 overflow-hidden rounded-[28px] border border-white/10">
-            <TrailMap
-              latitude={trail.latitude}
-              longitude={trail.longitude}
-              title={trail.title}
-            />
+            <TrailMap latitude={trail.latitude} longitude={trail.longitude} title={trail.title} />
           </div>
-
           <div className="mt-6 flex flex-wrap gap-4">
-            <button
-              disabled
-              className="cursor-not-allowed rounded-2xl bg-white/10 px-6 py-3 text-sm font-semibold text-zinc-500"
-            >
-              GPX še ni dodan
-            </button>
-
-            <button
-              disabled
-              className="cursor-not-allowed rounded-2xl border border-white/10 bg-black/20 px-6 py-3 text-sm font-semibold text-zinc-500"
-            >
-              Strava link še ni dodan
-            </button>
+            <button disabled className="cursor-not-allowed rounded-2xl bg-white/10 px-6 py-3 text-sm font-semibold text-zinc-500">GPX še ni dodan</button>
+            <button disabled className="cursor-not-allowed rounded-2xl border border-white/10 bg-black/20 px-6 py-3 text-sm font-semibold text-zinc-500">Strava link še ni dodan</button>
           </div>
         </div>
       </section>
 
       <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-20">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-            Kaj te čaka na poti
-          </div>
-
-          <h2 className="max-w-4xl text-4xl font-black">
-            Doživetveni trenutki ture.
-          </h2>
-
-          <p className="mt-5 max-w-3xl leading-8 text-zinc-300">
-            Ne gre samo za kilometre, ampak za občutke, razglede, postanke in
-            trenutke, zaradi katerih si turo zapomniš.
-          </p>
-
+          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">Kaj te čaka na poti</div>
+          <h2 className="text-4xl font-black">Doživetveni trenutki ture.</h2>
+          <p className="mt-5 max-w-3xl leading-8 text-zinc-300">Ne gre samo za kilometre, ampak za občutke, razglede, postanke in trenutke, zaradi katerih si turo zapomniš.</p>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {experienceMoments.map((moment) => (
-              <article
-                key={moment.title}
-                className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]"
-              >
-                <div className="h-56 overflow-hidden">
-                  <img
-                    src={moment.image}
-                    alt={moment.title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-
+            {moments.map((item) => (
+              <article key={item.title} className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]">
+                <img src={item.image} alt={item.title} className="h-56 w-full object-cover" />
                 <div className="p-6">
-                  <div className="mb-4 flex flex-wrap gap-2">
-                    <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]">
-                      {moment.km}
-                    </span>
-
-                    <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300">
-                      {moment.bestTime}
-                    </span>
+                  <div className="mb-4 flex gap-2">
+                    <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]">{item.km}</span>
+                    <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300">{item.time}</span>
                   </div>
-
-                  <h3 className="text-2xl font-black">{moment.title}</h3>
-
-                  <p className="mt-4 leading-7 text-zinc-400">
-                    {moment.text}
-                  </p>
+                  <h3 className="text-2xl font-black">{item.title}</h3>
+                  <p className="mt-4 leading-7 text-zinc-400">{item.text}</p>
                 </div>
               </article>
             ))}
           </div>
         </div>
       </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">Ponudniki ob tej turi</div>
+          <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+            <div>
+              <h2 className="text-4xl font-black">Postanki, ki naredijo kolesarski dan.</h2>
+              <p className="mt-5 leading-8 text-zinc-300">Tukaj se tura spremeni v doživetje: domača hrana, prenočišče, terasa, pogled in možnost polnjenja e-kolesa.</p>
+            </div>
+            <div className="grid gap-5 md:grid-cols-2">
+              {providers.map((provider) => (
+                <article key={provider.name} className="overflow-hidden rounded-[28px] border border-white/10 bg-[#0b1a10]">
+                  <img src={provider.image} alt={provider.name} className="h-48 w-full object-cover" />
+                  <div className="p-6">
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      {provider.types.map((type) => (
+                        <span key={type} className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]">{type}</span>
+                      ))}
+                      {provider.charging && <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1.5 text-xs text-emerald-300">🔋 e-bike polnilnica</span>}
+                    </div>
+                    <div className="mb-2 text-xs uppercase tracking-[0.2em] text-zinc-500">{provider.distance}</div>
+                    <h3 className="text-2xl font-black">{provider.name}</h3>
+                    <p className="mt-4 leading-7 text-zinc-400">{provider.description}</p>
+                    <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-[#f4d7ad]">{provider.moment}</div>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <a href={`tel:${provider.phone.replace(/\s/g, "")}`} className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-zinc-300">Pokliči</a>
+                      <a href="#" className="rounded-full bg-[#c58b46] px-4 py-2 text-sm font-semibold text-black">Spletna stran</a>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">Vreme na turi</div>
+          <h2 className="text-4xl font-black">Prognoza za lokacijo ture.</h2>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {[
+              ["Danes", "18°", "🌤️"],
+              ["Jutri", "15°", "🌦️"],
+              ["Pojutrišnjem", "12°", "🌧️"],
+            ].map(([label, temp, icon]) => (
+              <div key={label} className="rounded-[28px] border border-white/10 bg-black/20 p-6">
+                <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">{label}</div>
+                <div className="mt-4 text-4xl">{icon}</div>
+                <div className="mt-4 text-3xl font-black">{temp}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-6xl rounded-[32px] border border-[#c58b46]/20 bg-[#0b1a10] p-8 md:p-10">
+          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">eBike kalkulator dosega</div>
+          <h2 className="text-4xl font-black">Bosch Performance Line CX izračun.</h2>
+          <p className="mt-5 max-w-3xl leading-8 text-zinc-300">Vnesi svojo težo, kapaciteto baterije in izberi način vožnje. Izračun je vezan na dolžino in višino te ture.</p>
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            <div className="space-y-5">
+              <input type="number" value={weight} onChange={(e) => setWeight(Number(e.target.value))} className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 outline-none" />
+              <input type="number" value={battery} onChange={(e) => setBattery(Number(e.target.value))} className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 outline-none" />
+              <div className="grid grid-cols-3 gap-3">
+                {["Eco", "Trail", "eMTB"].map((item) => (
+                  <button key={item} onClick={() => setMode(item)} className={`rounded-2xl px-4 py-3 font-semibold transition ${mode === item ? "bg-[#c58b46] text-black" : "border border-white/10 bg-black/20"}`}>{item}</button>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
+              <div className="flex items-center justify-between">
+                <div className="text-zinc-400">Poraba za turo</div>
+                <div className="text-2xl font-black">{batteryResult.usedWh} Wh ({batteryResult.usedPercent}%)</div>
+              </div>
+              <div className="mt-6 h-4 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full rounded-full bg-[#36d399]" style={{ width: `${batteryResult.remaining}%` }} />
+              </div>
+              <div className="mt-4 text-zinc-400">Ostane približno {batteryResult.remaining}% baterije.</div>
+              <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-emerald-300">{batteryResult.message}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">Utrinki s ture</div>
+          <h2 className="text-4xl font-black">Doživetje poti.</h2>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {gallery.map((image) => (
+              <img key={image} src={image} alt="Galerija ture" className="h-[260px] w-full rounded-[28px] object-cover" />
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
