@@ -1,8 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+
+import AdminShell from "@/components/AdminShell";
 
 const trails = [
   {
@@ -53,102 +51,53 @@ const trails = [
 ];
 
 export default function AdminTrailsPage() {
-  const router = useRouter();
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem("bojan_admin_logged_in");
-
-    if (isLoggedIn !== "true") {
-      router.push("/admin-login");
-      return;
-    }
-
-    setIsReady(true);
-  }, [router]);
-
-  if (!isReady) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-[#07110b] text-white">
-        <div className="text-zinc-400">Preverjam dostop...</div>
-      </main>
-    );
-  }
-
   return (
-    <main className="min-h-screen bg-[#07110b] text-white">
-      <header className="border-b border-white/10 bg-[#07110b]/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5">
+    <AdminShell active="ture">
+      <div className="space-y-8">
+        <section className="flex flex-col gap-5 rounded-[36px] border border-white/10 bg-[#0b1a10] p-8 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
               Admin / Ture
             </div>
-            <h1 className="mt-2 text-2xl font-black">Upravljanje tur</h1>
+            <h1 className="mt-4 text-4xl font-black">Upravljanje tur</h1>
+            <p className="mt-5 max-w-3xl leading-8 text-zinc-400">
+              Tukaj boš dodajal in urejal ture, GPX, podlago, galerijo,
+              povezane ponudnike in znamenitosti. Vreme se kasneje potegne
+              avtomatsko glede na lokacijo trase.
+            </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Link
-              href="/admin"
-              className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-zinc-300"
-            >
-              ← Pisarna
-            </Link>
+          <button className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black">
+            + Dodaj novo turo
+          </button>
+        </section>
 
-            <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">
-              + Dodaj novo turo
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <section className="mx-auto max-w-7xl px-5 py-10">
-        <div className="mb-8 grid gap-5 md:grid-cols-4">
-          <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
+        <section className="grid gap-4 md:grid-cols-4">
+          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
             <div className="text-4xl font-black">3</div>
             <div className="mt-2 text-sm text-zinc-400">vse ture</div>
           </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
+          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
             <div className="text-4xl font-black">1</div>
             <div className="mt-2 text-sm text-zinc-400">objavljena</div>
           </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
+          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
             <div className="text-4xl font-black">2</div>
             <div className="mt-2 text-sm text-zinc-400">osnutka</div>
           </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
+          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
             <div className="text-4xl font-black">0</div>
             <div className="mt-2 text-sm text-zinc-400">GPX naloženih</div>
           </div>
-        </div>
+        </section>
 
-        <div className="mb-8 rounded-[32px] border border-[#c58b46]/20 bg-[#0b1a10] p-7">
-          <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-            Kako bo delovalo
-          </div>
-
-          <h2 className="mt-4 text-3xl font-black">
-            Tura bo imela vse, kar potrebuje javna stran.
-          </h2>
-
-          <p className="mt-5 max-w-4xl leading-8 text-zinc-400">
-            Tukaj boš urejal naslov, regijo, težavnost, kilometre, višince,
-            podlago v odstotkih, zgodbo, GPX, slike, ponudnike ob trasi,
-            znamenitosti in status objave. Vreme se kasneje ne bo vnašalo ročno,
-            ampak se bo izračunalo glede na lokacijo trase iz GPX oziroma
-            koordinat začetka ture.
-          </p>
-        </div>
-
-        <div className="grid gap-5">
+        <section className="grid gap-5">
           {trails.map((trail) => (
             <article
               key={trail.slug}
               className="rounded-[32px] border border-white/10 bg-black/20 p-6"
             >
-              <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+              <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
                 <div>
                   <div className="mb-4 flex flex-wrap gap-2">
                     <span
@@ -232,8 +181,8 @@ export default function AdminTrailsPage() {
               </div>
             </article>
           ))}
-        </div>
-      </section>
-    </main>
+        </section>
+      </div>
+    </AdminShell>
   );
 }
