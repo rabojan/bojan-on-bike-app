@@ -61,6 +61,8 @@ const providers = [
 ];
 
 export default function ProvidersPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const [activeFilter, setActiveFilter] = useState("Vsi");
 
   const filteredProviders = useMemo(() => {
@@ -71,29 +73,21 @@ export default function ProvidersPage() {
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between md:px-6">
-          <div className="flex items-center justify-between gap-4">
+        <div className="mx-auto max-w-6xl px-5 py-4 md:px-6">
+          <div className="flex items-center justify-between">
             <Link href="/" className="text-xl font-black tracking-tight">
               Bojan on Bike
             </Link>
 
-            <Link
-              href="/"
-              className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-zinc-300 md:hidden"
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-2xl leading-none text-white md:hidden"
+              aria-label="Odpri meni"
             >
-              ← Nazaj
-            </Link>
-          </div>
+              ☰
+            </button>
 
-          <div className="flex items-center justify-between gap-4">
-            <Link
-              href="/"
-              className="hidden rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-zinc-300 md:inline-flex"
-            >
-              ← Nazaj
-            </Link>
-
-            <nav className="flex gap-5 text-sm md:gap-7">
+            <nav className="hidden gap-7 text-sm md:flex">
               <Link href="/ture" className="hover:text-[#c58b46]">
                 Ture
               </Link>
@@ -104,6 +98,29 @@ export default function ProvidersPage() {
                 Ponudniki
               </Link>
             </nav>
+          </div>
+
+          {mobileMenuOpen && (
+            <nav className="mt-4 flex gap-5 border-t border-white/10 pt-4 text-sm md:hidden">
+              <Link href="/ture" className="hover:text-[#c58b46]">
+                Ture
+              </Link>
+              <Link href="/#dozivetja" className="hover:text-[#c58b46]">
+                Doživetja
+              </Link>
+              <Link href="/ponudniki" className="text-[#c58b46]">
+                Ponudniki
+              </Link>
+            </nav>
+          )}
+
+          <div className="mt-4">
+            <Link
+              href="/"
+              className="inline-flex rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-zinc-300"
+            >
+              ← Nazaj
+            </Link>
           </div>
         </div>
       </header>
