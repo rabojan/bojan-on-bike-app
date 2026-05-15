@@ -8,6 +8,7 @@ const filters = ["Vsi", "Kulinarika", "Vino", "Prenočišče"];
 const providers = [
   {
     name: "Rudijev dom na Pohorju",
+    slug: "rudijev-dom-na-pohorju",
     region: "Štajerska",
     location: "Pohorje",
     types: ["Kulinarika", "Prenočišče"],
@@ -25,6 +26,7 @@ const providers = [
   },
   {
     name: "Vinska klet med griči",
+    slug: "vinska-klet-med-grici",
     region: "Štajerska",
     location: "Slovenske gorice",
     types: ["Vino", "Kulinarika"],
@@ -41,6 +43,7 @@ const providers = [
   },
   {
     name: "Gorska hiša Pohorje",
+    slug: "gorska-hisa-pohorje",
     region: "Štajerska",
     location: "Pohorje",
     types: ["Prenočišče", "Kulinarika"],
