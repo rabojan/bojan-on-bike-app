@@ -222,6 +222,7 @@ export default function TrailPage() {
                 longitude: provider.longitude,
                 distance: provider.distance,
                 types: provider.types,
+                charging: provider.charging,
               }))}
             />
           </div>
