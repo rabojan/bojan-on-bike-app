@@ -81,9 +81,9 @@ export default function ToursPage() {
 
       <section className="relative flex min-h-[560px] items-end overflow-hidden px-6 pb-20 pt-28">
         <img
-          src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop"
           alt="Kolesarske ture"
-          className="absolute inset-0 h-full w-full object-cover opacity-35"
+          className="absolute inset-0 h-full w-full object-cover opacity-45"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#07110b]/65 to-[#07110b]" />
 

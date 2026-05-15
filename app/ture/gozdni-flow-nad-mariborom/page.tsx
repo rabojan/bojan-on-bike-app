@@ -17,8 +17,7 @@ const trail = {
   season: "April - November",
   latitude: 46.5547,
   longitude: 15.6459,
-  hero:
-    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop",
+  hero: "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop",
 };
 
 const moments = [
@@ -139,7 +138,7 @@ export default function TrailPage() {
         <img
           src={trail.hero}
           alt={trail.title}
-          className="absolute inset-0 h-full w-full object-cover opacity-35"
+          className="absolute inset-0 h-full w-full object-cover opacity-45"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#07110b]/60 to-[#07110b]" />
 
