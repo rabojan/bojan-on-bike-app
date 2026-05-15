@@ -1,33 +1,44 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import SiteHeader from "@/components/SiteHeader";
 
 const experiences = [
   {
-    title: "Vinska gravel avantura",
+    title: "Vinski kolesarski dan",
     subtitle: "Slovenske gorice",
     image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=1400&auto=format&fit=crop",
     description:
-      "Počasni makadami med vinogradi, lokalne vinske kleti in sončni zahodi nad griči.",
+      "Lahkotna vožnja med griči, postanek pri vinski kleti, domača kulinarika in razgled, ki naredi dan poseben.",
+    tags: ["Vino", "Kulinarika", "Gravel"],
   },
   {
-    title: "Flow skozi pohorske gozdove",
+    title: "Družinski e-bike izlet",
     subtitle: "Pohorje",
     image:
-      "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
     description:
-      "Flow spusti, gozdne poti in občutek popolnega pobega iz mesta.",
+      "Varnejše poti, krajše razdalje, lepi postanki in dovolj prostora, da lahko v dnevu uživa cela družina.",
+    tags: ["Družina", "e-bike", "Narava"],
   },
   {
-    title: "Coffee & Climb",
+    title: "Pohorski flow in kosilo",
     subtitle: "Maribor",
     image:
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?q=80&w=1400&auto=format&fit=crop",
     description:
-      "Jutranja kava, panoramski vzponi in počasno raziskovanje mesta.",
+      "Gozdni odseki, občutek svobode, nato pa zaslužen postanek pri lokalnem ponudniku ob poti.",
+    tags: ["MTB", "Gozd", "Kosilo"],
   },
+];
+
+const themes = [
+  "Vinska doživetja",
+  "Družinski izleti",
+  "Kulinarične ture",
+  "Razgledne poti",
+  "Zgodbe krajev",
+  "Vikend pobegi",
 ];
 
 export default function DozivetjaPage() {
@@ -35,85 +46,100 @@ export default function DozivetjaPage() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/" active="dozivetja" />
 
-      <section className="relative flex min-h-[70vh] items-end overflow-hidden pt-24">
-        <Image
-          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1800&auto=format&fit=crop"
-          alt="Doživetja"
-          fill
-          priority
-          className="object-cover opacity-45"
+      <section className="relative flex min-h-[760px] items-end overflow-hidden pt-24">
+        <img
+          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1800&auto=format&fit=crop"
+          alt="Veselo druženje po kolesarski turi"
+          className="absolute inset-0 h-full w-full object-cover opacity-55"
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-[#07110b]/50 to-[#07110b]" />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-[#07110b]/40 to-black/10" />
-
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 md:px-6 md:pb-24">
-          <div className="max-w-3xl">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-20 md:px-6 md:pb-28">
+          <div className="max-w-4xl">
             <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-              Kolesarska doživetja
+              Doživetja ob poti
             </div>
 
             <h1 className="text-5xl font-black leading-none md:text-7xl">
-              Kolesarjenje ni samo cilj.
-              <br />
-              Je občutek poti.
+              Tura je šele začetek lepega dne.
             </h1>
 
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-300 md:text-xl">
-              Odkrij kurirana kolesarska doživetja, ki povezujejo naravo,
-              kulinariko, lokalne zgodbe in počasno raziskovanje regij.
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl">
+              Tukaj najdeš skrbno izbrane kolesarske ideje, kjer se vožnja
+              poveže z razgledi, lokalno hrano, vinom, druženjem in zgodbami
+              krajev.
             </p>
+
+            <Link
+              href="/ture"
+              className="mt-8 inline-flex rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
+            >
+              Odkrij ture
+            </Link>
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-24">
-        <div className="mb-12">
+        <div className="mb-12 max-w-3xl">
           <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-            Featured
+            Izbrana doživetja
           </div>
 
           <h2 className="mt-4 text-4xl font-black md:text-5xl">
-            Doživetja ob poti
+            Ideje za kolesarski dan, ki si ga zapomniš.
           </h2>
+
+          <p className="mt-6 leading-8 text-zinc-400">
+            Ne gre samo za kilometre. Gre za to, kje se ustaviš, koga srečaš,
+            kaj poješ, kaj vidiš in kakšen občutek odneseš domov.
+          </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid items-stretch gap-8 md:grid-cols-3">
           {experiences.map((experience) => (
             <article
               key={experience.title}
-              className="group overflow-hidden rounded-[32px] border border-white/10 bg-black/20"
+              className="flex h-full flex-col overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10]"
             >
-              <div className="relative h-80 overflow-hidden">
-                <Image
+              <div className="relative h-72 overflow-hidden">
+                <img
                   src={experience.image}
                   alt={experience.title}
-                  fill
-                  className="object-cover transition duration-700 group-hover:scale-105"
+                  className="h-full w-full object-cover transition duration-700 hover:scale-105"
                 />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-
-                <div className="absolute bottom-0 p-6">
-                  <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-                    {experience.subtitle}
-                  </div>
-
-                  <h3 className="mt-3 text-3xl font-black leading-tight">
-                    {experience.title}
-                  </h3>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
               </div>
 
-              <div className="p-6">
-                <p className="leading-8 text-zinc-300">
+              <div className="flex flex-1 flex-col p-7">
+                <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                  {experience.subtitle}
+                </div>
+
+                <h3 className="mt-4 text-3xl font-black leading-tight">
+                  {experience.title}
+                </h3>
+
+                <p className="mt-5 flex-1 leading-8 text-zinc-300">
                   {experience.description}
                 </p>
 
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {experience.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
                 <Link
                   href="/ture"
-                  className="mt-6 inline-flex rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-[#c58b46]/40 hover:bg-[#c58b46]/10"
+                  className="mt-7 inline-flex justify-center rounded-full border border-[#c58b46]/40 bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
                 >
-                  Odkrij ture
+                  Poglej povezane ture
                 </Link>
               </div>
             </article>
@@ -121,32 +147,70 @@ export default function DozivetjaPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 pb-20 md:px-6 md:pb-28">
+      <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-16 md:px-6 md:py-24">
+        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-center">
+          <div>
+            <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+              Tematska doživetja
+            </div>
+
+            <h2 className="mt-4 text-4xl font-black md:text-5xl">
+              Izberi občutek, ne samo trase.
+            </h2>
+
+            <p className="mt-6 leading-8 text-zinc-400">
+              Nekateri iščejo razgled. Drugi dobro kosilo. Tretji miren dan z
+              družino. Bojan on Bike lahko ture poveže v zgodbe, ki imajo svoj
+              namen.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {themes.map((theme) => (
+              <div
+                key={theme}
+                className="rounded-[24px] border border-white/10 bg-black/20 p-6 text-xl font-black"
+              >
+                {theme}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-24">
         <div className="overflow-hidden rounded-[36px] border border-white/10 bg-black/20">
           <div className="grid md:grid-cols-2">
-            <div className="relative min-h-[420px]">
-              <Image
-                src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600&auto=format&fit=crop"
-                alt="Story"
-                fill
-                className="object-cover"
+            <div className="min-h-[420px]">
+              <img
+                src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=1600&auto=format&fit=crop"
+                alt="Druženje po turi"
+                className="h-full w-full object-cover"
               />
             </div>
 
             <div className="flex flex-col justify-center p-8 md:p-14">
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Editorial story
+                Zakaj doživetja
               </div>
 
               <h2 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
-                Regije niso samo destinacije.
+                Ker se najboljše ture končajo z zgodbo.
               </h2>
 
               <p className="mt-8 text-lg leading-9 text-zinc-300">
-                Vsaka pot skriva lokalne zgodbe, razglede, ljudi in trenutke,
-                zaradi katerih se želiš vrniti. Bojan on Bike ni zbirka GPX
-                datotek — je vodič skozi doživetja na dveh kolesih.
+                Dobra kolesarska ideja ni samo črta na zemljevidu. Je trenutek,
+                ko se ustaviš na razgledu, spiješ kavo v majhnem kraju, odkriješ
+                lokalno zgodbo ali se po turi usedeš za mizo z ljudmi, s katerimi
+                si delil dan.
               </p>
+
+              <Link
+                href="/ponudniki"
+                className="mt-8 inline-flex w-fit rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
+              >
+                Odkrij ponudnike
+              </Link>
             </div>
           </div>
         </div>
