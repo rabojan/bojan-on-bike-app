@@ -255,7 +255,7 @@ export default function Home() {
               </div>
 
               <a
-                href="/ture/gozdni-flow-nad-mariborom"
+                href="/ture"
                 className="rounded-full bg-[#c58b46] px-8 py-4 text-center font-semibold text-black transition hover:bg-[#d9a35d]"
               >
                 Oglej si turo
