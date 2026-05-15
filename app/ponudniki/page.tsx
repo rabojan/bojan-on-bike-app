@@ -70,23 +70,41 @@ export default function ProvidersPage() {
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
-      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/90 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link href="/" className="text-2xl font-black tracking-tight">
-            Bojan on Bike
-          </Link>
+      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#07110b]/95 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between md:px-6">
+          <div className="flex items-center justify-between gap-4">
+            <Link href="/" className="text-xl font-black tracking-tight">
+              Bojan on Bike
+            </Link>
 
-          <nav className="hidden gap-8 text-sm md:flex">
-            <Link href="/ture" className="hover:text-[#c58b46]">
-              Ture
+            <Link
+              href="/"
+              className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-zinc-300 md:hidden"
+            >
+              ← Nazaj
             </Link>
-            <Link href="/#dozivetja" className="hover:text-[#c58b46]">
-              Doživetja
+          </div>
+
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              href="/"
+              className="hidden rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-zinc-300 md:inline-flex"
+            >
+              ← Nazaj
             </Link>
-            <Link href="/ponudniki" className="text-[#c58b46]">
-              Ponudniki
-            </Link>
-          </nav>
+
+            <nav className="flex gap-5 text-sm md:gap-7">
+              <Link href="/ture" className="hover:text-[#c58b46]">
+                Ture
+              </Link>
+              <Link href="/#dozivetja" className="hover:text-[#c58b46]">
+                Doživetja
+              </Link>
+              <Link href="/ponudniki" className="text-[#c58b46]">
+                Ponudniki
+              </Link>
+            </nav>
+          </div>
         </div>
       </header>
 
