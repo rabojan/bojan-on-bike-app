@@ -89,7 +89,7 @@ export default function ProvidersPage() {
 
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-2xl leading-none text-white md:hidden"
+                className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-black/20 text-3xl leading-none text-white md:hidden"
                 aria-label="Odpri meni"
               >
                 ☰
