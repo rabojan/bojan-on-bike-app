@@ -10,11 +10,9 @@ const providerTypes = [
   "Kulinarika",
   "Vino",
   "Prenočišče",
-  "e-bike polnilnica",
   "Bike servis",
   "Lokalni produkti",
-  "Razgled / doživetje",
-  "Turistična točka",
+  "Vodnik / agencija",
 ];
 
 const connectedTrails = [
@@ -148,7 +146,7 @@ export default function EditProviderPage() {
                   <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm leading-7 text-zinc-400">
                     Ponudnik ima lahko več oznak hkrati. Te oznake se kasneje
                     uporabijo za filtre, kartice, zemljevid in povezovanje s
-                    turami.
+                    turami. e-bike polnilnica je ločena storitev in se označi posebej.
                   </div>
                 </div>
               </div>
@@ -160,7 +158,7 @@ export default function EditProviderPage() {
                     checked={isPartner}
                     onChange={(event) => setIsPartner(event.target.checked)}
                   />
-                  <span className="font-bold">Partner platforme</span>
+                  <span className="font-bold">Bojan on Bike partner</span>
                 </label>
 
                 <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4">
@@ -171,6 +169,16 @@ export default function EditProviderPage() {
                   />
                   <span className="font-bold">e-bike polnilnica</span>
                 </label>
+              </div>
+
+              <div className="mt-5 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm leading-7 text-zinc-400">
+                <span className="font-bold text-[#f4d7ad]">
+                  Bojan on Bike partner
+                </span>{" "}
+                pomeni preverjenega ponudnika, ki je del izbrane mreže in ga
+                lahko na javni strani označimo kot priporočeno postojanko za
+                kolesarje. e-bike polnilnica pa je posebna storitev, zato je
+                ločena od tipa ponudnika.
               </div>
             </div>
 
