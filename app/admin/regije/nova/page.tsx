@@ -2,29 +2,6 @@ import Link from "next/link";
 
 import AdminShell from "@/components/AdminShell";
 
-const trails = [
-  "Gozdni flow nad Mariborom",
-  "Med vinogradi in griči",
-  "Alpski pobeg ob vodi",
-];
-
-const providers = [
-  "Rudijev dom na Pohorju",
-  "Gorska hiša Pohorje",
-  "Vinska klet med griči",
-];
-
-const experiences = [
-  "Vinski kolesarski dan",
-  "Družinski e-bike izlet",
-  "Pohorski flow in kosilo",
-];
-
-const points = [
-  "Razgled nad Mariborom",
-  "Pohorski gozdni odsek",
-  "Stara planinska pot",
-];
 
 export default function NewRegionPage() {
   return (
@@ -259,73 +236,55 @@ export default function NewRegionPage() {
 
             <section className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
               <p className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Povezane ture
+                Samodejno povezane vsebine
               </p>
 
-              <div className="space-y-3">
-                {trails.map((trail) => (
-                  <label
-                    key={trail}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm font-bold"
-                  >
-                    <input type="checkbox" />
-                    {trail}
-                  </label>
-                ))}
-              </div>
-            </section>
+              <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-6">
+                <h2 className="text-2xl font-black text-white">
+                  Vsebine se dodajo samodejno
+                </h2>
 
-            <section className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
-              <p className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Povezani ponudniki
-              </p>
+                <p className="mt-4 text-sm leading-7 text-zinc-400">
+                  Ture, ponudniki, doživetja in znamenitosti se pri regiji ne
+                  izbirajo ročno. Ko bo pri posamezni turi, ponudniku,
+                  doživetju ali znamenitosti izbrana ta regija, se bo vsebina
+                  samodejno prikazala v kartici regije.
+                </p>
 
-              <div className="space-y-3">
-                {providers.map((provider) => (
-                  <label
-                    key={provider}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm font-bold"
-                  >
-                    <input type="checkbox" />
-                    {provider}
-                  </label>
-                ))}
-              </div>
-            </section>
+                <div className="mt-6 grid gap-3">
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="text-sm font-bold text-white">Ture</div>
+                    <div className="mt-1 text-sm text-zinc-500">
+                      Prikažejo se, ko ima tura izbrano to regijo.
+                    </div>
+                  </div>
 
-            <section className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
-              <p className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Povezana doživetja
-              </p>
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="text-sm font-bold text-white">Ponudniki</div>
+                    <div className="mt-1 text-sm text-zinc-500">
+                      Prikažejo se, ko ima ponudnik izbrano to regijo.
+                    </div>
+                  </div>
 
-              <div className="space-y-3">
-                {experiences.map((experience) => (
-                  <label
-                    key={experience}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm font-bold"
-                  >
-                    <input type="checkbox" />
-                    {experience}
-                  </label>
-                ))}
-              </div>
-            </section>
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="text-sm font-bold text-white">Doživetja</div>
+                    <div className="mt-1 text-sm text-zinc-500">
+                      Prikažejo se, ko ima doživetje izbrano to regijo.
+                    </div>
+                  </div>
 
-            <section className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
-              <p className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Povezane znamenitosti
-              </p>
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <div className="text-sm font-bold text-white">Znamenitosti</div>
+                    <div className="mt-1 text-sm text-zinc-500">
+                      Prikažejo se, ko ima znamenitost izbrano to regijo.
+                    </div>
+                  </div>
+                </div>
 
-              <div className="space-y-3">
-                {points.map((point) => (
-                  <label
-                    key={point}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm font-bold"
-                  >
-                    <input type="checkbox" />
-                    {point}
-                  </label>
-                ))}
+                <div className="mt-6 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
+                  Ambasador regije bo kasneje videl in urejal samo vsebine,
+                  ki pripadajo njegovi regiji.
+                </div>
               </div>
             </section>
           </div>
