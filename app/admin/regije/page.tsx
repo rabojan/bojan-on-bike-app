@@ -159,7 +159,7 @@ const totalPoints = regions.reduce((sum, region) => sum + region.points.length, 
 
 function ContentList({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
       <div className="mb-3 text-xs uppercase tracking-[0.2em] text-zinc-500">
         {title}
       </div>
@@ -208,30 +208,30 @@ export default function AdminRegionsPage() {
           </Link>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-5">
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">{regions.length}</div>
-            <div className="mt-2 text-sm text-zinc-400">vse regije</div>
+        <section className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+            <div className="text-3xl font-black sm:text-4xl">{regions.length}</div>
+            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vse regije</div>
           </div>
 
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">{totalTrails}</div>
-            <div className="mt-2 text-sm text-zinc-400">vse ture</div>
+          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+            <div className="text-3xl font-black sm:text-4xl">{totalTrails}</div>
+            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vse ture</div>
           </div>
 
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">{totalProviders}</div>
-            <div className="mt-2 text-sm text-zinc-400">vsi ponudniki</div>
+          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+            <div className="text-3xl font-black sm:text-4xl">{totalProviders}</div>
+            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vsi ponudniki</div>
           </div>
 
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">{totalExperiences}</div>
-            <div className="mt-2 text-sm text-zinc-400">vsa doživetja</div>
+          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+            <div className="text-3xl font-black sm:text-4xl">{totalExperiences}</div>
+            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vsa doživetja</div>
           </div>
 
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">{totalPoints}</div>
-            <div className="mt-2 text-sm text-zinc-400">vse znamenitosti</div>
+          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+            <div className="text-3xl font-black sm:text-4xl">{totalPoints}</div>
+            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vse znamenitosti</div>
           </div>
         </section>
 
@@ -276,23 +276,23 @@ export default function AdminRegionsPage() {
                     {region.description}
                   </p>
 
-                  <div className="mt-6 grid gap-3 sm:grid-cols-4">
-                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                  <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                       <div className="text-2xl font-black">{region.trails.length}</div>
                       <div className="mt-1 text-xs text-zinc-500">ture</div>
                     </div>
 
-                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                       <div className="text-2xl font-black">{region.providers.length}</div>
                       <div className="mt-1 text-xs text-zinc-500">ponudniki</div>
                     </div>
 
-                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                       <div className="text-2xl font-black">{region.experiences.length}</div>
                       <div className="mt-1 text-xs text-zinc-500">doživetja</div>
                     </div>
 
-                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                       <div className="text-2xl font-black">{region.points.length}</div>
                       <div className="mt-1 text-xs text-zinc-500">znamenitosti</div>
                     </div>
@@ -358,7 +358,7 @@ export default function AdminRegionsPage() {
                 </div>
               </div>
 
-              <div className="mt-6 grid gap-4 xl:grid-cols-4">
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <ContentList title="Ture v regiji" items={region.trails} />
                 <ContentList title="Ponudniki" items={region.providers} />
                 <ContentList title="Doživetja" items={region.experiences} />
