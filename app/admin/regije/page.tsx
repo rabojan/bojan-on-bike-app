@@ -182,6 +182,22 @@ function ContentList({ title, items }: { title: string; items: string[] }) {
   );
 }
 
+const regionAmbassadors: Record<
+  string,
+  { name: string; role: string; image?: string }[]
+> = {
+  stajerska: [
+    { name: "Bojan Ratej", role: "Ambasador regije" },
+    { name: "Ana Potočnik", role: "TOP ambasador regije" },
+  ],
+  koroska: [{ name: "Maja Kovač", role: "Ambasador regije" }],
+  gorenjska: [{ name: "Tomaž Zupan", role: "TOP ambasador regije" }],
+  primorska: [{ name: "Nina Furlan", role: "Ambasador regije" }],
+  notranjska: [{ name: "Rok Mlakar", role: "Ambasador regije" }],
+  dolenjska: [{ name: "Petra Novak", role: "Ambasador regije" }],
+  prekmurje: [{ name: "Matej Horvat", role: "Ambasador regije" }],
+};
+
 export default function AdminRegionsPage() {
   return (
     <AdminShell active="regije">
@@ -300,65 +316,60 @@ export default function AdminRegionsPage() {
                 </div>
 
                 <div className="grid gap-4">
-                  <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
-                    <div className="mb-4 text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-                      Ambasadorji
-                    </div>
-
-                    <div className="flex gap-4">
-                      <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/30 text-3xl">
-                        {region.ambassador.image ? (
-                          <img
-                            src={region.ambassador.image}
-                            alt={region.ambassador.name}
-                            className="h-full w-full rounded-2xl object-cover"
-                          />
-                        ) : (
-                          "👤"
-                        )}
-                      </div>
-
-                      <div>
-                        <div className="text-lg font-black text-white">
-                          {region.ambassador.name}
+                      <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+                        <div className="mb-4 text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                          Ambasadorji
                         </div>
-                        <div className="mt-1 text-sm text-zinc-400">
-                          {region.ambassador.location}
+
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          {(regionAmbassadors[region.slug] ?? []).map((ambassador) => (
+                            <div
+                              key={ambassador.name}
+                              className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-3"
+                            >
+                              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-[#07110b] text-2xl">
+                                {ambassador.image ? (
+                                  <img
+                                    src={ambassador.image}
+                                    alt={ambassador.name}
+                                    className="h-full w-full rounded-2xl object-cover"
+                                  />
+                                ) : (
+                                  "👤"
+                                )}
+                              </div>
+
+                              <div className="min-w-0">
+                                <div className="truncate text-sm font-black text-white">
+                                  {ambassador.name}
+                                </div>
+                                <div className="mt-1 truncate text-xs text-zinc-500">
+                                  {ambassador.role}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                        <div className="mt-3 grid gap-1 text-sm text-zinc-300">
-                          <div>{region.ambassador.email}</div>
-                          <div>{region.ambassador.phone}</div>
+
+                        <div className="mt-6 flex flex-wrap gap-3">
+                          <Link
+                            href={`/admin/regije/${region.slug}`}
+                            className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
+                          >
+                            Uredi regijo
+                          </Link>
+
+                          <Link
+                            href="/admin/ambasadorji"
+                            className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
+                          >
+                            Ambasadorji
+                          </Link>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
-                      <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">
-                        Status ambasadorja
-                      </div>
-                      <div className="mt-2 font-bold">{region.ambassador.status}</div>
-                    </div>
-
-                    <div className="mt-6 flex flex-wrap gap-3">
-                      <Link
-                        href={`/admin/regije/${region.slug}`}
-                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
-                      >
-                        Uredi
-                      </Link>
-
-                      <Link
-                        href={`/ture?pokrajina=${region.slug}`}
-                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
-                      >
-                        Predogled
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <ContentList title="Ture v regiji" items={region.trails} />
                 <ContentList title="Ponudniki" items={region.providers} />
                 <ContentList title="Doživetja" items={region.experiences} />
@@ -373,7 +384,7 @@ export default function AdminRegionsPage() {
             Naslednja faza
           </p>
           <h2 className="text-3xl font-black tracking-tight text-white">
-            Regije bodo povezane z ambasadorji.
+            Regije so povezane z ambasadorji.
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-8 text-zinc-400">
             Vsaka regija bo imela svojega lokalnega ambasadorja z imenom,
