@@ -65,9 +65,12 @@ export default function AdminProvidersPage() {
             </p>
           </div>
 
-          <button className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black">
+          <Link
+            href="/admin/ponudniki/nov"
+            className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
+          >
             + Dodaj ponudnika
-          </button>
+          </Link>
         </section>
 
         <section className="grid gap-4 md:grid-cols-4">
