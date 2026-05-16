@@ -107,6 +107,14 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
             >
               Ponudniki
             </Link>
+
+          <Link
+            href="/znamenitosti"
+            onClick={() => setMenuOpen(false)}
+            className="border-b border-white/10 py-7 text-4xl font-black text-white"
+          >
+            Znamenitosti
+          </Link>
           </nav>
         </div>
       )}
