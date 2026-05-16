@@ -101,7 +101,14 @@ export default function Home() {
 
             <PageHero
         eyebrow="Slovenija · MTB · gravel · bikepacking · doživetja"
-        title="Odkrij Slovenijo skozi kolo."
+        title={
+          <>
+            Odkrij Slovenijo
+            <br className="hidden md:block" />
+            <span className="md:hidden"> </span>
+            skozi kolo.
+          </>
+        }
         description="Premium spletna platforma za odkrivanje kolesarskih tur, pokrajin, lokalnih ponudnikov in doživetij ob poti."
         image="/home-hero-desktop.png"
         mobileImage="/home-hero-mobile.png"
