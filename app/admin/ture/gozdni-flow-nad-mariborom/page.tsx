@@ -323,15 +323,36 @@ export default function EditTrailPage() {
                 Slike in galerija
               </div>
 
-              <label className="space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">
-                  Hero slika URL
-                </span>
-                <input
-                  defaultValue="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop"
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none focus:border-[#c58b46]/60"
-                />
-              </label>
+              <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]">
+                <div className="flex min-h-[240px] items-center justify-center bg-black/20 p-8 text-center">
+                  <div>
+                    <div className="text-5xl">🖼️</div>
+                    <div className="mt-4 text-xl font-black">
+                      Naloži hero sliko ture
+                    </div>
+                    <p className="mt-3 max-w-sm text-sm leading-7 text-zinc-400">
+                      To je glavna slika ture, ki se pokaže na vrhu strani in v
+                      katalogu tur.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border-t border-white/10 p-5">
+                  <label className="flex cursor-pointer items-center justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black transition hover:opacity-90">
+                    Izberi hero sliko
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      className="hidden"
+                    />
+                  </label>
+
+                  <div className="mt-4 text-center text-xs leading-6 text-zinc-500">
+                    Podprto: JPG, PNG, WEBP. Kasneje bo slika shranjena v
+                    Supabase Storage.
+                  </div>
+                </div>
+              </div>
 
               <div className="mt-6 space-y-4">
                 {galleryImages.map((image, index) => (
@@ -352,10 +373,27 @@ export default function EditTrailPage() {
                       </div>
                     </div>
 
-                    <input
-                      defaultValue={image.url}
-                      className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-xs outline-none focus:border-[#c58b46]/60"
-                    />
+                    <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#07110b]">
+                      <div className="flex min-h-[170px] items-center justify-center bg-black/20 p-6 text-center">
+                        <div>
+                          <div className="text-4xl">📷</div>
+                          <div className="mt-3 text-sm font-bold">
+                            Naloži galerijsko sliko
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="border-t border-white/10 p-4">
+                        <label className="flex cursor-pointer items-center justify-center rounded-full border border-white/10 px-4 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white">
+                          Izberi sliko
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -462,11 +500,30 @@ export default function EditTrailPage() {
                         className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm leading-7 outline-none focus:border-[#c58b46]/60"
                       />
 
-                      <input
-                        defaultValue={moment.image}
-                        placeholder="URL slike"
-                        className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-xs outline-none focus:border-[#c58b46]/60"
-                      />
+                      <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#07110b]">
+                        <div className="flex min-h-[180px] items-center justify-center bg-black/20 p-6 text-center">
+                          <div>
+                            <div className="text-4xl">📷</div>
+                            <div className="mt-3 text-sm font-bold">
+                              Naloži sliko trenutka
+                            </div>
+                            <p className="mt-2 text-xs leading-6 text-zinc-500">
+                              Slika za ta del doživetja na turi.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="border-t border-white/10 p-4">
+                          <label className="flex cursor-pointer items-center justify-center rounded-full border border-white/10 px-4 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white">
+                            Izberi sliko
+                            <input
+                              type="file"
+                              accept="image/jpeg,image/png,image/webp"
+                              className="hidden"
+                            />
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
