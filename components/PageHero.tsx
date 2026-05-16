@@ -5,6 +5,7 @@ type PageHeroProps = {
   title: string;
   description: string;
   image: string;
+  mobileImage?: string;
   imageAlt: string;
   ctaHref?: string;
   ctaLabel?: string;
@@ -18,6 +19,7 @@ export default function PageHero({
   title,
   description,
   image,
+  mobileImage,
   imageAlt,
   ctaHref,
   ctaLabel,
@@ -27,12 +29,17 @@ export default function PageHero({
 }: PageHeroProps) {
   return (
     <section className="relative min-h-[680px] overflow-hidden border-b border-white/10 md:min-h-[720px]">
-      <img
-        src={image}
-        alt={imageAlt}
-        className="absolute inset-0 h-full w-full object-cover opacity-55"
-        style={{ objectPosition: imagePosition }}
-      />
+      <picture>
+        {mobileImage ? (
+          <source media="(max-width: 767px)" srcSet={mobileImage} />
+        ) : null}
+        <img
+          src={image}
+          alt={imageAlt}
+          className="absolute inset-0 h-full w-full object-cover opacity-55"
+          style={{ objectPosition: imagePosition }}
+        />
+      </picture>
 
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-[#07110b]/55 to-[#07110b]" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/72 via-[#07110b]/28 to-transparent" />
