@@ -54,6 +54,17 @@ const filters = [
   "Foto točka",
 ];
 
+const regions = [
+  "Vse regije",
+  "Štajerska",
+  "Gorenjska",
+  "Primorska",
+  "Koroška",
+  "Notranjska",
+  "Dolenjska",
+  "Prekmurje",
+];
+
 export default function AttractionsPage() {
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
@@ -98,19 +109,46 @@ export default function AttractionsPage() {
           </h2>
         </div>
 
-        <div className="mb-10 flex gap-3 overflow-x-auto pb-2">
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold ${
-                filter === "Vse"
-                  ? "border-[#c58b46] bg-[#c58b46] text-black"
-                  : "border-white/10 bg-black/20 text-zinc-300"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
+        <div className="mb-8">
+          <div className="mb-4 text-xs uppercase tracking-[0.35em] text-zinc-500">
+            Tip znamenitosti
+          </div>
+
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold ${
+                  filter === "Vse"
+                    ? "border-[#c58b46] bg-[#c58b46] text-black"
+                    : "border-white/10 bg-black/20 text-zinc-300"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-10">
+          <div className="mb-4 text-xs uppercase tracking-[0.35em] text-zinc-500">
+            Regija
+          </div>
+
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {regions.map((region) => (
+              <button
+                key={region}
+                className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold ${
+                  region === "Vse regije"
+                    ? "border-[#c58b46] bg-[#c58b46] text-black"
+                    : "border-white/10 bg-black/20 text-zinc-300"
+                }`}
+              >
+                {region}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="grid items-stretch gap-8 md:grid-cols-3">
