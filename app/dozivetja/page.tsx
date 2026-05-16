@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import SiteHeader from "@/components/SiteHeader";
+import PageHero from "@/components/PageHero";
 
 const experiences = [
   {
@@ -46,39 +47,16 @@ export default function DozivetjaPage() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/" active="dozivetja" />
 
-      <section className="relative flex min-h-[calc(100svh-76px)] items-center overflow-hidden pt-20 md:min-h-[720px]">
-        <img
-          src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop"
-          alt="Veselo druženje po kolesarski turi"
-          className="absolute inset-0 h-full w-full object-cover opacity-55"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-[#07110b]/55 to-[#07110b]" />
-
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-5 py-20 md:px-6 md:py-24">
-          <div className="max-w-4xl">
-            <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-              Doživetja ob poti
-            </div>
-
-            <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-7xl lg:text-8xl">
-              Tura je šele začetek lepega dne.
-            </h1>
-
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
-              Tukaj najdeš skrbno izbrane kolesarske ideje, kjer se vožnja
-              poveže z razgledi, lokalno hrano, vinom, druženjem in zgodbami
-              krajev.
-            </p>
-
-            <Link
-              href="/ture"
-              className="mt-8 inline-flex rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
-            >
-              Odkrij ture
-            </Link>
-          </div>
-        </div>
-      </section>
+            <PageHero
+        eyebrow="Doživetja ob poti"
+        title="Tura je šele začetek lepega dne."
+        description="Tukaj najdeš skrbno izbrane kolesarske ideje, kjer se vožnja poveže z razgledi, lokalno hrano, vinom, druženjem in zgodbami krajev."
+        image="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop"
+        imageAlt="Kolesarsko doživetje v naravi"
+        ctaHref="/ture"
+        ctaLabel="Odkrij ture"
+        imagePosition="center"
+      />
 
       <section className="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-24">
         <div className="mb-12 max-w-3xl">

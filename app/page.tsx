@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
+import PageHero from "@/components/PageHero";
 
 const menuItems = [
   { label: "Ture", href: "/ture" },
@@ -98,51 +99,18 @@ export default function Home() {
 
       
 
-      <section className="relative flex min-h-[calc(100svh-76px)] items-center overflow-hidden pt-20 md:min-h-[720px]">
-        <img
-          src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&fm=jpg&q=85&w=3000"
-          alt="MTB kolesar na gozdni poti"
-          className="absolute inset-0 h-full w-full object-cover object-[42%_center] opacity-70 md:object-center"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07110b]/85 via-[#07110b]/55 to-[#07110b]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/85 via-[#07110b]/35 to-transparent" />
-
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-28">
-          <div className="max-w-3xl">
-            <div className="mb-6 inline-flex rounded-full border border-[#c58b46]/30 bg-[#c58b46]/15 px-4 py-2 text-sm text-[#f4d7ad] backdrop-blur">
-              Slovenija • MTB • gravel • bikepacking • doživetja
-            </div>
-
-            <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-7xl lg:text-8xl">
-              Odkrij Slovenijo
-              <br />
-              skozi kolo.
-            </h1>
-
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
-              Premium spletna platforma za odkrivanje kolesarskih tur,
-              pokrajin, lokalnih ponudnikov in doživetij ob poti.
-            </p>
-
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <a
-                href="/ture"
-                className="rounded-full bg-[#c58b46] px-8 py-4 text-center font-semibold text-black transition hover:bg-[#d9a35d]"
-              >
-                Razišči ture
-              </a>
-
-              <a
-                href="#pokrajine"
-                className="rounded-full border border-white/20 bg-black/25 px-8 py-4 text-center font-semibold text-white backdrop-blur transition hover:bg-white/10"
-              >
-                Odkrij pokrajine
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+            <PageHero
+        eyebrow="Slovenija · MTB · gravel · bikepacking · doživetja"
+        title="Odkrij Slovenijo skozi kolo."
+        description="Premium spletna platforma za odkrivanje kolesarskih tur, pokrajin, lokalnih ponudnikov in doživetij ob poti."
+        image="https://images.unsplash.com/photo-1593764592116-bfb2a97c642a?q=80&w=1800&auto=format&fit=crop"
+        imageAlt="Kolesar v gozdu"
+        ctaHref="/ture"
+        ctaLabel="Razišči ture"
+        secondaryHref="#pokrajine"
+        secondaryLabel="Odkrij pokrajine"
+        imagePosition="center"
+      />
 
       <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-8">
         <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-3">

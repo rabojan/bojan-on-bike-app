@@ -3,6 +3,7 @@
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import { useMemo, useState } from "react";
+import PageHero from "@/components/PageHero";
 
 const regions = ["Vse", "Štajerska", "Gorenjska", "Primorska", "Koroška", "Notranjska", "Dolenjska", "Prekmurje"];
 const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
@@ -79,28 +80,14 @@ export default function ToursPage() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/" active="ture" />
 
-      <section className="relative flex min-h-[560px] items-end overflow-hidden px-6 pb-20 pt-28">
-        <img
-          src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop"
-          alt="Kolesarske ture"
-          className="absolute inset-0 h-full w-full object-cover opacity-55"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#07110b]/65 to-[#07110b]" />
-
-        <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <div className="mb-4 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-            Katalog tur
-          </div>
-
-          <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-7xl lg:text-8xl">
-            Najdi svojo naslednjo kolesarsko avanturo.
-          </h1>
-
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
-            Filtriraj ture po pokrajini in težavnosti. Vsaka tura je zasnovana kot doživetje: trasa, podlaga, vreme, eBike doseg in ponudniki ob poti.
-          </p>
-        </div>
-      </section>
+            <PageHero
+        eyebrow="Katalog tur"
+        title="Najdi svojo naslednjo kolesarsko avanturo."
+        description="Filtriraj ture po pokrajini in težavnosti. Vsaka tura je zasnovana kot doživetje: trasa, podlaga, vreme, eBike doseg in ponudniki ob poti."
+        image="https://images.unsplash.com/photo-1593764592116-bfb2a97c642a?q=80&w=1800&auto=format&fit=crop"
+        imageAlt="Kolesarska tura skozi gozd"
+        imagePosition="center"
+      />
 
       <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-10">
         <div className="mx-auto max-w-6xl space-y-8">

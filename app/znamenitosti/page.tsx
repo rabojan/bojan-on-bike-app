@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import SiteHeader from "@/components/SiteHeader";
+import PageHero from "@/components/PageHero";
 
 const attractions = [
   {
@@ -88,44 +89,14 @@ export default function AttractionsPage() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/" active="znamenitosti" />
 
-      <section className="relative flex min-h-[calc(100svh-76px)] items-center overflow-hidden pt-20 md:min-h-[720px]">
-        <img
-          src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop"
-          alt="Znamenitosti ob kolesarskih poteh"
-          className="absolute inset-0 h-full w-full object-cover opacity-55"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-[#07110b]/55 to-[#07110b]" />
-
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-5 py-20 md:px-6 md:py-24">
-          <div className="max-w-4xl">
-            <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-              Znamenitosti ob poteh
-            </div>
-
-            <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-7xl lg:text-8xl">
-              Včasih je razlog za turo ena sama točka.
-            </h1>
-
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
-              Razgledi, slapovi, gozdne poti, zgodovinske točke in lokalne
-              zgodbe. Izberi, kaj želiš videti — in odkrij ture, ki te peljejo
-              mimo.
-            </p>
-          </div>
-        </div>
-
-        {filteredAttractions.length === 0 && (
-          <div className="mt-10 rounded-[28px] border border-white/10 bg-black/20 p-8 text-center">
-            <div className="text-3xl font-black">
-              Za ta izbor še ni znamenitosti.
-            </div>
-            <p className="mt-4 text-zinc-400">
-              Poskusi izbrati drugo regijo ali drug tip znamenitosti.
-            </p>
-          </div>
-        )}
-      </section>
+            <PageHero
+        eyebrow="Znamenitosti ob poteh"
+        title="Včasih je razlog za turo ena sama točka."
+        description="Razgledi, slapovi, gozdne poti, zgodovinske točke in lokalne zgodbe. Izberi, kaj želiš videti — in odkrij ture, ki te peljejo mimo."
+        image="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop"
+        imageAlt="Znamenitosti ob kolesarskih poteh"
+        imagePosition="center"
+      />
 
       <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
         <div className="mb-10">

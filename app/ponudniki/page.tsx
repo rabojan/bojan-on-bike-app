@@ -3,6 +3,7 @@
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import { useMemo, useState } from "react";
+import PageHero from "@/components/PageHero";
 
 const filters = ["Vsi", "Kulinarika", "Vino", "Prenočišče"];
 
@@ -73,30 +74,14 @@ export default function ProvidersPage() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/" active="ponudniki" />
 
-      <section className="relative flex min-h-[620px] items-end overflow-hidden px-6 pb-24 pt-32">
-        <img
-          src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1800&auto=format&fit=crop"
-          alt="Ponudniki ob kolesarskih turah"
-          className="absolute inset-0 h-full w-full object-cover opacity-40"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#07110b]/70 to-[#07110b]" />
-
-        <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <div className="mb-4 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-            Ponudniki ob poti
-          </div>
-
-          <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-7xl lg:text-8xl">
-            Kjer se tura spremeni v doživetje.
-          </h1>
-
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
-            Kulinarika, vino in prenočišča ob izbranih kolesarskih turah po
-            Sloveniji.
-          </p>
-        </div>
-      </section>
+            <PageHero
+        eyebrow="Ponudniki ob poti"
+        title="Kjer se tura spremeni v doživetje."
+        description="Kulinarika, vino in prenočišča ob izbranih kolesarskih turah po Sloveniji."
+        image="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1800&auto=format&fit=crop"
+        imageAlt="Druženje ob hrani po kolesarski turi"
+        imagePosition="center"
+      />
 
       <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-10">
         <div className="mx-auto max-w-7xl">
