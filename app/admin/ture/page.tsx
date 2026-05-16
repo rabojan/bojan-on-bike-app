@@ -67,9 +67,12 @@ export default function AdminTrailsPage() {
             </p>
           </div>
 
-          <button className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black">
+          <Link
+            href="/admin/ture/nova"
+            className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
+          >
             + Dodaj novo turo
-          </button>
+          </Link>
         </section>
 
         <section className="grid gap-4 md:grid-cols-4">
