@@ -57,11 +57,7 @@ export default function NewPoiPage() {
               ob poti.
             </p>
 
-            <div className="mt-5 rounded-2xl border border-[#c58b46]/30 bg-[#c58b46]/10 p-4 text-sm leading-7 text-[#f4d7ad]">
-              Obvezna polja za objavo: ime, regija, tip, kratek opis, slika,
-              lokacija in status. Brez teh podatkov vsebina kasneje ne bo mogla
-              biti objavljena.
-            </div>
+            
           </div>
 
           <div className="flex flex-wrap gap-3">
