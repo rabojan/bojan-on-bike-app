@@ -191,80 +191,24 @@ export default function NewRegionPage() {
           <div className="space-y-6">
             <section className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
               <p className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Ambasador regije
+                Ambasadorji regije
               </p>
 
-              <div className="grid gap-5">
-                <div className="rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
-                  <div className="text-4xl">👤</div>
-                  <h2 className="mt-4 text-xl font-black text-white">
-                    Fotografija ambasadorja
-                  </h2>
-                  <p className="mt-3 text-sm leading-6 text-zinc-500">
-                    Portret lokalnega ambasadorja regije.
-                  </p>
+              <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-6">
+                <h2 className="text-2xl font-black text-white">
+                  Ambasadorje povežeš kasneje
+                </h2>
 
-                  <label className="mt-5 inline-flex cursor-pointer rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/50 hover:text-white">
-                    Izberi sliko
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      className="hidden"
-                    />
-                  </label>
+                <p className="mt-4 text-sm leading-7 text-zinc-400">
+                  Pri ustvarjanju regije ne vnašamo ambasadorjev ročno. Najprej
+                  ustvari regijo, nato pa v modulu Ambasadorji dodaš osebe in
+                  jih povežeš z eno ali več regijami.
+                </p>
+
+                <div className="mt-6 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
+                  Ena regija ima lahko več ambasadorjev. En ambasador pa lahko
+                  pokriva več regij.
                 </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <label className="block">
-                    <span className="mb-2 block text-sm font-bold text-zinc-300">
-                      Ime in priimek
-                    </span>
-                    <input
-                      className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                      placeholder="npr. Bojan Ratej"
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className="mb-2 block text-sm font-bold text-zinc-300">
-                      Kraj
-                    </span>
-                    <input
-                      className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                      placeholder="npr. Maribor"
-                    />
-                  </label>
-                </div>
-
-                <label className="block">
-                  <span className="mb-2 block text-sm font-bold text-zinc-300">
-                    Email
-                  </span>
-                  <input
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                    placeholder="ime@bojanonbike.si"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="mb-2 block text-sm font-bold text-zinc-300">
-                    Telefon
-                  </span>
-                  <input
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                    placeholder="+386 ..."
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="mb-2 block text-sm font-bold text-zinc-300">
-                    Kratek opis ambasadorja
-                  </span>
-                  <textarea
-                    className="min-h-32 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                    placeholder="Lokalni poznavalec regije, najljubše poti, zakaj priporoča to pokrajino..."
-                  />
-                </label>
               </div>
             </section>
 
