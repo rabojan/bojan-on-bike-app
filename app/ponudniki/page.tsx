@@ -87,11 +87,11 @@ export default function ProvidersPage() {
             Ponudniki ob poti
           </div>
 
-          <h1 className="max-w-5xl text-6xl font-black leading-tight md:text-8xl">
+          <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-7xl lg:text-8xl">
             Kjer se tura spremeni v doživetje.
           </h1>
 
-          <p className="mt-8 max-w-3xl text-xl leading-9 text-zinc-300">
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
             Kulinarika, vino in prenočišča ob izbranih kolesarskih turah po
             Sloveniji.
           </p>

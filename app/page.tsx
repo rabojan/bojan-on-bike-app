@@ -98,7 +98,7 @@ export default function Home() {
 
       
 
-      <section className="relative flex min-h-screen items-center overflow-hidden">
+      <section className="relative flex min-h-[calc(100svh-76px)] items-center overflow-hidden pt-20 md:min-h-[720px]">
         <img
           src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&fm=jpg&q=85&w=3000"
           alt="MTB kolesar na gozdni poti"
@@ -114,13 +114,13 @@ export default function Home() {
               Slovenija • MTB • gravel • bikepacking • doživetja
             </div>
 
-            <h1 className="mb-7 text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">
+            <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-7xl lg:text-8xl">
               Odkrij Slovenijo
               <br />
               skozi kolo.
             </h1>
 
-            <p className="mb-10 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl">
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
               Premium spletna platforma za odkrivanje kolesarskih tur,
               pokrajin, lokalnih ponudnikov in doživetij ob poti.
             </p>

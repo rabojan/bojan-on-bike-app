@@ -83,7 +83,7 @@ export default function ToursPage() {
         <img
           src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop"
           alt="Kolesarske ture"
-          className="absolute inset-0 h-full w-full object-cover opacity-45"
+          className="absolute inset-0 h-full w-full object-cover opacity-55"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#07110b]/65 to-[#07110b]" />
 
@@ -92,11 +92,11 @@ export default function ToursPage() {
             Katalog tur
           </div>
 
-          <h1 className="max-w-5xl text-5xl font-black leading-tight md:text-7xl">
+          <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.04em] md:text-7xl lg:text-8xl">
             Najdi svojo naslednjo kolesarsko avanturo.
           </h1>
 
-          <p className="mt-8 max-w-3xl text-lg leading-8 text-zinc-300">
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
             Filtriraj ture po pokrajini in težavnosti. Vsaka tura je zasnovana kot doživetje: trasa, podlaga, vreme, eBike doseg in ponudniki ob poti.
           </p>
         </div>
