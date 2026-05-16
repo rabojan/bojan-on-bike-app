@@ -246,7 +246,7 @@ export default function NewAmbassadorPage() {
                   <span>
                     Ambasador regije
                     <span className="mt-1 block text-xs font-normal leading-5 text-zinc-500">
-                      Osnovna enakovredna vloga za ambasadorje izbrane regije.
+                      Osnovna enakovredna vloga za ambasadorje izbranih regij.
                     </span>
                   </span>
                 </label>
@@ -263,7 +263,7 @@ export default function NewAmbassadorPage() {
               </div>
 
               <div className="mt-6 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
-                Vsi ambasadorji iste regije so enakovredni. TOP oznaka je samo izpostavitev, ne hierarhija.
+                Ambasadorji so enakovredni. TOP oznaka je samo izpostavitev prispevka, ne hierarhija.
               </div>
             </section>
 
