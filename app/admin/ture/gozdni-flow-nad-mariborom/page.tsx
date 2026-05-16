@@ -6,15 +6,93 @@ import { useState } from "react";
 import AdminShell from "@/components/AdminShell";
 
 const providers = [
-  "Rudijev dom na Pohorju",
-  "Gorska hiša Pohorje",
-  "Vinska klet med griči",
+  {
+    name: "Rudijev dom na Pohorju",
+    role: "Kosilo / postanek",
+    distance: "ob trasi",
+    selected: true,
+  },
+  {
+    name: "Gorska hiša Pohorje",
+    role: "Prenočišče / e-bike polnilnica",
+    distance: "500 m od trase",
+    selected: true,
+  },
+  {
+    name: "Vinska klet med griči",
+    role: "Vino / kulinarika",
+    distance: "ni na tej turi",
+    selected: false,
+  },
 ];
 
 const pois = [
-  "Razgled nad Mariborom",
-  "Pohorski gozdni odsek",
-  "Stara planinska pot",
+  {
+    name: "Razgled nad Mariborom",
+    type: "Razgled",
+    distance: "200 m od trase",
+    wikipedia: "",
+    selected: true,
+  },
+  {
+    name: "Pohorski gozdni odsek",
+    type: "Narava",
+    distance: "na trasi",
+    wikipedia: "",
+    selected: false,
+  },
+  {
+    name: "Stara planinska pot",
+    type: "Zgodovina",
+    distance: "700 m od trase",
+    wikipedia: "https://sl.wikipedia.org/",
+    selected: false,
+  },
+];
+
+const moments = [
+  {
+    title: "Vstop v pohorski gozd",
+    location: "4 km",
+    type: "Začetek doživetja",
+    description:
+      "Ko mesto ostane za teboj in se začne tišina pohorskega gozda.",
+    image:
+      "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    title: "Razgled nad Mariborom",
+    location: "13 km",
+    type: "Razgled",
+    description:
+      "Kratek postanek z odprtim pogledom proti mestu in Dravski dolini.",
+    image:
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    title: "Flow spust skozi gozd",
+    location: "24 km",
+    type: "Spust",
+    description:
+      "Najbolj igriv del ture, kjer pot steče skozi gozdne ovinke.",
+    image:
+      "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=1200&auto=format&fit=crop",
+  },
+];
+
+const galleryImages = [
+  {
+    title: "Hero slika ture",
+    url: "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop",
+  },
+  {
+    title: "Razgled / trenutek",
+    url: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    title: "Gozdni flow",
+    url: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=1200&auto=format&fit=crop",
+  },
 ];
 
 export default function EditTrailPage() {
@@ -243,6 +321,65 @@ export default function EditTrailPage() {
           <div className="space-y-6">
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                Doživetveni trenutki ture
+              </div>
+
+              <div className="space-y-5">
+                {moments.map((moment, index) => (
+                  <div
+                    key={moment.title}
+                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
+                  >
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div className="font-bold">Trenutek {index + 1}</div>
+                      <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
+                        {moment.location}
+                      </div>
+                    </div>
+
+                    <div className="grid gap-3">
+                      <input
+                        defaultValue={moment.title}
+                        className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                      />
+
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <input
+                          defaultValue={moment.location}
+                          placeholder="km / lokacija"
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+
+                        <input
+                          defaultValue={moment.type}
+                          placeholder="tip trenutka"
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </div>
+
+                      <textarea
+                        defaultValue={moment.description}
+                        rows={3}
+                        className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm leading-7 outline-none focus:border-[#c58b46]/60"
+                      />
+
+                      <input
+                        defaultValue={moment.image}
+                        placeholder="URL slike"
+                        className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-xs outline-none focus:border-[#c58b46]/60"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
+                + Dodaj trenutek
+              </button>
+            </div>
+
+            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
+              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
                 Status objave
               </div>
 
@@ -285,7 +422,7 @@ export default function EditTrailPage() {
 
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Slike
+                Slike in galerija
               </div>
 
               <label className="space-y-2">
@@ -298,8 +435,40 @@ export default function EditTrailPage() {
                 />
               </label>
 
-              <div className="mt-5 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm text-zinc-400">
-                Galerija bo kasneje omogočala več slik, vrstni red in brisanje.
+              <div className="mt-6 space-y-4">
+                {galleryImages.map((image, index) => (
+                  <div
+                    key={image.title}
+                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
+                  >
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <div>
+                        <div className="text-sm font-bold">{image.title}</div>
+                        <div className="mt-1 text-xs text-zinc-500">
+                          Slika {index + 1}
+                        </div>
+                      </div>
+
+                      <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
+                        vrstni red
+                      </div>
+                    </div>
+
+                    <input
+                      defaultValue={image.url}
+                      className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-xs outline-none focus:border-[#c58b46]/60"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
+                + Dodaj sliko
+              </button>
+
+              <div className="mt-5 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm leading-7 text-zinc-400">
+                Za zdaj vnašamo URL slike. Kasneje bo tukaj pravi upload v
+                Supabase Storage, urejanje vrstnega reda in brisanje slik.
               </div>
             </div>
 
@@ -308,17 +477,45 @@ export default function EditTrailPage() {
                 Ponudniki ob trasi
               </div>
 
-              <div className="space-y-3">
-                {providers.map((provider, index) => (
-                  <label
-                    key={provider}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-4"
+              <div className="space-y-4">
+                {providers.map((provider) => (
+                  <div
+                    key={provider.name}
+                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
                   >
-                    <input type="checkbox" defaultChecked={index < 2} />
-                    <span>{provider}</span>
-                  </label>
+                    <label className="flex items-center gap-3">
+                      <input type="checkbox" defaultChecked={provider.selected} />
+                      <span className="font-bold">{provider.name}</span>
+                    </label>
+
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <label className="space-y-2">
+                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                          Vloga na turi
+                        </span>
+                        <input
+                          defaultValue={provider.role}
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+
+                      <label className="space-y-2">
+                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                          Oddaljenost
+                        </span>
+                        <input
+                          defaultValue={provider.distance}
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+                    </div>
+                  </div>
                 ))}
               </div>
+
+              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
+                + Poveži ponudnika
+              </button>
             </div>
 
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
@@ -326,17 +523,56 @@ export default function EditTrailPage() {
                 Znamenitosti ob trasi
               </div>
 
-              <div className="space-y-3">
-                {pois.map((poi, index) => (
-                  <label
-                    key={poi}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-4"
+              <div className="space-y-4">
+                {pois.map((poi) => (
+                  <div
+                    key={poi.name}
+                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
                   >
-                    <input type="checkbox" defaultChecked={index < 1} />
-                    <span>{poi}</span>
-                  </label>
+                    <label className="flex items-center gap-3">
+                      <input type="checkbox" defaultChecked={poi.selected} />
+                      <span className="font-bold">{poi.name}</span>
+                    </label>
+
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <label className="space-y-2">
+                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                          Tip
+                        </span>
+                        <input
+                          defaultValue={poi.type}
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+
+                      <label className="space-y-2">
+                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                          Oddaljenost
+                        </span>
+                        <input
+                          defaultValue={poi.distance}
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+
+                      <label className="space-y-2 sm:col-span-2">
+                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                          Wikipedia povezava
+                        </span>
+                        <input
+                          defaultValue={poi.wikipedia}
+                          placeholder="https://sl.wikipedia.org/..."
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+                    </div>
+                  </div>
                 ))}
               </div>
+
+              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
+                + Poveži znamenitost
+              </button>
             </div>
           </div>
         </section>
