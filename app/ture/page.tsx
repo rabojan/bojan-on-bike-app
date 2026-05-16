@@ -2,10 +2,22 @@
 
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageHero from "@/components/PageHero";
 
 const regions = ["Vse", "Štajerska", "Gorenjska", "Primorska", "Koroška", "Notranjska", "Dolenjska", "Prekmurje"];
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/š/g, "s")
+    .replace(/č/g, "c")
+    .replace(/ž/g, "z")
+    .replace(/ć/g, "c")
+    .replace(/đ/g, "d")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
 
 const tours = [
@@ -66,6 +78,22 @@ function SurfaceBar({ label, value }: { label: string; value: number }) {
 
 export default function ToursPage() {
   const [activeRegion, setActiveRegion] = useState("Vse");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const regionFromUrl = params.get("pokrajina") || params.get("regija");
+
+    if (!regionFromUrl) return;
+
+    const matchedRegion = regions.find(
+      (region) => slugify(region) === regionFromUrl
+    );
+
+    if (matchedRegion) {
+      setActiveRegion(matchedRegion);
+    }
+  }, []);
+
   const [activeDifficulty, setActiveDifficulty] = useState("Vse");
 
   const filteredTours = useMemo(() => {
