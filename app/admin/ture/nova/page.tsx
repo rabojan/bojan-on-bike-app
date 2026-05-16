@@ -5,6 +5,33 @@ import { useState } from "react";
 
 import AdminShell from "@/components/AdminShell";
 
+const emptyHighlights = [
+  {
+    label: "Poudarek 1",
+    titlePlaceholder: "npr. Vstop v gozd",
+    locationPlaceholder: "npr. 4 km",
+    typePlaceholder: "npr. Narava",
+    descriptionPlaceholder:
+      "Kratek stavek, ki uporabniku hitro pove, zakaj je ta del poti poseben.",
+  },
+  {
+    label: "Poudarek 2",
+    titlePlaceholder: "npr. Razgled nad dolino",
+    locationPlaceholder: "npr. 13 km",
+    typePlaceholder: "npr. Razgled",
+    descriptionPlaceholder:
+      "Kratek opis razgleda, postanka, občutka ali posebnosti na poti.",
+  },
+  {
+    label: "Poudarek 3",
+    titlePlaceholder: "npr. Flow spust",
+    locationPlaceholder: "npr. 24 km",
+    typePlaceholder: "npr. Spust",
+    descriptionPlaceholder:
+      "Kratek opis zaključnega poudarka, spusta, ponudnika ali zgodbe ob poti.",
+  },
+];
+
 export default function NewTrailPage() {
   const [status, setStatus] = useState("Osnutek");
 
@@ -21,7 +48,7 @@ export default function NewTrailPage() {
 
             <p className="mt-5 max-w-3xl leading-8 text-zinc-400">
               Tukaj boš ustvaril novo kolesarsko turo: osnovne podatke, GPX,
-              podlago, zgodbo, slike, ponudnike in znamenitosti ob trasi.
+              podlago, zgodbo, poudarke poti, slike, ponudnike in znamenitosti.
             </p>
           </div>
 
@@ -241,13 +268,99 @@ export default function NewTrailPage() {
                 </div>
               </div>
 
+              <div className="mt-6 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm leading-7 text-zinc-400">
+                Galerija je namenjena dodatnim utrinkom s ture. Glavne 3–4
+                vsebinske točke ture urejaš posebej v razdelku Poudarki poti.
+              </div>
+
               <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
-                + Dodaj galerijsko sliko
+                + Dodaj sliko v galerijo
               </button>
+
+              <div className="mt-5 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm leading-7 text-zinc-400">
+                To je upload UI prototip. Kasneje boš tukaj slike dejansko
+                naložil v Supabase Storage, urejal vrstni red in brisal slike.
+              </div>
             </div>
           </div>
 
           <div className="space-y-6">
+            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
+              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                Poudarki poti
+              </div>
+
+              <div className="space-y-5">
+                {emptyHighlights.map((highlight, index) => (
+                  <div
+                    key={highlight.label}
+                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
+                  >
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div className="font-bold">{highlight.label}</div>
+                      <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
+                        vrstni red {index + 1}
+                      </div>
+                    </div>
+
+                    <div className="grid gap-3">
+                      <input
+                        placeholder={highlight.titlePlaceholder}
+                        className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                      />
+
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <input
+                          placeholder={highlight.locationPlaceholder}
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+
+                        <input
+                          placeholder={highlight.typePlaceholder}
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </div>
+
+                      <textarea
+                        placeholder={highlight.descriptionPlaceholder}
+                        rows={3}
+                        className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm leading-7 outline-none focus:border-[#c58b46]/60"
+                      />
+
+                      <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#07110b]">
+                        <div className="flex min-h-[180px] items-center justify-center bg-black/20 p-6 text-center">
+                          <div>
+                            <div className="text-4xl">📷</div>
+                            <div className="mt-3 text-sm font-bold">
+                              Naloži sliko poudarka
+                            </div>
+                            <p className="mt-2 text-xs leading-6 text-zinc-500">
+                              Slika za ta poudarek poti.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="border-t border-white/10 p-4">
+                          <label className="flex cursor-pointer items-center justify-center rounded-full border border-white/10 px-4 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white">
+                            Izberi sliko
+                            <input
+                              type="file"
+                              accept="image/jpeg,image/png,image/webp"
+                              className="hidden"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
+                + Dodaj poudarek
+              </button>
+            </div>
+
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
                 Status objave
@@ -288,25 +401,6 @@ export default function NewTrailPage() {
                   Izberi GPX
                   <input type="file" accept=".gpx" className="hidden" />
                 </label>
-              </div>
-            </div>
-
-            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Poudarki poti
-              </div>
-
-              <div className="rounded-2xl border border-dashed border-white/20 bg-black/20 p-6 text-center">
-                <div className="text-3xl">✨</div>
-                <div className="mt-3 font-bold">Dodaj prvi poudarek</div>
-                <p className="mt-3 text-sm leading-7 text-zinc-400">
-                  Dodaj 3–4 glavne stvari, zaradi katerih si uporabnik hitro ustvari
-                  predstavo o poti: razgled, gozd, spust, postanek ali lokalna zgodba.
-                </p>
-
-                <button className="mt-5 rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
-                  + Dodaj poudarek
-                </button>
               </div>
             </div>
 
