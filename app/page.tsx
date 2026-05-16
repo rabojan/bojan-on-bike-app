@@ -129,7 +129,7 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
               Zadnja dodana tura
             </p>
-            <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
+            <h2 className="max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
               Sveža ideja za naslednji kolesarski dan.
             </h2>
           </div>
@@ -202,7 +202,7 @@ export default function Home() {
                 TOP 3
               </p>
 
-              <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
+              <h2 className="max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
                 Ture po izboru kolesarjev.
               </h2>
             </div>
@@ -267,7 +267,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-b border-white/10 bg-[#07110b] px-5 py-24">
+      <section className="border-b border-white/10 bg-[#07110b] px-5 py-16 md:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 max-w-3xl">
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
@@ -301,7 +301,7 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
               Pokrajine
             </p>
-            <h2 className="mb-6 text-4xl font-bold md:text-5xl">
+            <h2 className="mb-6 text-3xl font-bold md:text-5xl">
               Vsaka pokrajina ima svoj ritem.
             </h2>
             <p className="text-lg leading-8 text-zinc-400">
@@ -330,7 +330,7 @@ export default function Home() {
             <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
               Doživetja ob poti
             </p>
-            <h2 className="mb-6 text-4xl font-bold md:text-5xl">
+            <h2 className="mb-6 text-3xl font-bold md:text-5xl">
               Ne gre samo za kilometre.
             </h2>
             <p className="mb-8 text-lg leading-8 text-zinc-400">
