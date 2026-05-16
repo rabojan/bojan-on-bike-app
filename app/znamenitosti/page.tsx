@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import SiteHeader from "@/components/SiteHeader";
 
@@ -66,6 +69,21 @@ const regions = [
 ];
 
 export default function AttractionsPage() {
+  const [activeType, setActiveType] = useState("Vse");
+  const [activeRegion, setActiveRegion] = useState("Vse regije");
+
+  const filteredAttractions = attractions.filter((attraction) => {
+    const matchesType =
+      activeType === "Vse" ||
+      attraction.type === activeType ||
+      attraction.tags.includes(activeType);
+
+    const matchesRegion =
+      activeRegion === "Vse regije" || attraction.region === activeRegion;
+
+    return matchesType && matchesRegion;
+  });
+
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/" active="znamenitosti" />
@@ -96,6 +114,17 @@ export default function AttractionsPage() {
             </p>
           </div>
         </div>
+
+        {filteredAttractions.length === 0 && (
+          <div className="mt-10 rounded-[28px] border border-white/10 bg-black/20 p-8 text-center">
+            <div className="text-3xl font-black">
+              Za ta izbor še ni znamenitosti.
+            </div>
+            <p className="mt-4 text-zinc-400">
+              Poskusi izbrati drugo regijo ali drug tip znamenitosti.
+            </p>
+          </div>
+        )}
       </section>
 
       <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
@@ -118,10 +147,12 @@ export default function AttractionsPage() {
             {filters.map((filter) => (
               <button
                 key={filter}
-                className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold ${
-                  filter === "Vse"
+                type="button"
+                onClick={() => setActiveType(filter)}
+                className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                  activeType === filter
                     ? "border-[#c58b46] bg-[#c58b46] text-black"
-                    : "border-white/10 bg-black/20 text-zinc-300"
+                    : "border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/50 hover:text-white"
                 }`}
               >
                 {filter}
@@ -139,10 +170,12 @@ export default function AttractionsPage() {
             {regions.map((region) => (
               <button
                 key={region}
-                className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold ${
-                  region === "Vse regije"
+                type="button"
+                onClick={() => setActiveRegion(region)}
+                className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                  activeRegion === region
                     ? "border-[#c58b46] bg-[#c58b46] text-black"
-                    : "border-white/10 bg-black/20 text-zinc-300"
+                    : "border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/50 hover:text-white"
                 }`}
               >
                 {region}
@@ -152,7 +185,7 @@ export default function AttractionsPage() {
         </div>
 
         <div className="grid items-stretch gap-8 md:grid-cols-3">
-          {attractions.map((attraction) => (
+          {filteredAttractions.map((attraction) => (
             <article
               key={attraction.name}
               className="flex h-full flex-col overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10]"
