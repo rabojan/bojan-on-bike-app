@@ -293,7 +293,7 @@ export default function AdminAmbassadorsPage() {
                   </div>
 
                   <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
-                    Dostop samo do regije:{" "}
+                    Dostop do regij:{" "}
                     <strong>{ambassador.permissions.join(", ")}</strong>
                   </div>
 
