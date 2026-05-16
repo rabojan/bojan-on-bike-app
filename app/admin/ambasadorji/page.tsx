@@ -10,58 +10,91 @@ const ambassadors = [
     region: "Štajerska",
     place: "Maribor",
     email: "bojan@bojanonbike.si",
-    phone: "+386 ...",
+    phone: "+386 40 123 456",
     image: "",
     bio: "Lokalni poznavalec Pohorja, Štajerske, gozdnih poti, razgledov in doživetij ob trasi.",
-    content: {
-      trails: 2,
-      providers: 3,
-      experiences: 2,
-      points: 3,
-    },
+    content: { trails: 2, providers: 3, experiences: 2, points: 3 },
     permissions: ["Štajerska"],
   },
   {
-    name: "Ambasador Gorenjske",
-    slug: "ambasador-gorenjske",
+    name: "Maja Kovač",
+    slug: "maja-kovac",
     status: "V pripravi",
+    region: "Koroška",
+    place: "Slovenj Gradec",
+    email: "maja.kovac@bojanonbike.si",
+    phone: "+386 41 222 118",
+    image: "",
+    bio: "Poznavalka mirnih koroških dolin, gozdnih cest, lokalnih postankov in razglednih poti.",
+    content: { trails: 0, providers: 0, experiences: 0, points: 0 },
+    permissions: ["Koroška"],
+  },
+  {
+    name: "Tomaž Zupan",
+    slug: "tomaz-zupan",
+    status: "Aktiven",
     region: "Gorenjska",
     place: "Bled",
-    email: "—",
-    phone: "—",
+    email: "tomaz.zupan@bojanonbike.si",
+    phone: "+386 31 445 220",
     image: "",
-    bio: "Profil je pripravljen za lokalnega ambasadorja Gorenjske.",
-    content: {
-      trails: 1,
-      providers: 0,
-      experiences: 1,
-      points: 0,
-    },
+    bio: "Ambasador za alpske razglede, jezera, družinske e-bike izlete in poti ob vodi.",
+    content: { trails: 1, providers: 0, experiences: 1, points: 0 },
     permissions: ["Gorenjska"],
   },
   {
-    name: "Ambasador Primorske",
-    slug: "ambasador-primorske",
+    name: "Nina Furlan",
+    slug: "nina-furlan",
     status: "V pripravi",
     region: "Primorska",
-    place: "Kras / Vipavska dolina",
-    email: "—",
-    phone: "—",
+    place: "Vipava",
+    email: "nina.furlan@bojanonbike.si",
+    phone: "+386 51 730 884",
     image: "",
-    bio: "Profil je pripravljen za lokalnega ambasadorja Primorske.",
-    content: {
-      trails: 0,
-      providers: 0,
-      experiences: 0,
-      points: 0,
-    },
+    bio: "Lokalna poznavalka Krasa, Vipavske doline, sončnih gravel poti in kulinaričnih postankov.",
+    content: { trails: 0, providers: 0, experiences: 0, points: 0 },
     permissions: ["Primorska"],
   },
+  {
+    name: "Rok Mlakar",
+    slug: "rok-mlakar",
+    status: "V pripravi",
+    region: "Notranjska",
+    place: "Cerknica",
+    email: "rok.mlakar@bojanonbike.si",
+    phone: "+386 40 661 905",
+    image: "",
+    bio: "Ambasador za jezera, kraške posebnosti, gozdne poti in mirnejše raziskovalne ture.",
+    content: { trails: 0, providers: 0, experiences: 0, points: 0 },
+    permissions: ["Notranjska"],
+  },
+  {
+    name: "Petra Novak",
+    slug: "petra-novak",
+    status: "V pripravi",
+    region: "Dolenjska",
+    place: "Novo mesto",
+    email: "petra.novak@bojanonbike.si",
+    phone: "+386 41 908 337",
+    image: "",
+    bio: "Poznavalka dolenjskih gričev, rečnih poti, zidanic, kulinarike in lahkotnih kolesarskih dni.",
+    content: { trails: 0, providers: 0, experiences: 0, points: 0 },
+    permissions: ["Dolenjska"],
+  },
+  {
+    name: "Matej Horvat",
+    slug: "matej-horvat",
+    status: "V pripravi",
+    region: "Prekmurje",
+    place: "Murska Sobota",
+    email: "matej.horvat@bojanonbike.si",
+    phone: "+386 30 714 552",
+    image: "",
+    bio: "Ambasador za odprte horizonte, Muro, Goričko, ravninske poti in družinska e-bike doživetja.",
+    content: { trails: 0, providers: 0, experiences: 0, points: 0 },
+    permissions: ["Prekmurje"],
+  },
 ];
-
-const activeAmbassadors = ambassadors.filter(
-  (ambassador) => ambassador.status === "Aktiven"
-).length;
 
 const totalTrails = ambassadors.reduce(
   (sum, ambassador) => sum + ambassador.content.trails,
@@ -75,6 +108,11 @@ const totalProviders = ambassadors.reduce(
 
 const totalExperiences = ambassadors.reduce(
   (sum, ambassador) => sum + ambassador.content.experiences,
+  0
+);
+
+const totalPoints = ambassadors.reduce(
+  (sum, ambassador) => sum + ambassador.content.points,
   0
 );
 
@@ -105,7 +143,7 @@ export default function AdminAmbassadorsPage() {
           </Link>
         </section>
 
-        <section className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+        <section className="grid grid-cols-3 gap-3 sm:grid-cols-5">
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 sm:p-6">
             <div className="text-3xl font-black sm:text-4xl">
               {ambassadors.length}
@@ -117,19 +155,10 @@ export default function AdminAmbassadorsPage() {
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 sm:p-6">
             <div className="text-3xl font-black sm:text-4xl">
-              {activeAmbassadors}
-            </div>
-            <div className="mt-1 text-xs leading-tight text-zinc-400 sm:text-sm">
-              aktivni
-            </div>
-          </div>
-
-          <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 sm:p-6">
-            <div className="text-3xl font-black sm:text-4xl">
               {totalTrails}
             </div>
             <div className="mt-1 text-xs leading-tight text-zinc-400 sm:text-sm">
-              oddane ture
+              ture
             </div>
           </div>
 
@@ -148,6 +177,15 @@ export default function AdminAmbassadorsPage() {
             </div>
             <div className="mt-1 text-xs leading-tight text-zinc-400 sm:text-sm">
               doživetja
+            </div>
+          </div>
+
+          <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 sm:p-6">
+            <div className="text-3xl font-black sm:text-4xl">
+              {totalPoints}
+            </div>
+            <div className="mt-1 text-xs leading-tight text-zinc-400 sm:text-sm">
+              znamenitosti
             </div>
           </div>
         </section>
@@ -206,14 +244,14 @@ export default function AdminAmbassadorsPage() {
                         <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">
                           Email
                         </div>
-                        <div className="mt-2 font-bold">{ambassador.email}</div>
+                        <div className="mt-2 break-words text-sm font-bold leading-6">{ambassador.email}</div>
                       </div>
 
                       <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
                         <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">
                           Telefon
                         </div>
-                        <div className="mt-2 font-bold">{ambassador.phone}</div>
+                        <div className="mt-2 break-words text-sm font-bold leading-6">{ambassador.phone}</div>
                       </div>
                     </div>
                   </div>
