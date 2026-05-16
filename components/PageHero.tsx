@@ -26,7 +26,7 @@ export default function PageHero({
   imagePosition = "center",
 }: PageHeroProps) {
   return (
-    <section className="relative min-h-[680px] overflow-hidden border-b border-white/10 md:min-h-[720px]">
+    <section className="relative min-h-[590px] overflow-hidden border-b border-white/10 md:min-h-[720px]">
       <img
         src={image}
         alt={imageAlt}
@@ -37,7 +37,7 @@ export default function PageHero({
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-[#07110b]/55 to-[#07110b]" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/72 via-[#07110b]/28 to-transparent" />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-32 md:px-6 md:pt-36 lg:pt-40">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-24 md:px-6 md:pt-36 lg:pt-40">
         <div className="max-w-5xl">
           <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
             {eyebrow}

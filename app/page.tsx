@@ -215,7 +215,7 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-3 gap-3 md:gap-6">
             {topTrails.map((trail) => (
               <article
                 key={trail.title}
@@ -291,10 +291,16 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-3">
             <a
               href="/ture"
-              className="group rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
+              className="group flex h-full flex-col rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
             >
-              <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-2xl">
-                🚴
+              <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-black">
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="6" cy="17" r="3" />
+                  <circle cx="18" cy="17" r="3" />
+                  <path d="M8.5 17h4l2-6h-4l-2 6Z" />
+                  <path d="M10.5 11 9 8h3" />
+                  <path d="M14.5 11 17 17" />
+                </svg>
               </div>
 
               <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
@@ -310,17 +316,23 @@ export default function Home() {
                 ga želiš doživeti na kolesu.
               </p>
 
-              <div className="mt-8 text-sm font-bold text-white">
+              <div className="mt-auto pt-8 text-sm font-bold text-white">
                 Razišči ture →
               </div>
             </a>
 
             <a
               href="/ponudniki"
-              className="group rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
+              className="group flex h-full flex-col rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
             >
-              <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-2xl">
-                🍽️
+              <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-black">
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 2v9" />
+                  <path d="M4 2v5c0 2 1.5 4 3 4s3-2 3-4V2" />
+                  <path d="M7 11v11" />
+                  <path d="M17 2v20" />
+                  <path d="M17 2c2 2 3 4.5 3 8h-3" />
+                </svg>
               </div>
 
               <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
@@ -336,17 +348,20 @@ export default function Home() {
                 točke, ki turi dodajo pravi zaključek.
               </p>
 
-              <div className="mt-8 text-sm font-bold text-white">
+              <div className="mt-auto pt-8 text-sm font-bold text-white">
                 Odkrij ponudnike →
               </div>
             </a>
 
             <a
               href="/znamenitosti"
-              className="group rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
+              className="group flex h-full flex-col rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
             >
-              <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-2xl">
-                📍
+              <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-black">
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 21s7-5.2 7-12a7 7 0 0 0-14 0c0 6.8 7 12 7 12Z" />
+                  <circle cx="12" cy="9" r="2.5" />
+                </svg>
               </div>
 
               <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
@@ -362,7 +377,7 @@ export default function Home() {
                 lokalne zgodbe, zaradi katerih izbereš pot.
               </p>
 
-              <div className="mt-8 text-sm font-bold text-white">
+              <div className="mt-auto pt-8 text-sm font-bold text-white">
                 Odkrij znamenitosti →
               </div>
             </a>
@@ -442,8 +457,8 @@ export default function Home() {
             </p>
 
             <a
-              href="/ture"
-              className="inline-block rounded-full bg-[#c58b46] px-8 py-4 font-semibold text-black transition hover:bg-[#d9a35d]"
+              href="/dozivetja"
+            className="inline-block rounded-full bg-[#c58b46] px-8 py-4 font-semibold text-black transition hover:bg-[#d9a35d]"
             >
               Začni raziskovati
             </a>
