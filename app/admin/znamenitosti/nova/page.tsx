@@ -56,6 +56,12 @@ export default function NewPoiPage() {
               zgodovinsko točko, cerkev, grad, foto lokacijo ali lokalno zgodbo
               ob poti.
             </p>
+
+            <div className="mt-5 rounded-2xl border border-[#c58b46]/30 bg-[#c58b46]/10 p-4 text-sm leading-7 text-[#f4d7ad]">
+              Obvezna polja za objavo: ime, regija, tip, kratek opis, slika,
+              lokacija in status. Brez teh podatkov vsebina kasneje ne bo mogla
+              biti objavljena.
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -82,7 +88,7 @@ export default function NewPoiPage() {
               <div className="grid gap-5 md:grid-cols-2">
                 <label className="space-y-2 md:col-span-2">
                   <span className="text-sm font-semibold text-zinc-300">
-                    Ime znamenitosti
+                    Ime znamenitosti *
                   </span>
                   <input
                     placeholder="npr. Razgled nad dolino"
@@ -92,7 +98,7 @@ export default function NewPoiPage() {
 
                 <label className="space-y-2">
                   <span className="text-sm font-semibold text-zinc-300">
-                    Regija
+                    Regija *
                   </span>
                   <input
                     placeholder="npr. Štajerska"
@@ -112,7 +118,7 @@ export default function NewPoiPage() {
 
                 <div className="space-y-3 md:col-span-2">
                   <span className="text-sm font-semibold text-zinc-300">
-                    Tip znamenitosti
+                    Tip znamenitosti *
                   </span>
 
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -142,10 +148,10 @@ export default function NewPoiPage() {
 
               <label className="space-y-2">
                 <span className="text-sm font-semibold text-zinc-300">
-                  Kratek opis
+                  Kratek opis *
                 </span>
                 <textarea
-                  placeholder="Kratek opis, zakaj je ta točka vredna postanka..."
+                  placeholder="Kratek opis *, zakaj je ta točka vredna postanka..."
                   rows={5}
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
                 />
@@ -175,7 +181,7 @@ export default function NewPoiPage() {
 
             <div className="rounded-[32px] border border-white/10 bg-black/20 p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Slika znamenitosti
+                Slika znamenitosti *
               </div>
 
               <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]">
@@ -215,7 +221,7 @@ export default function NewPoiPage() {
           <div className="space-y-6">
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Status objave
+                Status objave *
               </div>
 
               <select
@@ -244,7 +250,7 @@ export default function NewPoiPage() {
               <div className="grid gap-5">
                 <label className="space-y-2">
                   <span className="text-sm font-semibold text-zinc-300">
-                    Naslov ali opis lokacije
+                    Naslov ali opis lokacije *
                   </span>
                   <input
                     placeholder="npr. ob gozdni poti nad Mariborom"
