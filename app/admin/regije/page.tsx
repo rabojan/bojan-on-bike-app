@@ -209,29 +209,29 @@ export default function AdminRegionsPage() {
         </section>
 
         <section className="grid grid-cols-3 gap-3 sm:grid-cols-5">
-          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+          <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
             <div className="text-3xl font-black sm:text-4xl">{regions.length}</div>
-            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vse regije</div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vse regije</div>
           </div>
 
-          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+          <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
             <div className="text-3xl font-black sm:text-4xl">{totalTrails}</div>
-            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vse ture</div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vse ture</div>
           </div>
 
-          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+          <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
             <div className="text-3xl font-black sm:text-4xl">{totalProviders}</div>
-            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vsi ponudniki</div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vsi ponudniki</div>
           </div>
 
-          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+          <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
             <div className="text-3xl font-black sm:text-4xl">{totalExperiences}</div>
-            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vsa doživetja</div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vsa doživetja</div>
           </div>
 
-          <div className="rounded-[22px] border border-white/10 bg-black/20 p-4 sm:rounded-[28px] sm:p-6">
+          <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
             <div className="text-3xl font-black sm:text-4xl">{totalPoints}</div>
-            <div className="mt-2 text-xs leading-tight text-zinc-400 sm:text-sm">vse znamenitosti</div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vse znamenitosti</div>
           </div>
         </section>
 
@@ -278,22 +278,22 @@ export default function AdminRegionsPage() {
 
                   <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
                     <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                      <div className="text-2xl font-black">{region.trails.length}</div>
+                      <div className="text-xl font-black sm:text-2xl">{region.trails.length}</div>
                       <div className="mt-1 text-xs text-zinc-500">ture</div>
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                      <div className="text-2xl font-black">{region.providers.length}</div>
+                      <div className="text-xl font-black sm:text-2xl">{region.providers.length}</div>
                       <div className="mt-1 text-xs text-zinc-500">ponudniki</div>
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                      <div className="text-2xl font-black">{region.experiences.length}</div>
+                      <div className="text-xl font-black sm:text-2xl">{region.experiences.length}</div>
                       <div className="mt-1 text-xs text-zinc-500">doživetja</div>
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                      <div className="text-2xl font-black">{region.points.length}</div>
+                      <div className="text-xl font-black sm:text-2xl">{region.points.length}</div>
                       <div className="mt-1 text-xs text-zinc-500">znamenitosti</div>
                     </div>
                   </div>
