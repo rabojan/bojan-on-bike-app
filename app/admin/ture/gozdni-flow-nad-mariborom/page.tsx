@@ -80,20 +80,6 @@ const moments = [
   },
 ];
 
-const galleryImages = [
-  {
-    title: "Hero slika ture",
-    url: "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop",
-  },
-  {
-    title: "Razgled / poudarek",
-    url: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    title: "Gozdni flow",
-    url: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=1200&auto=format&fit=crop",
-  },
-];
 
 export default function EditTrailPage() {
   const [status, setStatus] = useState("Objavljeno");
@@ -399,7 +385,7 @@ export default function EditTrailPage() {
               </div>
 
               <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
-                + Dodaj sliko
+                + Dodaj sliko v galerijo
               </button>
 
               <div className="mt-5 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm leading-7 text-zinc-400">
