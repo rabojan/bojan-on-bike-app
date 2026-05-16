@@ -5,6 +5,18 @@ import { useState } from "react";
 
 import AdminShell from "@/components/AdminShell";
 
+
+const providerTypes = [
+  "Kulinarika",
+  "Vino",
+  "Prenočišče",
+  "e-bike polnilnica",
+  "Bike servis",
+  "Lokalni produkti",
+  "Razgled / doživetje",
+  "Turistična točka",
+];
+
 const connectedTrails = [
   {
     name: "Gozdni flow nad Mariborom",
@@ -109,22 +121,36 @@ export default function EditProviderPage() {
                   />
                 </label>
 
-                <label className="space-y-2 md:col-span-2">
+                <div className="space-y-3 md:col-span-2">
                   <span className="text-sm font-semibold text-zinc-300">
                     Tip ponudnika
                   </span>
-                  <select
-                    defaultValue="Kulinarika / Prenočišče"
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
-                  >
-                    <option>Kulinarika</option>
-                    <option>Vino</option>
-                    <option>Prenočišče</option>
-                    <option>Kulinarika / Prenočišče</option>
-                    <option>Vino / Kulinarika</option>
-                    <option>Polnilnica</option>
-                  </select>
-                </label>
+
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {providerTypes.map((type) => (
+                      <label
+                        key={type}
+                        className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4"
+                      >
+                        <input
+                          type="checkbox"
+                          defaultChecked={[
+                            "Kulinarika",
+                            "Prenočišče",
+                            "e-bike polnilnica",
+                          ].includes(type)}
+                        />
+                        <span className="font-bold">{type}</span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm leading-7 text-zinc-400">
+                    Ponudnik ima lahko več oznak hkrati. Te oznake se kasneje
+                    uporabijo za filtre, kartice, zemljevid in povezovanje s
+                    turami.
+                  </div>
+                </div>
               </div>
 
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
