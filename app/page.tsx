@@ -99,53 +99,7 @@ export default function Home() {
 
       
 
-                  <section className="relative flex min-h-[calc(100svh-120px)] items-center overflow-hidden border-b border-white/10 md:hidden">
-        <img
-          src="https://images.unsplash.com/photo-1529422643029-d4585747aaf2?q=80&w=1600&auto=format&fit=crop"
-          alt="Veselo kolesarsko doživetje v naravi"
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: "center" }}
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-[#07110b]/40 to-[#07110b]/90" />
-        <div className="absolute inset-0 bg-[#07110b]/20" />
-
-        <div className="relative z-10 w-full px-5 py-12">
-          <div className="max-w-md">
-            <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-              Slovenija · kolo · doživetja
-            </div>
-
-            <h1 className="text-5xl font-black leading-[0.95] tracking-[-0.045em] text-white">
-              Odkrij Slovenijo skozi kolo.
-            </h1>
-
-            <p className="mt-7 text-lg leading-8 text-zinc-100">
-              Kolesarske ture, pokrajine, lokalni ponudniki in doživetja ob
-              poti — vse za lep dan na kolesu.
-            </p>
-
-            <div className="mt-9 grid gap-3">
-              <a
-                href="/ture"
-                className="rounded-full bg-[#c58b46] px-7 py-4 text-center text-base font-black text-black"
-              >
-                Razišči ture
-              </a>
-
-              <a
-                href="#pokrajine"
-                className="rounded-full border border-white/20 bg-black/25 px-7 py-4 text-center text-base font-black text-white backdrop-blur"
-              >
-                Odkrij pokrajine
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-<PageHero
-        className="hidden md:block"
+            <PageHero
         eyebrow="Slovenija · MTB · gravel · bikepacking · doživetja"
         title="Odkrij Slovenijo skozi kolo."
         description="Premium spletna platforma za odkrivanje kolesarskih tur, pokrajin, lokalnih ponudnikov in doživetij ob poti."
