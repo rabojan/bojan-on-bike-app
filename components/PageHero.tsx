@@ -36,13 +36,13 @@ export default function PageHero({
         <img
           src={image}
           alt={imageAlt}
-          className="absolute inset-0 h-full w-full object-cover opacity-55"
+          className="absolute inset-0 h-full w-full object-cover opacity-80"
           style={{ objectPosition: imagePosition }}
         />
       </picture>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-[#07110b]/55 to-[#07110b]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/72 via-[#07110b]/28 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-[#07110b]/25 to-[#07110b]/65" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/45 via-[#07110b]/10 to-transparent" />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-32 md:px-6 md:pt-36 lg:pt-40">
         <div className="max-w-5xl">
