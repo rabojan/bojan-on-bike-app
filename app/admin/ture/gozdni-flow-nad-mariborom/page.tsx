@@ -139,7 +139,7 @@ export default function EditTrailPage() {
           </div>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+        <section className="grid gap-6 xl:grid-cols-2">
           <div className="space-y-6">
             <div className="rounded-[32px] border border-white/10 bg-black/20 p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
@@ -316,6 +316,105 @@ export default function EditTrailPage() {
                 />
               </label>
             </div>
+
+
+<div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
+              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                Slike in galerija
+              </div>
+
+              <label className="space-y-2">
+                <span className="text-sm font-semibold text-zinc-300">
+                  Hero slika URL
+                </span>
+                <input
+                  defaultValue="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop"
+                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none focus:border-[#c58b46]/60"
+                />
+              </label>
+
+              <div className="mt-6 space-y-4">
+                {galleryImages.map((image, index) => (
+                  <div
+                    key={image.title}
+                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
+                  >
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <div>
+                        <div className="text-sm font-bold">{image.title}</div>
+                        <div className="mt-1 text-xs text-zinc-500">
+                          Slika {index + 1}
+                        </div>
+                      </div>
+
+                      <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
+                        vrstni red
+                      </div>
+                    </div>
+
+                    <input
+                      defaultValue={image.url}
+                      className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-xs outline-none focus:border-[#c58b46]/60"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
+                + Dodaj sliko
+              </button>
+
+              <div className="mt-5 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm leading-7 text-zinc-400">
+                Za zdaj vnašamo URL slike. Kasneje bo tukaj pravi upload v
+                Supabase Storage, urejanje vrstnega reda in brisanje slik.
+              </div>
+            </div>
+
+<div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
+              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                Ponudniki ob trasi
+              </div>
+
+              <div className="space-y-4">
+                {providers.map((provider) => (
+                  <div
+                    key={provider.name}
+                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
+                  >
+                    <label className="flex items-center gap-3">
+                      <input type="checkbox" defaultChecked={provider.selected} />
+                      <span className="font-bold">{provider.name}</span>
+                    </label>
+
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <label className="space-y-2">
+                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                          Vloga na turi
+                        </span>
+                        <input
+                          defaultValue={provider.role}
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+
+                      <label className="space-y-2">
+                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                          Oddaljenost
+                        </span>
+                        <input
+                          defaultValue={provider.distance}
+                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
+                + Poveži ponudnika
+              </button>
+            </div>
           </div>
 
           <div className="space-y-6">
@@ -420,103 +519,9 @@ export default function EditTrailPage() {
               </div>
             </div>
 
-            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Slike in galerija
-              </div>
+            
 
-              <label className="space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">
-                  Hero slika URL
-                </span>
-                <input
-                  defaultValue="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop"
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none focus:border-[#c58b46]/60"
-                />
-              </label>
-
-              <div className="mt-6 space-y-4">
-                {galleryImages.map((image, index) => (
-                  <div
-                    key={image.title}
-                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
-                  >
-                    <div className="mb-3 flex items-center justify-between gap-3">
-                      <div>
-                        <div className="text-sm font-bold">{image.title}</div>
-                        <div className="mt-1 text-xs text-zinc-500">
-                          Slika {index + 1}
-                        </div>
-                      </div>
-
-                      <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
-                        vrstni red
-                      </div>
-                    </div>
-
-                    <input
-                      defaultValue={image.url}
-                      className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-xs outline-none focus:border-[#c58b46]/60"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
-                + Dodaj sliko
-              </button>
-
-              <div className="mt-5 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm leading-7 text-zinc-400">
-                Za zdaj vnašamo URL slike. Kasneje bo tukaj pravi upload v
-                Supabase Storage, urejanje vrstnega reda in brisanje slik.
-              </div>
-            </div>
-
-            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Ponudniki ob trasi
-              </div>
-
-              <div className="space-y-4">
-                {providers.map((provider) => (
-                  <div
-                    key={provider.name}
-                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
-                  >
-                    <label className="flex items-center gap-3">
-                      <input type="checkbox" defaultChecked={provider.selected} />
-                      <span className="font-bold">{provider.name}</span>
-                    </label>
-
-                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      <label className="space-y-2">
-                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                          Vloga na turi
-                        </span>
-                        <input
-                          defaultValue={provider.role}
-                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
-                        />
-                      </label>
-
-                      <label className="space-y-2">
-                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                          Oddaljenost
-                        </span>
-                        <input
-                          defaultValue={provider.distance}
-                          className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
-                        />
-                      </label>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
-                + Poveži ponudnika
-              </button>
-            </div>
+            
 
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
