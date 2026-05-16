@@ -293,19 +293,19 @@ export default function NewTrailPage() {
 
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Doživetveni trenutki ture
+                Poudarki poti
               </div>
 
               <div className="rounded-2xl border border-dashed border-white/20 bg-black/20 p-6 text-center">
                 <div className="text-3xl">✨</div>
-                <div className="mt-3 font-bold">Dodaj prvi trenutek</div>
+                <div className="mt-3 font-bold">Dodaj prvi poudarek</div>
                 <p className="mt-3 text-sm leading-7 text-zinc-400">
-                  Na primer razgled, spust, postanek, vinska klet ali gozdni
-                  odsek.
+                  Dodaj 3–4 glavne stvari, zaradi katerih si uporabnik hitro ustvari
+                  predstavo o poti: razgled, gozd, spust, postanek ali lokalna zgodba.
                 </p>
 
                 <button className="mt-5 rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
-                  + Dodaj trenutek
+                  + Dodaj poudarek
                 </button>
               </div>
             </div>

@@ -38,7 +38,7 @@ const moments = [
     title: "Razgled nad Mariborom",
     km: "13 km",
     time: "pozno dopoldne",
-    text: "Kratek postanek za pogled proti mestu. To je trenutek, ko tura ni več samo vožnja, ampak občutek prostora.",
+    text: "Kratek postanek za pogled proti mestu. To je poudarek, ko tura ni več samo vožnja, ampak občutek prostora.",
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop",
   },
@@ -298,12 +298,12 @@ export default function TrailPage() {
       <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-            Kaj te čaka na poti
+            Poudarki poti
           </div>
-          <h2 className="text-4xl font-black">Doživetveni trenutki ture.</h2>
+          <h2 className="text-4xl font-black">Poudarki poti.</h2>
           <p className="mt-5 max-w-3xl leading-8 text-zinc-300">
-            Ne gre samo za kilometre, ampak za občutke, razglede, postanke in
-            trenutke, zaradi katerih si turo zapomniš.
+            Trije ali štirje najmočnejši poudarki ti hitro pokažejo, kakšen
+            občutek ima tura: gozd, razgled, spust, postanek ali zgodba ob poti.
           </p>
 
           <div className="mt-10 grid gap-6 lg:grid-cols-3">

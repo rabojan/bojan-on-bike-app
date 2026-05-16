@@ -86,7 +86,7 @@ const galleryImages = [
     url: "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop",
   },
   {
-    title: "Razgled / trenutek",
+    title: "Razgled / poudarek",
     url: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
   },
   {
@@ -458,7 +458,7 @@ export default function EditTrailPage() {
           <div className="space-y-6">
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Doživetveni trenutki ture
+                Poudarki poti
               </div>
 
               <div className="space-y-5">
@@ -468,7 +468,7 @@ export default function EditTrailPage() {
                     className="rounded-2xl border border-white/10 bg-black/20 p-4"
                   >
                     <div className="mb-4 flex items-center justify-between gap-3">
-                      <div className="font-bold">Trenutek {index + 1}</div>
+                      <div className="font-bold">Poudarek {index + 1}</div>
                       <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
                         {moment.location}
                       </div>
@@ -489,7 +489,7 @@ export default function EditTrailPage() {
 
                         <input
                           defaultValue={moment.type}
-                          placeholder="tip trenutka"
+                          placeholder="tip poudarka"
                           className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
                         />
                       </div>
@@ -505,10 +505,10 @@ export default function EditTrailPage() {
                           <div>
                             <div className="text-4xl">📷</div>
                             <div className="mt-3 text-sm font-bold">
-                              Naloži sliko trenutka
+                              Naloži sliko poudarka
                             </div>
                             <p className="mt-2 text-xs leading-6 text-zinc-500">
-                              Slika za ta del doživetja na turi.
+                              Slika za ta poudarek poti.
                             </p>
                           </div>
                         </div>
@@ -530,7 +530,7 @@ export default function EditTrailPage() {
               </div>
 
               <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
-                + Dodaj trenutek
+                + Dodaj poudarek
               </button>
             </div>
 
