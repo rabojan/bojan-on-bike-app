@@ -113,11 +113,11 @@ export default function Home() {
       />
 
       <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-8">
-        <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl grid-cols-3 gap-2 sm:gap-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-white/10 bg-[#07110b] px-6 py-5">
-              <div className="text-2xl font-black text-[#f4d7ad]">{stat.value}</div>
-              <div className="mt-1 text-sm text-zinc-500">{stat.label}</div>
+            <div key={stat.label} className="rounded-2xl border border-white/10 bg-[#07110b] px-3 py-4 sm:px-6 sm:py-5">
+              <div className="text-xl font-black text-[#f4d7ad] sm:text-2xl">{stat.value}</div>
+              <div className="mt-1 text-[11px] leading-snug text-zinc-500 sm:text-sm">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -135,7 +135,7 @@ export default function Home() {
           </div>
 
           <article className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1a10] md:grid-cols-[1.15fr_0.85fr]">
-            <div className="relative min-h-[360px] overflow-hidden">
+            <div className="relative h-72 overflow-hidden md:min-h-[360px] md:h-auto">
               <img
                 src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1800"
                 alt="Gorsko kolesarjenje po gozdu"
@@ -157,27 +157,27 @@ export default function Home() {
                 </span>
               </div>
 
-              <h3 className="mb-5 text-4xl font-black leading-tight">
+              <h3 className="mb-5 text-3xl font-black leading-tight sm:text-4xl">
                 Gozdni flow nad Mariborom
               </h3>
 
-              <p className="mb-8 text-lg leading-8 text-zinc-400">
+              <p className="mb-7 text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
                 Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni
                 za pravi kolesarski dan nad mestom.
               </p>
 
-              <div className="mb-8 grid grid-cols-3 gap-3">
-                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+              <div className="mb-8 grid grid-cols-3 gap-2 sm:gap-3">
+                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                   <div className="font-bold">32 km</div>
                   <div className="text-xs text-zinc-500">dolžina</div>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                   <div className="font-bold">890 vm</div>
                   <div className="text-xs text-zinc-500">višinci</div>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                   <div className="font-bold">Srednja</div>
                   <div className="text-xs text-zinc-500">težavnost</div>
                 </div>
@@ -221,7 +221,7 @@ export default function Home() {
                 key={trail.title}
                 className="group overflow-hidden rounded-[2rem] border border-white/10 bg-[#07110b] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
               >
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-48 overflow-hidden sm:h-56">
                   <img
                     src={trail.image}
                     alt={trail.title}
