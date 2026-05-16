@@ -110,7 +110,7 @@ export default function Home() {
         ctaLabel="Razišči ture"
         secondaryHref="#pokrajine"
         secondaryLabel="Odkrij pokrajine"
-        imagePosition="center"
+        imagePosition="center 42%"
       />
 
       <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-8">
