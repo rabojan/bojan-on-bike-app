@@ -175,9 +175,14 @@ export default function NewRegionPage() {
                     Portret lokalnega ambasadorja regije.
                   </p>
 
-                  <button className="mt-5 rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300">
+                  <label className="mt-5 inline-flex cursor-pointer rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/50 hover:text-white">
                     Izberi sliko
-                  </button>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      className="hidden"
+                    />
+                  </label>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
