@@ -340,51 +340,13 @@ export default function EditTrailPage() {
                 </div>
               </div>
 
-              <div className="mt-6 space-y-4">
-                {galleryImages.map((image, index) => (
-                  <div
-                    key={image.title}
-                    className="rounded-2xl border border-white/10 bg-black/20 p-4"
-                  >
-                    <div className="mb-3 flex items-center justify-between gap-3">
-                      <div>
-                        <div className="text-sm font-bold">{image.title}</div>
-                        <div className="mt-1 text-xs text-zinc-500">
-                          Slika {index + 1}
-                        </div>
-                      </div>
-
-                      <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400">
-                        vrstni red
-                      </div>
-                    </div>
-
-                    <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#07110b]">
-                      <div className="flex min-h-[170px] items-center justify-center bg-black/20 p-6 text-center">
-                        <div>
-                          <div className="text-4xl">📷</div>
-                          <div className="mt-3 text-sm font-bold">
-                            Naloži galerijsko sliko
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="border-t border-white/10 p-4">
-                        <label className="flex cursor-pointer items-center justify-center rounded-full border border-white/10 px-4 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white">
-                          Izberi sliko
-                          <input
-                            type="file"
-                            accept="image/jpeg,image/png,image/webp"
-                            className="hidden"
-                          />
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+              
+              <div className="mt-6 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm leading-7 text-zinc-400">
+                Galerija je namenjena dodatnim utrinkom s ture. Glavne 3–4
+                vsebinske točke ture urejaš posebej v razdelku Poudarki poti.
               </div>
 
-              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
+<button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300">
                 + Dodaj sliko v galerijo
               </button>
 
