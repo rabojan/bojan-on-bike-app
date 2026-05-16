@@ -302,7 +302,7 @@ export default function AdminRegionsPage() {
                 <div className="grid gap-4">
                   <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
                     <div className="mb-4 text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-                      Ambasador regije
+                      Ambasadorji
                     </div>
 
                     <div className="flex gap-4">
