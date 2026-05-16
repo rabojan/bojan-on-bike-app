@@ -143,13 +143,13 @@ export default function AttractionsPage() {
             Tip znamenitosti
           </div>
 
-          <div className="flex gap-3 overflow-x-auto pb-2">
+          <div className="flex flex-wrap gap-3 pb-2">
             {filters.map((filter) => (
               <button
                 key={filter}
                 type="button"
                 onClick={() => setActiveType(filter)}
-                className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
                   activeType === filter
                     ? "border-[#c58b46] bg-[#c58b46] text-black"
                     : "border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/50 hover:text-white"
@@ -166,13 +166,13 @@ export default function AttractionsPage() {
             Regija
           </div>
 
-          <div className="flex gap-3 overflow-x-auto pb-2">
+          <div className="flex flex-wrap gap-3 pb-2">
             {regions.map((region) => (
               <button
                 key={region}
                 type="button"
                 onClick={() => setActiveRegion(region)}
-                className={`shrink-0 rounded-full border px-5 py-3 text-sm font-semibold transition ${
+                className={`rounded-full border px-5 py-3 text-sm font-semibold transition ${
                   activeRegion === region
                     ? "border-[#c58b46] bg-[#c58b46] text-black"
                     : "border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/50 hover:text-white"
