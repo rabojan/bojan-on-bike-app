@@ -193,6 +193,36 @@ export default function TrailPage() {
         </div>
       </section>
 
+      <section className="px-6 py-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
+            <div className="mb-6 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
+              Izbral lokalni ambasador
+            </div>
+
+            <div className="flex items-center gap-5">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-[#07110b] text-3xl">
+                👤
+              </div>
+
+              <div>
+                <div className="text-2xl font-black text-white">
+                  Bojan Ratej
+                </div>
+                <div className="mt-1 text-base font-semibold text-zinc-300">
+                  Ambasador Štajerske
+                </div>
+              </div>
+            </div>
+
+            <p className="mt-6 max-w-3xl text-sm leading-7 text-zinc-400">
+              Turo je izbral lokalni ambasador, ki pozna teren, postanke,
+              razglede in posebnosti poti.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
