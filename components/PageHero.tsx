@@ -11,6 +11,7 @@ type PageHeroProps = {
   secondaryHref?: string;
   secondaryLabel?: string;
   imagePosition?: string;
+  className?: string;
 };
 
 export default function PageHero({
@@ -24,9 +25,10 @@ export default function PageHero({
   secondaryHref,
   secondaryLabel,
   imagePosition = "center",
+  className = "",
 }: PageHeroProps) {
   return (
-    <section className="relative min-h-[590px] overflow-hidden border-b border-white/10 md:min-h-[720px]">
+    <section className={`relative min-h-[590px] overflow-hidden border-b border-white/10 md:min-h-[720px] ${className}`}>
       <img
         src={image}
         alt={imageAlt}
