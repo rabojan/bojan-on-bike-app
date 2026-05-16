@@ -332,13 +332,6 @@ export default function AdminRegionsPage() {
                       </div>
                     </div>
 
-                    <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm">
-                      <div className="text-xs uppercase tracking-[0.2em] text-zinc-500">
-                        Status ambasadorja
-                      </div>
-                      <div className="mt-2 font-bold">{region.ambassador.status}</div>
-                    </div>
-
                     <div className="mt-6 flex flex-wrap gap-3">
                       <Link
                         href={`/admin/regije/${region.slug}`}
