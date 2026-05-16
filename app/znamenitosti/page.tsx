@@ -5,54 +5,42 @@ import SiteHeader from "@/components/SiteHeader";
 const attractions = [
   {
     name: "Razgled nad Mariborom",
+    slug: "razgled-nad-mariborom",
     type: "Razgled",
-    region: "Pohorje",
+    region: "Štajerska",
+    area: "Pohorje",
     image:
       "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1400&auto=format&fit=crop",
     description:
       "Kratek postanek nad mestom, kjer se odpre pogled proti Mariboru, Dravski dolini in pohorskim gozdovom.",
     tags: ["Razgled", "Foto točka", "Narava"],
-    trails: [
-      {
-        title: "Gozdni flow nad Mariborom",
-        href: "/ture/gozdni-flow-nad-mariborom",
-        distance: "200 m od trase",
-      },
-    ],
+    trailsCount: 1,
   },
   {
     name: "Pohorski gozdni odsek",
+    slug: "pohorski-gozdni-odsek",
     type: "Narava",
-    region: "Pohorje",
+    region: "Štajerska",
+    area: "Pohorje",
     image:
       "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1400&auto=format&fit=crop",
     description:
       "Mirnejši del poti med visokimi drevesi, kjer tura dobi pravi gozdni ritem in občutek pobega iz mesta.",
     tags: ["Narava", "Gozd", "Mir"],
-    trails: [
-      {
-        title: "Gozdni flow nad Mariborom",
-        href: "/ture/gozdni-flow-nad-mariborom",
-        distance: "na trasi",
-      },
-    ],
+    trailsCount: 1,
   },
   {
     name: "Stara planinska pot",
+    slug: "stara-planinska-pot",
     type: "Zgodovina",
-    region: "Pohorje",
+    region: "Štajerska",
+    area: "Pohorje",
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
     description:
       "Stara pot z lokalno zgodbo, ki turi doda občutek prostora, časa in povezave z ljudmi, ki so te kraje uporabljali pred nami.",
     tags: ["Zgodovina", "Lokalna zgodba", "Kultura"],
-    trails: [
-      {
-        title: "Gozdni flow nad Mariborom",
-        href: "/ture/gozdni-flow-nad-mariborom",
-        distance: "700 m od trase",
-      },
-    ],
+    trailsCount: 1,
   },
 ];
 
@@ -125,7 +113,7 @@ export default function AttractionsPage() {
           ))}
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid items-stretch gap-8 md:grid-cols-3">
           {attractions.map((attraction) => (
             <article
               key={attraction.name}
@@ -140,23 +128,25 @@ export default function AttractionsPage() {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
 
-                <div className="absolute bottom-0 p-6">
-                  <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-                    {attraction.type} · {attraction.region}
-                  </div>
-
-                  <h3 className="mt-3 text-3xl font-black leading-tight">
-                    {attraction.name}
-                  </h3>
+                <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-black/40 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-white backdrop-blur">
+                  {attraction.region}
                 </div>
               </div>
 
               <div className="flex flex-1 flex-col p-6">
-                <p className="leading-8 text-zinc-300">
+                <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                  {attraction.area}
+                </div>
+
+                <h3 className="mt-3 text-3xl font-black leading-tight">
+                  {attraction.name}
+                </h3>
+
+                <p className="mt-5 min-h-[128px] leading-8 text-zinc-300">
                   {attraction.description}
                 </p>
 
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className="mt-6 flex min-h-[40px] flex-wrap gap-2">
                   {attraction.tags.map((tag) => (
                     <span
                       key={tag}
@@ -168,27 +158,24 @@ export default function AttractionsPage() {
                 </div>
 
                 <div className="mt-7 rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <div className="mb-3 text-xs uppercase tracking-[0.25em] text-zinc-500">
+                  <div className="text-xs uppercase tracking-[0.25em] text-zinc-500">
                     Povezane ture
                   </div>
 
-                  <div className="space-y-3">
-                    {attraction.trails.map((trail) => (
-                      <div key={trail.title}>
-                        <div className="font-bold">{trail.title}</div>
-                        <div className="mt-1 text-sm text-zinc-500">
-                          {trail.distance}
-                        </div>
-                      </div>
-                    ))}
+                  <div className="mt-2 font-bold">
+                    {attraction.trailsCount} povezana tura
+                  </div>
+
+                  <div className="mt-1 text-sm text-zinc-500">
+                    Odpri znamenitost za ogled tur, ki peljejo mimo.
                   </div>
                 </div>
 
                 <Link
-                  href={attraction.trails[0].href}
-                  className="mt-7 inline-flex justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
+                  href={`/znamenitosti/${attraction.slug}`}
+                  className="mt-auto inline-flex justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
                 >
-                  Poglej povezano turo
+                  Odpri znamenitost
                 </Link>
               </div>
             </article>
