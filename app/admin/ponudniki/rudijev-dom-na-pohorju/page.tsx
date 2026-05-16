@@ -229,19 +229,41 @@ export default function EditProviderPage() {
                 Slika ponudnika
               </div>
 
-              <label className="space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">
-                  Slika URL
-                </span>
-                <input
-                  defaultValue="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop"
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none focus:border-[#c58b46]/60"
-                />
-              </label>
+              <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]">
+                <div className="flex min-h-[240px] items-center justify-center bg-black/20 p-8 text-center">
+                  <div>
+                    <div className="text-5xl">📷</div>
+                    <div className="mt-4 text-xl font-black">
+                      Naloži sliko ponudnika
+                    </div>
+                    <p className="mt-3 max-w-sm text-sm leading-7 text-zinc-400">
+                      Izberi fotografijo iz računalnika. Najbolje delujejo
+                      horizontalne slike ponudnika, ambienta, hrane ali lokacije.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border-t border-white/10 p-5">
+                  <label className="flex cursor-pointer items-center justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black transition hover:opacity-90">
+                    Izberi sliko
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      className="hidden"
+                    />
+                  </label>
+
+                  <div className="mt-4 text-center text-xs leading-6 text-zinc-500">
+                    Podprto: JPG, PNG, WEBP. Kasneje bo slika shranjena v
+                    Supabase Storage.
+                  </div>
+                </div>
+              </div>
 
               <div className="mt-5 rounded-2xl border border-dashed border-white/20 bg-black/20 p-5 text-sm leading-7 text-zinc-400">
-                Za zdaj vnašamo URL slike. Kasneje bo tukaj pravi upload v
-                Supabase Storage.
+                To je trenutno upload UI prototip. Po povezavi s Supabase bo
+                sistem dejansko naložil sliko, ustvaril URL in ga shranil pri
+                ponudniku.
               </div>
             </div>
           </div>
