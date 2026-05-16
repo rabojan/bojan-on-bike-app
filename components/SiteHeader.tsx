@@ -5,7 +5,7 @@ import { useState } from "react";
 
 type SiteHeaderProps = {
   backHref?: string;
-  active?: "ture" | "ponudniki" | "dozivetja";
+  active?: "ture" | "ponudniki" | "dozivetja" | "znamenitosti";
 };
 
 export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
@@ -40,6 +40,9 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
             </Link>
             <Link href="/ponudniki" className={navClass("ponudniki")}>
               Ponudniki
+            </Link>
+            <Link href="/znamenitosti" className={navClass("znamenitosti")}>
+              Znamenitosti
             </Link>
           </nav>
 
