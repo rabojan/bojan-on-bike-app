@@ -2,6 +2,34 @@ import Link from "next/link";
 
 import AdminShell from "@/components/AdminShell";
 
+const regionAmbassadors: Record<
+  string,
+  { name: string; role: string; image?: string }[]
+> = {
+  stajerska: [
+    { name: "Bojan Ratej", role: "Ambasador regije" },
+    { name: "Ana Potočnik", role: "TOP ambasador regije" },
+  ],
+  koroska: [
+    { name: "Maja Kovač", role: "Ambasador regije" },
+  ],
+  gorenjska: [
+    { name: "Tomaž Zupan", role: "TOP ambasador regije" },
+  ],
+  primorska: [
+    { name: "Nina Furlan", role: "Ambasador regije" },
+  ],
+  notranjska: [
+    { name: "Rok Mlakar", role: "Ambasador regije" },
+  ],
+  dolenjska: [
+    { name: "Petra Novak", role: "Ambasador regije" },
+  ],
+  prekmurje: [
+    { name: "Matej Horvat", role: "Ambasador regije" },
+  ],
+};
+
 const regions = [
   {
     name: "Štajerska",
@@ -106,8 +134,7 @@ export default async function EditRegionPage({
               Uredi regijo: {region.name}
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-zinc-400">
-              Tukaj lahko spremeniš podatke regije, opis, območja, hero sliko
-              in podatke ambasadorja.
+              Tukaj lahko spremeniš podatke regije, opis, območja in hero sliko.
             </p>
           </div>
 
@@ -247,51 +274,55 @@ export default async function EditRegionPage({
           <div className="space-y-6">
             <section className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
               <p className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Ambasador regije
+                Povezani ambasadorji
               </p>
 
-              <div className="grid gap-5">
-                <div className="rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
-                  <div className="text-4xl">👤</div>
-                  <h2 className="mt-4 text-xl font-black text-white">
-                    Fotografija ambasadorja
-                  </h2>
+              <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-6">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {(regionAmbassadors[region.slug] ?? []).length > 0 ? (
+                    (regionAmbassadors[region.slug] ?? []).map((ambassador) => (
+                      <div
+                        key={ambassador.name}
+                        className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-3"
+                      >
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-[#07110b] text-2xl">
+                          {ambassador.image ? (
+                            <img
+                              src={ambassador.image}
+                              alt={ambassador.name}
+                              className="h-full w-full rounded-2xl object-cover"
+                            />
+                          ) : (
+                            "👤"
+                          )}
+                        </div>
 
-                  <label className="mt-5 inline-flex cursor-pointer rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300">
-                    Izberi sliko
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      className="hidden"
-                    />
-                  </label>
+                        <div className="min-w-0">
+                          <div className="truncate text-sm font-black text-white">
+                            {ambassador.name}
+                          </div>
+                          <div className="mt-1 truncate text-xs text-zinc-500">
+                            {ambassador.role}
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="rounded-2xl border border-white/10 bg-black/20 p-4 sm:col-span-2">
+                      <div className="text-sm font-black text-white">
+                        Ni povezanih ambasadorjev
+                      </div>
+                      <div className="mt-1 text-xs leading-5 text-zinc-500">
+                        Ambasadorje dodaš in povežeš v modulu Ambasadorji.
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <input
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                    placeholder="Ime in priimek"
-                  />
-                  <input
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                    placeholder="Kraj"
-                  />
+                <div className="mt-6 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
+                  Regije ne urejajo ambasadorjev. Tukaj se samo prikažejo osebe,
+                  ki so v modulu Ambasadorji povezane s to regijo.
                 </div>
-
-                <input
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                  placeholder="Email"
-                />
-
-                <input
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                  placeholder="Telefon"
-                />
-
-                <textarea
-                  className="min-h-32 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                  placeholder="Kratek opis ambasadorja"
-                />
               </div>
             </section>
 
