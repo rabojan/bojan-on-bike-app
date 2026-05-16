@@ -1,9 +1,26 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import AdminShell from "@/components/AdminShell";
 
 
 export default function NewRegionPage() {
+  const [areas, setAreas] = useState(["", "", ""]);
+
+  const addArea = () => {
+    setAreas((currentAreas) => [...currentAreas, ""]);
+  };
+
+  const updateArea = (index: number, value: string) => {
+    setAreas((currentAreas) =>
+      currentAreas.map((area, areaIndex) =>
+        areaIndex === index ? value : area
+      )
+    );
+  };
+
   return (
     <AdminShell active="regije">
       <div className="space-y-8">
@@ -114,21 +131,28 @@ export default function NewRegionPage() {
               </p>
 
               <div className="grid gap-4 md:grid-cols-3">
-                <input
-                  className="rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                  placeholder="npr. Pohorje"
-                />
-                <input
-                  className="rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                  placeholder="npr. Slovenske gorice"
-                />
-                <input
-                  className="rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
-                  placeholder="npr. Dravsko polje"
-                />
+                {areas.map((area, index) => (
+                  <input
+                    key={index}
+                    value={area}
+                    onChange={(event) => updateArea(index, event.target.value)}
+                    className="rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
+                    placeholder={
+                      index === 0
+                        ? "npr. Pohorje"
+                        : index === 1
+                          ? "npr. Slovenske gorice"
+                          : "npr. Dravsko polje"
+                    }
+                  />
+                ))}
               </div>
 
-              <button className="mt-4 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300">
+              <button
+                type="button"
+                onClick={addArea}
+                className="mt-4 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/50 hover:text-white"
+              >
                 + Dodaj območje
               </button>
             </section>
@@ -148,9 +172,14 @@ export default function NewRegionPage() {
                   gozdna cesta, reka, vinogradi, gore ali značilen del regije.
                 </p>
 
-                <button className="mt-6 rounded-full bg-[#c58b46] px-8 py-4 text-sm font-bold text-black">
+                <label className="mt-6 inline-flex cursor-pointer rounded-full bg-[#c58b46] px-8 py-4 text-sm font-bold text-black transition hover:bg-[#d9a35d]">
                   Izberi sliko
-                </button>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                  />
+                </label>
 
                 <p className="mt-4 text-xs text-zinc-600">
                   Podprto: JPG, PNG, WEBP. Kasneje se slika shrani v Supabase Storage.
