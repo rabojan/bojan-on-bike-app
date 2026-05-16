@@ -287,7 +287,7 @@ export default function Home() {
                   </div>
 
                   <a
-                    href={`/ture?pokrajina=${slugify(trail.region)}`}
+                    href={`/ture/${slugify(trail.title)}`}
                     className="block w-full rounded-full border border-[#c58b46]/40 px-5 py-3 text-center font-semibold transition hover:bg-[#c58b46] hover:text-black"
                   >
                     Oglej si turo
