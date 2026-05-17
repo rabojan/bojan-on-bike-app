@@ -2,7 +2,26 @@ import Link from "next/link";
 
 import AdminShell from "@/components/AdminShell";
 
-const regions = [
+type Region = {
+  name: string;
+  slug: string;
+  status: "Aktivna" | "V pripravi";
+  headline: string;
+  description: string;
+  areas: string[];
+  trails: string[];
+  providers: string[];
+  experiences: string[];
+  points: string[];
+};
+
+type RegionAmbassador = {
+  name: string;
+  role: "Ambasador regije" | "TOP ambasador regije";
+  image?: string;
+};
+
+const regions: Region[] = [
   {
     name: "Štajerska",
     slug: "stajerska",
@@ -12,17 +31,17 @@ const regions = [
       "Regija za ture čez Pohorje, Slovenske gorice, vinske poti in krajše doživljajske izlete.",
     areas: ["Pohorje", "Slovenske gorice", "Dravsko polje"],
     trails: ["Gozdni flow nad Mariborom", "Med vinogradi in griči"],
-    providers: ["Rudijev dom na Pohorju", "Gorska hiša Pohorje", "Vinska klet med griči"],
+    providers: [
+      "Rudijev dom na Pohorju",
+      "Gorska hiša Pohorje",
+      "Vinska klet med griči",
+    ],
     experiences: ["Vinski kolesarski dan", "Pohorski flow in kosilo"],
-    points: ["Razgled nad Mariborom", "Pohorski gozdni odsek", "Stara planinska pot"],
-    ambassador: {
-      name: "Ni določen",
-      location: "Regijski ambasador še ni izbran",
-      email: "—",
-      phone: "—",
-      image: "",
-      status: "V pripravi",
-    },
+    points: [
+      "Razgled nad Mariborom",
+      "Pohorski gozdni odsek",
+      "Stara planinska pot",
+    ],
   },
   {
     name: "Koroška",
@@ -36,14 +55,6 @@ const regions = [
     providers: [],
     experiences: [],
     points: [],
-    ambassador: {
-      name: "Ni določen",
-      location: "Regijski ambasador še ni izbran",
-      email: "—",
-      phone: "—",
-      image: "",
-      status: "V pripravi",
-    },
   },
   {
     name: "Gorenjska",
@@ -57,14 +68,6 @@ const regions = [
     providers: [],
     experiences: ["Družinski e-bike izlet"],
     points: [],
-    ambassador: {
-      name: "Ni določen",
-      location: "Regijski ambasador še ni izbran",
-      email: "—",
-      phone: "—",
-      image: "",
-      status: "V pripravi",
-    },
   },
   {
     name: "Primorska",
@@ -78,14 +81,6 @@ const regions = [
     providers: [],
     experiences: [],
     points: [],
-    ambassador: {
-      name: "Ni določen",
-      location: "Regijski ambasador še ni izbran",
-      email: "—",
-      phone: "—",
-      image: "",
-      status: "V pripravi",
-    },
   },
   {
     name: "Notranjska",
@@ -99,14 +94,6 @@ const regions = [
     providers: [],
     experiences: [],
     points: [],
-    ambassador: {
-      name: "Ni določen",
-      location: "Regijski ambasador še ni izbran",
-      email: "—",
-      phone: "—",
-      image: "",
-      status: "V pripravi",
-    },
   },
   {
     name: "Dolenjska",
@@ -120,14 +107,6 @@ const regions = [
     providers: [],
     experiences: [],
     points: [],
-    ambassador: {
-      name: "Ni določen",
-      location: "Regijski ambasador še ni izbran",
-      email: "—",
-      phone: "—",
-      image: "",
-      status: "V pripravi",
-    },
   },
   {
     name: "Prekmurje",
@@ -141,20 +120,25 @@ const regions = [
     providers: [],
     experiences: [],
     points: [],
-    ambassador: {
-      name: "Ni določen",
-      location: "Regijski ambasador še ni izbran",
-      email: "—",
-      phone: "—",
-      image: "",
-      status: "V pripravi",
-    },
   },
 ];
 
+const regionAmbassadors: Record<string, RegionAmbassador[]> = {
+  stajerska: [{ name: "Bojan Ratej", role: "Ambasador regije" }],
+  koroska: [{ name: "Maja Kovač", role: "Ambasador regije" }],
+  gorenjska: [{ name: "Tomaž Zupan", role: "TOP ambasador regije" }],
+  primorska: [{ name: "Nina Furlan", role: "Ambasador regije" }],
+  notranjska: [{ name: "Rok Mlakar", role: "Ambasador regije" }],
+  dolenjska: [{ name: "Petra Novak", role: "Ambasador regije" }],
+  prekmurje: [{ name: "Matej Horvat", role: "Ambasador regije" }],
+};
+
 const totalTrails = regions.reduce((sum, region) => sum + region.trails.length, 0);
 const totalProviders = regions.reduce((sum, region) => sum + region.providers.length, 0);
-const totalExperiences = regions.reduce((sum, region) => sum + region.experiences.length, 0);
+const totalExperiences = regions.reduce(
+  (sum, region) => sum + region.experiences.length,
+  0
+);
 const totalPoints = regions.reduce((sum, region) => sum + region.points.length, 0);
 
 function ContentList({ title, items }: { title: string; items: string[] }) {
@@ -182,6 +166,50 @@ function ContentList({ title, items }: { title: string; items: string[] }) {
   );
 }
 
+function AmbassadorList({ ambassadors }: { ambassadors: RegionAmbassador[] }) {
+  if (ambassadors.length === 0) {
+    return (
+      <div className="rounded-2xl border border-dashed border-white/10 bg-black/20 p-4 text-sm text-zinc-500">
+        Ambasadorji še niso povezani. Dodaš jih v modulu Ambasadorji.
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {ambassadors.map((ambassador) => (
+        <div
+          key={ambassador.name}
+          className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-3"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#07110b] text-xl">
+            {ambassador.image ? (
+              <img
+                src={ambassador.image}
+                alt={ambassador.name}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              "👤"
+            )}
+          </div>
+
+          <div className="min-w-0">
+            <div className="truncate text-sm font-black text-white">
+              {ambassador.name}
+            </div>
+            <div className="mt-1 text-xs font-semibold text-zinc-400">
+              {ambassador.role === "TOP ambasador regije"
+                ? "⭐ TOP ambasador regije"
+                : "Ambasador regije"}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function AdminRegionsPage() {
   return (
     <AdminShell active="regije">
@@ -195,8 +223,8 @@ export default function AdminRegionsPage() {
               Upravljanje regij
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-zinc-400">
-              Tukaj urejaš slovenske regije, območja, povezane ture,
-              ponudnike, znamenitosti, doživetja in ambasadorje regij.
+              Tukaj urejaš slovenske regije, območja in vsebine, ki so z njimi
+              povezane: ture, ponudnike, znamenitosti, doživetja in ambasadorje.
             </p>
           </div>
 
@@ -210,168 +238,185 @@ export default function AdminRegionsPage() {
 
         <section className="grid grid-cols-3 gap-3 sm:grid-cols-5">
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="text-3xl font-black sm:text-4xl">{regions.length}</div>
-            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vse regije</div>
+            <div className="text-3xl font-black sm:text-4xl">
+              {regions.length}
+            </div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
+              vse regije
+            </div>
           </div>
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
             <div className="text-3xl font-black sm:text-4xl">{totalTrails}</div>
-            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vse ture</div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
+              vse ture
+            </div>
           </div>
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="text-3xl font-black sm:text-4xl">{totalProviders}</div>
-            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vsi ponudniki</div>
+            <div className="text-3xl font-black sm:text-4xl">
+              {totalProviders}
+            </div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
+              vsi ponudniki
+            </div>
           </div>
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="text-3xl font-black sm:text-4xl">{totalExperiences}</div>
-            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vsa doživetja</div>
+            <div className="text-3xl font-black sm:text-4xl">
+              {totalExperiences}
+            </div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
+              vsa doživetja
+            </div>
           </div>
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
             <div className="text-3xl font-black sm:text-4xl">{totalPoints}</div>
-            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">vse znamenitosti</div>
+            <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
+              vse znamenitosti
+            </div>
           </div>
         </section>
 
         <section className="grid gap-5">
-          {regions.map((region) => (
-            <article
-              key={region.slug}
-              className="rounded-[32px] border border-white/10 bg-black/20 p-6"
-            >
-              <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-                <div>
-                  <div className="mb-4 flex flex-wrap gap-2">
-                    <span
-                      className={`rounded-full px-4 py-2 text-xs font-bold ${
-                        region.status === "Aktivna"
-                          ? "bg-emerald-500/10 text-emerald-300"
-                          : "bg-yellow-500/10 text-yellow-300"
-                      }`}
-                    >
-                      {region.status}
-                    </span>
+          {regions.map((region) => {
+            const ambassadors = regionAmbassadors[region.slug] ?? [];
 
-                    {region.areas.map((area) => (
+            return (
+              <article
+                key={region.slug}
+                className="rounded-[32px] border border-white/10 bg-black/20 p-6"
+              >
+                <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+                  <div>
+                    <div className="mb-4 flex flex-wrap gap-2">
                       <span
-                        key={area}
-                        className="rounded-full border border-white/10 bg-[#07110b] px-4 py-2 text-xs text-zinc-300"
+                        className={`rounded-full px-4 py-2 text-xs font-bold ${
+                          region.status === "Aktivna"
+                            ? "bg-emerald-500/10 text-emerald-300"
+                            : "bg-yellow-500/10 text-yellow-300"
+                        }`}
                       >
-                        {area}
+                        {region.status}
                       </span>
-                    ))}
+
+                      {region.areas.map((area) => (
+                        <span
+                          key={area}
+                          className="rounded-full border border-white/10 bg-[#07110b] px-4 py-2 text-xs text-zinc-300"
+                        >
+                          {area}
+                        </span>
+                      ))}
+                    </div>
+
+                    <h2 className="text-3xl font-black tracking-tight text-white">
+                      {region.name}
+                    </h2>
+
+                    <p className="mt-3 text-lg font-bold text-zinc-200">
+                      {region.headline}
+                    </p>
+
+                    <p className="mt-4 max-w-3xl text-base leading-8 text-zinc-400">
+                      {region.description}
+                    </p>
+
+                    <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                      <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
+                        <div className="text-xl font-black sm:text-2xl">
+                          {region.trails.length}
+                        </div>
+                        <div className="mt-1 text-xs text-zinc-500">ture</div>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
+                        <div className="text-xl font-black sm:text-2xl">
+                          {region.providers.length}
+                        </div>
+                        <div className="mt-1 text-xs text-zinc-500">
+                          ponudniki
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
+                        <div className="text-xl font-black sm:text-2xl">
+                          {region.experiences.length}
+                        </div>
+                        <div className="mt-1 text-xs text-zinc-500">
+                          doživetja
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
+                        <div className="text-xl font-black sm:text-2xl">
+                          {region.points.length}
+                        </div>
+                        <div className="mt-1 text-xs text-zinc-500">
+                          znamenitosti
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <h2 className="text-3xl font-black tracking-tight text-white">
-                    {region.name}
-                  </h2>
+                  <div className="grid gap-4">
+                    <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+                      <div className="mb-4 text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                        Ambasadorji regije
+                      </div>
 
-                  <p className="mt-3 text-lg font-bold text-zinc-200">
-                    {region.headline}
-                  </p>
+                      <AmbassadorList ambassadors={ambassadors} />
 
-                  <p className="mt-4 max-w-3xl text-base leading-8 text-zinc-400">
-                    {region.description}
-                  </p>
+                      <div className="mt-6 flex flex-wrap gap-3">
+                        <Link
+                          href={`/admin/regije/${region.slug}`}
+                          className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
+                        >
+                          Uredi regijo
+                        </Link>
 
-                  <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                      <div className="text-xl font-black sm:text-2xl">{region.trails.length}</div>
-                      <div className="mt-1 text-xs text-zinc-500">ture</div>
-                    </div>
+                        <Link
+                          href="/admin/ambasadorji"
+                          className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
+                        >
+                          Ambasadorji
+                        </Link>
 
-                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                      <div className="text-xl font-black sm:text-2xl">{region.providers.length}</div>
-                      <div className="mt-1 text-xs text-zinc-500">ponudniki</div>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                      <div className="text-xl font-black sm:text-2xl">{region.experiences.length}</div>
-                      <div className="mt-1 text-xs text-zinc-500">doživetja</div>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                      <div className="text-xl font-black sm:text-2xl">{region.points.length}</div>
-                      <div className="mt-1 text-xs text-zinc-500">znamenitosti</div>
+                        <Link
+                          href={`/ture?pokrajina=${region.slug}`}
+                          className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
+                        >
+                          Predogled
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="grid gap-4">
-                  <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
-                    <div className="mb-4 text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-                      Ambasadorji
-                    </div>
-
-                    <div className="flex gap-4">
-                      <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/30 text-3xl">
-                        {region.ambassador.image ? (
-                          <img
-                            src={region.ambassador.image}
-                            alt={region.ambassador.name}
-                            className="h-full w-full rounded-2xl object-cover"
-                          />
-                        ) : (
-                          "👤"
-                        )}
-                      </div>
-
-                      <div>
-                        <div className="text-lg font-black text-white">
-                          {region.ambassador.name}
-                        </div>
-                        <div className="mt-1 text-sm text-zinc-400">
-                          {region.ambassador.location}
-                        </div>
-                        <div className="mt-3 grid gap-1 text-sm text-zinc-300">
-                          <div>{region.ambassador.email}</div>
-                          <div>{region.ambassador.phone}</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-6 flex flex-wrap gap-3">
-                      <Link
-                        href={`/admin/regije/${region.slug}`}
-                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
-                      >
-                        Uredi
-                      </Link>
-
-                      <Link
-                        href={`/ture?pokrajina=${region.slug}`}
-                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
-                      >
-                        Predogled
-                      </Link>
-                    </div>
-                  </div>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  <ContentList title="Ture v regiji" items={region.trails} />
+                  <ContentList title="Ponudniki" items={region.providers} />
+                  <ContentList title="Doživetja" items={region.experiences} />
+                  <ContentList title="Znamenitosti" items={region.points} />
                 </div>
-              </div>
-
-              <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                <ContentList title="Ture v regiji" items={region.trails} />
-                <ContentList title="Ponudniki" items={region.providers} />
-                <ContentList title="Doživetja" items={region.experiences} />
-                <ContentList title="Znamenitosti" items={region.points} />
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </section>
 
         <section className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-8">
           <p className="mb-4 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-            Naslednja faza
+            Povezava z ambasadorji
           </p>
           <h2 className="text-3xl font-black tracking-tight text-white">
-            Regije bodo povezane z ambasadorji.
+            Regije prikazujejo povezane ambasadorje.
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-8 text-zinc-400">
-            Vsaka regija bo imela svojega lokalnega ambasadorja z imenom,
-            fotografijo, krajem, emailom in telefonom. Kasneje se bo to
-            povezalo z modulom Ambasadorji.
+            Regija ostaja prostor za urejanje območja, opisa in povezanih
+            vsebin. Podatki ambasadorjev se urejajo v modulu Ambasadorji, tukaj
+            pa se prikaže samo kompakten seznam oseb, ki so povezane s to
+            regijo.
           </p>
         </section>
       </div>
