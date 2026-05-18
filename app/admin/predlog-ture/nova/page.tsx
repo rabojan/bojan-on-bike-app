@@ -15,12 +15,8 @@ const regions = [
 
 const trailTypes = [
   "Gravel",
-  "MTB",
   "Cestna",
-  "E-bike",
-  "Družinska",
   "Gozdna",
-  "Makadamska",
 ];
 
 const providersNearTrail = [
@@ -107,7 +103,7 @@ function Field({
       <input
         type={type}
         placeholder={placeholder}
-        className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none placeholder:text-zinc-600"
+        className="mt-2 h-[56px] w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 text-white outline-none placeholder:text-zinc-600"
       />
 
       {counter ? (
@@ -137,7 +133,7 @@ function TextArea({
       <textarea
         rows={rows}
         placeholder={placeholder}
-        className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none placeholder:text-zinc-600"
+        className="mt-2 h-[56px] w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 text-white outline-none placeholder:text-zinc-600"
       />
 
       {counter ? (
@@ -163,7 +159,7 @@ function UploadBox({
   required?: boolean;
 }) {
   return (
-    <div className="rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
+    <div className="rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-5 text-center">
       <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
         {label}
       </div>
@@ -273,20 +269,20 @@ export default function NewTrailProposalPage() {
             <Field
               label="Ime in priimek *"
               placeholder="npr. Bojan Ratej"
-              counter="80"
+              counter="30"
             />
 
             <Field
               label="Email *"
               placeholder="npr. ime@email.si"
               type="email"
-              counter="120"
+              counter="30"
             />
 
             <label className="block text-sm font-bold text-zinc-200">
               <span>Regija ambasadorja *</span>
 
-              <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+              <select className="mt-2 h-[56px] w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 text-white outline-none">
                 <option>Izberi svojo regijo</option>
                 {regions.map((region) => (
                   <option key={region}>{region}</option>
@@ -295,11 +291,6 @@ export default function NewTrailProposalPage() {
             </label>
           </div>
 
-          <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
-            TOP oznaka se ne izbere ročno. TOP ambasador regije postane
-            ambasador, ki ima najmanj 20 potrjenih tur in izstopa po kakovosti
-            svojih predlogov.
-          </div>
         </Section>
 
         <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
@@ -319,7 +310,7 @@ export default function NewTrailProposalPage() {
                 <label className="block text-sm font-bold text-zinc-200">
                   <span>Regija ture *</span>
 
-                  <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                  <select className="mt-2 h-[56px] w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 text-white outline-none">
                     <option>Izberi regijo, kjer poteka tura</option>
                     {regions.map((region) => (
                       <option key={region}>{region}</option>
@@ -336,17 +327,17 @@ export default function NewTrailProposalPage() {
                   />
                 </div>
 
-                <Field label="Dolžina" placeholder="npr. 92 km" counter="20" />
+                <Field label="Dolžina" placeholder="npr. 92 km" counter="10" />
                 <Field
                   label="Višinski metri"
                   placeholder="npr. 1450 m"
-                  counter="20"
+                  counter="10"
                 />
 
                 <label className="block text-sm font-bold text-zinc-200">
                   <span>Težavnost</span>
 
-                  <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                  <select className="mt-2 h-[56px] w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 text-white outline-none">
                     <option>Izberi težavnost</option>
                     <option>Lahka</option>
                     <option>Srednja</option>
@@ -357,8 +348,8 @@ export default function NewTrailProposalPage() {
 
                 <Field
                   label="Ožje območje"
-                  placeholder="npr. Areh, Pohorje, Slovenske gorice"
-                  counter="80"
+                  placeholder="npr. Areh / Pohorje"
+                  counter="20"
                 />
               </div>
 
@@ -375,7 +366,7 @@ export default function NewTrailProposalPage() {
             <Section
               eyebrow="3 / Tip ture in primernost"
               title="Kakšna tura je to?"
-              intro="Izberi samo tiste oznake, ki res pomagajo razumeti turo. Doživetja, kulinariko in podobno bomo povezovali posebej."
+              intro="Izberi osnovni tip ture. E-bike in družinska primernost sta določena posebej."
             >
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {trailTypes.map((type) => (
@@ -396,7 +387,7 @@ export default function NewTrailProposalPage() {
                 <label className="block text-sm font-bold text-zinc-200">
                   <span>E-bike friendly</span>
 
-                  <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                  <select className="mt-2 h-[56px] w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 text-white outline-none">
                     <option>Izberi</option>
                     <option>Da</option>
                     <option>Ne</option>
@@ -407,7 +398,7 @@ export default function NewTrailProposalPage() {
                 <label className="block text-sm font-bold text-zinc-200">
                   <span>Family friendly</span>
 
-                  <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                  <select className="mt-2 h-[56px] w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 text-white outline-none">
                     <option>Izberi</option>
                     <option>Da</option>
                     <option>Ne</option>
@@ -461,7 +452,7 @@ export default function NewTrailProposalPage() {
                       Poudarek {item}
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr]">
+                    <div className="grid items-start gap-4 md:grid-cols-[0.85fr_1.15fr]">
                       <UploadBox
                         label="Slika"
                         title="Dodaj sliko"
@@ -472,15 +463,15 @@ export default function NewTrailProposalPage() {
                       <div className="space-y-4">
                         <Field
                           label="Naslov poudarka"
-                          placeholder="npr. Gozdni vzpon proti Arehu"
-                          counter="80"
+                          placeholder="npr. Gozdni vzpon"
+                          counter="25"
                         />
 
                         <TextArea
                           label="Kratek opis"
                           placeholder="Zakaj je ta del poti poseben?"
-                          rows={4}
-                          counter="300"
+                          rows={5}
+                          counter="200"
                         />
                       </div>
                     </div>
@@ -603,7 +594,7 @@ export default function NewTrailProposalPage() {
                       Utrinek {index + 1}
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-[0.7fr_1.3fr]">
+                    <div className="grid items-start gap-4 md:grid-cols-[0.75fr_1.25fr]">
                       <UploadBox
                         label="Slika"
                         title="Dodaj"
@@ -614,15 +605,8 @@ export default function NewTrailProposalPage() {
                       <div className="space-y-4">
                         <Field
                           label="Naslov slike"
-                          placeholder="npr. Miren makadam ob železnici"
-                          counter="80"
-                        />
-
-                        <TextArea
-                          label="Kratek opis"
-                          placeholder="Kaj prikazuje ta utrinek?"
-                          rows={3}
-                          counter="220"
+                          placeholder="npr. Miren makadam"
+                          counter="25"
                         />
                       </div>
                     </div>
@@ -641,9 +625,9 @@ export default function NewTrailProposalPage() {
               </h2>
 
               <p className="mt-3 text-sm leading-7 text-zinc-400">
-                Ko pošlješ predlog, ga skupaj pripravimo za objavo: preverimo
-                podatke, po potrebi dodamo postanke in znamenitosti ter ga
-                oblikujemo v doživetje, ki bo nosilo tudi tvoj podpis.
+                Ko pošlješ predlog, tura ostane povezana s teboj. Skupaj jo pripravimo
+                tako, da bo jasno predstavljena, uporabna za druge kolesarje
+                in objavljena s tvojim podpisom.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-zinc-500">
