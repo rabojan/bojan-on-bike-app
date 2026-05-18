@@ -243,32 +243,54 @@ export default function TrailPage() {
         </div>
       </section>
 
-      <section className="px-6 py-12">
+      <section className="px-6 py-14">
         <div className="mx-auto max-w-6xl">
-          <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
-            <div className="mb-6 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-              Izbral lokalni ambasador
-            </div>
+          <div className="relative overflow-hidden rounded-[36px] border border-[#c58b46]/20 bg-gradient-to-br from-[#102417] via-[#0b1a10] to-[#07110b] p-6 shadow-2xl shadow-black/20 md:p-8">
+            <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#c58b46]/10 blur-3xl" />
+            <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-full bg-gradient-to-r from-emerald-500/5 to-transparent" />
 
-            <div className="flex items-center gap-5">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-[#07110b] text-3xl">
-                👤
-              </div>
-
+            <div className="relative grid gap-8 lg:grid-cols-[0.9fr_1.4fr] lg:items-center">
               <div>
-                <div className="text-2xl font-black text-white">
-                  Bojan Ratej
+                <div className="mb-5 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
+                  Izbral lokalni ambasador
                 </div>
-                <div className="mt-1 text-base font-semibold text-zinc-300">
-                  Ambasador Štajerske
+
+                <div className="flex items-center gap-5">
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[24px] border border-white/10 bg-[#07110b] text-4xl shadow-xl shadow-black/20">
+                    👤
+                  </div>
+
+                  <div>
+                    <div className="text-3xl font-black text-white">
+                      Bojan Ratej
+                    </div>
+                    <div className="mt-1 text-base font-semibold text-zinc-300">
+                      Ambasador Štajerske
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-[28px] border border-white/10 bg-black/20 p-6 md:p-7">
+                <p className="text-xl font-black leading-9 text-white md:text-2xl">
+                  “Ta tura najbolje pokaže, kako hitro lahko iz mesta prideš v
+                  pravi pohorski gozd, razgled in mir.”
+                </p>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {["lokalni izbor", "pozna teren", "priporočen postanek"].map(
+                    (item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs font-semibold text-[#f4d7ad]"
+                      >
+                        {item}
+                      </span>
+                    )
+                  )}
                 </div>
               </div>
             </div>
-
-            <p className="mt-6 max-w-3xl text-sm leading-7 text-zinc-400">
-              Turo je izbral lokalni ambasador, ki pozna teren, postanke,
-              razglede in posebnosti poti.
-            </p>
           </div>
         </div>
       </section>
@@ -375,74 +397,144 @@ export default function TrailPage() {
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-            Na poti
-          </div>
-          <h2 className="text-4xl font-black">Kaj doživiš na poti.</h2>
-          <p className="mt-5 max-w-3xl leading-8 text-zinc-300">
-            Kratek pregled trenutkov, ki določijo značaj ture: vstop v gozd,
-            razgled nad mestom in zaključni flow skozi pohorske odseke.
-          </p>
+      <section className="relative overflow-hidden border-y border-white/10 bg-[#0b1a10] px-6 py-20">
+        <div className="pointer-events-none absolute left-0 top-0 h-80 w-80 rounded-full bg-emerald-500/5 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#c58b46]/5 blur-3xl" />
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {moments.map((item) => (
-              <article
-                key={item.title}
-                className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]"
-              >
+        <div className="relative mx-auto max-w-6xl">
+          <div className="mb-10 grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-end">
+            <div>
+              <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
+                Na poti
+              </div>
+              <h2 className="text-4xl font-black md:text-5xl">
+                Kaj doživiš na poti.
+              </h2>
+            </div>
+
+            <p className="max-w-2xl leading-8 text-zinc-300">
+              Kratek pregled trenutkov, ki določijo značaj ture: vstop v gozd,
+              razgled nad mestom in zaključni flow skozi pohorske odseke.
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
+            <article className="group overflow-hidden rounded-[34px] border border-white/10 bg-[#07110b] shadow-2xl shadow-black/20">
+              <div className="relative min-h-[420px]">
                 <img
-                  src={item.image}
-                  alt={item.title}
-                  className="h-56 w-full object-cover"
+                  src={moments[0].image}
+                  alt={moments[0].title}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
-                <div className="p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-[#07110b]/35 to-transparent" />
+
+                <div className="absolute bottom-0 left-0 right-0 p-7 md:p-8">
                   <div className="mb-4 flex gap-2">
                     <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]">
-                      {item.km}
+                      {moments[0].km}
                     </span>
-                    <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300">
-                      {item.time}
+                    <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1.5 text-xs text-zinc-200">
+                      {moments[0].time}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-black">{item.title}</h3>
-                  <p className="mt-4 leading-7 text-zinc-400">{item.text}</p>
+                  <h3 className="text-3xl font-black md:text-4xl">
+                    {moments[0].title}
+                  </h3>
+                  <p className="mt-4 max-w-2xl leading-7 text-zinc-300">
+                    {moments[0].text}
+                  </p>
                 </div>
-              </article>
-            ))}
+              </div>
+            </article>
+
+            <div className="grid gap-6">
+              {moments.slice(1).map((item) => (
+                <article
+                  key={item.title}
+                  className="grid overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b] md:grid-cols-[0.85fr_1fr] lg:grid-cols-1"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="h-52 w-full object-cover md:h-full lg:h-44"
+                  />
+                  <div className="p-6">
+                    <div className="mb-4 flex gap-2">
+                      <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]">
+                        {item.km}
+                      </span>
+                      <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300">
+                        {item.time}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl font-black">{item.title}</h3>
+                    <p className="mt-4 leading-7 text-zinc-400">
+                      {item.text}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-            Ponudniki ob tej turi
-          </div>
+      <section className="relative overflow-hidden px-6 py-20">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#c58b46]/30 to-transparent" />
+        <div className="pointer-events-none absolute -left-28 bottom-10 h-72 w-72 rounded-full bg-[#c58b46]/5 blur-3xl" />
 
-          <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
-            <div>
-              <h2 className="text-4xl font-black">
-                Postanki, ki naredijo kolesarski dan.
-              </h2>
-              <p className="mt-5 leading-8 text-zinc-300">
-                Tukaj se tura spremeni v doživetje: domača hrana, prenočišče,
-                terasa, pogled in možnost polnjenja e-kolesa.
-              </p>
+        <div className="relative mx-auto max-w-6xl">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
+            <div className="flex flex-col justify-between rounded-[34px] border border-white/10 bg-gradient-to-br from-[#102417] to-[#07110b] p-7 md:p-8">
+              <div>
+                <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
+                  Ponudniki ob tej turi
+                </div>
+
+                <h2 className="text-4xl font-black md:text-5xl">
+                  Kje se dan ustavi.
+                </h2>
+
+                <p className="mt-5 leading-8 text-zinc-300">
+                  Tukaj se tura spremeni v doživetje: domača hrana, prenočišče,
+                  terasa, pogled in možnost polnjenja e-kolesa.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                {["kosilo po turi", "e-bike polnilnica", "možnost prenočitve"].map(
+                  (item) => (
+                    <div
+                      key={item}
+                      className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm font-semibold text-zinc-300"
+                    >
+                      {item}
+                    </div>
+                  )
+                )}
+              </div>
             </div>
 
             <div className="grid gap-5 md:grid-cols-2">
-              {providers.map((provider) => (
+              {providers.map((provider, index) => (
                 <article
                   key={provider.name}
-                  className="overflow-hidden rounded-[28px] border border-white/10 bg-[#0b1a10]"
+                  className={`overflow-hidden rounded-[30px] border border-white/10 bg-[#0b1a10] shadow-2xl shadow-black/10 ${
+                    index === 0 ? "md:translate-y-8" : ""
+                  }`}
                 >
-                  <img
-                    src={provider.image}
-                    alt={provider.name}
-                    className="h-48 w-full object-cover"
-                  />
+                  <div className="relative h-52 overflow-hidden">
+                    <img
+                      src={provider.image}
+                      alt={provider.name}
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
+                    <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
+                      {provider.distance}
+                    </div>
+                  </div>
+
                   <div className="p-6">
                     <div className="mb-4 flex flex-wrap gap-2">
                       {provider.types.map((type) => (
@@ -459,16 +551,16 @@ export default function TrailPage() {
                         </span>
                       )}
                     </div>
-                    <div className="mb-2 text-xs uppercase tracking-[0.2em] text-zinc-500">
-                      {provider.distance}
-                    </div>
+
                     <h3 className="text-2xl font-black">{provider.name}</h3>
                     <p className="mt-4 leading-7 text-zinc-400">
                       {provider.description}
                     </p>
-                    <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-[#f4d7ad]">
+
+                    <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm font-semibold leading-6 text-[#f4d7ad]">
                       {provider.moment}
                     </div>
+
                     <div className="mt-5 flex flex-wrap gap-3">
                       <a
                         href={`tel:${provider.phone.replace(/\s/g, "")}`}
