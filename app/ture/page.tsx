@@ -135,68 +135,87 @@ export default function ToursPage() {
         imagePosition="center"
       />
 
-      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-10">
-        <div className="mx-auto max-w-6xl space-y-8">
-          <div>
-            <div className="mb-4 text-xs uppercase tracking-[0.25em] text-zinc-500">
-              Pokrajina
+      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-8">
+        <div className="mx-auto max-w-6xl rounded-[28px] border border-white/10 bg-[#07110b] p-5 md:p-6">
+          <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                Poišči turo zase
+              </div>
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                Najprej izberi pokrajino, potem po potrebi zoži izbor po zahtevnosti ali občutku dneva.
+              </p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              {regions.map((region) => (
-                <button
-                  key={region}
-                  onClick={() => setActiveRegion(region)}
-                  className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
-                    activeRegion === region
-                      ? "bg-[#c58b46] text-black"
-                      : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
-                  }`}
-                >
-                  {region}
-                </button>
-              ))}
+
+            <div className="text-sm text-zinc-500">
+              {filteredTours.length} {filteredTours.length === 1 ? "tura" : "ture"}
             </div>
           </div>
 
-          <div>
-            <div className="mb-4 text-xs uppercase tracking-[0.25em] text-zinc-500">
-              Težavnost
+          <div className="space-y-5">
+            <div>
+              <div className="mb-3 text-[11px] uppercase tracking-[0.22em] text-zinc-500">
+                Pokrajina
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {regions.map((region) => (
+                  <button
+                    key={region}
+                    onClick={() => setActiveRegion(region)}
+                    className={`rounded-full px-4 py-2 text-xs font-semibold transition md:text-sm ${
+                      activeRegion === region
+                        ? "bg-[#c58b46] text-black"
+                        : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
+                    }`}
+                  >
+                    {region}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-3">
-              {difficulties.map((difficulty) => (
-                <button
-                  key={difficulty}
-                  onClick={() => setActiveDifficulty(difficulty)}
-                  className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
-                    activeDifficulty === difficulty
-                      ? "bg-[#c58b46] text-black"
-                      : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
-                  }`}
-                >
-                  {difficulty}
-                </button>
-              ))}
-            </div>
-          </div>
 
-          <div>
-            <div className="mb-4 text-xs uppercase tracking-[0.25em] text-zinc-500">
-              Občutek dneva
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {feelings.map((feeling) => (
-                <button
-                  key={feeling}
-                  onClick={() => setActiveFeeling(feeling)}
-                  className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
-                    activeFeeling === feeling
-                      ? "bg-[#c58b46] text-black"
-                      : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
-                  }`}
-                >
-                  {feeling}
-                </button>
-              ))}
+            <div className="grid gap-5 md:grid-cols-2">
+              <div>
+                <div className="mb-3 text-[11px] uppercase tracking-[0.22em] text-zinc-500">
+                  Zahtevnost
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {difficulties.map((difficulty) => (
+                    <button
+                      key={difficulty}
+                      onClick={() => setActiveDifficulty(difficulty)}
+                      className={`rounded-full px-4 py-2 text-xs font-semibold transition md:text-sm ${
+                        activeDifficulty === difficulty
+                          ? "bg-[#c58b46] text-black"
+                          : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
+                      }`}
+                    >
+                      {difficulty}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-3 text-[11px] uppercase tracking-[0.22em] text-zinc-500">
+                  Občutek
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {feelings.map((feeling) => (
+                    <button
+                      key={feeling}
+                      onClick={() => setActiveFeeling(feeling)}
+                      className={`rounded-full px-4 py-2 text-xs font-semibold transition md:text-sm ${
+                        activeFeeling === feeling
+                          ? "bg-[#c58b46] text-black"
+                          : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
+                      }`}
+                    >
+                      {feeling}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
