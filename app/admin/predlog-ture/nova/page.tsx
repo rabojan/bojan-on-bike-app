@@ -12,7 +12,7 @@ const experiences = ["Vinski kolesarski dan", "Pohorski flow in kosilo"];
 
 export default function NewTrailProposalPage() {
   return (
-    <AdminShell active="predlog-ture">
+    <AdminShell active="ture">
       <div className="space-y-8">
         <section className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-start">
