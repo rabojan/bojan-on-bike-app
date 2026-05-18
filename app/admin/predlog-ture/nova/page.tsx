@@ -208,21 +208,6 @@ function RouteSuggestionCard({
   );
 }
 
-function DuplicateHint() {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-      <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-        Varovalka proti podvajanju
-      </div>
-
-      <p className="mt-3 text-sm leading-6 text-zinc-400">
-        Pri dodajanju novega ponudnika ali znamenitosti bo sistem preveril
-        podobna imena v isti regiji, da ne nastanejo podvojeni vnosi.
-      </p>
-    </div>
-  );
-}
-
 export default function NewTrailProposalPage() {
   return (
     <AdminShell active="ture">
@@ -507,26 +492,17 @@ export default function NewTrailProposalPage() {
                 <div className="font-black text-white">Ne najdeš ponudnika?</div>
 
                 <p className="mt-2 text-sm leading-6 text-zinc-500">
-                  Predlagaj novega. Kasneje preverimo, ali že obstaja pod
-                  podobnim imenom.
+                  Ponudnika ne vnašamo tukaj na kratko, ampak prek uradnega
+                  obrazca, da imajo vsi ponudniki enake podatke, opis, kontakt,
+                  tip in sliko.
                 </p>
 
-                <div className="mt-4 space-y-4">
-                  <Field
-                    label="Ime ponudnika"
-                    placeholder="npr. Bar Miško"
-                    counter="100"
-                  />
-
-                  <TextArea
-                    label="Zakaj se ustaviti tukaj?"
-                    placeholder="npr. dobra kava, terasa, voda, kosilo, polnjenje baterije..."
-                    rows={4}
-                    counter="500"
-                  />
-
-                  <DuplicateHint />
-                </div>
+                <Link
+                  href="/admin/ponudniki/nov"
+                  className="mt-5 inline-flex rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300"
+                >
+                  + Dodaj novega ponudnika
+                </Link>
               </div>
             </Section>
 
@@ -557,25 +533,17 @@ export default function NewTrailProposalPage() {
                 </div>
 
                 <p className="mt-2 text-sm leading-6 text-zinc-500">
-                  Predlagaj novo točko, če res pomaga turi dobiti zgodbo.
+                  Znamenitost dodamo prek uradnega obrazca, da ima enako
+                  strukturo kot vse ostale znamenitosti: opis, lokacijo, sliko
+                  in povezavo z regijo.
                 </p>
 
-                <div className="mt-4 space-y-4">
-                  <Field
-                    label="Ime znamenitosti"
-                    placeholder="npr. Razgled nad dolino"
-                    counter="100"
-                  />
-
-                  <TextArea
-                    label="Zakaj je pomembna za to turo?"
-                    placeholder="Kratek lokalni razlog, zakaj se splača ustaviti."
-                    rows={4}
-                    counter="500"
-                  />
-
-                  <DuplicateHint />
-                </div>
+                <Link
+                  href="/admin/znamenitosti/nova"
+                  className="mt-5 inline-flex rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300"
+                >
+                  + Dodaj novo znamenitost
+                </Link>
               </div>
             </Section>
 
@@ -584,31 +552,38 @@ export default function NewTrailProposalPage() {
               title="Dodaj občutek poti"
               intro="Dodaj do 8 utrinkov. Iz teh slik in kratkih naslovov lahko kasneje nastane galerija, doživetveni opis ali social objava."
             >
-              <div className="grid gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 {Array.from({ length: 8 }, (_, index) => (
                   <div
                     key={index}
                     className="rounded-[22px] border border-white/10 bg-[#07110b] p-4"
                   >
-                    <div className="mb-4 text-xs uppercase tracking-[0.22em] text-[#c58b46]">
-                      Utrinek {index + 1}
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div className="text-xs uppercase tracking-[0.22em] text-[#c58b46]">
+                        Utrinek {index + 1}
+                      </div>
+                      <div className="text-xs text-zinc-600">slika + naslov</div>
                     </div>
 
-                    <div className="grid items-start gap-4 md:grid-cols-[0.75fr_1.25fr]">
-                      <UploadBox
-                        label="Slika"
-                        title="Dodaj"
-                        description="Fotografija s poti."
-                        button="Izberi"
-                      />
-
-                      <div className="space-y-4">
-                        <Field
-                          label="Naslov slike"
-                          placeholder="npr. Miren makadam"
-                          counter="25"
-                        />
+                    <div className="rounded-[20px] border border-dashed border-white/15 bg-black/20 p-5 text-center">
+                      <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                        Slika
                       </div>
+                      <div className="mt-2 text-sm font-black text-white">
+                        Dodaj fotografijo
+                      </div>
+                      <label className="mt-4 inline-flex cursor-pointer rounded-full bg-[#c58b46] px-4 py-2 text-xs font-bold text-black transition hover:bg-[#d9a35d]">
+                        Izberi
+                        <input type="file" className="hidden" />
+                      </label>
+                    </div>
+
+                    <div className="mt-4">
+                      <Field
+                        label="Naslov slike"
+                        placeholder="npr. Miren makadam"
+                        counter="25"
+                      />
                     </div>
                   </div>
                 ))}
