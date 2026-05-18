@@ -164,18 +164,9 @@ export default function TrailPage() {
             <span className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm">
               {trail.destination}
             </span>
-            {trailTags.map((tag) => (
-              <span
-                key={tag}
-                className={`rounded-full px-4 py-2 text-sm ${
-                  tag === "e-bike friendly"
-                    ? "border border-emerald-400/40 bg-emerald-500/10 text-emerald-300"
-                    : "border border-white/10 bg-black/30 text-zinc-200"
-                }`}
-              >
-                {tag}
-              </span>
-            ))}
+            <span className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
+              e-bike friendly
+            </span>
           </div>
 
           <h1 className="mt-7 max-w-4xl text-5xl font-black leading-tight md:text-7xl">
@@ -201,24 +192,54 @@ export default function TrailPage() {
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-8">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 md:grid-cols-5">
-          {[
-            [`${trail.distanceKm} km`, "dolžina"],
-            [`${trail.elevationVm} vm`, "višina"],
-            [trail.difficulty, "težavnost"],
-            ["★★★★☆", "ocena"],
-            [trail.season, "sezona"],
-          ].map(([value, label]) => (
-            <div
-              key={label}
-              className="rounded-2xl border border-white/10 bg-black/20 p-4 md:p-5"
-            >
-              <div className="text-xl font-black md:text-2xl">{value}</div>
-              <div className="text-[9px] uppercase tracking-[0.04em] text-zinc-500 md:text-xs md:tracking-[0.2em]">{label}
+      <section className="border-y border-white/10 bg-[#0b1a10]/80 px-6 py-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-[28px] border border-white/10 bg-[#07110b]/80 p-4 shadow-2xl shadow-black/10 md:p-5">
+            <div className="grid gap-5 lg:grid-cols-[1fr_1.35fr] lg:items-center">
+              <div>
+                <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                  Na kratko
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {trailTags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
+                        tag === "e-bike friendly"
+                          ? "border border-emerald-400/40 bg-emerald-500/10 text-emerald-300"
+                          : "border border-white/10 bg-black/20 text-zinc-300"
+                      }`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+                {[
+                  [`${trail.distanceKm} km`, "dolžina"],
+                  [`${trail.elevationVm} vm`, "višinci"],
+                  [trail.difficulty, "zahtevnost"],
+                  ["★★★★☆", "ocena"],
+                  [trail.season, "sezona"],
+                ].map(([value, label]) => (
+                  <div
+                    key={label}
+                    className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3"
+                  >
+                    <div className="text-lg font-black leading-tight text-white">
+                      {value}
+                    </div>
+                    <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-zinc-500">
+                      {label}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
