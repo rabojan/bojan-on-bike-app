@@ -3,29 +3,67 @@ import type { ReactNode } from "react";
 
 import AdminShell from "@/components/AdminShell";
 
-const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
+const ambassadorRegions = [
+  "Štajerska",
+  "Koroška",
+  "Gorenjska",
+  "Primorska",
+  "Notranjska",
+  "Dolenjska",
+  "Prekmurje",
+];
+
+const trailRegions = ambassadorRegions;
 
 const trailTypes = [
   "Gravel",
   "MTB",
-  "E-bike",
   "Cestna",
+  "E-bike",
   "Družinska",
-  "Razgledna",
-  "Kulinarika",
-  "Vinska",
   "Gozdna",
   "Makadamska",
-  "Trail",
-  "Kratka",
-  "Celodnevna",
-  "Za pare",
-  "Za skupino",
 ];
 
-const providers = ["Rudijev dom na Pohorju", "Gorska hiša Pohorje", "Vinska klet med griči"];
-const points = ["Razgled nad Mariborom", "Pohorski gozdni odsek", "Stara planinska pot"];
-const experiences = ["Vinski kolesarski dan", "Pohorski flow in kosilo"];
+const providers = [
+  "Rudijev dom na Pohorju",
+  "Gorska hiša Pohorje",
+  "Vinska klet med griči",
+];
+
+const points = [
+  "Razgled nad Mariborom",
+  "Pohorski gozdni odsek",
+  "Stara planinska pot",
+];
+
+function Section({
+  eyebrow,
+  title,
+  intro,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="rounded-[32px] border border-white/10 bg-black/20 p-6 md:p-7">
+      <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+        {eyebrow}
+      </div>
+
+      <h2 className="text-2xl font-black tracking-tight text-white">{title}</h2>
+
+      {intro ? (
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">{intro}</p>
+      ) : null}
+
+      <div className="mt-6">{children}</div>
+    </section>
+  );
+}
 
 function Field({
   label,
@@ -42,8 +80,13 @@ function Field({
     <label className="space-y-2 text-sm font-bold text-zinc-200">
       <span className="flex items-center justify-between gap-3">
         {label}
-        {maxLength ? <span className="text-xs font-medium text-zinc-600">do {maxLength} znakov</span> : null}
+        {maxLength ? (
+          <span className="text-xs font-medium text-zinc-600">
+            do {maxLength} znakov
+          </span>
+        ) : null}
       </span>
+
       <input
         type={type}
         maxLength={maxLength}
@@ -69,8 +112,13 @@ function TextArea({
     <label className="block space-y-2 text-sm font-bold text-zinc-200">
       <span className="flex items-center justify-between gap-3">
         {label}
-        {maxLength ? <span className="text-xs font-medium text-zinc-600">do {maxLength} znakov</span> : null}
+        {maxLength ? (
+          <span className="text-xs font-medium text-zinc-600">
+            do {maxLength} znakov
+          </span>
+        ) : null}
       </span>
+
       <textarea
         rows={rows}
         maxLength={maxLength}
@@ -81,51 +129,55 @@ function TextArea({
   );
 }
 
-function Section({
-  eyebrow,
+function UploadBox({
+  label,
   title,
-  intro,
-  children,
+  description,
+  button,
 }: {
-  eyebrow: string;
+  label: string;
   title: string;
-  intro?: string;
-  children: ReactNode;
+  description: string;
+  button: string;
 }) {
   return (
-    <section className="rounded-[32px] border border-white/10 bg-black/20 p-6 md:p-7">
-      <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">{eyebrow}</div>
-      <h2 className="text-2xl font-black tracking-tight text-white">{title}</h2>
-      {intro ? <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">{intro}</p> : null}
-      <div className="mt-6">{children}</div>
-    </section>
-  );
-}
+    <div className="rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
+      <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
+        {label}
+      </div>
+      <div className="mt-3 text-lg font-black text-white">{title}</div>
+      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-500">
+        {description}
+      </p>
 
-function LockedNotice({ label }: { label: string }) {
-  return (
-    <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-6 text-zinc-300">
-      Najprej določi regijo ture. Ko bo regija izbrana, se bodo tukaj prikazali obstoječi {label} iz te regije.
+      <label className="mt-5 inline-flex cursor-pointer rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black transition hover:bg-[#d9a35d]">
+        {button}
+        <input type="file" className="hidden" />
+      </label>
     </div>
   );
 }
 
-function DuplicateWarning() {
+function LockedByRegion({ label }: { label: string }) {
   return (
-    <div className="rounded-2xl border border-[#c58b46]/25 bg-[#c58b46]/10 p-4">
-      <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">Možen duplikat</div>
-      <p className="mt-3 text-sm leading-6 text-zinc-300">
-        Če ambasador vpiše na primer <strong className="text-white">Bar Miško</strong>, sistem naj preveri podobna
-        imena v izbrani regiji, preden dovoli nov predlog.
-      </p>
-      <div className="mt-4 grid gap-2 text-sm">
-        {["Bar Miško", "Bar Misko", "Bistro Miško"].map((name) => (
-          <div key={name} className="flex items-center justify-between rounded-xl border border-white/10 bg-black/20 px-3 py-2">
-            <span className="font-semibold text-white">{name}</span>
-            <span className="text-xs text-zinc-500">uporabi obstoječega</span>
-          </div>
-        ))}
+    <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-6 text-zinc-300">
+      Najprej določi regijo ture. Nato se bodo tukaj prikazali obstoječi{" "}
+      {label} iz izbrane regije.
+    </div>
+  );
+}
+
+function DuplicateHint() {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+      <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+        Varovalka proti podvajanju
       </div>
+      <p className="mt-3 text-sm leading-6 text-zinc-400">
+        Če vpišeš novega ponudnika ali znamenitost, sistem kasneje preveri
+        podobna imena v izbrani regiji. Tako se izognemo podvajanju, na primer
+        “Bar Miško” in “Bar Misko”.
+      </p>
     </div>
   );
 }
@@ -138,114 +190,71 @@ export default function NewTrailProposalPage() {
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-start">
             <div>
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Admin / Ambasadorski dokument / Nova tura
+                Admin / Predlog ture
               </div>
 
               <h1 className="mt-4 text-4xl font-black tracking-tight text-white md:text-5xl">
-                Zgradi doživetje ture
+                Predlagaj svojo turo
               </h1>
 
               <p className="mt-5 max-w-3xl text-base leading-8 text-zinc-400">
-                Najprej se določi ambasador in regija. Regija nato odklene ponudnike, znamenitosti in doživetja iz
-                pravega območja. Ambasador gradi celoten predlog ture kot en dokument.
+                Ni treba, da je predlog popoln. Pomembno je, da pokažeš dobro
+                traso, svoj pogled in utrinke s poti. Iz tega lahko skupaj
+                ustvarimo kolesarsko doživetje, ki bo nosilo tudi tvoj podpis.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <Link href="/admin/ture" className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300">
+              <Link
+                href="/admin/ture"
+                className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300"
+              >
                 ← Nazaj na ture
               </Link>
-              <button className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-bold text-black">Shrani osnutek</button>
+
+              <button className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-bold text-black">
+                Shrani osnutek
+              </button>
             </div>
           </div>
         </section>
 
-        <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
+        <Section
+          eyebrow="1 / Ambasador"
+          title="Kdo predlaga turo?"
+          intro="Za prvi predlog potrebujemo samo osnovne podatke. Ko boš naslednjič prišel nazaj, se bo tukaj prikazal tvoj ambasadorski profil z oddanimi in objavljenimi turami."
+        >
+          <div className="grid gap-4 md:grid-cols-3">
+            <Field label="Ime in priimek *" placeholder="npr. Bojan Ratej" maxLength={80} />
+            <Field label="Email *" placeholder="npr. ime@email.si" type="email" maxLength={120} />
+
+            <label className="space-y-2 text-sm font-bold text-zinc-200">
+              Regija ambasadorja *
+              <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                <option>Izberi svojo regijo</option>
+                {ambassadorRegions.map((region) => (
+                  <option key={region}>{region}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
+            TOP ambasador regije se ne izbere ročno. Oznako dobi ambasador, ki
+            s potrjenimi turami in kakovostnimi predlogi izstopa v svoji regiji.
+          </div>
+        </Section>
+
+        <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-6">
             <Section
-              eyebrow="1 / Ambasador"
-              title="Kdo oddaja predlog?"
-              intro="Ambasador je prvi korak. Če ne želi oddati svojih podatkov in stati za predlogom, se postopek ustavi že tukaj."
-            >
-              <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Ime in priimek ambasadorja *" placeholder="npr. Bojan Ratej" maxLength={80} />
-                <label className="space-y-2 text-sm font-bold text-zinc-200">
-                  Oznaka ambasadorja
-                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                    <option>Ambasador Štajerske</option>
-                    <option>⭐ TOP ambasador Štajerske</option>
-                  </select>
-                </label>
-              </div>
-              <TextArea
-                label="Ambasadorjeva opomba"
-                placeholder="Zakaj predlagaš to turo? Kaj je tvoj lokalni nasvet?"
-                rows={4}
-                maxLength={500}
-              />
-            </Section>
-
-            <Section
-              eyebrow="2 / Regija"
-              title="Najprej določi regijo ture"
-              intro="Regija je ključ za nadaljevanje. Po izbiri regije se v nadaljevanju prikažejo ponudniki, znamenitosti in doživetja iz tega območja."
-            >
-              <div className="grid gap-4 md:grid-cols-2">
-                <label className="space-y-2 text-sm font-bold text-zinc-200">
-                  Regija ture *
-                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                    <option>Izberi regijo</option>
-                    {regions.map((region) => (
-                      <option key={region}>{region}</option>
-                    ))}
-                  </select>
-                </label>
-                <Field label="Ožje območje" placeholder="npr. Pohorje, Areh, Slovenske gorice" maxLength={80} />
-              </div>
-              <div className="mt-5 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm leading-7 text-zinc-400">
-                Če ambasador želi izbrati ponudnika, znamenitost ali doživetje brez izbrane regije, mora sistem prikazati:
-                <strong className="text-white"> Najprej določi regijo ture.</strong>
-              </div>
-            </Section>
-
-            <Section
-              eyebrow="3 / Hero in prvi vtis"
-              title="Kako se tura predstavi obiskovalcu?"
-              intro="To je prvi občutek ture: ime, glavni stavek, komu je namenjena in hero slika."
+              eyebrow="2 / Podatki o turi"
+              title="Osnovna slika ture"
+              intro="Tukaj vpišeš tisto, kar mora nekdo vedeti, preden se odloči za vožnjo."
             >
               <div className="grid gap-4 md:grid-cols-2">
                 <Field label="Ime ture *" placeholder="npr. Pohorski veliki krog do Areha" maxLength={80} />
-                <Field label="Glavni stavek ture *" placeholder="npr. Dolg pohorski krog z gozdnimi cestami in razgledi." maxLength={120} />
-                <label className="block space-y-2 text-sm font-bold text-zinc-200 md:col-span-2">
-                  <span className="flex items-center justify-between gap-3">
-                    Komu je tura namenjena?
-                    <span className="text-xs font-medium text-zinc-600">do 350 znakov</span>
-                  </span>
-                  <textarea
-                    rows={4}
-                    maxLength={350}
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none placeholder:text-zinc-600"
-                    placeholder="npr. Za kolesarje, ki želijo daljši dan, mirne gozdne ceste, razgledne točke in lep zaključek po makadamu."
-                  />
-                </label>
-              </div>
-
-              <div className="mt-5 rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
-                <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">Hero slika</div>
-                <div className="mt-3 text-lg font-black text-white">Prva fotografija ture</div>
-                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-500">
-                  Slika naj pokaže občutek: cesta, pokrajina, svetloba, kolesar ali značilen del trase.
-                </p>
-                <button className="mt-5 rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">Izberi hero sliko</button>
-              </div>
-            </Section>
-
-            <Section
-              eyebrow="4 / Ključni podatki"
-              title="Podatki, ki jih obiskovalec preveri takoj"
-              intro="To so osnovni podatki ob vrhu javne strani ture."
-            >
-              <div className="grid gap-4 md:grid-cols-3">
+                <Field label="Kratek stavek ob turi *" placeholder="npr. Dolg pohorski krog z gozdnimi cestami in razgledi." maxLength={120} />
                 <Field label="Dolžina" placeholder="npr. 92 km" maxLength={20} />
                 <Field label="Višinski metri" placeholder="npr. 1450 m" maxLength={20} />
                 <Field label="Čas vožnje" placeholder="npr. 5–6 h" maxLength={20} />
@@ -261,28 +270,40 @@ export default function NewTrailProposalPage() {
                   </select>
                 </label>
 
-                <Field label="Najboljša sezona" placeholder="npr. pomlad, poletje, jesen" maxLength={80} />
-                <Field label="Start / cilj" placeholder="npr. Slovenska Bistrica" maxLength={100} />
+                <label className="space-y-2 text-sm font-bold text-zinc-200">
+                  Regija ture *
+                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                    <option>Izberi regijo, kjer poteka tura</option>
+                    {trailRegions.map((region) => (
+                      <option key={region}>{region}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <Field label="Ožje območje" placeholder="npr. Areh, Pohorje, Slovenske gorice" maxLength={80} />
               </div>
 
-              <div className="mt-5 rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
-                <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">GPX</div>
-                <div className="mt-3 text-lg font-black text-white">GPX datoteka</div>
-                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-500">
-                  GPX bo kasneje shranjen v zaščiten storage in prikazan na zemljevidu ture.
-                </p>
-                <button className="mt-5 rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">Izberi GPX</button>
+              <div className="mt-5">
+                <TextArea
+                  label="Tvoj lokalni pogled"
+                  placeholder="Zakaj je ta tura vredna? Komu bi jo priporočil? Na kaj naj bo kolesar pozoren?"
+                  rows={5}
+                  maxLength={700}
+                />
               </div>
             </Section>
 
             <Section
-              eyebrow="5 / Tip ture in primernost"
-              title="Za koga in za kakšen namen je tura?"
-              intro="Tipi ture se izbirajo iz vnaprej določenega seznama. Na javni strani se kasneje prikažejo samo najpomembnejše oznake."
+              eyebrow="3 / Tip ture in primernost"
+              title="Kakšna tura je to?"
+              intro="Izberi samo tiste oznake, ki res pomagajo razumeti turo. Doživetja, kulinariko in podobno bomo povezovali posebej."
             >
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {trailTypes.map((type) => (
-                  <label key={type} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-zinc-300">
+                  <label
+                    key={type}
+                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-zinc-300"
+                  >
                     <input type="checkbox" className="h-4 w-4 accent-[#c58b46]" />
                     {type}
                   </label>
@@ -290,209 +311,212 @@ export default function NewTrailProposalPage() {
               </div>
 
               <div className="mt-5 grid gap-4 md:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-5">
-                  <div className="font-black text-white">E-bike friendly</div>
-                  <p className="mt-2 text-sm leading-6 text-zinc-500">Ali je tura primerna za e-bike in kakšna baterija je priporočena?</p>
-                  <select className="mt-4 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-4 text-white outline-none">
+                <label className="space-y-2 text-sm font-bold text-zinc-200">
+                  E-bike friendly
+                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
                     <option>Izberi</option>
                     <option>Da</option>
                     <option>Ne</option>
                     <option>Pogojno</option>
                   </select>
-                </div>
+                </label>
 
-                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-5">
-                  <div className="font-black text-white">Family friendly</div>
-                  <p className="mt-2 text-sm leading-6 text-zinc-500">Družinska tura pomeni varnost, postanke, možnost krajšanja in manj prometa.</p>
-                  <select className="mt-4 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-4 text-white outline-none">
+                <label className="space-y-2 text-sm font-bold text-zinc-200">
+                  Family friendly
+                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
                     <option>Izberi</option>
                     <option>Da</option>
                     <option>Ne</option>
                     <option>Pogojno</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="mt-5 grid gap-4 md:grid-cols-2">
-                <Field label="Priporočena starost otrok" placeholder="npr. 10+" maxLength={30} />
-                <Field label="Promet / varnost" placeholder="npr. malo prometa, nekaj previdnosti v dolini" maxLength={120} />
+                </label>
               </div>
             </Section>
 
             <Section
-              eyebrow="6 / Zgodba ture"
-              title="Naj tura ne bo samo trasa"
-              intro="Tukaj nastane doživljajski opis: ritem poti, občutek, razgledi, postanki in razlog, zakaj je tura posebna."
+              eyebrow="4 / GPX in podlaga"
+              title="Trasa in občutek vožnje"
+              intro="GPX je najpomembnejši del predloga, ker iz njega kasneje lahko razberemo potek, regijo, bližnje postanke in zahtevnost."
             >
-              <div className="space-y-4">
-                <TextArea label="Kratek opis *" placeholder="Kratek opis, ki se lahko prikaže na kartici ture ali pod naslovom." rows={4} maxLength={350} />
-                <TextArea label="Daljša zgodba ture" placeholder="Opiši potek dneva, vzpone, gozdne ceste, razglede, mirne dele, zahtevnejše odseke in zaključek." rows={8} maxLength={1800} />
-              </div>
-            </Section>
-
-            <Section
-              eyebrow="7 / Podlaga ture"
-              title="Kakšen občutek ima vožnja?"
-              intro="Podlaga pove, ali je tura bolj asfaltna, makadamska, gozdna ali trail."
-            >
-              <div className="grid gap-4 md:grid-cols-4">
-                {["Asfalt", "Makadam", "Gozdna cesta", "Trail"].map((surface) => (
-                  <Field key={surface} label={surface} placeholder="%" maxLength={4} />
-                ))}
-              </div>
-
-              <TextArea
-                label="Opomba o podlagi"
-                placeholder="npr. Večina ture poteka po dobrih gozdnih cestah, nekaj odsekov je bolj grobih po dežju."
-                rows={4}
-                maxLength={300}
+              <UploadBox
+                label="GPX"
+                title="Naloži traso"
+                description="Najbolje je, da naložiš GPX iz naprave, Strave, Komoota ali druge aplikacije."
+                button="Izberi GPX"
               />
+
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                <Field label="Cesta" placeholder="%" maxLength={4} />
+                <Field label="Makadam" placeholder="%" maxLength={4} />
+                <Field label="Gozdna pot" placeholder="%" maxLength={4} />
+              </div>
+
+              <div className="mt-5">
+                <TextArea
+                  label="Opomba o podlagi"
+                  placeholder="npr. Gozdne ceste so večinoma dobre, po dežju je nekaj mehkejših odsekov."
+                  rows={4}
+                  maxLength={350}
+                />
+              </div>
             </Section>
 
             <Section
-              eyebrow="8 / Doživetveni plan dneva"
-              title="Kako naj obiskovalec doživi turo?"
-              intro="Plan dneva ni obvezen, ampak je zelo pomemben za premium občutek ture."
+              eyebrow="5 / Trije poudarki poti"
+              title="Kaj si bo kolesar zapomnil?"
+              intro="Dodaj tri poudarke poti. To so lahko razgled, vzpon, gozdni odsek, miren makadam, poseben postanek ali občutek ture."
             >
-              <div className="grid gap-4 md:grid-cols-2">
-                <TextArea label="Začetek ture" placeholder="Kje začeti, kdaj, kaj preveriti pred startom?" rows={4} maxLength={400} />
-                <TextArea label="Prvi del trase" placeholder="Kako se tura odpre? Kakšen je ritem začetka?" rows={4} maxLength={400} />
-                <TextArea label="Glavni postanek" placeholder="Kje se ustaviti in zakaj?" rows={4} maxLength={400} />
-                <TextArea label="Zaključek dneva" placeholder="Kako se tura zaključi in kaj priporočiti po vožnji?" rows={4} maxLength={400} />
+              <div className="grid gap-4">
+                {[1, 2, 3].map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-[24px] border border-white/10 bg-[#07110b] p-5"
+                  >
+                    <div className="mb-4 text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                      Poudarek {item}
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr]">
+                      <UploadBox
+                        label="Slika"
+                        title="Dodaj sliko"
+                        description="Slika naj pokaže občutek tega dela poti."
+                        button="Izberi sliko"
+                      />
+
+                      <div className="space-y-4">
+                        <Field label="Naslov poudarka" placeholder="npr. Gozdni vzpon proti Arehu" maxLength={80} />
+                        <TextArea label="Kratek opis" placeholder="Zakaj je ta del poti poseben?" rows={4} maxLength={300} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </Section>
           </div>
 
           <div className="space-y-6">
             <Section
-              eyebrow="9 / Ponudniki"
-              title="Postanki, ki naredijo kolesarski dan"
-              intro="Ponudnik ni obvezen. Če ga ambasador ne doda, lahko admin kasneje dopolni turo."
+              eyebrow="6 / Ponudniki"
+              title="Postanki ob turi"
+              intro="Ponudniki niso obvezni. Če jih poznaš, jih dodaj. Če jih ne, jih lahko kasneje dopolnimo."
             >
-              <LockedNotice label="ponudniki" />
+              <LockedByRegion label="ponudniki" />
+
               <div className="mt-4 space-y-4">
                 <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                  <option>Izberi ponudnika iz izbrane regije</option>
+                  <option>Izberi ponudnika iz regije</option>
                   {providers.map((provider) => (
                     <option key={provider}>{provider}</option>
                   ))}
                 </select>
 
                 <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
-                  <div className="font-black text-white">Predlagaj novega ponudnika</div>
-                  <p className="mt-2 text-sm leading-6 text-zinc-500">Pred dodajanjem sistem preveri podobna imena v izbrani regiji.</p>
+                  <div className="font-black text-white">Ne najdeš ponudnika?</div>
+                  <p className="mt-2 text-sm leading-6 text-zinc-500">
+                    Predlagaj novega. Kasneje preverimo, ali že obstaja pod podobnim imenom.
+                  </p>
+
                   <div className="mt-4 space-y-4">
                     <Field label="Ime ponudnika" placeholder="npr. Bar Miško" maxLength={100} />
-                    <TextArea label="Zakaj se ustaviti tukaj?" placeholder="npr. dobra terasa, voda, kava, kosilo, polnjenje baterije..." rows={4} maxLength={600} />
-                    <DuplicateWarning />
+                    <TextArea label="Zakaj se ustaviti tukaj?" placeholder="npr. dobra kava, terasa, voda, kosilo, polnjenje baterije..." rows={4} maxLength={500} />
+                    <DuplicateHint />
                   </div>
                 </div>
               </div>
             </Section>
 
             <Section
-              eyebrow="10 / Znamenitosti"
-              title="Točke, ki dajo turi značaj"
-              intro="Znamenitost ni obvezna. Lahko jo izbere ambasador ali jo kasneje doda admin."
+              eyebrow="7 / Znamenitosti"
+              title="Kaj je vredno videti?"
+              intro="Znamenitosti niso obvezne. Dodaj jih, če res pomagajo razumeti značaj ture."
             >
-              <LockedNotice label="znamenitosti" />
+              <LockedByRegion label="znamenitosti" />
+
               <div className="mt-4 space-y-4">
                 <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                  <option>Izberi znamenitost iz izbrane regije</option>
+                  <option>Izberi znamenitost iz regije</option>
                   {points.map((point) => (
                     <option key={point}>{point}</option>
                   ))}
                 </select>
-                <button className="w-full rounded-full border border-white/10 px-4 py-3 text-sm font-bold text-zinc-300">+ Predlagaj novo znamenitost</button>
-                <TextArea label="Zakaj je pomembna za to turo?" placeholder="Kratek lokalni razlog, zakaj se splača ustaviti." rows={4} maxLength={600} />
-              </div>
-            </Section>
 
-            <Section
-              eyebrow="11 / Doživetja"
-              title="Ali iz ture nastane doživetje dneva?"
-              intro="Doživetje ni obvezno. Če obstaja, lahko poveže turo, ponudnike in znamenitosti v idejo za dan."
-            >
-              <LockedNotice label="doživetja" />
-              <div className="mt-4 space-y-4">
-                <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                  <option>Izberi obstoječe doživetje</option>
-                  {experiences.map((experience) => (
-                    <option key={experience}>{experience}</option>
-                  ))}
-                </select>
-                <button className="w-full rounded-full border border-white/10 px-4 py-3 text-sm font-bold text-zinc-300">+ Predlagaj novo doživetje</button>
-              </div>
-            </Section>
+                <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+                  <div className="font-black text-white">Ne najdeš znamenitosti?</div>
+                  <p className="mt-2 text-sm leading-6 text-zinc-500">
+                    Predlagaj novo točko, če res pomaga turi dobiti zgodbo.
+                  </p>
 
-            <Section
-              eyebrow="12 / Predlogi ob trasi"
-              title="Sistem lahko kasneje pomaga"
-              intro="Ko bo GPX povezan s koordinatami ponudnikov in znamenitosti, lahko sistem predlaga vsebine v bližini trase."
-            >
-              <div className="space-y-3">
-                {[
-                  "Rudijev dom na Pohorju — 0,8 km od trase",
-                  "Razgled nad Mariborom — 1,2 km od trase",
-                  "Vinska klet med griči — 2,7 km od trase",
-                ].map((item) => (
-                  <div key={item} className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4">
-                    <span className="text-sm font-semibold text-white">{item}</span>
-                    <button className="rounded-full border border-white/10 px-3 py-2 text-xs font-bold text-zinc-300">Dodaj</button>
+                  <div className="mt-4 space-y-4">
+                    <Field label="Ime znamenitosti" placeholder="npr. Razgled nad dolino" maxLength={100} />
+                    <TextArea label="Zakaj je pomembna za to turo?" placeholder="Kratek lokalni razlog, zakaj se splača ustaviti." rows={4} maxLength={500} />
+                    <DuplicateHint />
                   </div>
-                ))}
+                </div>
               </div>
-              <p className="mt-4 text-sm leading-7 text-zinc-500">
-                Sistem naj vsebine samo predlaga. Končno povezavo potrdi ambasador ali admin.
-              </p>
             </Section>
 
             <Section
-              eyebrow="13 / Vreme"
-              title="Vreme na turi"
-              intro="Kasneje se bo vreme vezalo na lokacijo ture, ambasador pa lahko doda praktično opombo."
-            >
-              <Field label="Lokacija za vreme" placeholder="npr. Areh, Mariborsko Pohorje" maxLength={100} />
-              <TextArea label="Opomba glede vremena" placeholder="npr. Po dežju so gozdne ceste mehkejše; poleti je dobro začeti zgodaj." rows={4} maxLength={350} />
-            </Section>
-
-            <Section
-              eyebrow="14 / eBike"
-              title="Bosch Performance Line CX izračun"
-              intro="Priporočilo za e-bike uporabnike: baterija, način vožnje in zahtevnost ture."
+              eyebrow="8 / Utrinki in doživetje poti"
+              title="Dodaj občutek poti"
+              intro="Dodaj do 8 utrinkov. Iz teh slik in kratkih naslovov lahko kasneje nastane galerija, doživetveni opis ali social objava."
             >
               <div className="grid gap-4">
-                <Field label="Priporočena baterija" placeholder="npr. 625 Wh ali 750 Wh" maxLength={40} />
-                <Field label="Način vožnje" placeholder="npr. Eco / Tour / eMTB" maxLength={60} />
-              </div>
-              <TextArea label="Opomba za e-bike" placeholder="npr. Pri 500 Wh bateriji priporočamo varčen tempo in polnjenje na postanku." rows={4} maxLength={500} />
-            </Section>
+                {Array.from({ length: 8 }, (_, index) => (
+                  <div
+                    key={index}
+                    className="rounded-[22px] border border-white/10 bg-[#07110b] p-4"
+                  >
+                    <div className="mb-4 text-xs uppercase tracking-[0.22em] text-[#c58b46]">
+                      Utrinek {index + 1}
+                    </div>
 
-            <Section
-              eyebrow="15 / Galerija"
-              title="Utrinki s poti"
-              intro="Fotografije naj pokažejo ritem ture: cesta, razgled, postanek, ljudje, pokrajina."
-            >
-              <div className="rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
-                <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">Galerija</div>
-                <div className="mt-3 text-lg font-black text-white">Dodaj slike</div>
-                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-500">
-                  Kasneje se slike shranijo v medijsko knjižnico oziroma Supabase Storage.
-                </p>
-                <button className="mt-5 rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">Izberi slike</button>
+                    <div className="grid gap-4 md:grid-cols-[0.7fr_1.3fr]">
+                      <UploadBox
+                        label="Slika"
+                        title="Dodaj"
+                        description="Fotografija s poti."
+                        button="Izberi"
+                      />
+
+                      <div className="space-y-4">
+                        <Field label="Naslov slike" placeholder="npr. Miren makadam ob železnici" maxLength={80} />
+                        <TextArea label="Kratek opis" placeholder="Kaj prikazuje ta utrinek?" rows={3} maxLength={220} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </Section>
 
             <section className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-6 md:p-7">
-              <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">16 / Predogled in oddaja</div>
-              <h2 className="text-2xl font-black tracking-tight text-white">Celoten paket gre v pregled</h2>
+              <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                9 / Pošlji predlog
+              </div>
+
+              <h2 className="text-2xl font-black tracking-tight text-white">
+                Tvoja tura ostane tvoja.
+              </h2>
+
               <p className="mt-3 text-sm leading-7 text-zinc-400">
-                Ambasador dokument najprej shrani kot osnutek. Ko je pripravljen, ga odda v uredniški pregled.
-                Ponudniki, znamenitosti in doživetja niso obvezni in jih lahko kasneje dopolni admin.
+                Ko pošlješ predlog, ga skupaj pripravimo za objavo: preverimo
+                podatke, po potrebi dodamo postanke in znamenitosti ter ga
+                oblikujemo v doživetje, ki bo nosilo tudi tvoj podpis.
               </p>
+
+              <p className="mt-4 text-sm leading-7 text-zinc-500">
+                Predlog ne rabi biti popoln. Najpomembnejše je, da nam pokažeš
+                dobro traso, svoj pogled in utrinke s poti.
+              </p>
+
               <div className="mt-6 grid gap-3">
-                <button className="rounded-full border border-white/10 px-6 py-4 text-sm font-black text-zinc-300">Predogled javne strani</button>
-                <button className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black">Oddaj v pregled</button>
+                <button className="rounded-full border border-white/10 px-6 py-4 text-sm font-black text-zinc-300">
+                  Predogled predloga
+                </button>
+
+                <button className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black">
+                  Pošlji predlog ture
+                </button>
               </div>
             </section>
           </div>
