@@ -135,15 +135,15 @@ export default function ToursPage() {
         imagePosition="center"
       />
 
-      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-8">
-        <div className="mx-auto max-w-6xl rounded-[28px] border border-white/10 bg-[#07110b] p-5 md:p-6">
-          <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+      <section className="border-y border-white/10 bg-[#0b1a10]/70 px-6 py-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
               <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
                 Poišči turo zase
               </div>
-              <p className="mt-2 text-sm leading-6 text-zinc-400">
-                Najprej izberi pokrajino, potem po potrebi zoži izbor po zahtevnosti ali občutku dneva.
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
+                Izberi pokrajino, zahtevnost ali občutek dneva. Filtri so tu kot pomoč — glavna zgodba ostaja tura.
               </p>
             </div>
 
@@ -152,79 +152,70 @@ export default function ToursPage() {
             </div>
           </div>
 
-          <div className="space-y-5">
-            <div>
-              <div className="mb-3 text-[11px] uppercase tracking-[0.22em] text-zinc-500">
+          <div className="grid gap-3 md:grid-cols-3">
+            <label className="block">
+              <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">
                 Pokrajina
-              </div>
-              <div className="flex flex-wrap gap-2">
+              </span>
+              <select
+                value={activeRegion}
+                onChange={(event) => setActiveRegion(event.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60"
+              >
                 {regions.map((region) => (
-                  <button
-                    key={region}
-                    onClick={() => setActiveRegion(region)}
-                    className={`rounded-full px-4 py-2 text-xs font-semibold transition md:text-sm ${
-                      activeRegion === region
-                        ? "bg-[#c58b46] text-black"
-                        : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
-                    }`}
-                  >
+                  <option key={region} value={region}>
                     {region}
-                  </button>
+                  </option>
                 ))}
-              </div>
-            </div>
+              </select>
+            </label>
 
-            <div className="grid gap-5 md:grid-cols-2">
-              <div>
-                <div className="mb-3 text-[11px] uppercase tracking-[0.22em] text-zinc-500">
-                  Zahtevnost
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {difficulties.map((difficulty) => (
-                    <button
-                      key={difficulty}
-                      onClick={() => setActiveDifficulty(difficulty)}
-                      className={`rounded-full px-4 py-2 text-xs font-semibold transition md:text-sm ${
-                        activeDifficulty === difficulty
-                          ? "bg-[#c58b46] text-black"
-                          : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
-                      }`}
-                    >
-                      {difficulty}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            <label className="block">
+              <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">
+                Zahtevnost
+              </span>
+              <select
+                value={activeDifficulty}
+                onChange={(event) => setActiveDifficulty(event.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60"
+              >
+                {difficulties.map((difficulty) => (
+                  <option key={difficulty} value={difficulty}>
+                    {difficulty}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-              <div>
-                <div className="mb-3 text-[11px] uppercase tracking-[0.22em] text-zinc-500">
-                  Občutek
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {feelings.map((feeling) => (
-                    <button
-                      key={feeling}
-                      onClick={() => setActiveFeeling(feeling)}
-                      className={`rounded-full px-4 py-2 text-xs font-semibold transition md:text-sm ${
-                        activeFeeling === feeling
-                          ? "bg-[#c58b46] text-black"
-                          : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
-                      }`}
-                    >
-                      {feeling}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <label className="block">
+              <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">
+                Občutek
+              </span>
+              <select
+                value={activeFeeling}
+                onChange={(event) => setActiveFeeling(event.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60"
+              >
+                {feelings.map((feeling) => (
+                  <option key={feeling} value={feeling}>
+                    {feeling}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
         </div>
       </section>
 
       <section className="px-6 py-20">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-10 text-sm text-zinc-500">
-            Prikazano: {filteredTours.length} tur · izberi po pokrajini, zahtevnosti ali občutku dneva
+          <div className="mb-10">
+            <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+              Izbrane ture
+            </div>
+            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+              Ture, ki ustrezajo tvoji izbiri.
+            </h2>
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
