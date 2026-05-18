@@ -25,6 +25,15 @@ const trail = {
   hero: "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1800&auto=format&fit=crop",
 };
 
+const trailTags = [
+  "e-bike friendly",
+  "gozdni pobeg",
+  "razgled nad mestom",
+  "lokalni postanek",
+];
+
+const trailRhythm = ["Gozd", "Razgled", "Flow spust", "Postanek"];
+
 const moments = [
   {
     title: "Vstop v pohorski gozd",
@@ -155,9 +164,18 @@ export default function TrailPage() {
             <span className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm">
               {trail.destination}
             </span>
-            <span className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
-              e-bike friendly
-            </span>
+            {trailTags.map((tag) => (
+              <span
+                key={tag}
+                className={`rounded-full px-4 py-2 text-sm ${
+                  tag === "e-bike friendly"
+                    ? "border border-emerald-400/40 bg-emerald-500/10 text-emerald-300"
+                    : "border border-white/10 bg-black/30 text-zinc-200"
+                }`}
+              >
+                {tag}
+              </span>
+            ))}
           </div>
 
           <h1 className="mt-7 max-w-4xl text-5xl font-black leading-tight md:text-7xl">
@@ -165,10 +183,21 @@ export default function TrailPage() {
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-300">
-            Tura ni samo številka na zemljevidu. Je pobeg nad mesto, vonj
-            pohorskega gozda, postanek ob poti in občutek, da si dan preživel
-            točno tako, kot ga mora kolesar.
+            Gozdni flow nad Mariborom poveže pohorski gozd, razgled nad mestom,
+            tekoče odseke in lokalni postanek v kolesarski dan, ki ostane v
+            nogah in glavi.
           </p>
+
+          <div className="mt-7 flex flex-wrap gap-2 text-sm text-zinc-300">
+            {trailRhythm.map((item, index) => (
+              <span key={item} className="inline-flex items-center gap-2">
+                <span>{item}</span>
+                {index < trailRhythm.length - 1 && (
+                  <span className="text-[#c58b46]">·</span>
+                )}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -328,12 +357,12 @@ export default function TrailPage() {
       <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-            Poudarki poti
+            Na poti
           </div>
-          <h2 className="text-4xl font-black">Poudarki poti.</h2>
+          <h2 className="text-4xl font-black">Kaj doživiš na poti.</h2>
           <p className="mt-5 max-w-3xl leading-8 text-zinc-300">
-            Trije ali štirje najmočnejši poudarki ti hitro pokažejo, kakšen
-            občutek ima tura: gozd, razgled, spust, postanek ali zgodba ob poti.
+            Kratek pregled trenutkov, ki določijo značaj ture: vstop v gozd,
+            razgled nad mestom in zaključni flow skozi pohorske odseke.
           </p>
 
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
