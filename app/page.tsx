@@ -19,6 +19,7 @@ const topTrails = [
     distance: "32 km",
     elevation: "890 vm",
     type: "MTB",
+    tags: ["e-bike friendly", "gozdni pobeg", "lokalni postanek"],
     image:
       "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1400",
   },
@@ -30,6 +31,7 @@ const topTrails = [
     distance: "48 km",
     elevation: "620 vm",
     type: "Gravel",
+    tags: ["za pare", "vino", "mirnejši ritem"],
     image:
       "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=85&w=1400",
   },
@@ -41,6 +43,7 @@ const topTrails = [
     distance: "86 km",
     elevation: "1450 vm",
     type: "Bikepacking",
+    tags: ["vikend ideja", "narava", "razgled"],
     image:
       "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?auto=format&fit=crop&q=85&w=1400",
   },
@@ -57,9 +60,20 @@ const regions = [
 ];
 
 const stats = [
-  { value: "30+", label: "za aktivne raziskovalce" },
+  { value: "30+", label: "idej za kolesarski dan" },
   { value: "7", label: "slovenskih pokrajin" },
-  { value: "100%", label: "e-bike friendly" },
+  { value: "za vse", label: "pare, družine in raziskovalce" },
+];
+
+const experienceTags = [
+  "družinam prijazno",
+  "e-bike friendly",
+  "za pare",
+  "gozdni pobeg",
+  "razgledna tura",
+  "lokalni postanek",
+  "vikend ideja",
+  "kulinarika ob poti",
 ];
 
 const howItWorks = [
@@ -71,7 +85,7 @@ const howItWorks = [
   {
     step: "02",
     title: "Odkrij turo",
-    text: "Poglej dolžino, višince, težavnost, podlago, vreme in e-bike doseg.",
+    text: "Poglej občutek ture, dolžino, višince, podlago, vreme in e-bike doseg.",
   },
   {
     step: "03",
@@ -100,7 +114,7 @@ export default function Home() {
       
 
             <PageHero
-        eyebrow="Slovenija · MTB · gravel · bikepacking · doživetja"
+        eyebrow="Slovenija · kolesarski dnevi · narava · lokalni postanki"
         title={
           <>
             Odkrij Slovenijo
@@ -109,14 +123,14 @@ export default function Home() {
             skozi kolo.
           </>
         }
-        description="Premium spletna platforma za odkrivanje kolesarskih tur, pokrajin, lokalnih ponudnikov in doživetij ob poti."
+        description="Kolesarske ture, razgledi, postanki in ideje za pare, družine, e-kolesarje in vse, ki radi odkrivajo kraje na dveh kolesih."
         image="/home-hero-desktop.png"
         mobileImage="/home-hero-mobile.png"
         imageAlt="Kolesarsko doživetje v naravi"
         ctaHref="/ture"
-        ctaLabel="Razišči ture"
-        secondaryHref="#pokrajine"
-        secondaryLabel="Odkrij pokrajine"
+        ctaLabel="Poišči svojo turo"
+        secondaryHref="#obcutek"
+        secondaryLabel="Razišči po občutku"
         imagePosition="center 12%"
       />
 
@@ -128,6 +142,25 @@ export default function Home() {
               <div className="mt-1 text-[11px] leading-snug text-zinc-500 sm:text-sm">{stat.label}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section id="obcutek" className="border-b border-white/10 bg-[#07110b] px-5 py-10">
+        <div className="mx-auto max-w-7xl">
+          <p className="mb-5 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+            Izberi po občutku
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            {experienceTags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-white/10 bg-[#0b1a10] px-4 py-2 text-sm font-semibold text-zinc-300"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -163,6 +196,12 @@ export default function Home() {
                 <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-emerald-300">
                   e-bike friendly
                 </span>
+                <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-4 py-2 text-[#f4d7ad]">
+                  družinam prijazno
+                </span>
+                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
+                  lokalni postanek
+                </span>
               </div>
 
               <h3 className="mb-5 text-3xl font-black leading-tight sm:text-4xl">
@@ -170,8 +209,8 @@ export default function Home() {
               </h3>
 
               <p className="mb-7 text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
-                Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni
-                za pravi kolesarski dan nad mestom.
+                Tura skozi pohorske gozdove, razglede in spuste, z dovolj prostora
+                za lep ritem, postanek in občutek dneva nad mestom.
               </p>
 
               <div className="mb-8 grid grid-cols-3 gap-2 sm:gap-3">
@@ -211,7 +250,7 @@ export default function Home() {
               </p>
 
               <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
-                Ture po izboru kolesarjev.
+                Izbrane ideje za kolesarski dan.
               </h2>
             </div>
 
@@ -249,6 +288,17 @@ export default function Home() {
                   <h3 className="mb-5 text-2xl font-bold leading-tight">
                     {trail.title}
                   </h3>
+
+                  <div className="mb-5 flex flex-wrap gap-2 text-xs">
+                    {trail.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-[#f4d7ad]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
 
                   <div className="mb-6 flex flex-wrap gap-3 text-sm">
                     <span className="rounded-full border border-white/10 px-3 py-2">
@@ -290,9 +340,9 @@ export default function Home() {
             </div>
 
             <p className="max-w-xl text-lg leading-8 text-zinc-400">
-              Nekdo najprej išče traso. Drugi dobro kosilo. Tretji razgled,
-              slap ali zgodbo kraja. Bojan on Bike poveže vse v en kolesarski
-              dan.
+              Nekdo najprej išče lepo turo. Drugi dobro kosilo. Tretji razgled,
+              miren gozd ali idejo za družinski dan. Bojan on Bike poveže vse v
+              en kolesarski dan.
             </p>
           </div>
 
@@ -325,12 +375,12 @@ export default function Home() {
               </p>
 
               <h3 className="text-3xl font-bold leading-tight">
-                Izberi traso.
+                Začni s turo.
               </h3>
 
               <p className="mt-5 leading-8 text-zinc-400">
-                Poišči turo po pokrajini, težavnosti, razdalji in občutku, ki
-                ga želiš doživeti na kolesu.
+                Poišči turo po pokrajini, zahtevnosti in občutku, ki ga želiš
+                doživeti na kolesu.
               </p>
 
               <div className="mt-auto pt-8 text-sm font-bold text-white">
@@ -458,8 +508,8 @@ export default function Home() {
               Vsaka pokrajina ima svoj ritem.
             </h2>
             <p className="text-lg leading-8 text-zinc-400">
-              Klik na pokrajino te odpelje na katalog tur, kjer je filter za to
-              pokrajino že vklopljen.
+              Klik na pokrajino te odpelje do tur iz tega dela Slovenije, kjer
+              lahko hitro najdeš idejo za svoj naslednji kolesarski dan.
             </p>
           </div>
 
