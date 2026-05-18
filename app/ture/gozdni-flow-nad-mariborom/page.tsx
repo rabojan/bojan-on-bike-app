@@ -192,42 +192,32 @@ export default function TrailPage() {
         </div>
       </section>
 
-      <section className="relative z-20 -mt-14 px-6 pb-6">
+      <section className="border-y border-white/10 bg-[#0b1a10]/80 px-6 py-6">
         <div className="mx-auto max-w-6xl">
-          <div className="overflow-hidden rounded-[34px] border border-white/10 bg-[#07110b]/80 shadow-2xl shadow-black/25 backdrop-blur">
-            <div className="grid lg:grid-cols-[1.1fr_1.4fr]">
-              <div className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-[#102417] via-[#0b1a10] to-[#07110b] p-6 md:p-7 lg:border-b-0 lg:border-r">
-                <div className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl" />
-                <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[#c58b46]/10 to-transparent" />
+          <div className="rounded-[28px] border border-white/10 bg-[#07110b]/80 p-4 shadow-2xl shadow-black/10 md:p-5">
+            <div className="grid gap-5 lg:grid-cols-[1fr_1.35fr] lg:items-center">
+              <div>
+                <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                  Na kratko
+                </div>
 
-                <div className="relative">
-                  <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-                    Kolesarski podpis ture
-                  </div>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {trailTags.map((tag) => (
-                      <span
-                        key={tag}
-                        className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-                          tag === "e-bike friendly"
-                            ? "border border-emerald-400/40 bg-emerald-500/10 text-emerald-300"
-                            : "border border-white/10 bg-black/20 text-zinc-300"
-                        }`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <p className="mt-5 max-w-md text-sm leading-7 text-zinc-300">
-                    Kratek povzetek za prvi občutek: koliko ture je pred tabo,
-                    kakšen je ritem in zakaj si jo je vredno zapomniti.
-                  </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {trailTags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
+                        tag === "e-bike friendly"
+                          ? "border border-emerald-400/40 bg-emerald-500/10 text-emerald-300"
+                          : "border border-white/10 bg-black/20 text-zinc-300"
+                      }`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-px bg-white/10 sm:grid-cols-5">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
                 {[
                   [`${trail.distanceKm} km`, "dolžina"],
                   [`${trail.elevationVm} vm`, "višinci"],
@@ -237,12 +227,12 @@ export default function TrailPage() {
                 ].map(([value, label]) => (
                   <div
                     key={label}
-                    className="bg-[#07110b]/90 px-4 py-5 md:px-5 md:py-6"
+                    className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3"
                   >
-                    <div className="text-xl font-black leading-tight text-white md:text-2xl">
+                    <div className="text-lg font-black leading-tight text-white">
                       {value}
                     </div>
-                    <div className="mt-2 text-[10px] uppercase tracking-[0.18em] text-zinc-500">
+                    <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-zinc-500">
                       {label}
                     </div>
                   </div>
@@ -253,19 +243,20 @@ export default function TrailPage() {
         </div>
       </section>
 
-      <section className="px-6 py-16">
+      <section className="px-6 py-14">
         <div className="mx-auto max-w-6xl">
-          <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-[#07110b] shadow-2xl shadow-black/25">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.12),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(197,139,70,0.14),transparent_35%)]" />
+          <div className="relative overflow-hidden rounded-[36px] border border-[#c58b46]/20 bg-gradient-to-br from-[#102417] via-[#0b1a10] to-[#07110b] p-6 shadow-2xl shadow-black/20 md:p-8">
+            <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#c58b46]/10 blur-3xl" />
+            <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-full bg-gradient-to-r from-emerald-500/5 to-transparent" />
 
-            <div className="relative grid lg:grid-cols-[0.95fr_1.25fr]">
-              <div className="border-b border-white/10 p-7 md:p-8 lg:border-b-0 lg:border-r">
-                <div className="text-sm uppercase tracking-[0.3em] text-[#c58b46]">
+            <div className="relative grid gap-8 lg:grid-cols-[0.9fr_1.4fr] lg:items-center">
+              <div>
+                <div className="mb-5 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
                   Izbral lokalni ambasador
                 </div>
 
-                <div className="mt-8 flex items-center gap-5">
-                  <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[28px] border border-white/10 bg-gradient-to-br from-[#102417] to-[#07110b] text-4xl shadow-xl shadow-black/30">
+                <div className="flex items-center gap-5">
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[24px] border border-white/10 bg-[#07110b] text-4xl shadow-xl shadow-black/20">
                     👤
                   </div>
 
@@ -276,38 +267,27 @@ export default function TrailPage() {
                     <div className="mt-1 text-base font-semibold text-zinc-300">
                       Ambasador Štajerske
                     </div>
-                    <div className="mt-3 inline-flex rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs font-semibold text-zinc-300">
-                      lokalni izbor ture
-                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="p-7 md:p-8">
-                <div className="max-w-3xl">
-                  <p className="text-2xl font-black leading-10 text-white md:text-3xl md:leading-[1.35]">
-                    “To je ena tistih tur, kjer v kratkem času dobiš skoraj vse:
-                    gozd, višino, razgled in prijeten postanek, zaradi katerega
-                    dan deluje zaokroženo.”
-                  </p>
+              <div className="rounded-[28px] border border-white/10 bg-black/20 p-6 md:p-7">
+                <p className="text-xl font-black leading-9 text-white md:text-2xl">
+                  “Ta tura najbolje pokaže, kako hitro lahko iz mesta prideš v
+                  pravi pohorski gozd, razgled in mir.”
+                </p>
 
-                  <p className="mt-5 max-w-2xl leading-8 text-zinc-300">
-                    Domač teren, preverjen ritem in dober občutek za tiste, ki
-                    želijo od mesta hitro v naravo, brez nepotrebnega iskanja.
-                  </p>
-
-                  <div className="mt-7 flex flex-wrap gap-2">
-                    {["lokalni izbor", "pozna teren", "priporočen postanek"].map(
-                      (item) => (
-                        <span
-                          key={item}
-                          className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs font-semibold text-[#f4d7ad]"
-                        >
-                          {item}
-                        </span>
-                      )
-                    )}
-                  </div>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {["lokalni izbor", "pozna teren", "priporočen postanek"].map(
+                    (item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs font-semibold text-[#f4d7ad]"
+                      >
+                        {item}
+                      </span>
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -417,12 +397,12 @@ export default function TrailPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-y border-white/10 bg-[#0b1a10] px-6 py-24">
+      <section className="relative overflow-hidden border-y border-white/10 bg-[#0b1a10] px-6 py-20">
         <div className="pointer-events-none absolute left-0 top-0 h-80 w-80 rounded-full bg-emerald-500/5 blur-3xl" />
         <div className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#c58b46]/5 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-12 grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+          <div className="mb-10 grid gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-end">
             <div>
               <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
                 Na poti
@@ -438,9 +418,9 @@ export default function TrailPage() {
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[1.45fr_0.95fr]">
-            <article className="group overflow-hidden rounded-[40px] border border-white/10 bg-[#07110b] shadow-2xl shadow-black/25">
-              <div className="relative min-h-[520px]">
+          <div className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
+            <article className="group overflow-hidden rounded-[34px] border border-white/10 bg-[#07110b] shadow-2xl shadow-black/20">
+              <div className="relative min-h-[420px]">
                 <img
                   src={moments[0].image}
                   alt={moments[0].title}
@@ -448,21 +428,19 @@ export default function TrailPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-[#07110b]/35 to-transparent" />
 
-                <div className="absolute inset-x-0 bottom-0 p-8 md:p-10">
-                  <div className="mb-5 flex gap-2">
-                    <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs font-semibold text-[#f4d7ad]">
+                <div className="absolute bottom-0 left-0 right-0 p-7 md:p-8">
+                  <div className="mb-4 flex gap-2">
+                    <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]">
                       {moments[0].km}
                     </span>
-                    <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1.5 text-xs font-semibold text-zinc-200">
+                    <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1.5 text-xs text-zinc-200">
                       {moments[0].time}
                     </span>
                   </div>
-
-                  <h3 className="text-4xl font-black md:text-5xl">
+                  <h3 className="text-3xl font-black md:text-4xl">
                     {moments[0].title}
                   </h3>
-
-                  <p className="mt-5 max-w-2xl text-base leading-8 text-zinc-200 md:text-lg">
+                  <p className="mt-4 max-w-2xl leading-7 text-zinc-300">
                     {moments[0].text}
                   </p>
                 </div>
@@ -473,34 +451,26 @@ export default function TrailPage() {
               {moments.slice(1).map((item) => (
                 <article
                   key={item.title}
-                  className="group overflow-hidden rounded-[32px] border border-white/10 bg-[#07110b] shadow-xl shadow-black/15"
+                  className="grid overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b] md:grid-cols-[0.85fr_1fr] lg:grid-cols-1"
                 >
-                  <div className="grid md:grid-cols-[0.9fr_1.1fr] lg:grid-cols-1">
-                    <div className="relative h-56 overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/70 to-transparent" />
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="h-52 w-full object-cover md:h-full lg:h-44"
+                  />
+                  <div className="p-6">
+                    <div className="mb-4 flex gap-2">
+                      <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]">
+                        {item.km}
+                      </span>
+                      <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300">
+                        {item.time}
+                      </span>
                     </div>
-
-                    <div className="p-6 md:p-7">
-                      <div className="mb-4 flex gap-2">
-                        <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]">
-                          {item.km}
-                        </span>
-                        <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300">
-                          {item.time}
-                        </span>
-                      </div>
-
-                      <h3 className="text-2xl font-black">{item.title}</h3>
-
-                      <p className="mt-4 leading-7 text-zinc-400">
-                        {item.text}
-                      </p>
-                    </div>
+                    <h3 className="text-2xl font-black">{item.title}</h3>
+                    <p className="mt-4 leading-7 text-zinc-400">
+                      {item.text}
+                    </p>
                   </div>
                 </article>
               ))}
@@ -509,132 +479,101 @@ export default function TrailPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden px-6 py-24">
+      <section className="relative overflow-hidden px-6 py-20">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#c58b46]/30 to-transparent" />
         <div className="pointer-events-none absolute -left-28 bottom-10 h-72 w-72 rounded-full bg-[#c58b46]/5 blur-3xl" />
-        <div className="pointer-events-none absolute right-0 top-12 h-72 w-72 rounded-full bg-emerald-500/5 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-            <div>
-              <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-                Ponudniki ob tej turi
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
+            <div className="flex flex-col justify-between rounded-[34px] border border-white/10 bg-gradient-to-br from-[#102417] to-[#07110b] p-7 md:p-8">
+              <div>
+                <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
+                  Ponudniki ob tej turi
+                </div>
+
+                <h2 className="text-4xl font-black md:text-5xl">
+                  Kje se dan ustavi.
+                </h2>
+
+                <p className="mt-5 leading-8 text-zinc-300">
+                  Tukaj se tura spremeni v doživetje: domača hrana, prenočišče,
+                  terasa, pogled in možnost polnjenja e-kolesa.
+                </p>
               </div>
-              <h2 className="text-4xl font-black md:text-5xl">
-                Kje se dan ustavi.
-              </h2>
-            </div>
 
-            <p className="max-w-2xl leading-8 text-zinc-300">
-              Postanki, zaradi katerih tura ni samo vožnja: domača hrana,
-              terasa, razgled, varno mesto za kolo in možnost, da si dan
-              podaljšaš brez kompliciranja.
-            </p>
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-[#07110b] shadow-2xl shadow-black/20">
-              <img
-                src={providers[0].image}
-                alt={providers[0].name}
-                className="absolute inset-0 h-full w-full object-cover opacity-35"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-[#07110b]/80 to-[#07110b]/30" />
-
-              <div className="relative flex min-h-[500px] flex-col justify-between p-7 md:p-8">
-                <div>
-                  <div className="mb-4 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
-                    Postanek ob poti
-                  </div>
-
-                  <h3 className="max-w-xl text-4xl font-black leading-tight md:text-5xl">
-                    Tukaj se vožnja spremeni v pravi postanek.
-                  </h3>
-
-                  <p className="mt-5 max-w-2xl leading-8 text-zinc-300">
-                    Izbrani ponudniki ob poti dodajo turi občutek celotnega
-                    dneva: dobro kosilo, možnost počitka, razgled in vse tisto,
-                    zaradi česar se tja rad vrneš.
-                  </p>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {["kosilo po turi", "e-bike polnilnica", "možnost prenočitve"].map(
-                    (item) => (
-                      <div
-                        key={item}
-                        className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm font-semibold text-zinc-200 backdrop-blur"
-                      >
-                        {item}
-                      </div>
-                    )
-                  )}
-                </div>
+              <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                {["kosilo po turi", "e-bike polnilnica", "možnost prenočitve"].map(
+                  (item) => (
+                    <div
+                      key={item}
+                      className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm font-semibold text-zinc-300"
+                    >
+                      {item}
+                    </div>
+                  )
+                )}
               </div>
             </div>
 
-            <div className="grid gap-5">
+            <div className="grid gap-5 md:grid-cols-2">
               {providers.map((provider, index) => (
                 <article
                   key={provider.name}
-                  className={`overflow-hidden rounded-[34px] border border-white/10 bg-[#0b1a10] shadow-2xl shadow-black/15 ${
-                    index === 1 ? "lg:ml-8" : ""
+                  className={`overflow-hidden rounded-[30px] border border-white/10 bg-[#0b1a10] shadow-2xl shadow-black/10 ${
+                    index === 0 ? "md:translate-y-8" : ""
                   }`}
                 >
-                  <div className="grid md:grid-cols-[0.92fr_1.08fr]">
-                    <div className="relative h-64 overflow-hidden md:h-full">
-                      <img
-                        src={provider.image}
-                        alt={provider.name}
-                        className="h-full w-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/55 to-transparent" />
-                      <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
-                        {provider.distance}
-                      </div>
+                  <div className="relative h-52 overflow-hidden">
+                    <img
+                      src={provider.image}
+                      alt={provider.name}
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
+                    <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-black/40 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
+                      {provider.distance}
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      {provider.types.map((type) => (
+                        <span
+                          key={type}
+                          className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]"
+                        >
+                          {type}
+                        </span>
+                      ))}
+                      {provider.charging && (
+                        <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1.5 text-xs text-emerald-300">
+                          🔋 e-bike polnilnica
+                        </span>
+                      )}
                     </div>
 
-                    <div className="p-6 md:p-7">
-                      <div className="mb-4 flex flex-wrap gap-2">
-                        {provider.types.map((type) => (
-                          <span
-                            key={type}
-                            className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs text-[#f4d7ad]"
-                          >
-                            {type}
-                          </span>
-                        ))}
-                        {provider.charging && (
-                          <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1.5 text-xs text-emerald-300">
-                            🔋 e-bike polnilnica
-                          </span>
-                        )}
-                      </div>
+                    <h3 className="text-2xl font-black">{provider.name}</h3>
+                    <p className="mt-4 leading-7 text-zinc-400">
+                      {provider.description}
+                    </p>
 
-                      <h3 className="text-2xl font-black">{provider.name}</h3>
+                    <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm font-semibold leading-6 text-[#f4d7ad]">
+                      {provider.moment}
+                    </div>
 
-                      <p className="mt-4 leading-7 text-zinc-400">
-                        {provider.description}
-                      </p>
-
-                      <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm font-semibold leading-6 text-[#f4d7ad]">
-                        {provider.moment}
-                      </div>
-
-                      <div className="mt-5 flex flex-wrap gap-3">
-                        <a
-                          href={`tel:${provider.phone.replace(/\s/g, "")}`}
-                          className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-zinc-300"
-                        >
-                          Pokliči
-                        </a>
-                        <a
-                          href="#"
-                          className="rounded-full bg-[#c58b46] px-4 py-2 text-sm font-semibold text-black"
-                        >
-                          Spletna stran
-                        </a>
-                      </div>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <a
+                        href={`tel:${provider.phone.replace(/\s/g, "")}`}
+                        className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-zinc-300"
+                      >
+                        Pokliči
+                      </a>
+                      <a
+                        href="#"
+                        className="rounded-full bg-[#c58b46] px-4 py-2 text-sm font-semibold text-black"
+                      >
+                        Spletna stran
+                      </a>
                     </div>
                   </div>
                 </article>
