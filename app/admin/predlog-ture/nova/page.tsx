@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import AdminShell from "@/components/AdminShell";
 
-const ambassadorRegions = [
+const regions = [
   "Štajerska",
   "Koroška",
   "Gorenjska",
@@ -12,8 +12,6 @@ const ambassadorRegions = [
   "Dolenjska",
   "Prekmurje",
 ];
-
-const trailRegions = ambassadorRegions;
 
 const trailTypes = [
   "Gravel",
@@ -25,16 +23,40 @@ const trailTypes = [
   "Makadamska",
 ];
 
-const providers = [
-  "Rudijev dom na Pohorju",
-  "Gorska hiša Pohorje",
-  "Vinska klet med griči",
+const providersNearTrail = [
+  {
+    name: "Rudijev dom na Pohorju",
+    distance: "0,8 km od trase",
+    tags: "kulinarika · postanek · voda",
+  },
+  {
+    name: "Gorska hiša Pohorje",
+    distance: "1,6 km od trase",
+    tags: "kulinarika · prenočitev",
+  },
+  {
+    name: "Vinska klet med griči",
+    distance: "2,7 km od trase",
+    tags: "vino · lokalna zgodba",
+  },
 ];
 
-const points = [
-  "Razgled nad Mariborom",
-  "Pohorski gozdni odsek",
-  "Stara planinska pot",
+const pointsNearTrail = [
+  {
+    name: "Razgled nad Mariborom",
+    distance: "0,5 km od trase",
+    tags: "razgled · fotografija",
+  },
+  {
+    name: "Pohorski gozdni odsek",
+    distance: "ob trasi",
+    tags: "narava · gozdna cesta",
+  },
+  {
+    name: "Stara planinska pot",
+    distance: "1,9 km od trase",
+    tags: "zgodba · lokalna posebnost",
+  },
 ];
 
 function Section({
@@ -57,7 +79,9 @@ function Section({
       <h2 className="text-2xl font-black tracking-tight text-white">{title}</h2>
 
       {intro ? (
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">{intro}</p>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">
+          {intro}
+        </p>
       ) : null}
 
       <div className="mt-6">{children}</div>
@@ -68,31 +92,29 @@ function Section({
 function Field({
   label,
   placeholder,
-  maxLength,
+  counter,
   type = "text",
 }: {
   label: string;
   placeholder: string;
-  maxLength?: number;
+  counter?: string;
   type?: string;
 }) {
   return (
-    <label className="space-y-2 text-sm font-bold text-zinc-200">
-      <span className="flex items-center justify-between gap-3">
-        {label}
-        {maxLength ? (
-          <span className="text-xs font-medium text-zinc-600">
-            do {maxLength} znakov
-          </span>
-        ) : null}
-      </span>
+    <label className="block text-sm font-bold text-zinc-200">
+      <span>{label}</span>
 
       <input
         type={type}
-        maxLength={maxLength}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none placeholder:text-zinc-600"
+        className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none placeholder:text-zinc-600"
       />
+
+      {counter ? (
+        <div className="mt-2 text-right text-xs font-medium text-zinc-600">
+          0 / {counter}
+        </div>
+      ) : null}
     </label>
   );
 }
@@ -100,31 +122,29 @@ function Field({
 function TextArea({
   label,
   placeholder,
+  counter,
   rows = 4,
-  maxLength,
 }: {
   label: string;
   placeholder: string;
+  counter?: string;
   rows?: number;
-  maxLength?: number;
 }) {
   return (
-    <label className="block space-y-2 text-sm font-bold text-zinc-200">
-      <span className="flex items-center justify-between gap-3">
-        {label}
-        {maxLength ? (
-          <span className="text-xs font-medium text-zinc-600">
-            do {maxLength} znakov
-          </span>
-        ) : null}
-      </span>
+    <label className="block text-sm font-bold text-zinc-200">
+      <span>{label}</span>
 
       <textarea
         rows={rows}
-        maxLength={maxLength}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none placeholder:text-zinc-600"
+        className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none placeholder:text-zinc-600"
       />
+
+      {counter ? (
+        <div className="mt-2 text-right text-xs font-medium text-zinc-600">
+          0 / {counter}
+        </div>
+      ) : null}
     </label>
   );
 }
@@ -134,21 +154,31 @@ function UploadBox({
   title,
   description,
   button,
+  required = false,
 }: {
   label: string;
   title: string;
   description: string;
   button: string;
+  required?: boolean;
 }) {
   return (
     <div className="rounded-[24px] border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
       <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
         {label}
       </div>
-      <div className="mt-3 text-lg font-black text-white">{title}</div>
+
+      <div className="mt-3 text-xl font-black text-white">{title}</div>
+
       <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-500">
         {description}
       </p>
+
+      {required ? (
+        <div className="mx-auto mt-4 inline-flex rounded-full border border-[#c58b46]/25 bg-[#c58b46]/10 px-4 py-2 text-xs font-bold text-[#c58b46]">
+          Obvezno za oddajo predloga
+        </div>
+      ) : null}
 
       <label className="mt-5 inline-flex cursor-pointer rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black transition hover:bg-[#d9a35d]">
         {button}
@@ -158,12 +188,27 @@ function UploadBox({
   );
 }
 
-function LockedByRegion({ label }: { label: string }) {
+function RouteSuggestionCard({
+  name,
+  distance,
+  tags,
+}: {
+  name: string;
+  distance: string;
+  tags: string;
+}) {
   return (
-    <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-6 text-zinc-300">
-      Najprej določi regijo ture. Nato se bodo tukaj prikazali obstoječi{" "}
-      {label} iz izbrane regije.
-    </div>
+    <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4">
+      <input type="checkbox" className="mt-1 h-4 w-4 accent-[#c58b46]" />
+
+      <span className="min-w-0">
+        <span className="block font-black text-white">{name}</span>
+        <span className="mt-1 block text-sm text-[#c58b46]">{distance}</span>
+        <span className="mt-1 block text-sm leading-6 text-zinc-500">
+          {tags}
+        </span>
+      </span>
+    </label>
   );
 }
 
@@ -173,10 +218,10 @@ function DuplicateHint() {
       <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
         Varovalka proti podvajanju
       </div>
+
       <p className="mt-3 text-sm leading-6 text-zinc-400">
-        Če vpišeš novega ponudnika ali znamenitost, sistem kasneje preveri
-        podobna imena v izbrani regiji. Tako se izognemo podvajanju, na primer
-        “Bar Miško” in “Bar Misko”.
+        Pri dodajanju novega ponudnika ali znamenitosti bo sistem preveril
+        podobna imena v isti regiji, da ne nastanejo podvojeni vnosi.
       </p>
     </div>
   );
@@ -225,14 +270,25 @@ export default function NewTrailProposalPage() {
           intro="Za prvi predlog potrebujemo samo osnovne podatke. Ko boš naslednjič prišel nazaj, se bo tukaj prikazal tvoj ambasadorski profil z oddanimi in objavljenimi turami."
         >
           <div className="grid gap-4 md:grid-cols-3">
-            <Field label="Ime in priimek *" placeholder="npr. Bojan Ratej" maxLength={80} />
-            <Field label="Email *" placeholder="npr. ime@email.si" type="email" maxLength={120} />
+            <Field
+              label="Ime in priimek *"
+              placeholder="npr. Bojan Ratej"
+              counter="80"
+            />
 
-            <label className="space-y-2 text-sm font-bold text-zinc-200">
-              Regija ambasadorja *
-              <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+            <Field
+              label="Email *"
+              placeholder="npr. ime@email.si"
+              type="email"
+              counter="120"
+            />
+
+            <label className="block text-sm font-bold text-zinc-200">
+              <span>Regija ambasadorja *</span>
+
+              <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
                 <option>Izberi svojo regijo</option>
-                {ambassadorRegions.map((region) => (
+                {regions.map((region) => (
                   <option key={region}>{region}</option>
                 ))}
               </select>
@@ -240,8 +296,9 @@ export default function NewTrailProposalPage() {
           </div>
 
           <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
-            TOP ambasador regije se ne izbere ročno. Oznako dobi ambasador, ki
-            s potrjenimi turami in kakovostnimi predlogi izstopa v svoji regiji.
+            TOP oznaka se ne izbere ročno. TOP ambasador regije postane
+            ambasador, ki ima najmanj 20 potrjenih tur in izstopa po kakovosti
+            svojih predlogov.
           </div>
         </Section>
 
@@ -253,15 +310,43 @@ export default function NewTrailProposalPage() {
               intro="Tukaj vpišeš tisto, kar mora nekdo vedeti, preden se odloči za vožnjo."
             >
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Ime ture *" placeholder="npr. Pohorski veliki krog do Areha" maxLength={80} />
-                <Field label="Kratek stavek ob turi *" placeholder="npr. Dolg pohorski krog z gozdnimi cestami in razgledi." maxLength={120} />
-                <Field label="Dolžina" placeholder="npr. 92 km" maxLength={20} />
-                <Field label="Višinski metri" placeholder="npr. 1450 m" maxLength={20} />
-                <Field label="Čas vožnje" placeholder="npr. 5–6 h" maxLength={20} />
+                <Field
+                  label="Ime ture *"
+                  placeholder="npr. Pohorski veliki krog do Areha"
+                  counter="80"
+                />
 
-                <label className="space-y-2 text-sm font-bold text-zinc-200">
-                  Težavnost
-                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                <label className="block text-sm font-bold text-zinc-200">
+                  <span>Regija ture *</span>
+
+                  <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                    <option>Izberi regijo, kjer poteka tura</option>
+                    {regions.map((region) => (
+                      <option key={region}>{region}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <div className="md:col-span-2">
+                  <TextArea
+                    label="Kratek stavek ob turi *"
+                    placeholder="npr. Dolg pohorski krog z gozdnimi cestami, razgledi in mirnim makadamskim zaključkom."
+                    counter="120"
+                    rows={3}
+                  />
+                </div>
+
+                <Field label="Dolžina" placeholder="npr. 92 km" counter="20" />
+                <Field
+                  label="Višinski metri"
+                  placeholder="npr. 1450 m"
+                  counter="20"
+                />
+
+                <label className="block text-sm font-bold text-zinc-200">
+                  <span>Težavnost</span>
+
+                  <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
                     <option>Izberi težavnost</option>
                     <option>Lahka</option>
                     <option>Srednja</option>
@@ -270,25 +355,19 @@ export default function NewTrailProposalPage() {
                   </select>
                 </label>
 
-                <label className="space-y-2 text-sm font-bold text-zinc-200">
-                  Regija ture *
-                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                    <option>Izberi regijo, kjer poteka tura</option>
-                    {trailRegions.map((region) => (
-                      <option key={region}>{region}</option>
-                    ))}
-                  </select>
-                </label>
-
-                <Field label="Ožje območje" placeholder="npr. Areh, Pohorje, Slovenske gorice" maxLength={80} />
+                <Field
+                  label="Ožje območje"
+                  placeholder="npr. Areh, Pohorje, Slovenske gorice"
+                  counter="80"
+                />
               </div>
 
               <div className="mt-5">
                 <TextArea
                   label="Tvoj lokalni pogled"
                   placeholder="Zakaj je ta tura vredna? Komu bi jo priporočil? Na kaj naj bo kolesar pozoren?"
-                  rows={5}
-                  maxLength={700}
+                  rows={6}
+                  counter="700"
                 />
               </div>
             </Section>
@@ -302,18 +381,22 @@ export default function NewTrailProposalPage() {
                 {trailTypes.map((type) => (
                   <label
                     key={type}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-zinc-300"
+                    className="flex min-h-12 items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-zinc-300"
                   >
-                    <input type="checkbox" className="h-4 w-4 accent-[#c58b46]" />
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 accent-[#c58b46]"
+                    />
                     {type}
                   </label>
                 ))}
               </div>
 
               <div className="mt-5 grid gap-4 md:grid-cols-2">
-                <label className="space-y-2 text-sm font-bold text-zinc-200">
-                  E-bike friendly
-                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                <label className="block text-sm font-bold text-zinc-200">
+                  <span>E-bike friendly</span>
+
+                  <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
                     <option>Izberi</option>
                     <option>Da</option>
                     <option>Ne</option>
@@ -321,9 +404,10 @@ export default function NewTrailProposalPage() {
                   </select>
                 </label>
 
-                <label className="space-y-2 text-sm font-bold text-zinc-200">
-                  Family friendly
-                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
+                <label className="block text-sm font-bold text-zinc-200">
+                  <span>Family friendly</span>
+
+                  <select className="mt-2 w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
                     <option>Izberi</option>
                     <option>Da</option>
                     <option>Ne</option>
@@ -335,20 +419,21 @@ export default function NewTrailProposalPage() {
 
             <Section
               eyebrow="4 / GPX in podlaga"
-              title="Trasa in občutek vožnje"
-              intro="GPX je najpomembnejši del predloga, ker iz njega kasneje lahko razberemo potek, regijo, bližnje postanke in zahtevnost."
+              title="Trasa je osnova predloga"
+              intro="GPX je obvezen. Brez GPX datoteke predloga ture ni mogoče poslati, ker iz nje določimo potek, regijo, bližnje postanke in kasnejši zemljevid."
             >
               <UploadBox
                 label="GPX"
-                title="Naloži traso"
-                description="Najbolje je, da naložiš GPX iz naprave, Strave, Komoota ali druge aplikacije."
+                title="Naloži GPX trase"
+                description="To je obvezen del predloga. GPX omogoča zemljevid, preverjanje trase in predloge ponudnikov ter znamenitosti ob poti."
                 button="Izberi GPX"
+                required
               />
 
               <div className="mt-5 grid gap-4 md:grid-cols-3">
-                <Field label="Cesta" placeholder="%" maxLength={4} />
-                <Field label="Makadam" placeholder="%" maxLength={4} />
-                <Field label="Gozdna pot" placeholder="%" maxLength={4} />
+                <Field label="Cesta" placeholder="%" counter="4" />
+                <Field label="Makadam" placeholder="%" counter="4" />
+                <Field label="Gozdna pot" placeholder="%" counter="4" />
               </div>
 
               <div className="mt-5">
@@ -356,7 +441,7 @@ export default function NewTrailProposalPage() {
                   label="Opomba o podlagi"
                   placeholder="npr. Gozdne ceste so večinoma dobre, po dežju je nekaj mehkejših odsekov."
                   rows={4}
-                  maxLength={350}
+                  counter="350"
                 />
               </div>
             </Section>
@@ -385,8 +470,18 @@ export default function NewTrailProposalPage() {
                       />
 
                       <div className="space-y-4">
-                        <Field label="Naslov poudarka" placeholder="npr. Gozdni vzpon proti Arehu" maxLength={80} />
-                        <TextArea label="Kratek opis" placeholder="Zakaj je ta del poti poseben?" rows={4} maxLength={300} />
+                        <Field
+                          label="Naslov poudarka"
+                          placeholder="npr. Gozdni vzpon proti Arehu"
+                          counter="80"
+                        />
+
+                        <TextArea
+                          label="Kratek opis"
+                          placeholder="Zakaj je ta del poti poseben?"
+                          rows={4}
+                          counter="300"
+                        />
                       </div>
                     </div>
                   </div>
@@ -398,30 +493,48 @@ export default function NewTrailProposalPage() {
           <div className="space-y-6">
             <Section
               eyebrow="6 / Ponudniki"
-              title="Postanki ob turi"
-              intro="Ponudniki niso obvezni. Če jih poznaš, jih dodaj. Če jih ne, jih lahko kasneje dopolnimo."
+              title="Postanki ob tvoji trasi"
+              intro="Po naloženem GPX lahko sistem predlaga ponudnike v bližini trase. Izberi tiste, ki jih poznaš ali jih priporočaš."
             >
-              <LockedByRegion label="ponudniki" />
+              <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-6 text-zinc-300">
+                Razdalje so prikazane glede na GPX traso. Tako ambasador lažje
+                vidi, kateri ponudniki so res blizu poti.
+              </div>
 
-              <div className="mt-4 space-y-4">
-                <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                  <option>Izberi ponudnika iz regije</option>
-                  {providers.map((provider) => (
-                    <option key={provider}>{provider}</option>
-                  ))}
-                </select>
+              <div className="mt-4 grid gap-3">
+                {providersNearTrail.map((provider) => (
+                  <RouteSuggestionCard
+                    key={provider.name}
+                    name={provider.name}
+                    distance={provider.distance}
+                    tags={provider.tags}
+                  />
+                ))}
+              </div>
 
-                <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
-                  <div className="font-black text-white">Ne najdeš ponudnika?</div>
-                  <p className="mt-2 text-sm leading-6 text-zinc-500">
-                    Predlagaj novega. Kasneje preverimo, ali že obstaja pod podobnim imenom.
-                  </p>
+              <div className="mt-5 rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+                <div className="font-black text-white">Ne najdeš ponudnika?</div>
 
-                  <div className="mt-4 space-y-4">
-                    <Field label="Ime ponudnika" placeholder="npr. Bar Miško" maxLength={100} />
-                    <TextArea label="Zakaj se ustaviti tukaj?" placeholder="npr. dobra kava, terasa, voda, kosilo, polnjenje baterije..." rows={4} maxLength={500} />
-                    <DuplicateHint />
-                  </div>
+                <p className="mt-2 text-sm leading-6 text-zinc-500">
+                  Predlagaj novega. Kasneje preverimo, ali že obstaja pod
+                  podobnim imenom.
+                </p>
+
+                <div className="mt-4 space-y-4">
+                  <Field
+                    label="Ime ponudnika"
+                    placeholder="npr. Bar Miško"
+                    counter="100"
+                  />
+
+                  <TextArea
+                    label="Zakaj se ustaviti tukaj?"
+                    placeholder="npr. dobra kava, terasa, voda, kosilo, polnjenje baterije..."
+                    rows={4}
+                    counter="500"
+                  />
+
+                  <DuplicateHint />
                 </div>
               </div>
             </Section>
@@ -429,29 +542,48 @@ export default function NewTrailProposalPage() {
             <Section
               eyebrow="7 / Znamenitosti"
               title="Kaj je vredno videti?"
-              intro="Znamenitosti niso obvezne. Dodaj jih, če res pomagajo razumeti značaj ture."
+              intro="Po naloženem GPX lahko sistem predlaga znamenitosti v bližini trase. Izberi samo tiste, ki res pomagajo turi dobiti značaj."
             >
-              <LockedByRegion label="znamenitosti" />
+              <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-6 text-zinc-300">
+                Znamenitosti se kasneje predlagajo glede na oddaljenost od GPX
+                trase in izbrano regijo ture.
+              </div>
 
-              <div className="mt-4 space-y-4">
-                <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                  <option>Izberi znamenitost iz regije</option>
-                  {points.map((point) => (
-                    <option key={point}>{point}</option>
-                  ))}
-                </select>
+              <div className="mt-4 grid gap-3">
+                {pointsNearTrail.map((point) => (
+                  <RouteSuggestionCard
+                    key={point.name}
+                    name={point.name}
+                    distance={point.distance}
+                    tags={point.tags}
+                  />
+                ))}
+              </div>
 
-                <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
-                  <div className="font-black text-white">Ne najdeš znamenitosti?</div>
-                  <p className="mt-2 text-sm leading-6 text-zinc-500">
-                    Predlagaj novo točko, če res pomaga turi dobiti zgodbo.
-                  </p>
+              <div className="mt-5 rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+                <div className="font-black text-white">
+                  Ne najdeš znamenitosti?
+                </div>
 
-                  <div className="mt-4 space-y-4">
-                    <Field label="Ime znamenitosti" placeholder="npr. Razgled nad dolino" maxLength={100} />
-                    <TextArea label="Zakaj je pomembna za to turo?" placeholder="Kratek lokalni razlog, zakaj se splača ustaviti." rows={4} maxLength={500} />
-                    <DuplicateHint />
-                  </div>
+                <p className="mt-2 text-sm leading-6 text-zinc-500">
+                  Predlagaj novo točko, če res pomaga turi dobiti zgodbo.
+                </p>
+
+                <div className="mt-4 space-y-4">
+                  <Field
+                    label="Ime znamenitosti"
+                    placeholder="npr. Razgled nad dolino"
+                    counter="100"
+                  />
+
+                  <TextArea
+                    label="Zakaj je pomembna za to turo?"
+                    placeholder="Kratek lokalni razlog, zakaj se splača ustaviti."
+                    rows={4}
+                    counter="500"
+                  />
+
+                  <DuplicateHint />
                 </div>
               </div>
             </Section>
@@ -480,8 +612,18 @@ export default function NewTrailProposalPage() {
                       />
 
                       <div className="space-y-4">
-                        <Field label="Naslov slike" placeholder="npr. Miren makadam ob železnici" maxLength={80} />
-                        <TextArea label="Kratek opis" placeholder="Kaj prikazuje ta utrinek?" rows={3} maxLength={220} />
+                        <Field
+                          label="Naslov slike"
+                          placeholder="npr. Miren makadam ob železnici"
+                          counter="80"
+                        />
+
+                        <TextArea
+                          label="Kratek opis"
+                          placeholder="Kaj prikazuje ta utrinek?"
+                          rows={3}
+                          counter="220"
+                        />
                       </div>
                     </div>
                   </div>
