@@ -20,6 +20,16 @@ const slugify = (value: string) =>
 
 const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
 
+const feelings = [
+  "Vse",
+  "Družinam prijazno",
+  "e-bike friendly",
+  "Za pare",
+  "Gozdni pobeg",
+  "Lokalni postanek",
+  "Vikend ideja",
+];
+
 const tours = [
   {
     title: "Gozdni flow nad Mariborom",
@@ -30,7 +40,8 @@ const tours = [
     distance: "32 km",
     elevation: "890 vm",
     difficulty: "Srednja",
-    description: "Tura skozi pohorske gozdove, razglede in spuste, ki so ustvarjeni za pravi kolesarski dan.",
+    feelings: ["e-bike friendly", "Gozdni pobeg", "Lokalni postanek"],
+    description: "Tura skozi pohorske gozdove, razglede in spuste, z dovolj prostora za postanek in lep kolesarski dan nad mestom.",
     image: "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1600&auto=format&fit=crop",
     surface: { asphalt: 10, gravel: 25, forest: 65 },
   },
@@ -43,6 +54,7 @@ const tours = [
     distance: "48 km",
     elevation: "620 vm",
     difficulty: "Lahka",
+    feelings: ["Za pare", "Lokalni postanek", "e-bike friendly"],
     description: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
     image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1600&auto=format&fit=crop",
     surface: { asphalt: 45, gravel: 40, forest: 15 },
@@ -56,6 +68,7 @@ const tours = [
     distance: "86 km",
     elevation: "1450 vm",
     difficulty: "Zahtevna",
+    feelings: ["Vikend ideja", "Gozdni pobeg", "Družinam prijazno"],
     description: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
     image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop",
     surface: { asphalt: 30, gravel: 50, forest: 20 },
@@ -95,23 +108,28 @@ export default function ToursPage() {
   }, []);
 
   const [activeDifficulty, setActiveDifficulty] = useState("Vse");
+  const [activeFeeling, setActiveFeeling] = useState("Vse");
 
   const filteredTours = useMemo(() => {
     return tours.filter((tour) => {
       const regionMatch = activeRegion === "Vse" || tour.region === activeRegion;
-      const difficultyMatch = activeDifficulty === "Vse" || tour.difficulty === activeDifficulty;
-      return regionMatch && difficultyMatch;
+      const difficultyMatch =
+        activeDifficulty === "Vse" || tour.difficulty === activeDifficulty;
+      const feelingMatch =
+        activeFeeling === "Vse" || tour.feelings.includes(activeFeeling);
+
+      return regionMatch && difficultyMatch && feelingMatch;
     });
-  }, [activeRegion, activeDifficulty]);
+  }, [activeRegion, activeDifficulty, activeFeeling]);
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/" active="ture" />
 
             <PageHero
-        eyebrow="Katalog tur"
-        title="Najdi svojo naslednjo kolesarsko avanturo."
-        description="Filtriraj ture po pokrajini in težavnosti. Vsaka tura je zasnovana kot doživetje: trasa, podlaga, vreme, eBike doseg in ponudniki ob poti."
+        eyebrow="Kolesarski dnevi"
+        title="Poišči turo, ki paše tvojemu dnevu."
+        description="Izberi po pokrajini, zahtevnosti ali občutku. Vsaka tura ostane praktična za kolesarja, a je zasnovana kot cel dan: pot, razgled, postanek in doživetje ob poti."
         image="https://images.unsplash.com/photo-1593764592116-bfb2a97c642a?q=80&w=1800&auto=format&fit=crop"
         imageAlt="Kolesarska tura skozi gozd"
         imagePosition="center"
@@ -160,13 +178,34 @@ export default function ToursPage() {
               ))}
             </div>
           </div>
+
+          <div>
+            <div className="mb-4 text-xs uppercase tracking-[0.25em] text-zinc-500">
+              Občutek dneva
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {feelings.map((feeling) => (
+                <button
+                  key={feeling}
+                  onClick={() => setActiveFeeling(feeling)}
+                  className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
+                    activeFeeling === feeling
+                      ? "bg-[#c58b46] text-black"
+                      : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
+                  }`}
+                >
+                  {feeling}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 text-sm text-zinc-500">
-            Prikazano: {filteredTours.length} tur
+            Prikazano: {filteredTours.length} tur · izberi po pokrajini, zahtevnosti ali občutku dneva
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
@@ -188,6 +227,17 @@ export default function ToursPage() {
                   <div className="mb-4 flex items-center justify-between gap-4 text-sm text-zinc-400">
                     <span>{tour.region} • {tour.area}</span>
                     <span>{tour.type}</span>
+                  </div>
+
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {tour.feelings.map((feeling) => (
+                      <span
+                        key={feeling}
+                        className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs font-semibold text-[#f4d7ad]"
+                      >
+                        {feeling}
+                      </span>
+                    ))}
                   </div>
 
                   <h2 className="text-3xl font-black leading-tight">{tour.title}</h2>
