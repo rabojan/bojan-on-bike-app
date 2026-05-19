@@ -86,7 +86,7 @@ export default function AdminTrailsPage() {
           </div>
           <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
             <div className="text-4xl font-black">2</div>
-            <div className="mt-2 text-sm text-zinc-400">osnutka</div>
+            <div className="mt-2 text-sm text-zinc-400">čakata na objavo</div>
           </div>
           <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
             <div className="text-4xl font-black">0</div>

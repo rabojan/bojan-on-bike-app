@@ -29,15 +29,7 @@ const trails = [
     meta: "54 km · 620 vm",
     note: "Pred objavo je treba dopolniti nekaj podatkov ali utrinkov.",
     action: "Dopolni predlog",
-  },
-  {
-    title: "Razgledni krog nad mestom",
-    region: "Štajerska",
-    status: "Čaka na objavo",
-    meta: "41 km · 720 vm",
-    note: "Predlog čaka na objavo oziroma uredniški pregled.",
-    action: "Nadaljuj urejanje",
-  },
+  }
 ];
 
 const filters = ["Vse", "Čaka na objavo", "Objavljeno", "Potreben popravek"];
