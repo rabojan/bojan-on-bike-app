@@ -61,7 +61,7 @@ export default function AmbassadorDashboardPage() {
   return (
     <AdminShell active="ambasadorji">
       <div className="space-y-8">
-        <section className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
+        <section className="rounded-[38px] border border-white/10 bg-[#0b1a10] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.18)] md:p-8">
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-start">
             <div>
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
@@ -82,14 +82,14 @@ export default function AmbassadorDashboardPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/admin/predlog-ture/nova"
-                className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black"
+                className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black shadow-[0_14px_34px_rgba(197,139,70,0.20)] transition hover:brightness-110"
               >
                 + Predlagaj novo turo
               </Link>
 
               <Link
                 href="/admin/ambasador/profil"
-                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300"
+                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white"
               >
                 Uredi profil
               </Link>
@@ -186,7 +186,7 @@ export default function AmbassadorDashboardPage() {
           </div>
         </section>
 
-        <section className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
+        <section className="rounded-[38px] border border-white/10 bg-[#0b1a10] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.18)] md:p-8">
           <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
             <div>
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
@@ -206,14 +206,14 @@ export default function AmbassadorDashboardPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/admin/ambasador/ture"
-                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300"
+                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white"
               >
                 Vse moje ture
               </Link>
 
               <Link
                 href="/admin/predlog-ture/nova"
-                className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black"
+                className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black shadow-[0_14px_34px_rgba(197,139,70,0.20)] transition hover:brightness-110"
               >
                 + Nova tura
               </Link>
@@ -243,7 +243,7 @@ export default function AmbassadorDashboardPage() {
 
                   <Link
                     href="/admin/ambasador/ture"
-                    className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300"
+                    className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white"
                   >
                     Odpri
                   </Link>

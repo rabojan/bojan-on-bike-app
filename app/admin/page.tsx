@@ -124,7 +124,7 @@ function AttentionCard({
   return (
     <Link
       href={href}
-      className="flex min-h-[160px] flex-col justify-between rounded-[28px] border border-white/10 bg-[#07110b] p-5 transition hover:border-[#c58b46]/40"
+      className="flex min-h-[160px] flex-col justify-between rounded-[28px] border border-white/10 bg-[#07110b] p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#c58b46]/40 hover:shadow-[0_24px_80px_rgba(0,0,0,0.24)]"
     >
       <div>
         <div className="text-5xl font-black leading-none text-white">{value}</div>
@@ -170,14 +170,14 @@ function ModuleCard({
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href={href}
-          className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300"
+          className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white"
         >
           Odpri modul
         </Link>
 
         <Link
           href={addHref}
-          className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black"
+          className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black shadow-[0_14px_34px_rgba(197,139,70,0.20)] transition hover:brightness-110"
         >
           {addLabel}
         </Link>
@@ -190,7 +190,7 @@ export default function AdminPage() {
   return (
     <AdminShell active="pregled">
       <div className="space-y-8">
-        <section className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
+        <section className="rounded-[38px] border border-white/10 bg-[#0b1a10] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.18)] md:p-8">
           <div className="grid gap-6 xl:grid-cols-[1fr_auto] xl:items-start">
             <div>
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
@@ -211,14 +211,14 @@ export default function AdminPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/admin/v-pregled"
-                className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black"
+                className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black shadow-[0_14px_34px_rgba(197,139,70,0.20)] transition hover:brightness-110"
               >
                 Odpri v pregled
               </Link>
 
               <Link
                 href="/predlagaj-turo"
-                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300"
+                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white"
               >
                 Javna stran predloga
               </Link>
@@ -240,7 +240,7 @@ export default function AdminPage() {
 
             <Link
               href="/admin/v-pregled"
-              className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300"
+              className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white"
             >
               Vse v pregledu
             </Link>
@@ -253,7 +253,7 @@ export default function AdminPage() {
           </div>
         </section>
 
-        <section className="rounded-[36px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-6 md:p-8">
+        <section className="rounded-[38px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-6 shadow-[0_24px_90px_rgba(0,0,0,0.18)] md:p-8">
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
@@ -273,7 +273,7 @@ export default function AdminPage() {
 
             <Link
               href="/admin/v-pregled"
-              className="rounded-full bg-[#c58b46] px-7 py-4 text-sm font-black text-black"
+              className="rounded-full bg-[#c58b46] px-7 py-4 text-sm font-black text-black shadow-[0_14px_34px_rgba(197,139,70,0.20)] transition hover:brightness-110"
             >
               Odpri uredniški pregled
             </Link>
@@ -303,7 +303,7 @@ export default function AdminPage() {
           </div>
         </section>
 
-        <section className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
+        <section className="rounded-[38px] border border-white/10 bg-[#0b1a10] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.18)] md:p-8">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
@@ -326,7 +326,7 @@ export default function AdminPage() {
                 <Link
                   key={item.title}
                   href={item.href}
-                  className="rounded-[24px] border border-white/10 bg-black/20 p-5 transition hover:border-[#c58b46]/40"
+                  className="rounded-[24px] border border-white/10 bg-black/20 p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#c58b46]/40 hover:shadow-[0_24px_80px_rgba(0,0,0,0.24)]"
                 >
                   <div className="text-lg font-black text-white">{item.title}</div>
                   <p className="mt-2 text-sm leading-6 text-zinc-500">
@@ -339,7 +339,7 @@ export default function AdminPage() {
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[1fr_0.8fr]">
-          <div className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
+          <div className="rounded-[38px] border border-white/10 bg-[#0b1a10] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.18)] md:p-8">
             <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
               Zadnje aktivnosti
             </div>
@@ -360,7 +360,7 @@ export default function AdminPage() {
             </div>
           </div>
 
-          <div className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
+          <div className="rounded-[38px] border border-white/10 bg-[#0b1a10] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.18)] md:p-8">
             <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
               Hitri vnosi
             </div>
@@ -381,7 +381,7 @@ export default function AdminPage() {
                 <Link
                   key={label}
                   href={href}
-                  className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40"
+                  className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300 transition duration-200 hover:-translate-y-0.5 hover:border-[#c58b46]/40 hover:shadow-[0_24px_80px_rgba(0,0,0,0.24)]"
                 >
                   + {label}
                 </Link>
