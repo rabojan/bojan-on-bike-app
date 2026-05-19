@@ -33,7 +33,7 @@ const modules = [
   {
     title: "Ture",
     description: "Objavljene ture, osnutki, GPX, podlaga, galerija in javni prikaz.",
-    stats: "3 objavljene · 2 osnutka · 3 čakajo",
+    stats: "3 objavljene · 3 čakajo v pregledu",
     href: "/admin/ture",
     addHref: "/admin/ture/nova",
     addLabel: "Dodaj turo",

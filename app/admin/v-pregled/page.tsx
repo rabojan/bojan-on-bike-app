@@ -94,6 +94,16 @@ function StatCard({ value, label }: { value: string; label: string }) {
 
 export default function AdminReviewPage() {
   const [returnItem, setReturnItem] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState("Vse");
+
+  const filteredItems = reviewItems.filter((item) => {
+    if (activeFilter === "Vse") return true;
+    if (activeFilter === "Ture") return item.type === "Predlog ture";
+    if (activeFilter === "Ponudniki") return item.type === "Novi ponudnik";
+    if (activeFilter === "Znamenitosti") return item.type === "Nova znamenitost";
+    if (activeFilter === "Popravki") return item.type === "Predlagan popravek";
+    return true;
+  });
 
   return (
     <AdminShell active="v-pregled">
@@ -156,8 +166,9 @@ export default function AdminReviewPage() {
                 (filter) => (
                   <button
                     key={filter}
+                    onClick={() => setActiveFilter(filter)}
                     className={`rounded-full border px-4 py-2 text-xs font-bold ${
-                      filter === "Vse"
+                      activeFilter === filter
                         ? "border-[#c58b46]/20 bg-[#c58b46] text-black"
                         : "border-white/10 text-zinc-400"
                     }`}
@@ -170,7 +181,7 @@ export default function AdminReviewPage() {
           </div>
 
           <div className="mt-7 grid gap-4">
-            {reviewItems.map((item) => (
+            {filteredItems.map((item) => (
               <article
                 key={`${item.type}-${item.title}`}
                 className="grid gap-5 rounded-[28px] border border-white/10 bg-black/20 p-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center"

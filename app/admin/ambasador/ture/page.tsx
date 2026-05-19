@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import AdminShell from "@/components/AdminShell";
 
@@ -57,6 +60,13 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default function AmbassadorTrailsPage() {
+  const [activeFilter, setActiveFilter] = useState("Vse");
+
+  const filteredTrails = trails.filter((trail) => {
+    if (activeFilter === "Vse") return true;
+    return trail.status === activeFilter;
+  });
+
   return (
     <AdminShell active="ambasadorji">
       <div className="space-y-8">
@@ -154,8 +164,9 @@ export default function AmbassadorTrailsPage() {
               {filters.map((filter) => (
                 <button
                   key={filter}
+                  onClick={() => setActiveFilter(filter)}
                   className={`rounded-full border px-4 py-2 text-xs font-bold ${
-                    filter === "Vse"
+                    activeFilter === filter
                       ? "border-[#c58b46]/20 bg-[#c58b46] text-black"
                       : "border-white/10 text-zinc-400"
                   }`}
@@ -167,7 +178,7 @@ export default function AmbassadorTrailsPage() {
           </div>
 
           <div className="mt-7 grid gap-4">
-            {trails.map((trail) => (
+            {filteredTrails.map((trail) => (
               <article
                 key={trail.title}
                 className="grid gap-5 rounded-[28px] border border-white/10 bg-black/20 p-5 md:grid-cols-[1fr_auto] md:items-center"

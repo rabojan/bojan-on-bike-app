@@ -291,12 +291,26 @@ export default function NewTrailProposalPage() {
                       ))}
                     </select>
                   </label>
+
+                  <Field
+                    label="Geslo *"
+                    placeholder="••••••••"
+                    type="password"
+                    counter="30"
+                  />
+
+                  <Field
+                    label="Ponovi geslo *"
+                    placeholder="••••••••"
+                    type="password"
+                    counter="30"
+                  />
                 </div>
               </div>
 
               <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
-                Ko prvič pošlješ predlog, se tura poveže s tvojim profilom.
-                Naslednjič se samo prijaviš in nadaljuješ iz svojega kotička.
+                S tem emailom in geslom boš naslednjič odprl svoj ambasadorski
+                kotiček. Ko prvič pošlješ predlog, se tura poveže s tvojim profilom.
               </div>
             </div>
 

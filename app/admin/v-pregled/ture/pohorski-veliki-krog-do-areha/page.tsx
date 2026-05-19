@@ -46,11 +46,11 @@ function InfoCard({
   value: string;
 }) {
   return (
-    <div className="rounded-[22px] border border-white/10 bg-black/20 p-5">
-      <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+    <div className="flex min-h-[126px] flex-col justify-center rounded-[22px] border border-white/10 bg-black/20 p-5 text-center">
+      <div className="text-[11px] font-bold uppercase leading-4 tracking-[0.14em] text-[#c58b46]">
         {label}
       </div>
-      <div className="mt-3 text-xl font-black text-white">{value}</div>
+      <div className="mt-3 text-xl font-black leading-tight text-white">{value}</div>
     </div>
   );
 }
