@@ -31,9 +31,9 @@ function StatCard({
   label: string;
 }) {
   return (
-    <div className="rounded-[22px] border border-white/10 bg-black/20 p-5 text-center">
-      <div className="text-4xl font-black text-white">{value}</div>
-      <div className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+    <div className="flex min-h-[104px] flex-col items-center justify-center rounded-[22px] border border-white/10 bg-black/20 p-4 text-center">
+      <div className="text-3xl font-black leading-none text-white">{value}</div>
+      <div className="mt-2 max-w-full text-[11px] font-semibold leading-4 text-zinc-500">
         {label}
       </div>
     </div>
@@ -49,7 +49,7 @@ function StatusBadge({ status }: { status: string }) {
         : "border-white/10 bg-white/5 text-zinc-300";
 
   return (
-    <span className={`rounded-full border px-3 py-2 text-xs font-bold ${tone}`}>
+    <span className={`whitespace-nowrap rounded-full border px-3 py-2 text-[11px] font-bold ${tone}`}>
       {status}
     </span>
   );
@@ -95,8 +95,8 @@ export default function AmbassadorDashboardPage() {
           </div>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[1fr_1.1fr_0.9fr]">
-          <div className="flex min-h-[280px] flex-col justify-between rounded-[32px] border border-white/10 bg-[#07110b] p-6">
+        <section className="grid gap-6 xl:grid-cols-[1fr_1fr_0.95fr]">
+          <div className="flex min-h-[300px] flex-col justify-between rounded-[32px] border border-white/10 bg-[#07110b] p-6">
             <div>
               <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
                 Tvoj profil
@@ -128,15 +128,15 @@ export default function AmbassadorDashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-white/10 bg-[#07110b] p-6">
+          <div className="flex min-h-[300px] flex-col justify-between rounded-[32px] border border-white/10 bg-[#07110b] p-6">
             <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
               Moje ture
             </div>
 
-            <div className="mt-6 grid grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-3 gap-3">
               <StatCard value="7" label="oddanih" />
-              <StatCard value="4" label="objavljene" />
-              <StatCard value="2" label="čakata" />
+              <StatCard value="4" label="objavljenih" />
+              <StatCard value="2" label="čakata na objavo" />
             </div>
 
             <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
@@ -156,13 +156,13 @@ export default function AmbassadorDashboardPage() {
             </div>
           </div>
 
-          <div className="flex min-h-[280px] flex-col justify-between rounded-[32px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-6">
+          <div className="flex min-h-[300px] flex-col justify-between rounded-[32px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-6">
             <div>
               <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
                 TOP ambasador
               </div>
 
-              <h2 className="mt-5 text-2xl font-black text-white">
+              <h2 className="mt-5 text-xl font-black leading-tight text-white">
                 Še 16 objavljenih tur
               </h2>
 
@@ -192,7 +192,7 @@ export default function AmbassadorDashboardPage() {
               </div>
 
               <h2 className="mt-4 text-3xl font-black tracking-tight text-white">
-                Tvoje ture in njihov status.
+                Tvoje ture in status.
               </h2>
 
               <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
@@ -213,10 +213,10 @@ export default function AmbassadorDashboardPage() {
             {proposals.map((proposal) => (
               <div
                 key={proposal.title}
-                className="grid gap-4 rounded-[26px] border border-white/10 bg-black/20 p-5 md:grid-cols-[1fr_auto] md:items-center"
+                className="grid gap-4 rounded-[26px] border border-white/10 bg-black/20 p-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center"
               >
                 <div>
-                  <div className="text-xl font-black text-white">
+                  <div className="text-lg font-black leading-tight text-white md:text-xl">
                     {proposal.title}
                   </div>
 
@@ -227,7 +227,7 @@ export default function AmbassadorDashboardPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3 md:justify-end">
+                <div className="flex flex-wrap items-center gap-3 md:justify-end">
                   <StatusBadge status={proposal.status} />
 
                   <button className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300">
