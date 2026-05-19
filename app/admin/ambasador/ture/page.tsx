@@ -33,14 +33,14 @@ const trails = [
   {
     title: "Razgledni krog nad mestom",
     region: "Štajerska",
-    status: "Osnutek",
+    status: "V pripravi",
     meta: "41 km · 720 vm",
-    note: "Predlog še ni poslan. Lahko ga dokončaš in pošlješ v objavo.",
+    note: "Predlog je še v pripravi. Ko bo dopolnjen, ga lahko pošlješ v objavo.",
     action: "Nadaljuj urejanje",
   },
 ];
 
-const filters = ["Vse", "Osnutek", "Čaka na objavo", "Objavljeno", "Vrnjeno v dopolnitev"];
+const filters = ["Vse", "Čaka na objavo", "Objavljeno", "Vrnjeno v dopolnitev"];
 
 function StatusBadge({ status }: { status: string }) {
   const tone =
@@ -48,7 +48,7 @@ function StatusBadge({ status }: { status: string }) {
       ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
       : status === "Vrnjeno v dopolnitev"
         ? "border-[#c58b46]/20 bg-[#c58b46]/10 text-[#c58b46]"
-        : status === "Osnutek"
+        : status === "V pripravi"
           ? "border-white/10 bg-white/5 text-zinc-400"
           : "border-blue-300/20 bg-blue-300/10 text-blue-200";
 
