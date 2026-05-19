@@ -223,7 +223,45 @@ export default function TrailPage() {
         </div>
       </section>
 
-      <section className="px-6 py-16">
+      
+      <section className="border-y border-white/10 bg-[#07130b] px-6 py-14 md:py-16">
+        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div>
+            <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+              Občutek poti
+            </div>
+
+            <h2 className="mt-4 text-4xl font-black tracking-tight text-white md:text-5xl">
+              Zakaj na to turo?
+            </h2>
+
+            <p className="mt-5 max-w-2xl text-base leading-8 text-zinc-400">
+              Ker v eni vožnji dobiš mestni začetek, gozdni pobeg, razgled nad
+              Mariborom in postanek, ki iz trase naredi dan. To je tura za
+              takrat, ko nočeš samo odpeljati kilometrov, ampak se za nekaj ur
+              res umakniti ven.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              ["Gozdni pobeg", "Ko se mesto umakne in pot dobi mirnejši ritem."],
+              ["Razgledni trenutek", "Kratek postanek, zaradi katerega si turo zapomniš."],
+              ["Postanek ob poti", "Dovolj dober razlog, da dan ni samo vožnja."],
+            ].map(([title, text]) => (
+              <div
+                key={title}
+                className="rounded-[26px] border border-white/10 bg-black/20 p-5"
+              >
+                <div className="text-lg font-black text-white">{title}</div>
+                <p className="mt-3 text-sm leading-7 text-zinc-500">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+<section className="px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <div className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c58b46]">
             Podlaga ture
