@@ -248,111 +248,100 @@ export default function NewTrailProposalPage() {
         <Section
           eyebrow="1 / Moj ambasadorski kotiček"
           title="Dobrodošel nazaj, Bojan"
-          intro="Tukaj vidiš svoj ambasadorski profil, svoje predloge in napredek do TOP ambasadorja regije."
+          intro="Tukaj vidiš svoj ambasadorski profil, potrjene ture in napredek do TOP ambasadorja regije."
         >
-          <div className="grid gap-5 xl:grid-cols-[1fr_1.2fr_0.9fr]">
-            <div className="rounded-[26px] border border-white/10 bg-[#07110b] p-5">
-              <div className="text-xs uppercase tracking-[0.28em] text-[#c58b46]">
-                Tvoj profil
-              </div>
-
-              <div className="mt-5 flex items-center gap-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-black/30 text-3xl">
-                  🚴
+          <div className="grid gap-5 xl:grid-cols-[1fr_1.1fr_0.9fr]">
+            <div className="flex min-h-[260px] flex-col justify-between rounded-[26px] border border-white/10 bg-[#07110b] p-5">
+              <div>
+                <div className="text-xs uppercase tracking-[0.28em] text-[#c58b46]">
+                  Tvoj profil
                 </div>
 
-                <div>
-                  <div className="text-2xl font-black text-white">
-                    Bojan Ratej
+                <div className="mt-5 flex items-center gap-4">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/30 text-3xl">
+                    🚴
                   </div>
-                  <div className="mt-1 text-sm font-semibold text-zinc-400">
-                    Ambasador Štajerske
+
+                  <div className="min-w-0">
+                    <div className="truncate text-2xl font-black text-white">
+                      Bojan Ratej
+                    </div>
+                    <div className="mt-1 text-sm font-semibold text-zinc-400">
+                      Ambasador Štajerske
+                    </div>
                   </div>
                 </div>
+
+                <p className="mt-5 text-sm leading-7 text-zinc-500">
+                  Vsaka objavljena tura šteje k tvojemu ambasadorskemu profilu.
+                </p>
               </div>
 
-              <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-6 text-zinc-300">
-                Vsaka potrjena tura šteje k tvojemu ambasadorskemu profilu.
-              </div>
-
-              <div className="mt-5 flex flex-wrap gap-3">
-                <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black">
-                  + Predlagaj novo turo
-                </button>
-
-                <button className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300">
-                  Uredi profil
-                </button>
-              </div>
+              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300">
+                Uredi profil
+              </button>
             </div>
 
-            <div className="rounded-[26px] border border-white/10 bg-[#07110b] p-5">
-              <div className="text-xs uppercase tracking-[0.28em] text-[#c58b46]">
-                Moje ture
-              </div>
-
-              <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
-                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <div className="text-3xl font-black text-white">7</div>
-                  <div className="mt-2 text-xs font-semibold text-zinc-500">
-                    oddanih
-                  </div>
+            <div className="flex min-h-[260px] flex-col justify-between rounded-[26px] border border-white/10 bg-[#07110b] p-5">
+              <div>
+                <div className="text-xs uppercase tracking-[0.28em] text-[#c58b46]">
+                  Moje ture
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <div className="text-3xl font-black text-white">4</div>
-                  <div className="mt-2 text-xs font-semibold text-zinc-500">
-                    objavljene
+                <div className="mt-5 grid grid-cols-3 gap-3">
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-center">
+                    <div className="text-3xl font-black text-white">7</div>
+                    <div className="mt-2 text-xs font-semibold text-zinc-500">
+                      oddanih
+                    </div>
                   </div>
-                </div>
 
-                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <div className="text-3xl font-black text-white">2</div>
-                  <div className="mt-2 text-xs font-semibold text-zinc-500">
-                    v pregledu
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-center">
+                    <div className="text-3xl font-black text-white">4</div>
+                    <div className="mt-2 text-xs font-semibold text-zinc-500">
+                      objavljene
+                    </div>
                   </div>
-                </div>
 
-                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <div className="text-3xl font-black text-white">1</div>
-                  <div className="mt-2 text-xs font-semibold text-zinc-500">
-                    osnutek
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-center">
+                    <div className="text-3xl font-black text-white">2</div>
+                    <div className="mt-2 text-xs font-semibold text-zinc-500">
+                      v pregledu
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex items-start justify-between gap-4">
                   <div>
                     <div className="font-black text-white">Zadnji predlog</div>
-                    <div className="mt-1 text-sm text-zinc-500">
+                    <div className="mt-1 text-sm leading-6 text-zinc-500">
                       Pohorski veliki krog do Areha
                     </div>
                   </div>
 
-                  <div className="rounded-full border border-[#c58b46]/20 bg-[#c58b46]/10 px-3 py-2 text-xs font-bold text-[#c58b46]">
+                  <div className="shrink-0 rounded-full border border-[#c58b46]/20 bg-[#c58b46]/10 px-3 py-2 text-xs font-bold text-[#c58b46]">
                     v pregledu
                   </div>
                 </div>
               </div>
-
-              <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300">
-                Moji predlogi
-              </button>
             </div>
 
-            <div className="rounded-[26px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-5">
-              <div className="text-xs uppercase tracking-[0.28em] text-[#c58b46]">
-                TOP ambasador
+            <div className="flex min-h-[260px] flex-col justify-between rounded-[26px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-5">
+              <div>
+                <div className="text-xs uppercase tracking-[0.28em] text-[#c58b46]">
+                  TOP ambasador
+                </div>
+
+                <h3 className="mt-4 text-xl font-black text-white">
+                  Še 16 objavljenih tur
+                </h3>
+
+                <p className="mt-2 text-sm leading-6 text-zinc-300">
+                  TOP oznaka se odklene pri 20 objavljenih oziroma potrjenih turah.
+                </p>
               </div>
-
-              <h3 className="mt-4 text-xl font-black text-white">
-                Še 16 objavljenih tur
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-zinc-300">
-                TOP oznaka se odklene pri 20 objavljenih oziroma potrjenih turah.
-              </p>
 
               <div className="mt-5">
                 <div className="mb-2 flex items-center justify-between text-xs font-bold text-zinc-400">
@@ -364,11 +353,6 @@ export default function NewTrailProposalPage() {
                   <div className="h-full w-[20%] rounded-full bg-[#c58b46]" />
                 </div>
               </div>
-
-              <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm leading-6 text-zinc-300">
-                Tvoje objavljene ture pomagajo graditi izbrane kolesarske zgodbe
-                po Sloveniji.
-              </div>
             </div>
           </div>
         </Section>
@@ -376,11 +360,19 @@ export default function NewTrailProposalPage() {
         <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-6">
             <Section
-              eyebrow="2 / Podatki o turi"
-              title="Osnovna slika ture"
-              intro="Tukaj vpišeš tisto, kar mora nekdo vedeti, preden se odloči za vožnjo."
+              eyebrow="2 / Predlagaj novo turo"
+              title="Začni z GPX traso"
+              intro="GPX je obvezen. Ko je trasa naložena, lahko sistem predlaga regijo, ponudnike in znamenitosti v bližini poti."
             >
-              <div className="grid gap-4 md:grid-cols-2">
+              <UploadBox
+                label="GPX"
+                title="Naloži GPX trase"
+                description="To je obvezen del predloga. Brez GPX datoteke ture ni mogoče poslati."
+                button="Izberi GPX"
+                required
+              />
+
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
                 <Field
                   label="Ime ture *"
                   placeholder="npr. Pohorski veliki krog do Areha"
@@ -488,20 +480,13 @@ export default function NewTrailProposalPage() {
               </div>
             </Section>
 
-            <Section
-              eyebrow="4 / GPX in podlaga"
-              title="Trasa je osnova predloga"
-              intro="GPX je obvezen. Brez GPX datoteke predloga ture ni mogoče poslati, ker iz nje določimo potek, regijo, bližnje postanke in kasnejši zemljevid."
-            >
-              <UploadBox
-                label="GPX"
-                title="Naloži GPX trase"
-                description="To je obvezen del predloga. GPX omogoča zemljevid, preverjanje trase in predloge ponudnikov ter znamenitosti ob poti."
-                button="Izberi GPX"
-                required
-              />
 
-              <div className="mt-5 grid gap-4 md:grid-cols-3">
+            <Section
+              eyebrow="4 / Podlaga ture"
+              title="Kakšna je podlaga?"
+              intro="Podlaga naj bo preprosta: cesta, makadam in gozdna pot."
+            >
+              <div className="grid gap-4 md:grid-cols-3">
                 <Field label="Cesta" placeholder="%" counter="4" />
                 <Field label="Makadam" placeholder="%" counter="4" />
                 <Field label="Gozdna pot" placeholder="%" counter="4" />
@@ -645,43 +630,42 @@ export default function NewTrailProposalPage() {
             <Section
               eyebrow="8 / Utrinki in doživetje poti"
               title="Dodaj občutek poti"
-              intro="Dodaj do 8 utrinkov. Iz teh slik in kratkih naslovov lahko kasneje nastane galerija, doživetveni opis ali social objava."
+              intro="Dodaj prvi utrinek. Če jih imaš več, jih lahko dodaš do največ 8."
             >
-              <div className="grid gap-4 sm:grid-cols-2">
-                {Array.from({ length: 8 }, (_, index) => (
-                  <div
-                    key={index}
-                    className="rounded-[22px] border border-white/10 bg-[#07110b] p-4"
-                  >
-                    <div className="mb-4 flex items-center justify-between gap-3">
-                      <div className="text-xs uppercase tracking-[0.22em] text-[#c58b46]">
-                        Utrinek {index + 1}
-                      </div>
-                      <div className="text-xs text-zinc-600">slika + naslov</div>
-                    </div>
-
-                    <div className="rounded-[20px] border border-dashed border-white/15 bg-black/20 p-5 text-center">
-                      <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-                        Slika
-                      </div>
-                      <div className="mt-2 text-sm font-black text-white">
-                        Dodaj fotografijo
-                      </div>
-                      <label className="mt-4 inline-flex cursor-pointer rounded-full bg-[#c58b46] px-4 py-2 text-xs font-bold text-black transition hover:bg-[#d9a35d]">
-                        Izberi
-                        <input type="file" className="hidden" />
-                      </label>
-                    </div>
-
-                    <div className="mt-4">
-                      <Field
-                        label="Naslov slike"
-                        placeholder="npr. Miren makadam"
-                        counter="25"
-                      />
-                    </div>
+              <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                    Utrinek 1
                   </div>
-                ))}
+                  <div className="text-xs font-bold text-zinc-500">1 / 8</div>
+                </div>
+
+                <div className="grid items-start gap-4 md:grid-cols-[0.8fr_1.2fr]">
+                  <div className="rounded-[20px] border border-dashed border-white/15 bg-black/20 p-5 text-center">
+                    <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                      Slika
+                    </div>
+
+                    <div className="mt-2 text-sm font-black text-white">
+                      Dodaj fotografijo
+                    </div>
+
+                    <label className="mt-4 inline-flex cursor-pointer rounded-full bg-[#c58b46] px-4 py-2 text-xs font-bold text-black transition hover:bg-[#d9a35d]">
+                      Izberi
+                      <input type="file" className="hidden" />
+                    </label>
+                  </div>
+
+                  <Field
+                    label="Naslov slike"
+                    placeholder="npr. Miren makadam"
+                    counter="25"
+                  />
+                </div>
+
+                <button className="mt-5 w-full rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300">
+                  + Dodaj več utrinkov
+                </button>
               </div>
             </Section>
 
