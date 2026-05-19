@@ -64,7 +64,7 @@ export default function AdminShell({ children, active }: AdminShellProps) {
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#07110b]/95 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+        <div className="mx-auto flex max-w-[1480px] items-center justify-between px-5 py-4">
           <div>
             <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
               Bojanova pisarna
@@ -106,7 +106,7 @@ export default function AdminShell({ children, active }: AdminShellProps) {
                   onClick={() => setMenuOpen(false)}
                   className={`rounded-2xl px-4 py-3 text-sm font-semibold ${
                     active === item.key
-                      ? "bg-[#c58b46] text-black"
+                      ? "bg-[#c58b46] text-black shadow-[0_12px_30px_rgba(197,139,70,0.18)]"
                       : "border border-white/10 bg-black/20 text-zinc-300"
                   }`}
                 >
@@ -118,21 +118,21 @@ export default function AdminShell({ children, active }: AdminShellProps) {
         )}
       </header>
 
-      <div className="mx-auto grid max-w-7xl gap-6 px-5 py-6 lg:grid-cols-[260px_1fr]">
+      <div className="mx-auto grid max-w-[1480px] gap-7 px-5 py-7 lg:grid-cols-[280px_1fr]">
         <aside className="hidden lg:block">
-          <div className="sticky top-28 rounded-[32px] border border-white/10 bg-[#0b1a10] p-4">
+          <div className="sticky top-28 rounded-[34px] border border-white/10 bg-[#0b1a10] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
             <div className="mb-4 px-3 text-xs uppercase tracking-[0.25em] text-zinc-500">
-              Uredniški meni
+              Glavna navigacija
             </div>
 
-            <nav className="space-y-2">
+            <nav className="space-y-2.5">
               {navItems.map((item) => (
                 <Link
                   key={item.key}
                   href={item.href}
-                  className={`block rounded-2xl px-4 py-3 text-sm font-semibold transition ${
+                  className={`block rounded-2xl px-4 py-3.5 text-sm font-bold transition ${
                     active === item.key
-                      ? "bg-[#c58b46] text-black"
+                      ? "bg-[#c58b46] text-black shadow-[0_12px_30px_rgba(197,139,70,0.18)]"
                       : "text-zinc-300 hover:bg-white/5 hover:text-white"
                   }`}
                 >
@@ -143,7 +143,7 @@ export default function AdminShell({ children, active }: AdminShellProps) {
           </div>
         </aside>
 
-        <section>{children}</section>
+        <section className="min-w-0">{children}</section>
       </div>
     </main>
   );
