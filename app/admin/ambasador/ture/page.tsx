@@ -96,24 +96,40 @@ export default function AmbassadorTrailsPage() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-4">
-          <div className="rounded-[26px] border border-white/10 bg-[#07110b] p-5">
-            <div className="text-4xl font-black text-white">7</div>
-            <div className="mt-2 text-sm font-semibold text-zinc-500">vseh oddanih</div>
+          <div className="flex min-h-[150px] items-center justify-center rounded-[26px] border border-white/10 bg-[#07110b] p-5 text-center">
+            <div>
+              <div className="text-5xl font-black leading-none text-white">7</div>
+              <div className="mt-3 text-sm font-bold leading-none text-zinc-500">
+                vseh oddanih
+              </div>
+            </div>
           </div>
 
-          <div className="rounded-[26px] border border-white/10 bg-[#07110b] p-5">
-            <div className="text-4xl font-black text-white">4</div>
-            <div className="mt-2 text-sm font-semibold text-zinc-500">objavljenih</div>
+          <div className="flex min-h-[150px] items-center justify-center rounded-[26px] border border-white/10 bg-[#07110b] p-5 text-center">
+            <div>
+              <div className="text-5xl font-black leading-none text-white">4</div>
+              <div className="mt-3 text-sm font-bold leading-none text-zinc-500">
+                objavljenih
+              </div>
+            </div>
           </div>
 
-          <div className="rounded-[26px] border border-white/10 bg-[#07110b] p-5">
-            <div className="text-4xl font-black text-white">3</div>
-            <div className="mt-2 text-sm font-semibold text-zinc-500">čakajo ali se urejajo</div>
+          <div className="flex min-h-[150px] items-center justify-center rounded-[26px] border border-white/10 bg-[#07110b] p-5 text-center">
+            <div>
+              <div className="text-5xl font-black leading-none text-white">3</div>
+              <div className="mt-3 text-sm font-bold leading-none text-zinc-500">
+                čakajo
+              </div>
+            </div>
           </div>
 
-          <div className="rounded-[26px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-5">
-            <div className="text-4xl font-black text-white">16</div>
-            <div className="mt-2 text-sm font-semibold text-zinc-300">še do TOP oznake</div>
+          <div className="flex min-h-[150px] items-center justify-center rounded-[26px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-5 text-center">
+            <div>
+              <div className="text-5xl font-black leading-none text-white">16</div>
+              <div className="mt-3 text-sm font-bold leading-none text-zinc-300">
+                do TOP oznake
+              </div>
+            </div>
           </div>
         </section>
 
