@@ -8,26 +8,26 @@ type AdminShellProps = {
   children: ReactNode;
   active:
     | "pregled"
+    | "v-pregled"
     | "ture"
-    | "dozivetja"
+    | "ambasadorji"
     | "ponudniki"
     | "znamenitosti"
+    | "dozivetja"
     | "regije"
-    | "v-pregled"
-    | "ambasadorji"
     | "mediji"
     | "nastavitve";
 };
 
 const navItems = [
   { label: "Pregled", href: "/admin", key: "pregled" },
+  { label: "V pregled", href: "/admin/v-pregled", key: "v-pregled" },
   { label: "Ture", href: "/admin/ture", key: "ture" },
-  { label: "Doživetja", href: "/admin/dozivetja", key: "dozivetja" },
+  { label: "Ambasadorji", href: "/admin/ambasadorji", key: "ambasadorji" },
   { label: "Ponudniki", href: "/admin/ponudniki", key: "ponudniki" },
   { label: "Znamenitosti", href: "/admin/znamenitosti", key: "znamenitosti" },
+  { label: "Doživetja", href: "/admin/dozivetja", key: "dozivetja" },
   { label: "Regije", href: "/admin/regije", key: "regije" },
-  { label: "V pregled", href: "/admin/v-pregled", key: "v-pregled" },
-  { label: "Ambasadorji", href: "/admin/ambasadorji", key: "ambasadorji" },
   { label: "Mediji", href: "/admin/mediji", key: "mediji" },
   { label: "Nastavitve", href: "/admin/nastavitve", key: "nastavitve" },
 ];
