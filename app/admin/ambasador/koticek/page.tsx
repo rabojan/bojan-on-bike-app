@@ -31,10 +31,10 @@ function StatCard({
   label: string;
 }) {
   return (
-    <div className="flex min-h-[104px] flex-col items-center justify-center rounded-[22px] border border-white/10 bg-black/20 p-4 text-center">
-      <div className="text-3xl font-black leading-none text-white">{value}</div>
-      <div className="mt-2 max-w-full text-[11px] font-semibold leading-4 text-zinc-500">
-        {label}
+    <div className="flex min-h-[112px] items-center justify-center rounded-[22px] border border-white/10 bg-black/20 p-4 text-center">
+      <div className="flex items-baseline justify-center gap-2 whitespace-nowrap">
+        <span className="text-4xl font-black leading-none text-white">{value}</span>
+        <span className="text-sm font-bold leading-none text-zinc-500">{label}</span>
       </div>
     </div>
   );
@@ -136,7 +136,7 @@ export default function AmbassadorDashboardPage() {
             <div className="mt-6 grid grid-cols-3 gap-3">
               <StatCard value="7" label="oddanih" />
               <StatCard value="4" label="objavljenih" />
-              <StatCard value="2" label="čakata na objavo" />
+              <StatCard value="3" label="čakajo" />
             </div>
 
             <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
@@ -150,7 +150,7 @@ export default function AmbassadorDashboardPage() {
                 </div>
 
                 <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-bold text-zinc-300">
-                  2
+                  3
                 </span>
               </div>
             </div>
