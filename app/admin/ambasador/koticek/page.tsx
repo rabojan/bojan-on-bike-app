@@ -31,10 +31,12 @@ function StatCard({
   label: string;
 }) {
   return (
-    <div className="flex min-h-[112px] items-center justify-center rounded-[22px] border border-white/10 bg-black/20 p-4 text-center">
-      <div className="flex items-baseline justify-center gap-2 whitespace-nowrap">
-        <span className="text-4xl font-black leading-none text-white">{value}</span>
-        <span className="text-sm font-bold leading-none text-zinc-500">{label}</span>
+    <div className="flex min-h-[132px] items-center justify-center rounded-[22px] border border-white/10 bg-black/20 p-4 text-center">
+      <div className="flex flex-col items-center justify-center">
+        <div className="text-5xl font-black leading-none text-white">{value}</div>
+        <div className="mt-3 text-sm font-bold leading-none text-zinc-500">
+          {label}
+        </div>
       </div>
     </div>
   );
