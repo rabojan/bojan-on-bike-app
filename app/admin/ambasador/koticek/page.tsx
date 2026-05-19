@@ -203,12 +203,21 @@ export default function AmbassadorDashboardPage() {
               </p>
             </div>
 
-            <Link
-              href="/admin/predlog-ture/nova"
-              className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black"
-            >
-              + Nova tura
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/admin/ambasador/ture"
+                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300"
+              >
+                Vse moje ture
+              </Link>
+
+              <Link
+                href="/admin/predlog-ture/nova"
+                className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black"
+              >
+                + Nova tura
+              </Link>
+            </div>
           </div>
 
           <div className="mt-7 grid gap-4">
@@ -232,9 +241,12 @@ export default function AmbassadorDashboardPage() {
                 <div className="flex flex-wrap items-center gap-3 md:justify-end">
                   <StatusBadge status={proposal.status} />
 
-                  <button className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300">
+                  <Link
+                    href="/admin/ambasador/ture"
+                    className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300"
+                  >
                     Odpri
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
