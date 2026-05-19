@@ -239,7 +239,7 @@ export default function NewTrailProposalPage() {
               </Link>
 
               <button className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-bold text-black">
-                Shrani osnutek
+                Shrani predlog
               </button>
             </div>
           </div>
@@ -306,7 +306,7 @@ export default function NewTrailProposalPage() {
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-center">
                     <div className="text-3xl font-black text-white">2</div>
                     <div className="mt-2 text-xs font-semibold text-zinc-500">
-                      v pregledu
+                      čaka
                     </div>
                   </div>
                 </div>
@@ -315,9 +315,9 @@ export default function NewTrailProposalPage() {
               <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <div className="font-black text-white">Zadnji predlog</div>
+                    <div className="font-black text-white">Čaka na objavo</div>
                     <div className="mt-1 text-sm leading-6 text-zinc-500">
-                      Pohorski veliki krog do Areha
+                      Predlogi, ki so poslani in čakajo na uredniško objavo.
                     </div>
                   </div>
 
@@ -368,7 +368,7 @@ export default function NewTrailProposalPage() {
                 label="GPX"
                 title="Naloži GPX trase"
                 description="To je obvezen del predloga. Brez GPX datoteke ture ni mogoče poslati."
-                button="Izberi GPX"
+                button="Naloži GPX"
                 required
               />
 
@@ -679,9 +679,9 @@ export default function NewTrailProposalPage() {
               </h2>
 
               <p className="mt-3 text-sm leading-7 text-zinc-400">
-                Ko pošlješ predlog, tura ostane povezana s teboj. Skupaj jo pripravimo
-                tako, da bo jasno predstavljena, uporabna za druge kolesarje
-                in objavljena s tvojim podpisom.
+                Ko pošlješ predlog, tura ostane povezana s teboj. Pred objavo preverimo,
+                da ima vse potrebne podatke, delujoč GPX in jasno predstavitev
+                za druge kolesarje.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-zinc-500">
@@ -695,7 +695,7 @@ export default function NewTrailProposalPage() {
                 </button>
 
                 <button className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black">
-                  Pošlji predlog ture
+                  Pošlji predlog v objavo
                 </button>
               </div>
             </section>
