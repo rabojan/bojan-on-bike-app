@@ -281,6 +281,36 @@ export default function ToursPage() {
           </div>
         </div>
       </section>
+    
+      <section className="border-y border-white/10 bg-[#07130b] px-6 py-16">
+        <div className="mx-auto grid max-w-6xl gap-8 rounded-[36px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-8 md:grid-cols-[1fr_auto] md:items-center md:p-10">
+          <div>
+            <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+              Skupnost lokalnih kolesarjev
+            </div>
+
+            <h2 className="mt-4 max-w-3xl text-3xl font-black tracking-tight text-white md:text-4xl">
+              Poznaš pot, ki si zasluži mesto med izbranimi turami?
+            </h2>
+
+            <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
+              Predlagaj traso, ki jo poznaš, si jo prevozil ali bi jo priporočil
+              drugim. Tura ostane povezana s teboj, mi pa jo pomagamo pripraviti
+              za objavo.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3 md:justify-end">
+            <Link
+              href="/predlagaj-turo"
+              className="rounded-full bg-[#c58b46] px-7 py-4 text-sm font-black text-black"
+            >
+              Predlagaj svojo turo
+            </Link>
+          </div>
+        </div>
+      </section>
+
     </main>
   );
 }
