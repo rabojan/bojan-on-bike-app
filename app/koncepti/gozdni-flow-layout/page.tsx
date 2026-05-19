@@ -2,23 +2,29 @@ import Link from "next/link";
 
 const photos = {
   hero:
-    "https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=2400&q=90",
-  flow:
-    "https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=1400&q=90",
-  view:
-    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=90",
-  forest:
-    "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=90",
-  hut:
-    "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1400&q=90",
-  terrace:
-    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=90",
-  sunset:
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=90",
-  bike:
-    "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1400&q=90",
+    "/images/concepts/emtb-reference.png",
   ambassador:
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=90",
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=90",
+  highlightForest:
+    "/images/concepts/emtb-reference.png",
+  highlightView:
+    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=90",
+  highlightTrail:
+    "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=90",
+  provider1:
+    "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1400&q=90",
+  provider2:
+    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=90",
+  gallery1:
+    "/images/concepts/emtb-reference.png",
+  gallery2:
+    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=90",
+  gallery3:
+    "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=90",
+  gallery4:
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=90",
+  gallery5:
+    "/images/concepts/emtb-reference.png",
 };
 
 const stats = [
@@ -108,7 +114,7 @@ export default function GozdniFlowLayoutConceptPage() {
 
       <section className="relative overflow-hidden pt-[72px]">
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-contain bg-right bg-no-repeat opacity-95"
           style={{ backgroundImage: `url(${photos.hero})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#03100a]/76 via-[#03100a]/42 to-[#03100a]/8" />
@@ -117,7 +123,7 @@ export default function GozdniFlowLayoutConceptPage() {
         <div className="relative mx-auto grid min-h-[570px] max-w-[1420px] items-center px-6 py-20">
           <div className="max-w-3xl">
             <div className="text-xs uppercase tracking-[0.45em] text-[#c58b46]">
-              MTB tura
+              eMTB / MTB tura
             </div>
 
             <h1 className="mt-5 text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">
@@ -131,7 +137,7 @@ export default function GozdniFlowLayoutConceptPage() {
 
             <div className="mt-7 flex flex-wrap gap-3">
               <Pill>Gozdne poti</Pill>
-              <Pill>Flow traili</Pill>
+              <Pill>MTB flow</Pill>
               <Pill>Razgledi</Pill>
               <Pill>E-MTB friendly</Pill>
             </div>
@@ -248,7 +254,7 @@ export default function GozdniFlowLayoutConceptPage() {
                 ["Dolžina", "32 km"],
                 ["Skupni vzpon", "890 vm"],
                 ["Težavnost", "Srednja"],
-                ["Tip kolesa", "MTB / E-MTB"],
+                ["Priporočeno kolo", "eMTB / MTB"],
                 ["Najvišja točka", "1.120 m"],
                 ["Podlaga", "Gozdne poti, singletraili, makadam"],
               ].map(([label, value]) => (
@@ -474,7 +480,7 @@ export default function GozdniFlowLayoutConceptPage() {
               Imaš podobno traso?
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
-              Če poznaš odlično gorsko-kolesarsko turo nad mestom, jo predlagaj in jo morda
+              Če poznaš odlično eMTB / gorsko-kolesarsko turo nad mestom, jo predlagaj in jo morda
               kmalu dodamo med izbrane.
             </p>
           </div>
