@@ -37,19 +37,19 @@ const stats = [
 
 const highlights = [
   {
-    image: photos.flow,
+    image: photos.highlightForest,
     title: "Flow skozi pohorske gozdove",
     text:
       "Hitri, tekoči gozdni odseki med smrekami, koreninami in mehko podlago. Zavoj za zavojem, pravi MTB občutek nad mestom.",
   },
   {
-    image: photos.view,
+    image: photos.highlightView,
     title: "Razgledi nad Mariborom",
     text:
       "Na višjih delih se odpre pogled proti mestu, Dravi in Pohorju. Kratek postanek, globok vdih in občutek, da se je splačalo zaviti navzgor.",
   },
   {
-    image: photos.forest,
+    image: photos.highlightTrail,
     title: "Mirne povezave za ravnovesje",
     text:
       "Makadamski in gozdni odseki povežejo dan v celoto. Tu tempo pade, pogovor steče in vožnja dobi bolj sproščen ritem.",
@@ -58,7 +58,7 @@ const highlights = [
 
 const providers = [
   {
-    image: photos.hut,
+    image: photos.provider1,
     title: "Rudijev dom na Pohorju",
     tags: ["Koča", "Hrana & pijača"],
     text:
@@ -66,7 +66,7 @@ const providers = [
     location: "Pohorje",
   },
   {
-    image: photos.terrace,
+    image: photos.provider2,
     title: "Gorska hiša Pohorje",
     tags: ["Koča", "Razgled"],
     text:
@@ -75,7 +75,7 @@ const providers = [
   },
 ];
 
-const gallery = [photos.flow, photos.view, photos.forest, photos.sunset, photos.bike];
+const gallery = [photos.highlightForest, photos.highlightView, photos.highlightTrail, photos.gallery4, photos.gallery5];
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
