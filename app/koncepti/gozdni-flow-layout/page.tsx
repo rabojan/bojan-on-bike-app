@@ -2,21 +2,23 @@ import Link from "next/link";
 
 const photos = {
   hero:
-    "https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=2400&q=90",
+    "https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=2400&q=90",
   flow:
-    "https://images.unsplash.com/photo-1544191696-15693072e28b?auto=format&fit=crop&w=1400&q=90",
+    "https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=1400&q=90",
   view:
     "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=90",
   forest:
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=90",
+    "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=90",
   hut:
     "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1400&q=90",
   terrace:
-    "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1400&q=90",
-  sunset:
     "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=90",
+  sunset:
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=90",
   bike:
     "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1400&q=90",
+  ambassador:
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=90",
 };
 
 const stats = [
@@ -32,7 +34,7 @@ const highlights = [
     image: photos.flow,
     title: "Flow skozi pohorske gozdove",
     text:
-      "Hitri, tekoči gozdni odseki med smrekami, kjer kolo lepo steče. Zavoj za zavojem, mehka podlaga in pravi MTB občutek nad mestom.",
+      "Hitri, tekoči gozdni odseki med smrekami, koreninami in mehko podlago. Zavoj za zavojem, pravi MTB občutek nad mestom.",
   },
   {
     image: photos.view,
@@ -109,8 +111,8 @@ export default function GozdniFlowLayoutConceptPage() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${photos.hero})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#03100a]/88 via-[#03100a]/54 to-[#03100a]/18" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#03100a] via-transparent to-[#03100a]/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#03100a]/76 via-[#03100a]/42 to-[#03100a]/8" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#03100a]/92 via-transparent to-[#03100a]/12" />
 
         <div className="relative mx-auto grid min-h-[570px] max-w-[1420px] items-center px-6 py-20">
           <div className="max-w-3xl">
@@ -123,7 +125,7 @@ export default function GozdniFlowLayoutConceptPage() {
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-200">
-              Tekaška MTB vožnja po razgibanih gozdnih poteh nad Mariborom.
+              Gorsko-kolesarska vožnja po razgibanih gozdnih poteh nad Mariborom.
               Hitri zavoji, razgledi, mir in tista prava pohorska energija.
             </p>
 
@@ -164,9 +166,10 @@ export default function GozdniFlowLayoutConceptPage() {
         <div className="mx-auto max-w-[1180px] rounded-[28px] border border-[#c58b46]/25 bg-[#0a1d12] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.24)] md:p-7">
           <div className="grid gap-6 md:grid-cols-[320px_1fr] md:items-center">
             <div className="flex items-center gap-4">
-              <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#07110b] text-3xl">
-                🚵
-              </div>
+              <div
+                className="h-20 w-20 overflow-hidden rounded-full border border-white/10 bg-cover bg-center"
+                style={{ backgroundImage: `url(${photos.ambassador})` }}
+              />
 
               <div>
                 <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
@@ -471,7 +474,7 @@ export default function GozdniFlowLayoutConceptPage() {
               Imaš podobno traso?
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
-              Če poznaš odlično MTB turo nad mestom, jo predlagaj in jo morda
+              Če poznaš odlično gorsko-kolesarsko turo nad mestom, jo predlagaj in jo morda
               kmalu dodamo med izbrane.
             </p>
           </div>
