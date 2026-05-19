@@ -47,7 +47,7 @@ export default function NewRegionPage() {
             </Link>
 
             <button className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black">
-              Shrani kot osnutek
+              Shrani predlog
             </button>
           </div>
         </section>
@@ -86,7 +86,7 @@ export default function NewRegionPage() {
                       Status regije *
                     </span>
                     <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                      <option>V pripravi</option>
+                      <option>Čaka na objavo</option>
                       <option>Aktivna</option>
                       <option>Arhivirana</option>
                     </select>

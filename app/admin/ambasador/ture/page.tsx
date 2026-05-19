@@ -25,7 +25,7 @@ const trails = [
   {
     title: "Makadamski krog ob Dravi",
     region: "Štajerska",
-    status: "Vrnjeno v dopolnitev",
+    status: "Potreben popravek",
     meta: "54 km · 620 vm",
     note: "Pred objavo je treba dopolniti nekaj podatkov ali utrinkov.",
     action: "Dopolni predlog",
@@ -33,22 +33,22 @@ const trails = [
   {
     title: "Razgledni krog nad mestom",
     region: "Štajerska",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     meta: "41 km · 720 vm",
-    note: "Predlog je še v pripravi. Ko bo dopolnjen, ga lahko pošlješ v objavo.",
+    note: "Predlog čaka na objavo oziroma uredniški pregled.",
     action: "Nadaljuj urejanje",
   },
 ];
 
-const filters = ["Vse", "Čaka na objavo", "Objavljeno", "Vrnjeno v dopolnitev"];
+const filters = ["Vse", "Čaka na objavo", "Objavljeno", "Potreben popravek"];
 
 function StatusBadge({ status }: { status: string }) {
   const tone =
     status === "Objavljeno"
       ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
-      : status === "Vrnjeno v dopolnitev"
+      : status === "Potreben popravek"
         ? "border-[#c58b46]/20 bg-[#c58b46]/10 text-[#c58b46]"
-        : status === "V pripravi"
+        : status === "Čaka na objavo"
           ? "border-white/10 bg-white/5 text-zinc-400"
           : "border-blue-300/20 bg-blue-300/10 text-blue-200";
 
@@ -156,7 +156,7 @@ export default function AmbassadorTrailsPage() {
 
               <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
                 Objavljene ture so že javno vidne. Predloge, ki čakajo ali so
-                vrnjeni v dopolnitev, lahko spremljaš tukaj.
+                označeni za popravek, lahko spremljaš tukaj.
               </p>
             </div>
 

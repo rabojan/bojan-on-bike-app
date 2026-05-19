@@ -52,7 +52,7 @@ export default function NewAmbassadorPage() {
             </Link>
 
             <button className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black">
-              Shrani kot osnutek
+              Shrani predlog
             </button>
           </div>
         </section>
@@ -103,7 +103,7 @@ export default function NewAmbassadorPage() {
                       Status *
                     </span>
                     <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none">
-                      <option>V pripravi</option>
+                      <option>Čaka na objavo</option>
                       <option>Aktiven</option>
                       <option>Začasno neaktiven</option>
                       <option>Arhiviran</option>
@@ -304,7 +304,7 @@ export default function NewAmbassadorPage() {
 
               <div className="grid gap-3">
                 <div className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
-                  <div className="text-sm font-bold text-white">Osnutek</div>
+                  <div className="text-sm font-bold text-white">Čaka na objavo</div>
                   <div className="mt-1 text-sm leading-6 text-zinc-500">
                     Profil je pripravljen, ampak ambasador še ni aktiven.
                   </div>

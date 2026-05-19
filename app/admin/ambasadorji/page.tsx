@@ -19,7 +19,7 @@ const ambassadors = [
   {
     name: "Maja Kovač",
     slug: "maja-kovac",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     region: "Koroška",
     place: "Slovenj Gradec",
     email: "maja.kovac@bojanonbike.si",
@@ -45,7 +45,7 @@ const ambassadors = [
   {
     name: "Nina Furlan",
     slug: "nina-furlan",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     region: "Primorska",
     place: "Vipava",
     email: "nina.furlan@bojanonbike.si",
@@ -58,7 +58,7 @@ const ambassadors = [
   {
     name: "Rok Mlakar",
     slug: "rok-mlakar",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     region: "Notranjska",
     place: "Cerknica",
     email: "rok.mlakar@bojanonbike.si",
@@ -71,7 +71,7 @@ const ambassadors = [
   {
     name: "Petra Novak",
     slug: "petra-novak",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     region: "Dolenjska",
     place: "Novo mesto",
     email: "petra.novak@bojanonbike.si",
@@ -84,7 +84,7 @@ const ambassadors = [
   {
     name: "Matej Horvat",
     slug: "matej-horvat",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     region: "Prekmurje",
     place: "Murska Sobota",
     email: "matej.horvat@bojanonbike.si",

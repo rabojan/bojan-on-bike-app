@@ -21,7 +21,7 @@ const ambassadors = [
   {
     name: "Maja Kovač",
     slug: "maja-kovac",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     role: "Ambasador regije",
     regions: ["Koroška"],
     place: "Slovenj Gradec",
@@ -51,7 +51,7 @@ const ambassadors = [
   {
     name: "Nina Furlan",
     slug: "nina-furlan",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     role: "Ambasador regije",
     regions: ["Primorska"],
     place: "Vipava",
@@ -66,7 +66,7 @@ const ambassadors = [
   {
     name: "Rok Mlakar",
     slug: "rok-mlakar",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     role: "Ambasador regije",
     regions: ["Notranjska"],
     place: "Cerknica",
@@ -81,7 +81,7 @@ const ambassadors = [
   {
     name: "Petra Novak",
     slug: "petra-novak",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     role: "Ambasador regije",
     regions: ["Dolenjska"],
     place: "Novo mesto",
@@ -96,7 +96,7 @@ const ambassadors = [
   {
     name: "Matej Horvat",
     slug: "matej-horvat",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     role: "Ambasador regije",
     regions: ["Prekmurje"],
     place: "Murska Sobota",
@@ -201,7 +201,7 @@ export default async function EditAmbassadorPage({
                       defaultValue={ambassador.status}
                       className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
                     >
-                      <option>V pripravi</option>
+                      <option>Čaka na objavo</option>
                       <option>Aktiven</option>
                       <option>Začasno neaktiven</option>
                       <option>Arhiviran</option>

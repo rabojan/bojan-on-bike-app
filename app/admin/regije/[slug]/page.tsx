@@ -45,7 +45,7 @@ const regions = [
   {
     name: "Koroška",
     slug: "koroska",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     headline: "Mirne doline, gozdne ceste in gorski značaj.",
     description:
       "Koroška bo namenjena turam z več narave, manj gneče in močnim lokalnim karakterjem.",
@@ -78,7 +78,7 @@ const regions = [
   {
     name: "Notranjska",
     slug: "notranjska",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     headline: "Jezera, gozdovi in skrivnostni kraški svet.",
     description:
       "Notranjska bo odlična za mirnejše ture, naravne posebnosti in poti z močnim občutkom odkrivanja.",
@@ -89,7 +89,7 @@ const regions = [
   {
     name: "Dolenjska",
     slug: "dolenjska",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     headline: "Mehki griči, reke, zidanice in počasnejši ritem.",
     description:
       "Dolenjska je prostor za vinske poti, družinske ture, rečne odseke in lokalne postanke.",
@@ -100,7 +100,7 @@ const regions = [
   {
     name: "Prekmurje",
     slug: "prekmurje",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     headline: "Ravnine, termalni kraji, Mura in odprti horizonti.",
     description:
       "Prekmurje bo primerno za lahkotnejše ture, e-bike dneve, kulinariko in družinske izlete.",
@@ -189,7 +189,7 @@ export default async function EditRegionPage({
                       defaultValue={region.status}
                       className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-4 text-white outline-none"
                     >
-                      <option>V pripravi</option>
+                      <option>Čaka na objavo</option>
                       <option>Aktivna</option>
                       <option>Arhivirana</option>
                     </select>

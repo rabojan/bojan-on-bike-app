@@ -5,7 +5,7 @@ import AdminShell from "@/components/AdminShell";
 type Region = {
   name: string;
   slug: string;
-  status: "Aktivna" | "V pripravi";
+  status: "Aktivna" | "Čaka na objavo";
   headline: string;
   description: string;
   areas: string[];
@@ -46,7 +46,7 @@ const regions: Region[] = [
   {
     name: "Koroška",
     slug: "koroska",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     headline: "Mirne doline, gozdne ceste in gorski značaj.",
     description:
       "Koroška bo namenjena turam z več narave, manj gneče in močnim lokalnim karakterjem.",
@@ -85,7 +85,7 @@ const regions: Region[] = [
   {
     name: "Notranjska",
     slug: "notranjska",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     headline: "Jezera, gozdovi in skrivnostni kraški svet.",
     description:
       "Notranjska bo odlična za mirnejše ture, naravne posebnosti in poti z močnim občutkom odkrivanja.",
@@ -98,7 +98,7 @@ const regions: Region[] = [
   {
     name: "Dolenjska",
     slug: "dolenjska",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     headline: "Mehki griči, reke, zidanice in počasnejši ritem.",
     description:
       "Dolenjska je prostor za vinske poti, družinske ture, rečne odseke in lokalne postanke.",
@@ -111,7 +111,7 @@ const regions: Region[] = [
   {
     name: "Prekmurje",
     slug: "prekmurje",
-    status: "V pripravi",
+    status: "Čaka na objavo",
     headline: "Ravnine, termalni kraji, Mura in odprti horizonti.",
     description:
       "Prekmurje bo primerno za lahkotnejše ture, e-bike dneve, kulinariko in družinske izlete.",

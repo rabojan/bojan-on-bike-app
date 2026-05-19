@@ -35,7 +35,7 @@ const attractions = [
 ];
 
 export default function NewExperiencePage() {
-  const [status, setStatus] = useState("Osnutek");
+  const [status, setStatus] = useState("Čaka na objavo");
 
   return (
     <AdminShell active="dozivetja">
@@ -63,7 +63,7 @@ export default function NewExperiencePage() {
             </Link>
 
             <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">
-              Shrani kot osnutek
+              Shrani predlog
             </button>
           </div>
         </section>
@@ -198,7 +198,7 @@ export default function NewExperiencePage() {
                 onChange={(event) => setStatus(event.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
               >
-                <option>Osnutek</option>
+                <option>Čaka na objavo</option>
                 <option>Oddano v pregled</option>
                 <option>Potrebni popravki</option>
                 <option>Objavljeno</option>

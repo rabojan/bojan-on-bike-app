@@ -34,7 +34,7 @@ const providers = [
   {
     name: "Vinska klet med griči",
     slug: "vinska-klet-med-grici",
-    status: "Osnutek",
+    status: "Čaka na objavo",
     type: "Vino / Kulinarika",
     region: "Štajerska",
     location: "Slovenske gorice",
@@ -43,7 +43,7 @@ const providers = [
     partner: false,
     charging: false,
     trails: ["Med vinogradi in griči"],
-    updated: "V pripravi",
+    updated: "Čaka na objavo",
   },
 ];
 
@@ -86,7 +86,7 @@ export default function AdminProvidersPage() {
 
           <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
             <div className="text-4xl font-black">1</div>
-            <div className="mt-2 text-sm text-zinc-400">osnutek</div>
+            <div className="mt-2 text-sm text-zinc-400">čaka na objavo</div>
           </div>
 
           <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">

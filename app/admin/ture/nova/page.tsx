@@ -33,7 +33,7 @@ const emptyHighlights = [
 ];
 
 export default function NewTrailPage() {
-  const [status, setStatus] = useState("Osnutek");
+  const [status, setStatus] = useState("Čaka na objavo");
 
   return (
     <AdminShell active="ture">
@@ -61,7 +61,7 @@ export default function NewTrailPage() {
             </Link>
 
             <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">
-              Shrani kot osnutek
+              Shrani predlog
             </button>
           </div>
         </section>
@@ -371,7 +371,7 @@ export default function NewTrailPage() {
                 onChange={(event) => setStatus(event.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
               >
-                <option>Osnutek</option>
+                <option>Čaka na objavo</option>
                 <option>Oddano v pregled</option>
                 <option>Potrebni popravki</option>
                 <option>Objavljeno</option>
@@ -379,7 +379,7 @@ export default function NewTrailPage() {
               </select>
 
               <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm leading-7 text-zinc-400">
-                Nova tura se najprej shrani kot osnutek. Objavo kasneje potrdi
+                Nova tura gre po oddaji v pregled pred objavo. Objavo kasneje potrdi
                 glavni admin.
               </div>
             </div>

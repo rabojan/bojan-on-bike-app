@@ -32,7 +32,7 @@ const attentionItems = [
 const modules = [
   {
     title: "Ture",
-    description: "Objavljene ture, osnutki, GPX, podlaga, galerija in javni prikaz.",
+    description: "Objavljene ture, čakajo na objavo, GPX, podlaga, galerija in javni prikaz.",
     stats: "3 objavljene · 3 čakajo v pregledu",
     href: "/admin/ture",
     addHref: "/admin/ture/nova",
@@ -57,7 +57,7 @@ const modules = [
   {
     title: "Doživetja",
     description: "Doživljajski dnevi, vinske poti, družinski izleti in posebne zgodbe.",
-    stats: "3 doživetja · 1 v pripravi",
+    stats: "3 doživetja · 1 čaka na objavo",
     href: "/admin/dozivetja",
     addHref: "/admin/dozivetja/novo",
     addLabel: "Dodaj doživetje",

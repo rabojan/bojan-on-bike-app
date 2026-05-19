@@ -21,7 +21,7 @@ const trails = [
   {
     title: "Med vinogradi in griči",
     slug: "med-vinogradi-in-grici",
-    status: "Osnutek",
+    status: "Čaka na objavo",
     region: "Štajerska",
     type: "Gravel",
     difficulty: "Lahka",
@@ -31,12 +31,12 @@ const trails = [
     hasGpx: false,
     hasProviders: true,
     hasGallery: true,
-    updated: "V pripravi",
+    updated: "Čaka na objavo",
   },
   {
     title: "Alpski pobeg ob vodi",
     slug: "alpski-pobeg-ob-vodi",
-    status: "Osnutek",
+    status: "Čaka na objavo",
     region: "Gorenjska",
     type: "Bikepacking",
     difficulty: "Zahtevna",
@@ -46,7 +46,7 @@ const trails = [
     hasGpx: false,
     hasProviders: false,
     hasGallery: true,
-    updated: "V pripravi",
+    updated: "Čaka na objavo",
   },
 ];
 
