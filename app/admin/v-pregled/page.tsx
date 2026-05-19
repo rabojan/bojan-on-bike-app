@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import AdminShell from "@/components/AdminShell";
 
@@ -52,6 +55,15 @@ const stats = [
   { value: "1", label: "popravek" },
 ];
 
+const returnReasons = [
+  "manjka bolj jasen opis ture",
+  "GPX ni ustrezen ali potrebuje preverjanje",
+  "manjkajo utrinki s poti",
+  "ponudniki niso dovolj jasno povezani s turo",
+  "znamenitosti niso smiselno izbrane",
+  "treba je dopolniti lokalni pogled",
+];
+
 function StatusBadge({ status }: { status: string }) {
   const tone =
     status === "Čaka na objavo"
@@ -81,6 +93,8 @@ function StatCard({ value, label }: { value: string; label: string }) {
 }
 
 export default function AdminReviewPage() {
+  const [returnItem, setReturnItem] = useState<string | null>(null);
+
   return (
     <AdminShell active="v-pregled">
       <div className="space-y-8">
@@ -197,8 +211,11 @@ export default function AdminReviewPage() {
                     Objavi
                   </button>
 
-                  <button className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-400">
-                    Vrni
+                  <button
+                    onClick={() => setReturnItem(item.title)}
+                    className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-400"
+                  >
+                    Vrni v dopolnitev
                   </button>
                 </div>
               </article>
@@ -223,6 +240,70 @@ export default function AdminReviewPage() {
           </p>
         </section>
       </div>
+
+        {returnItem && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-5 backdrop-blur-sm">
+            <div className="w-full max-w-2xl rounded-[32px] border border-white/10 bg-[#07110b] p-6 shadow-2xl md:p-8">
+              <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                Vrni v dopolnitev
+              </div>
+
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-white">
+                Kaj naj ambasador dopolni?
+              </h2>
+
+              <p className="mt-3 text-sm leading-7 text-zinc-400">
+                Predlog <span className="font-bold text-white">{returnItem}</span> ne bo zavrnjen.
+                Ambasador dobi tvoje sporočilo in ga lahko dopolni v svojem kotičku.
+              </p>
+
+              <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-5">
+                <div className="text-sm font-black text-white">
+                  Hitri razlogi
+                </div>
+
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  {returnReasons.map((reason) => (
+                    <label
+                      key={reason}
+                      className="flex cursor-pointer items-start gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm leading-6 text-zinc-300"
+                    >
+                      <input type="checkbox" className="mt-1 accent-[#c58b46]" />
+                      <span>{reason}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <label className="mt-5 block text-sm font-bold text-zinc-200">
+                Sporočilo ambasadorju
+
+                <textarea
+                  rows={6}
+                  placeholder="Npr. Prosim dodaj še bolj jasen opis zadnjega dela trase in preveri GPX, ker se zaključek poti ne ujema z opisom."
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-[#041008] px-4 py-4 text-white outline-none placeholder:text-zinc-600"
+                />
+              </label>
+
+              <div className="mt-6 flex flex-wrap justify-end gap-3">
+                <button
+                  onClick={() => setReturnItem(null)}
+                  className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300"
+                >
+                  Prekliči
+                </button>
+
+                <button
+                  onClick={() => setReturnItem(null)}
+                  className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black"
+                >
+                  Pošlji ambasadorju
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
     </AdminShell>
   );
 }
