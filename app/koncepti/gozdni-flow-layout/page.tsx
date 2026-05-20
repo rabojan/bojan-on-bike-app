@@ -77,6 +77,80 @@ function Pill({ children }: { children: React.ReactNode }) {
   );
 }
 
+
+function ElevationProfile() {
+  return (
+    <div className="mt-8 rounded-[24px] border border-white/10 bg-black/15 p-5">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="text-xs uppercase tracking-[0.28em] text-[#c58b46]">
+            Profil poti
+          </div>
+          <h3 className="mt-2 text-2xl font-black text-white">
+            Višinski potek iz GPX
+          </h3>
+        </div>
+
+        <div className="text-sm font-semibold text-zinc-400">
+          najnižja 312 m · najvišja 1.120 m
+        </div>
+      </div>
+
+      <div className="mt-5 overflow-hidden rounded-[20px] border border-white/10 bg-[#06140d] p-4">
+        <svg viewBox="0 0 640 190" className="h-[190px] w-full" role="img" aria-label="Višinski profil poti">
+          <defs>
+            <linearGradient id="profileFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#c58b46" stopOpacity="0.34" />
+              <stop offset="100%" stopColor="#c58b46" stopOpacity="0.04" />
+            </linearGradient>
+          </defs>
+
+          <line x1="24" x2="616" y1="52" y2="52" stroke="rgba(255,255,255,0.08)" strokeDasharray="4 6" />
+          <line x1="24" x2="616" y1="95" y2="95" stroke="rgba(255,255,255,0.08)" strokeDasharray="4 6" />
+          <line x1="24" x2="616" y1="138" y2="138" stroke="rgba(255,255,255,0.08)" strokeDasharray="4 6" />
+
+          <path
+            d="M 24 150 L 76 142 L 128 124 L 180 98 L 232 70 L 284 42 L 336 60 L 388 82 L 440 106 L 492 128 L 544 140 L 616 132 L 616 166 L 24 166 Z"
+            fill="url(#profileFill)"
+          />
+
+          <path
+            d="M 24 150 L 76 142 L 128 124 L 180 98 L 232 70 L 284 42 L 336 60 L 388 82 L 440 106 L 492 128 L 544 140 L 616 132"
+            fill="none"
+            stroke="#c58b46"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="4"
+          />
+
+          <circle cx="24" cy="150" r="5" fill="#c58b46" />
+          <circle cx="284" cy="42" r="5" fill="#c58b46" />
+          <circle cx="616" cy="132" r="5" fill="#c58b46" />
+
+          <text x="24" y="174" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="12" fontWeight="700">0 km</text>
+          <text x="284" y="28" textAnchor="middle" fill="rgba(255,255,255,0.72)" fontSize="12" fontWeight="700">1.120 m</text>
+          <text x="616" y="174" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="12" fontWeight="700">32 km</text>
+        </svg>
+      </div>
+
+      <div className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+        <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
+          <div className="text-zinc-500">Skupni vzpon</div>
+          <div className="mt-1 font-black text-white">890 vm</div>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
+          <div className="text-zinc-500">Najvišja točka</div>
+          <div className="mt-1 font-black text-white">1.120 m</div>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
+          <div className="text-zinc-500">Vir podatkov</div>
+          <div className="mt-1 font-black text-white">GPX</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function GozdniFlowLayoutConceptPage() {
   return (
     <main className="min-h-screen bg-[#03100a] text-white">
@@ -289,6 +363,8 @@ export default function GozdniFlowLayoutConceptPage() {
                 </div>
               ))}
             </div>
+
+            <ElevationProfile />
           </div>
         </div>
       </section>
@@ -306,7 +382,7 @@ export default function GozdniFlowLayoutConceptPage() {
             <iframe
               title="Zemljevid trase"
               src="https://www.openstreetmap.org/export/embed.html?bbox=15.55%2C46.50%2C15.78%2C46.62&layer=mapnik"
-              className="h-[360px] w-full border-0"
+              className="h-[440px] w-full border-0"
             />
           </div>
 
