@@ -32,19 +32,19 @@ const highlights = [
     image: photos.flow,
     title: "Flow skozi pohorske gozdove",
     text:
-      "Hitri, tekoči gozdni odseki med smrekami, kjer kolo lepo steče. Zavoj za zavojem, mehka podlaga in pravi MTB občutek nad mestom.",
+      "Hitri, tekoči gozdni odseki med smrekami, kjer kolo lepo steče. Zavoj za zavojem, mehka podlaga, nekaj igrivega ritma in pravi MTB občutek nad mestom.",
   },
   {
     image: photos.view,
     title: "Razgledi nad Mariborom",
     text:
-      "Na višjih delih se odpre pogled proti mestu, Dravi in Pohorju. Kratek postanek, globok vdih in občutek, da se je splačalo zaviti navzgor.",
+      "Na višjih delih se odpre pogled proti mestu, Dravi in Pohorju. Kratek postanek, globok vdih, pogled čez rob gozda in občutek, da se je splačalo zaviti navzgor.",
   },
   {
     image: photos.forest,
     title: "Mirne povezave za ravnovesje",
     text:
-      "Makadamski in gozdni odseki povežejo dan v celoto. Tu tempo pade, pogovor steče in vožnja dobi bolj sproščen ritem.",
+      "Makadamski in gozdni odseki povežejo dan v celoto. Tu tempo pade, pogovor steče, noge se umirijo in vožnja dobi bolj sproščen ritem.",
   },
 ];
 
@@ -56,6 +56,7 @@ const providers = [
     text:
       "Topel postanek po vzponu, domača hrana in terasa, kjer tura za trenutek postane bolj družabna.",
     location: "Pohorje",
+    distance: "ob trasi",
   },
   {
     image: photos.terrace,
@@ -64,6 +65,7 @@ const providers = [
     text:
       "Mirna lokacija, svež zrak in dovolj prostora, da po vožnji še malo ostaneš v dnevu.",
     location: "Areh / Pohorje",
+    distance: "850 m od trase",
   },
 ];
 
@@ -74,6 +76,60 @@ function Pill({ children }: { children: React.ReactNode }) {
     <span className="rounded-full border border-white/15 bg-black/25 px-4 py-2 text-xs font-bold text-zinc-100 backdrop-blur-md">
       {children}
     </span>
+  );
+}
+
+
+function MiniElevationProfile() {
+  return (
+    <div className="mt-7">
+      <div className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-[0.24em] text-zinc-500">
+        <span>Višinski profil iz GPX</span>
+        <span>profil poti</span>
+      </div>
+
+      <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
+        <svg
+          viewBox="0 0 640 96"
+          className="h-[96px] w-full"
+          role="img"
+          aria-label="Višinski profil poti iz GPX"
+        >
+          <defs>
+            <linearGradient id="miniProfileFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#c58b46" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="#c58b46" stopOpacity="0.03" />
+            </linearGradient>
+          </defs>
+
+          <line x1="18" x2="622" y1="24" y2="24" stroke="rgba(255,255,255,0.07)" strokeDasharray="4 7" />
+          <line x1="18" x2="622" y1="54" y2="54" stroke="rgba(255,255,255,0.07)" strokeDasharray="4 7" />
+          <line x1="18" x2="622" y1="82" y2="82" stroke="rgba(255,255,255,0.07)" strokeDasharray="4 7" />
+
+          <path
+            d="M 18 78 C 68 74, 98 68, 132 62 C 178 54, 206 38, 246 34 C 286 30, 302 50, 334 48 C 378 46, 398 24, 438 22 C 476 20, 498 44, 532 52 C 570 62, 594 68, 622 58 L 622 86 L 18 86 Z"
+            fill="url(#miniProfileFill)"
+          />
+
+          <path
+            d="M 18 78 C 68 74, 98 68, 132 62 C 178 54, 206 38, 246 34 C 286 30, 302 50, 334 48 C 378 46, 398 24, 438 22 C 476 20, 498 44, 532 52 C 570 62, 594 68, 622 58"
+            fill="none"
+            stroke="#c58b46"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="4"
+          />
+
+          <text x="18" y="94" textAnchor="middle" fill="rgba(255,255,255,0.52)" fontSize="10" fontWeight="700">0 km</text>
+          <text x="438" y="17" textAnchor="middle" fill="rgba(255,255,255,0.62)" fontSize="10" fontWeight="700">vrh</text>
+          <text x="622" y="94" textAnchor="middle" fill="rgba(255,255,255,0.52)" fontSize="10" fontWeight="700">32 km</text>
+        </svg>
+
+        <div className="mt-2 text-xs leading-5 text-zinc-500">
+          Krivulja, skupni vzpon in najvišja točka se kasneje izračunajo iz GPX datoteke.
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -220,7 +276,7 @@ export default function GozdniFlowLayoutConceptPage() {
                   <h3 className="text-xl font-black text-[#c58b46]">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-zinc-400">
+                  <p className="mt-3 min-h-[112px] text-sm leading-7 text-zinc-400">
                     {item.text}
                   </p>
                 </div>
@@ -289,6 +345,8 @@ export default function GozdniFlowLayoutConceptPage() {
                 </div>
               ))}
             </div>
+
+            <MiniElevationProfile />
           </div>
         </div>
       </section>
@@ -306,7 +364,7 @@ export default function GozdniFlowLayoutConceptPage() {
             <iframe
               title="Zemljevid trase"
               src="https://www.openstreetmap.org/export/embed.html?bbox=15.55%2C46.50%2C15.78%2C46.62&layer=mapnik"
-              className="h-[360px] w-full border-0"
+              className="h-[450px] w-full border-0"
             />
           </div>
 
@@ -357,9 +415,16 @@ export default function GozdniFlowLayoutConceptPage() {
                   <p className="mt-2 text-sm leading-7 text-zinc-400">
                     {provider.text}
                   </p>
-                  <div className="mt-3 text-xs font-bold text-zinc-500">
-                    📍 {provider.location}
+                  <div className="mt-3 flex flex-wrap items-center gap-3 text-xs font-bold text-zinc-500">
+                    <span>📍 {provider.location}</span>
+                    <span className="rounded-full border border-white/10 px-3 py-1 text-zinc-400">
+                      {provider.distance}
+                    </span>
                   </div>
+
+                  <button className="mt-4 rounded-full border border-[#c58b46]/40 px-4 py-2 text-xs font-black text-[#c58b46] transition hover:bg-[#c58b46] hover:text-black">
+                    Ogled ponudnika
+                  </button>
                 </div>
               </article>
             ))}
