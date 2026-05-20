@@ -32,19 +32,19 @@ const highlights = [
     image: photos.flow,
     title: "Flow skozi pohorske gozdove",
     text:
-      "Hitri, tekoči gozdni odseki med smrekami, kjer kolo lepo steče. Zavoj za zavojem, mehka podlaga in pravi MTB občutek nad mestom.",
+      "Hitri, tekoči gozdni odseki med smrekami, kjer kolo lepo steče. Zavoj za zavojem, mehka podlaga, nekaj igrivega ritma in pravi MTB občutek nad mestom.",
   },
   {
     image: photos.view,
     title: "Razgledi nad Mariborom",
     text:
-      "Na višjih delih se odpre pogled proti mestu, Dravi in Pohorju. Kratek postanek, globok vdih in občutek, da se je splačalo zaviti navzgor.",
+      "Na višjih delih se odpre pogled proti mestu, Dravi in Pohorju. Kratek postanek, globok vdih, pogled čez rob gozda in občutek, da se je splačalo zaviti navzgor.",
   },
   {
     image: photos.forest,
     title: "Mirne povezave za ravnovesje",
     text:
-      "Makadamski in gozdni odseki povežejo dan v celoto. Tu tempo pade, pogovor steče in vožnja dobi bolj sproščen ritem.",
+      "Makadamski in gozdni odseki povežejo dan v celoto. Tu tempo pade, pogovor steče, noge se umirijo in vožnja dobi bolj sproščen ritem.",
   },
 ];
 
@@ -80,42 +80,37 @@ function Pill({ children }: { children: React.ReactNode }) {
 
 function ElevationProfile() {
   return (
-    <div className="mt-8 rounded-[24px] border border-white/10 bg-black/15 p-5">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <div className="text-xs uppercase tracking-[0.28em] text-[#c58b46]">
-            Profil poti
-          </div>
-          <h3 className="mt-2 text-2xl font-black text-white">
-            Višinski potek iz GPX
-          </h3>
-        </div>
-
-        <div className="text-sm font-semibold text-zinc-400">
-          najnižja 312 m · najvišja 1.120 m
-        </div>
+    <div className="mt-7">
+      <div className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-[0.24em] text-zinc-500">
+        <span>Višinski profil iz GPX</span>
+        <span>profil poti</span>
       </div>
 
-      <div className="mt-5 overflow-hidden rounded-[20px] border border-white/10 bg-[#06140d] p-4">
-        <svg viewBox="0 0 640 190" className="h-[190px] w-full" role="img" aria-label="Višinski profil poti">
+      <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
+        <svg
+          viewBox="0 0 640 120"
+          className="h-[120px] w-full"
+          role="img"
+          aria-label="Višinski profil poti iz GPX"
+        >
           <defs>
-            <linearGradient id="profileFill" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#c58b46" stopOpacity="0.34" />
-              <stop offset="100%" stopColor="#c58b46" stopOpacity="0.04" />
+            <linearGradient id="miniProfileFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#c58b46" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="#c58b46" stopOpacity="0.03" />
             </linearGradient>
           </defs>
 
-          <line x1="24" x2="616" y1="52" y2="52" stroke="rgba(255,255,255,0.08)" strokeDasharray="4 6" />
-          <line x1="24" x2="616" y1="95" y2="95" stroke="rgba(255,255,255,0.08)" strokeDasharray="4 6" />
-          <line x1="24" x2="616" y1="138" y2="138" stroke="rgba(255,255,255,0.08)" strokeDasharray="4 6" />
+          <line x1="24" x2="616" y1="22" y2="22" stroke="rgba(255,255,255,0.07)" strokeDasharray="4 7" />
+          <line x1="24" x2="616" y1="60" y2="60" stroke="rgba(255,255,255,0.07)" strokeDasharray="4 7" />
+          <line x1="24" x2="616" y1="98" y2="98" stroke="rgba(255,255,255,0.07)" strokeDasharray="4 7" />
 
           <path
-            d="M 24 150 L 76 142 L 128 124 L 180 98 L 232 70 L 284 42 L 336 60 L 388 82 L 440 106 L 492 128 L 544 140 L 616 132 L 616 166 L 24 166 Z"
-            fill="url(#profileFill)"
+            d="M 24 92 C 70 88, 94 78, 128 72 C 170 64, 196 46, 236 40 C 270 35, 296 58, 326 54 C 366 50, 388 28, 430 24 C 472 22, 494 50, 526 58 C 562 67, 586 78, 616 66 L 616 104 L 24 104 Z"
+            fill="url(#miniProfileFill)"
           />
 
           <path
-            d="M 24 150 L 76 142 L 128 124 L 180 98 L 232 70 L 284 42 L 336 60 L 388 82 L 440 106 L 492 128 L 544 140 L 616 132"
+            d="M 24 92 C 70 88, 94 78, 128 72 C 170 64, 196 46, 236 40 C 270 35, 296 58, 326 54 C 366 50, 388 28, 430 24 C 472 22, 494 50, 526 58 C 562 67, 586 78, 616 66"
             fill="none"
             stroke="#c58b46"
             strokeLinecap="round"
@@ -123,33 +118,22 @@ function ElevationProfile() {
             strokeWidth="4"
           />
 
-          <circle cx="24" cy="150" r="5" fill="#c58b46" />
-          <circle cx="284" cy="42" r="5" fill="#c58b46" />
-          <circle cx="616" cy="132" r="5" fill="#c58b46" />
+          <text x="24" y="116" textAnchor="middle" fill="rgba(255,255,255,0.55)" fontSize="11" fontWeight="700">0 km</text>
+          <text x="320" y="116" textAnchor="middle" fill="rgba(255,255,255,0.55)" fontSize="11" fontWeight="700">sredina</text>
+          <text x="616" y="116" textAnchor="middle" fill="rgba(255,255,255,0.55)" fontSize="11" fontWeight="700">cilj</text>
 
-          <text x="24" y="174" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="12" fontWeight="700">0 km</text>
-          <text x="284" y="28" textAnchor="middle" fill="rgba(255,255,255,0.72)" fontSize="12" fontWeight="700">1.120 m</text>
-          <text x="616" y="174" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="12" fontWeight="700">32 km</text>
+          <text x="612" y="20" textAnchor="end" fill="rgba(255,255,255,0.45)" fontSize="11" fontWeight="700">višje</text>
+          <text x="612" y="96" textAnchor="end" fill="rgba(255,255,255,0.45)" fontSize="11" fontWeight="700">nižje</text>
         </svg>
-      </div>
 
-      <div className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
-        <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
-          <div className="text-zinc-500">Skupni vzpon</div>
-          <div className="mt-1 font-black text-white">890 vm</div>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
-          <div className="text-zinc-500">Najvišja točka</div>
-          <div className="mt-1 font-black text-white">1.120 m</div>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
-          <div className="text-zinc-500">Vir podatkov</div>
-          <div className="mt-1 font-black text-white">GPX</div>
+        <div className="mt-3 text-xs leading-5 text-zinc-500">
+          Skupni vzpon, najvišja točka in krivulja se kasneje izračunajo iz GPX datoteke.
         </div>
       </div>
     </div>
   );
 }
+
 
 export default function GozdniFlowLayoutConceptPage() {
   return (
@@ -294,7 +278,7 @@ export default function GozdniFlowLayoutConceptPage() {
                   <h3 className="text-xl font-black text-[#c58b46]">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-zinc-400">
+                  <p className="mt-3 min-h-[112px] text-sm leading-7 text-zinc-400">
                     {item.text}
                   </p>
                 </div>
