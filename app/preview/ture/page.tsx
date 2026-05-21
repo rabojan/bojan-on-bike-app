@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const photos = {
   hero:
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=88&w=2400",
+    "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?auto=format&fit=crop&q=88&w=2400",
   forest:
     "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=88&w=1400",
   wine:
@@ -37,6 +37,7 @@ const tours = [
     highest: "1.120",
     season: "Apr–Nov",
     ambassador: "Bojan Ratej",
+    ambassadorRole: "Ambasador Štajerske",
     difficulty: "Srednja",
     surface: [
       ["Gozdne poti", "55%", "55%"],
@@ -61,6 +62,7 @@ const tours = [
     highest: "540",
     season: "Maj–Okt",
     ambassador: "Maja Kovač",
+    ambassadorRole: "Ambasadorka Slovenskih goric",
     difficulty: "Lahka",
     surface: [
       ["Asfalt", "35%", "35%"],
@@ -85,6 +87,7 @@ const tours = [
     highest: "1.680",
     season: "Jun–Sep",
     ambassador: "Andrej Novak",
+    ambassadorRole: "Ambasador Gorenjske",
     difficulty: "Zahtevna",
     surface: [
       ["Asfalt", "30%", "30%"],
@@ -109,6 +112,7 @@ const tours = [
     highest: "420",
     season: "Apr–Okt",
     ambassador: "Petra Kos",
+    ambassadorRole: "Ambasadorka Primorske",
     difficulty: "Sproščena",
     surface: [
       ["Asfalt", "55%", "55%"],
@@ -133,6 +137,7 @@ const tours = [
     highest: "970",
     season: "Jun–Sep",
     ambassador: "Lea Bertoncelj",
+    ambassadorRole: "Ambasadorka Gorenjske",
     difficulty: "Srednja",
     surface: [
       ["Asfalt", "25%", "25%"],
@@ -157,6 +162,7 @@ const tours = [
     highest: "220",
     season: "Mar–Nov",
     ambassador: "Eva Tkalec",
+    ambassadorRole: "Ambasadorka Prekmurja",
     difficulty: "Lahka",
     surface: [
       ["Asfalt", "80%", "80%"],
@@ -181,6 +187,7 @@ const tours = [
     highest: "680",
     season: "Apr–Nov",
     ambassador: "Gregor Miller",
+    ambassadorRole: "Ambasador Koroške",
     difficulty: "Srednja",
     surface: [
       ["Asfalt", "45%", "45%"],
@@ -205,6 +212,7 @@ const tours = [
     highest: "510",
     season: "Apr–Nov",
     ambassador: "Nina Celar",
+    ambassadorRole: "Ambasadorka Dolenjske",
     difficulty: "Sproščena",
     surface: [
       ["Asfalt", "55%", "55%"],
@@ -293,12 +301,9 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
           {tour.type}
         </div>
 
-        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+        <div className="absolute bottom-4 left-4 right-4">
           <div className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c8924a]">
             {tour.region}
-          </div>
-          <div className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c8924a]">
-            Amb. {tour.ambassador}
           </div>
         </div>
       </div>
@@ -358,13 +363,19 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
           <SurfaceLine surface={tour.surface} />
         </div>
 
-        <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
-          <div className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
-            {tour.ambassador} · {tour.region}
+        <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0">
+            <div className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
+              {tour.ambassadorRole}
+            </div>
+            <div className="mt-1 truncate text-xs font-black uppercase tracking-[0.14em] text-[#edd098]">
+              {tour.ambassador}
+            </div>
           </div>
+
           <Link
             href={tour.href}
-            className="text-[10px] font-black uppercase tracking-[0.18em] text-[#c8924a]"
+            className="shrink-0 text-[10px] font-black uppercase tracking-[0.18em] text-[#c8924a]"
           >
             Oglej si turo →
           </Link>
@@ -459,7 +470,10 @@ export default function PreviewTurePage() {
             ))}
           </div>
 
-          <div className="mt-7 space-y-4">
+        </div>
+
+        <div className="relative border-y border-white/10 bg-[#0b140e]/80 backdrop-blur">
+          <div className="mx-auto max-w-[1480px] px-6 py-6">
             <div className="flex flex-wrap gap-2">
               {filters.map((filter, index) => (
                 <button
@@ -475,7 +489,7 @@ export default function PreviewTurePage() {
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap gap-2">
               {types.map((type, index) => (
                 <button
                   key={type}
@@ -490,12 +504,15 @@ export default function PreviewTurePage() {
               ))}
             </div>
 
-            <div className="flex justify-end text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
+            <div className="mt-4 flex justify-end text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
               <span>{tours.length} tur</span>
               <span className="mx-3">·</span>
               <button className="text-[#c8924a]">Ponastavi</button>
             </div>
           </div>
+        </div>
+
+        <div className="relative mx-auto max-w-[1480px] px-6">
         </div>
       </section>
 
