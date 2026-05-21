@@ -286,7 +286,8 @@ function SurfaceLine({ surface }: { surface: string[][] }) {
 
 function TourCard({ tour }: { tour: (typeof tours)[number] }) {
   const ambassadorRole =
-    "ambassadorRole" in tour ? tour.ambassadorRole : `Ambasador ${tour.region}`;
+    (tour as { ambassadorRole?: string; region: string }).ambassadorRole ??
+    `Ambasador ${tour.region}`;
 
   return (
     <article className="group flex h-[790px] flex-col overflow-hidden rounded-[28px] border border-white/10 bg-[#0e1a11] transition duration-300 hover:-translate-y-1 hover:border-[#c8924a]/40">
