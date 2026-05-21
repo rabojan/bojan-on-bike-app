@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const photos = {
   hero:
-    "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?auto=format&fit=crop&q=88&w=2400",
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=88&w=2400",
   forest:
     "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=88&w=1400",
   wine:
@@ -286,7 +286,7 @@ function SurfaceLine({ surface }: { surface: string[][] }) {
 
 function TourCard({ tour }: { tour: (typeof tours)[number] }) {
   return (
-    <article className="group overflow-hidden rounded-[28px] border border-white/10 bg-[#0e1a11] transition duration-300 hover:-translate-y-1 hover:border-[#c8924a]/40">
+    <article className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-white/10 bg-[#0e1a11] transition duration-300 hover:-translate-y-1 hover:border-[#c8924a]/40">
       <div
         className="relative h-[260px] bg-cover bg-center"
         style={{ backgroundImage: `url(${tour.image})` }}
@@ -308,7 +308,7 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="flex flex-1 flex-col p-6">
         <div className="mb-4 flex flex-wrap gap-2">
           {tour.feeling.map((item) => (
             <span
@@ -328,7 +328,7 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
             <h2 className="font-serif text-3xl font-black italic leading-tight text-white">
               {tour.title}
             </h2>
-            <p className="mt-3 min-h-[78px] text-sm leading-7 text-zinc-400">
+            <p className="mt-3 min-h-[112px] text-sm leading-7 text-zinc-400">
               {tour.description}
             </p>
           </div>
@@ -341,11 +341,11 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
             [tour.highest, "najvišje"],
             [tour.season, "sezona"],
           ].map(([value, label]) => (
-            <div key={label} className="border-r border-white/10 p-3 last:border-r-0">
-              <div className="font-serif text-xl font-black text-[#edd098]">
+            <div key={label} className="min-w-0 border-r border-white/10 px-3 py-3 text-center last:border-r-0">
+              <div className="whitespace-nowrap font-serif text-base font-black leading-none tracking-tight text-[#edd098] md:text-lg">
                 {value}
               </div>
-              <div className="mt-1 text-[9px] font-black uppercase tracking-[0.18em] text-zinc-600">
+              <div className="mt-2 truncate text-[8px] font-black uppercase tracking-[0.16em] text-zinc-600 md:text-[9px]">
                 {label}
               </div>
             </div>
@@ -359,11 +359,11 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
           <MiniProfile path={tour.profile} />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 pb-6">
           <SurfaceLine surface={tour.surface} />
         </div>
 
-        <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mt-auto flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0">
             <div className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
               {tour.ambassadorRole}
@@ -410,13 +410,13 @@ export default function PreviewTurePage() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden pt-16">
+      <section className="relative min-h-[660px] overflow-hidden pt-16">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-35"
+          className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${photos.hero})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#080f0b]/80 via-[#080f0b]/92 to-[#080f0b]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080f0b] via-[#080f0b]/85 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#080f0b]/45 via-[#080f0b]/50 to-[#080f0b]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#080f0b]/75 via-[#080f0b]/45 to-transparent" />
 
         <div className="relative mx-auto max-w-[1480px] px-6 pb-16 pt-20">
           <div className="grid gap-10 lg:grid-cols-[1fr_420px] lg:items-end">
