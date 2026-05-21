@@ -340,7 +340,7 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
           </div>
         </div>
 
-        <div className="mt-6 grid grid-cols-4 overflow-hidden rounded-2xl border border-white/10 bg-black/25">
+        <div className="mt-6 grid grid-cols-4 overflow-hidden rounded-2xl border border-white/10 bg-black/15">
           {[
             [tour.distance, "km"],
             [tour.elevation, "vm"],
@@ -349,12 +349,12 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
           ].map(([value, label]) => (
             <div
               key={label}
-              className="min-w-0 border-r border-white/10 px-2 py-3.5 text-center last:border-r-0"
+              className="min-w-0 border-r border-white/10 px-2 py-3 text-center last:border-r-0"
             >
               <div className="whitespace-nowrap font-serif text-[16px] font-black leading-none tracking-tight text-[#edd098] md:text-[17px]">
                 {value}
               </div>
-              <div className="mt-2 whitespace-nowrap text-[10px] font-black uppercase tracking-[0.11em] text-zinc-200">
+              <div className="mt-2 whitespace-nowrap text-[9px] font-black uppercase tracking-[0.12em] text-zinc-400 md:text-[10px]">
                 {label}
               </div>
             </div>
