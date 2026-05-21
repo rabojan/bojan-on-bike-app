@@ -580,7 +580,7 @@ export default function PremiumTuraV2Page() {
         </div>
       </section>
 
-      <div className="mx-auto grid max-w-[1480px] grid-cols-1 lg:grid-cols-[1fr_360px]">
+      <div className="mx-auto grid max-w-[1480px] grid-cols-1 items-start lg:grid-cols-[1fr_360px]">
         <div className="min-w-0">
           <section className="border-b border-white/10 px-6 py-14">
             <div className="rounded-[28px] border border-[#c8924a]/25 bg-[#0e1a11] p-7">
@@ -820,7 +820,7 @@ export default function PremiumTuraV2Page() {
           </section>
         </div>
 
-        <aside className="hidden border-l border-white/10 px-6 py-10 lg:block">
+        <aside className="hidden self-start border-l border-white/10 px-6 py-10 lg:sticky lg:top-20 lg:block">
           <div className="space-y-5">
             <WeatherCard />
             <BoschCard />
