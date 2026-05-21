@@ -485,7 +485,7 @@ export default function PreviewTurePage() {
 
         <div className="relative left-1/2 right-1/2 mt-10 -ml-[50vw] -mr-[50vw] w-screen border-y border-white/10 bg-[#07130b] px-6 py-6">
           <div className="mx-auto max-w-[1480px] px-0">
-          <div className="mx-auto max-w-[1480px] px-6 py-6">
+          <div className="relative left-1/2 right-1/2 mt-10 -ml-[50vw] -mr-[50vw] w-screen border-y border-white/10 bg-[#07130b] px-6 py-6">
             <div className="flex flex-wrap gap-2">
               {filters.map((filter, index) => (
                 <button
