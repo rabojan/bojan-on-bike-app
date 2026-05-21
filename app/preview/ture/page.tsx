@@ -485,49 +485,43 @@ export default function PreviewTurePage() {
 
         <div className="relative left-1/2 right-1/2 mt-10 -ml-[50vw] -mr-[50vw] w-screen border-y border-white/10 bg-[#07130b] px-6 py-6">
           <div className="mx-auto max-w-[1480px] px-0">
-          <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen border-y border-white/10 bg-[#07130b]">
-          <div className="mx-auto max-w-[1480px] px-6 py-5">
-            <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-              <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
-                  {filters.map((filter, index) => (
-                    <button
-                      key={filter}
-                      className={
-                        index === 0
-                          ? "rounded-full bg-[#c8924a] px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-black"
-                          : "rounded-full border border-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500"
-                      }
-                    >
-                      {filter}
-                    </button>
-                  ))}
-                </div>
+          <div className="relative left-1/2 right-1/2 mt-10 -ml-[50vw] -mr-[50vw] w-screen border-y border-white/10 bg-[#07130b] px-6 py-6">
+            <div className="flex flex-wrap gap-2">
+              {filters.map((filter, index) => (
+                <button
+                  key={filter}
+                  className={
+                    index === 0
+                      ? "rounded-full bg-[#c8924a] px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-black"
+                      : "rounded-full border border-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500"
+                  }
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {types.map((type, index) => (
-                    <button
-                      key={type}
-                      className={
-                        index === 0
-                          ? "rounded-full bg-[#1a2115] px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-[#edd098]"
-                          : "rounded-full border border-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500"
-                      }
-                    >
-                      {type}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {types.map((type, index) => (
+                <button
+                  key={type}
+                  className={
+                    index === 0
+                      ? "rounded-full bg-[#1a2115] px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-[#edd098]"
+                      : "rounded-full border border-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500"
+                  }
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
 
-              <div className="shrink-0 text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
-                <span>{tours.length} tur</span>
-                <span className="mx-3">·</span>
-                <button className="text-[#c8924a]">Ponastavi</button>
-              </div>
+            <div className="mt-4 flex justify-end text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
+              <span>{tours.length} tur</span>
+              <span className="mx-3">·</span>
+              <button className="text-[#c8924a]">Ponastavi</button>
             </div>
           </div>
-        </div>
           </div>
         </div>
 
