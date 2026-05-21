@@ -34,21 +34,21 @@ const highlights = [
     badge: "km 4–12",
     title: "Flow skozi pohorske gozdove",
     text:
-      "Tura se začne z občutkom pobega iz mesta. Gozdni odseki, mehka podlaga in tekoči zavoji hitro postavijo ritem dneva, ne da bi moral kamorkoli hiteti.",
+      "Tura se začne z občutkom pobega iz mesta. Gozdni odseki, mehka podlaga in tekoči zavoji hitro postavijo ritem dneva, medtem ko Maribor počasi ostaja za tabo.",
   },
   {
     image: photos.view,
     badge: "razgled",
     title: "Razgled nad Mariborom",
     text:
-      "Ko se gozd za trenutek odpre, se pokaže mesto pod tabo. To je tisti postanek, zaradi katerega razumeš, zakaj si šel navzgor in zakaj se splača ustaviti.",
+      "Ko se gozd za trenutek odpre, se pokaže mesto pod tabo. To je tisti postanek, kjer se vožnja spremeni v razgled in razumeš, zakaj se je splačalo zaviti navzgor.",
   },
   {
     image: photos.forest,
     badge: "mir",
     title: "Mir med drevesi",
     text:
-      "Makadam, senca in gozdne povezave umirijo tempo. Tukaj vožnja ni samo premikanje, ampak občutek, da si res zunaj in da dan teče počasneje.",
+      "Makadam, senca in gozdne povezave umirijo tempo. Tukaj vožnja ni samo premikanje po trasi, ampak občutek, da si res zunaj in da dan končno teče počasneje.",
   },
 ];
 
@@ -397,52 +397,83 @@ function BoschCard() {
       <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c8924a]">
         eBike kalkulator dosega
       </div>
+
       <h3 className="mt-2 text-xl font-black text-white">
         Bosch Performance Line CX
       </h3>
+
       <p className="mt-2 text-sm leading-6 text-zinc-500">
-        Vnesi svojo težo, kapaciteto baterije in izberi način vožnje. Izračun je vezan na dolžino in višino te ture.
+        Bosch uporabljamo kot referenčni izračun, ker je ena najpogostejših rešitev pri e-kolesih. Izračun je informativen in vezan na dolžino, višince, težo kolesarja, kapaciteto baterije in način podpore.
       </p>
 
-      <div className="mt-5 space-y-4">
+      <div className="mt-5 space-y-5">
         <label className="block">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
-            Teža kolesarja
-          </span>
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
+              Teža kolesarja
+            </span>
+            <span className="font-serif text-xl font-black text-[#edd098]">
+              {weight} kg
+            </span>
+          </div>
           <input
-            type="number"
+            type="range"
+            min="50"
+            max="120"
+            step="1"
             value={weight}
             onChange={(e) => setWeight(Number(e.target.value))}
-            className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-100 outline-none"
+            className="w-full accent-[#c8924a]"
           />
+          <div className="mt-1 flex justify-between text-[10px] font-bold text-zinc-600">
+            <span>50 kg</span>
+            <span>120 kg</span>
+          </div>
         </label>
 
         <label className="block">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
-            Kapaciteta baterije
-          </span>
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
+              Kapaciteta baterije
+            </span>
+            <span className="font-serif text-xl font-black text-[#edd098]">
+              {battery} Wh
+            </span>
+          </div>
           <input
-            type="number"
+            type="range"
+            min="250"
+            max="1000"
+            step="25"
             value={battery}
             onChange={(e) => setBattery(Number(e.target.value))}
-            className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-100 outline-none"
+            className="w-full accent-[#c8924a]"
           />
+          <div className="mt-1 flex justify-between text-[10px] font-bold text-zinc-600">
+            <span>250 Wh</span>
+            <span>1000 Wh</span>
+          </div>
         </label>
 
-        <div className="grid grid-cols-3 gap-2">
-          {["Eco", "Trail", "eMTB"].map((item) => (
-            <button
-              key={item}
-              onClick={() => setMode(item)}
-              className={`rounded-2xl px-3 py-3 text-xs font-semibold transition ${
-                mode === item
-                  ? "bg-[#c8924a] text-black"
-                  : "border border-white/10 bg-black/20 text-zinc-300"
-              }`}
-            >
-              {item}
-            </button>
-          ))}
+        <div>
+          <div className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
+            Način podpore
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {["Eco", "Trail", "eMTB"].map((item) => (
+              <button
+                key={item}
+                onClick={() => setMode(item)}
+                className={`rounded-2xl px-3 py-3 text-xs font-semibold transition ${
+                  mode === item
+                    ? "bg-[#c8924a] text-black"
+                    : "border border-white/10 bg-black/20 text-zinc-300"
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
