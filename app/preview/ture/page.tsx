@@ -349,12 +349,12 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
           ].map(([value, label]) => (
             <div
               key={label}
-              className="min-w-0 border-r border-white/10 px-2.5 py-3 text-center last:border-r-0"
+              className="min-w-0 border-r border-white/10 px-2 py-3 text-center last:border-r-0"
             >
-              <div className="truncate font-serif text-[17px] font-black leading-none tracking-tight text-[#edd098]">
+              <div className="whitespace-nowrap font-serif text-[16px] font-black leading-none tracking-tight text-[#edd098] md:text-[17px]">
                 {value}
               </div>
-              <div className="mt-2 truncate text-[8px] font-black uppercase tracking-[0.14em] text-zinc-600">
+              <div className="mt-2 whitespace-nowrap text-[9px] font-black uppercase tracking-[0.12em] text-zinc-400 md:text-[10px]">
                 {label}
               </div>
             </div>
@@ -463,7 +463,7 @@ export default function PreviewTurePage() {
             </div>
           </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-4 border-y border-white/10 py-7 md:grid-cols-4">
+          <div className="mt-12 grid grid-cols-2 gap-4 border-y border-white/15 bg-[#07130b]/90 px-5 py-7 backdrop-blur-md md:grid-cols-4">
             {[
               ["8", "tur v sistemu"],
               ["7", "pokrajin"],
@@ -474,7 +474,7 @@ export default function PreviewTurePage() {
                 <div className="font-serif text-4xl font-black text-[#edd098]">
                   {value}
                 </div>
-                <div className="mt-2 text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600">
+                <div className="mt-2 text-[10px] font-black uppercase tracking-[0.22em] text-zinc-400">
                   {label}
                 </div>
               </div>
@@ -483,7 +483,8 @@ export default function PreviewTurePage() {
 
         </div>
 
-        <div className="relative border-y border-white/10 bg-[#0b140e]/80 backdrop-blur">
+        <div className="relative left-1/2 right-1/2 mt-10 -ml-[50vw] -mr-[50vw] w-screen border-y border-white/10 bg-[#07130b] px-6 py-6">
+          <div className="mx-auto max-w-[1480px] px-0">
           <div className="mx-auto max-w-[1480px] px-6 py-6">
             <div className="flex flex-wrap gap-2">
               {filters.map((filter, index) => (
@@ -520,6 +521,7 @@ export default function PreviewTurePage() {
               <span className="mx-3">·</span>
               <button className="text-[#c8924a]">Ponastavi</button>
             </div>
+          </div>
           </div>
         </div>
 
