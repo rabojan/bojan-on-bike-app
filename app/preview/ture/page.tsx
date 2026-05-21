@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const photos = {
   hero:
-    "https://source.unsplash.com/2400x1400/?family,biking,bike-path",
+    "/images/preview/hero-family-bike.png",
   forest:
     "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=88&w=1400",
   wine:
