@@ -1,3 +1,6 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
 
 const photos = {
@@ -31,21 +34,21 @@ const highlights = [
     badge: "km 4–12",
     title: "Flow skozi pohorske gozdove",
     text:
-      "Tura se začne z občutkom pobega iz mesta. Gozdni odseki, mehka podlaga in tekoči zavoji hitro postavijo ritem dneva.",
+      "Tura se začne z občutkom pobega iz mesta. Gozdni odseki, mehka podlaga in tekoči zavoji hitro postavijo ritem dneva, ne da bi moral kamorkoli hiteti.",
   },
   {
     image: photos.view,
     badge: "razgled",
     title: "Razgled nad Mariborom",
     text:
-      "Ko se gozd za trenutek odpre, se pokaže mesto pod tabo. To je tisti postanek, zaradi katerega razumeš, zakaj si šel navzgor.",
+      "Ko se gozd za trenutek odpre, se pokaže mesto pod tabo. To je tisti postanek, zaradi katerega razumeš, zakaj si šel navzgor in zakaj se splača ustaviti.",
   },
   {
     image: photos.forest,
     badge: "mir",
     title: "Mir med drevesi",
     text:
-      "Makadam, senca in gozdne povezave umirijo tempo. Tukaj vožnja ni samo premikanje, ampak občutek, da si res zunaj.",
+      "Makadam, senca in gozdne povezave umirijo tempo. Tukaj vožnja ni samo premikanje, ampak občutek, da si res zunaj in da dan teče počasneje.",
   },
 ];
 
@@ -366,51 +369,104 @@ function WeatherCard() {
 }
 
 function BoschCard() {
+  const [weight, setWeight] = useState(88);
+  const [battery, setBattery] = useState(900);
+  const [mode, setMode] = useState("Trail");
+
+  const batteryResult = useMemo(() => {
+    const base = mode === "Eco" ? 180 : mode === "Trail" ? 280 : 420;
+    const usedWh = Math.round(base + weight * 0.9 + 890 * 0.12);
+    const usedPercent = Math.min(Math.round((usedWh / battery) * 100), 100);
+    const remaining = Math.max(100 - usedPercent, 0);
+
+    return {
+      usedWh,
+      usedPercent,
+      remaining,
+      message:
+        remaining > 50
+          ? `Odlično! Prideš domov s približno ${remaining}% baterije.`
+          : remaining > 25
+            ? "Doseg bo dovolj, ampak pazi na porabo baterije."
+            : "Pozor! Za to turo potrebuješ večjo baterijo ali Eco način.",
+    };
+  }, [weight, battery, mode]);
+
   return (
     <div className="rounded-[24px] border border-[#c8924a]/25 bg-[#0e1a11] p-5">
       <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c8924a]">
-        Bosch e-bike izračun
+        eBike kalkulator dosega
       </div>
       <h3 className="mt-2 text-xl font-black text-white">
-        Performance Line CX
+        Bosch Performance Line CX
       </h3>
       <p className="mt-2 text-sm leading-6 text-zinc-500">
-        Informativni izračun za to turo na osnovi dolžine, višincev, baterije in izbranega načina podpore.
+        Vnesi svojo težo, kapaciteto baterije in izberi način vožnje. Izračun je vezan na dolžino in višino te ture.
       </p>
 
-      <div className="mt-5 grid gap-3">
-        <div className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm">
-          <span className="text-zinc-500">Motor</span>
-          <span className="font-bold text-zinc-200">Bosch CX</span>
-        </div>
-        <div className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm">
-          <span className="text-zinc-500">Baterija</span>
-          <span className="font-bold text-zinc-200">625 Wh</span>
-        </div>
-        <div className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm">
-          <span className="text-zinc-500">Način podpore</span>
-          <span className="font-bold text-zinc-200">eMTB</span>
-        </div>
-        <div className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm">
-          <span className="text-zinc-500">Tura</span>
-          <span className="font-bold text-zinc-200">32 km · 890 vm</span>
+      <div className="mt-5 space-y-4">
+        <label className="block">
+          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
+            Teža kolesarja
+          </span>
+          <input
+            type="number"
+            value={weight}
+            onChange={(e) => setWeight(Number(e.target.value))}
+            className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-100 outline-none"
+          />
+        </label>
+
+        <label className="block">
+          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
+            Kapaciteta baterije
+          </span>
+          <input
+            type="number"
+            value={battery}
+            onChange={(e) => setBattery(Number(e.target.value))}
+            className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-100 outline-none"
+          />
+        </label>
+
+        <div className="grid grid-cols-3 gap-2">
+          {["Eco", "Trail", "eMTB"].map((item) => (
+            <button
+              key={item}
+              onClick={() => setMode(item)}
+              className={`rounded-2xl px-3 py-3 text-xs font-semibold transition ${
+                mode === item
+                  ? "bg-[#c8924a] text-black"
+                  : "border border-white/10 bg-black/20 text-zinc-300"
+              }`}
+            >
+              {item}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="mt-5">
-        <div className="flex justify-between text-sm font-black text-white">
-          <span>Predvidena poraba</span>
-          <span>468 Wh</span>
+      <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-zinc-400">Poraba za turo</div>
+          <div className="text-xl font-black text-white">
+            {batteryResult.usedWh} Wh ({batteryResult.usedPercent}%)
+          </div>
         </div>
-        <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
-          <div className="h-full w-[75%] rounded-full bg-emerald-400" />
+
+        <div className="mt-5 h-4 overflow-hidden rounded-full bg-white/10">
+          <div
+            className="h-full rounded-full bg-[#36d399]"
+            style={{ width: `${batteryResult.remaining}%` }}
+          />
         </div>
-        <div className="mt-3 flex justify-between text-xs font-bold text-zinc-500">
-          <span>rezerva</span>
-          <span>približno 157 Wh</span>
+
+        <div className="mt-4 text-sm text-zinc-400">
+          Ostane približno {batteryResult.remaining}% baterije.
         </div>
-        <div className="mt-4 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm font-bold text-emerald-300">
-          Dovolj energije za celotno turo z nekaj varnostne rezerve.
+
+        <div className="mt-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-sm font-bold text-emerald-300">
+          {batteryResult.message}
         </div>
       </div>
     </div>
@@ -529,7 +585,7 @@ export default function PremiumTuraV2Page() {
                 Ambasadorjev namig
               </div>
               <h3 className="mt-2 font-serif text-2xl font-bold italic">
-                Ambasadorjev namig za najboljši občutek ture.
+                Tura z najlepšimi jutri.
               </h3>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">
                 Najlepše je, ko se megla še dviga med drevesi. Pri Rudijevem
