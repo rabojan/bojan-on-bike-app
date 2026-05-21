@@ -486,14 +486,14 @@ export default function PreviewTurePage() {
         <div className="relative left-1/2 right-1/2 mt-10 -ml-[50vw] -mr-[50vw] w-screen border-y border-white/10 bg-[#07130b]">
           <div className="mx-auto max-w-[1480px] px-6 py-4">
             <div className="flex flex-col gap-3">
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-7">
                 {filters.map((filter, index) => (
                   <button
                     key={filter}
                     className={
                       index === 0
-                        ? "rounded-full bg-[#c8924a] px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-black"
-                        : "rounded-full border border-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500"
+                        ? "w-full rounded-full bg-[#c8924a] px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.14em] text-black"
+                        : "w-full rounded-full border border-white/10 px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500"
                     }
                   >
                     {filter}
@@ -501,14 +501,14 @@ export default function PreviewTurePage() {
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
                 {types.map((type, index) => (
                   <button
                     key={type}
                     className={
                       index === 0
-                        ? "rounded-full bg-[#1a2115] px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-[#edd098]"
-                        : "rounded-full border border-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500"
+                        ? "w-full rounded-full bg-[#1a2115] px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.14em] text-[#edd098]"
+                        : "w-full rounded-full border border-white/10 px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500"
                     }
                   >
                     {type}
