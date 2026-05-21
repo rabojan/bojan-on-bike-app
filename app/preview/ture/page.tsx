@@ -328,9 +328,7 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
             <h2 className="font-serif text-3xl font-black italic leading-tight text-white">
               {tour.title}
             </h2>
-            <p className="mt-3 min-h-[112px] text-sm leading-7 text-zinc-400">
-              {tour.description}
-            </p>
+            <p className="mt-3 h-[72px] overflow-hidden text-sm leading-6 text-zinc-400">{tour.description}</p>
           </div>
         </div>
 
