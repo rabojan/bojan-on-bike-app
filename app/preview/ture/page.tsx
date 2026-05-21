@@ -463,18 +463,18 @@ export default function PreviewTurePage() {
             </div>
           </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-4 border-y border-white/15 bg-[#07130b]/90 px-5 py-7 backdrop-blur-md md:grid-cols-4">
+          <div className="mt-12 grid grid-cols-2 overflow-hidden border-y border-white/10 bg-[#06170f]/72 backdrop-blur-sm md:grid-cols-4">
             {[
               ["8", "tur v sistemu"],
               ["7", "pokrajin"],
               ["6", "ambasadorjev"],
               ["GPX", "za vse ture"],
             ].map(([value, label]) => (
-              <div key={label}>
-                <div className="font-serif text-4xl font-black text-[#edd098]">
+              <div key={label} className="min-h-[108px] border-b border-r border-white/10 px-7 py-6 text-left last:border-r-0 md:border-b-0">
+                <div className="font-serif text-[32px] font-black leading-none tracking-tight text-[#edd098] md:text-[36px]">
                   {value}
                 </div>
-                <div className="mt-2 text-[10px] font-black uppercase tracking-[0.22em] text-zinc-400">
+                <div className="mt-3 text-[10px] font-black uppercase tracking-[0.28em] text-zinc-500">
                   {label}
                 </div>
               </div>
