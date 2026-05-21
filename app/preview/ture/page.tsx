@@ -516,11 +516,6 @@ export default function PreviewTurePage() {
               ))}
             </div>
 
-            <div className="mt-4 flex justify-end text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
-              <span>{tours.length} tur</span>
-              <span className="mx-3">·</span>
-              <button className="text-[#c8924a]">Ponastavi</button>
-            </div>
           </div>
           </div>
         </div>
