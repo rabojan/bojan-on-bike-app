@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const photos = {
   hero:
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=88&w=2400",
+    "https://source.unsplash.com/2400x1400/?family,biking,bike-path",
   forest:
     "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=88&w=1400",
   wine:
@@ -285,13 +285,16 @@ function SurfaceLine({ surface }: { surface: string[][] }) {
 }
 
 function TourCard({ tour }: { tour: (typeof tours)[number] }) {
+  const ambassadorRole =
+    "ambassadorRole" in tour ? tour.ambassadorRole : `Ambasador ${tour.region}`;
+
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-white/10 bg-[#0e1a11] transition duration-300 hover:-translate-y-1 hover:border-[#c8924a]/40">
+    <article className="group flex h-[790px] flex-col overflow-hidden rounded-[28px] border border-white/10 bg-[#0e1a11] transition duration-300 hover:-translate-y-1 hover:border-[#c8924a]/40">
       <div
-        className="relative h-[260px] bg-cover bg-center"
+        className="relative h-[250px] shrink-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${tour.image})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0e1a11] via-[#0e1a11]/20 to-black/15" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0e1a11] via-[#0e1a11]/25 to-black/10" />
 
         <div className="absolute left-4 top-4 rounded-full border border-white/10 bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-zinc-200 backdrop-blur">
           {tour.difficulty}
@@ -308,8 +311,8 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
-        <div className="mb-4 flex flex-wrap gap-2">
+      <div className="flex min-h-0 flex-1 flex-col p-6">
+        <div className="mb-4 flex h-[30px] flex-wrap items-start gap-2 overflow-hidden">
           {tour.feeling.map((item) => (
             <span
               key={item}
@@ -320,15 +323,19 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
           ))}
         </div>
 
-        <div className="flex gap-4">
-          <div className="font-serif text-2xl font-black italic text-[#edd098]/30">
+        <div className="grid grid-cols-[34px_1fr] gap-3">
+          <div className="pt-1 font-serif text-2xl font-black italic leading-none text-[#edd098]/35">
             {tour.number}
           </div>
-          <div>
-            <h2 className="font-serif text-3xl font-black italic leading-tight text-white">
+
+          <div className="min-w-0">
+            <h2 className="h-[68px] overflow-hidden font-serif text-[25px] font-black italic leading-[1.05] tracking-tight text-white">
               {tour.title}
             </h2>
-            <p className="mt-3 h-[72px] overflow-hidden text-sm leading-6 text-zinc-400">{tour.description}</p>
+
+            <p className="mt-3 h-[84px] overflow-hidden text-sm leading-7 text-zinc-400">
+              {tour.description}
+            </p>
           </div>
         </div>
 
@@ -339,32 +346,37 @@ function TourCard({ tour }: { tour: (typeof tours)[number] }) {
             [tour.highest, "najvišje"],
             [tour.season, "sezona"],
           ].map(([value, label]) => (
-            <div key={label} className="min-w-0 border-r border-white/10 px-3 py-3 text-center last:border-r-0">
-              <div className="whitespace-nowrap font-serif text-base font-black leading-none tracking-tight text-[#edd098] md:text-lg">
+            <div
+              key={label}
+              className="min-w-0 border-r border-white/10 px-2.5 py-3 text-center last:border-r-0"
+            >
+              <div className="truncate font-serif text-[17px] font-black leading-none tracking-tight text-[#edd098]">
                 {value}
               </div>
-              <div className="mt-2 truncate text-[8px] font-black uppercase tracking-[0.16em] text-zinc-600 md:text-[9px]">
+              <div className="mt-2 truncate text-[8px] font-black uppercase tracking-[0.14em] text-zinc-600">
                 {label}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-6">
+        <div className="mt-5">
           <div className="text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600">
             Višinski profil
           </div>
-          <MiniProfile path={tour.profile} />
+          <div className="h-[72px]">
+            <MiniProfile path={tour.profile} />
+          </div>
         </div>
 
-        <div className="mt-4 pb-6">
+        <div className="mt-4 h-[58px]">
           <SurfaceLine surface={tour.surface} />
         </div>
 
         <div className="mt-auto flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0">
-            <div className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
-              {tour.ambassadorRole}
+            <div className="truncate text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
+              {ambassadorRole}
             </div>
             <div className="mt-1 truncate text-xs font-black uppercase tracking-[0.14em] text-[#edd098]">
               {tour.ambassador}
