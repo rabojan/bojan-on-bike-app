@@ -820,7 +820,7 @@ export default function PremiumTuraV2Page() {
           </section>
         </div>
 
-        <aside className="hidden border-l border-white/10 px-6 py-10 lg:sticky lg:top-16 lg:block lg:h-[calc(100vh-64px)] lg:overflow-y-auto">
+        <aside className="hidden border-l border-white/10 px-6 py-10 lg:block">
           <div className="space-y-5">
             <WeatherCard />
             <BoschCard />
