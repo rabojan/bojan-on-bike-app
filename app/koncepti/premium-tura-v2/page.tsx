@@ -20,7 +20,7 @@ const photos = {
 const stats = [
   { value: "32 km", label: "Dolžina trase" },
   { value: "890 vm", label: "Skupni vzpon" },
-  { value: "4h 30’", label: "Ocenjeni čas" },
+  { value: "1.120 m", label: "Najvišja točka" },
   { value: "Srednja", label: "Zahtevnost" },
   { value: "Apr–Nov", label: "Najboljši čas" },
 ];
@@ -38,7 +38,7 @@ const highlights = [
     badge: "razgled",
     title: "Razgled nad Mariborom",
     text:
-      "Ko se gozd za trenutek odpre, se pokaže mesto pod tabo. To je tisti postanek, zaradi katerega si vesel, da nisi ostal doma.",
+      "Ko se gozd za trenutek odpre, se pokaže mesto pod tabo. To je tisti postanek, zaradi katerega razumeš, zakaj si šel navzgor.",
   },
   {
     image: photos.forest,
@@ -101,6 +101,7 @@ const pois = [
     image: photos.view,
     type: "Razgled",
     title: "Pogled nad Mariborom",
+    distance: "350 m od trase",
     text:
       "Kratek postanek, ki pove več kot številke. Tu se pot za trenutek spremeni v spomin.",
   },
@@ -108,6 +109,7 @@ const pois = [
     image: photos.forest,
     type: "Narava",
     title: "Pohorski gozdni odsek",
+    distance: "ob trasi",
     text:
       "Najboljši del ture ni nujno najhitrejši. Včasih je to del, kjer se vse umiri.",
   },
@@ -115,6 +117,7 @@ const pois = [
     image: photos.lake,
     type: "Postanek",
     title: "Mirna točka ob poti",
+    distance: "600 m od trase",
     text:
       "Prostor za vodo, fotografijo ali samo nekaj minut tišine pred nadaljevanjem.",
   },
@@ -246,7 +249,7 @@ function HighlightCard({
         <h3 className="font-serif text-2xl font-bold italic leading-tight text-white">
           {title}
         </h3>
-        <p className="mt-4 min-h-[112px] text-sm leading-7 text-zinc-400">
+        <p className="mt-4 min-h-[84px] text-sm leading-7 text-zinc-400">
           {text}
         </p>
       </div>
@@ -298,11 +301,13 @@ function PoiCard({
   image,
   type,
   title,
+  distance,
   text,
 }: {
   image: string;
   type: string;
   title: string;
+  distance: string;
   text: string;
 }) {
   return (
@@ -314,6 +319,9 @@ function PoiCard({
         <div className="absolute inset-0 bg-gradient-to-t from-[#0e1a11] via-transparent to-transparent" />
         <div className="absolute left-3 top-3 rounded-full bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#edd098]">
           {type}
+        </div>
+        <div className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#c8924a]">
+          {distance}
         </div>
       </div>
       <div className="p-5">
@@ -366,27 +374,43 @@ function BoschCard() {
       <h3 className="mt-2 text-xl font-black text-white">
         Performance Line CX
       </h3>
-      <p className="mt-2 text-sm text-zinc-500">Izračun dosega za vašo turo.</p>
+      <p className="mt-2 text-sm leading-6 text-zinc-500">
+        Informativni izračun za to turo na osnovi dolžine, višincev, baterije in izbranega načina podpore.
+      </p>
 
       <div className="mt-5 grid gap-3">
-        <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm text-zinc-300">
-          eMTB
+        <div className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm">
+          <span className="text-zinc-500">Motor</span>
+          <span className="font-bold text-zinc-200">Bosch CX</span>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm text-zinc-300">
-          625 Wh
+        <div className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm">
+          <span className="text-zinc-500">Baterija</span>
+          <span className="font-bold text-zinc-200">625 Wh</span>
+        </div>
+        <div className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm">
+          <span className="text-zinc-500">Način podpore</span>
+          <span className="font-bold text-zinc-200">eMTB</span>
+        </div>
+        <div className="grid grid-cols-[1fr_auto] gap-3 rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm">
+          <span className="text-zinc-500">Tura</span>
+          <span className="font-bold text-zinc-200">32 km · 890 vm</span>
         </div>
       </div>
 
       <div className="mt-5">
         <div className="flex justify-between text-sm font-black text-white">
-          <span>Predviden doseg</span>
-          <span>46 km (52%)</span>
+          <span>Predvidena poraba</span>
+          <span>468 Wh</span>
         </div>
         <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
-          <div className="h-full w-[52%] rounded-full bg-emerald-400" />
+          <div className="h-full w-[75%] rounded-full bg-emerald-400" />
+        </div>
+        <div className="mt-3 flex justify-between text-xs font-bold text-zinc-500">
+          <span>rezerva</span>
+          <span>približno 157 Wh</span>
         </div>
         <div className="mt-4 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm font-bold text-emerald-300">
-          Dovolj energije za celotno turo.
+          Dovolj energije za celotno turo z nekaj varnostne rezerve.
         </div>
       </div>
     </div>
@@ -502,10 +526,10 @@ export default function PremiumTuraV2Page() {
 
             <div className="mt-6 rounded-[24px] border border-white/10 bg-[#0e1a11] p-6">
               <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c8924a]">
-                Lokalni namig
+                Ambasadorjev namig
               </div>
               <h3 className="mt-2 font-serif text-2xl font-bold italic">
-                Začni zgodaj, ostani malo dlje.
+                Ambasadorjev namig za najboljši občutek ture.
               </h3>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">
                 Najlepše je, ko se megla še dviga med drevesi. Pri Rudijevem
@@ -615,9 +639,6 @@ export default function PremiumTuraV2Page() {
               </div>
 
               <div className="mt-5 flex gap-3">
-                <button className="rounded-full border border-white/10 px-5 py-3 text-xs font-black text-zinc-300">
-                  Odpri v Komoot
-                </button>
                 <button className="rounded-full border border-[#c8924a]/40 px-5 py-3 text-xs font-black text-[#c8924a]">
                   Prenesi GPX
                 </button>
@@ -725,7 +746,8 @@ export default function PremiumTuraV2Page() {
                 {[
                   ["Za koga", "MTB / eMTB"],
                   ["Najboljši čas", "zgodaj dopoldne"],
-                  ["Postanek", "Rudijev dom"],
+                  ["Glavni postanek", "Rudijev dom"],
+                  ["Dodatni postanki", "možno dodati več"],
                   ["Občutek", "gozdni pobeg"],
                 ].map(([label, value]) => (
                   <div key={label} className="flex justify-between border-b border-white/10 pb-3 last:border-0">
@@ -734,6 +756,10 @@ export default function PremiumTuraV2Page() {
                   </div>
                 ))}
               </div>
+
+              <button className="mt-5 w-full rounded-full border border-[#c8924a]/35 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#c8924a] transition hover:bg-[#c8924a] hover:text-black">
+                Dodaj postanek
+              </button>
             </div>
           </div>
         </aside>
