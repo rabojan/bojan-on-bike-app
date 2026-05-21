@@ -89,6 +89,187 @@ function SurfaceBar({ label, value }: { label: string; value: number }) {
   );
 }
 
+
+function PremiumMiniProfile({ path }: { path?: string }) {
+  const fallbackPath = "M0 58 C90 48 130 30 190 34 C250 38 285 18 345 24 C410 30 470 54 560 44 C610 40 635 42 640 42";
+  const finalPath = path || fallbackPath;
+
+  return (
+    <svg viewBox="0 0 640 86" className="h-full w-full" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="premiumProfileFill" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#c58b46" stopOpacity="0.42" />
+          <stop offset="100%" stopColor="#c58b46" stopOpacity="0.02" />
+        </linearGradient>
+      </defs>
+      <path d={`${finalPath} L640 86 L0 86 Z`} fill="url(#premiumProfileFill)" />
+      <path
+        d={finalPath}
+        fill="none"
+        stroke="#c58b46"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="4"
+      />
+    </svg>
+  );
+}
+
+function PremiumSurfaceLine({
+  surface,
+}: {
+  surface?: { asphalt?: number; gravel?: number; forest?: number };
+}) {
+  const asphalt = surface?.asphalt ?? 45;
+  const gravel = surface?.gravel ?? 35;
+  const forest = surface?.forest ?? 20;
+
+  return (
+    <div>
+      <div className="mb-3 text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600">
+        Sestava podlage
+      </div>
+      <div className="flex h-2 overflow-hidden rounded-full bg-white/10">
+        <div className="bg-[#c58b46]" style={{ width: `${asphalt}%` }} />
+        <div className="bg-[#746b3d]" style={{ width: `${gravel}%` }} />
+        <div className="bg-emerald-500" style={{ width: `${forest}%` }} />
+      </div>
+      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-bold text-zinc-600">
+        <span>• Asfalt {asphalt}%</span>
+        <span>• Makadam {gravel}%</span>
+        <span>• Gozdne poti {forest}%</span>
+      </div>
+    </div>
+  );
+}
+
+function metricValue(value: unknown, suffix: string) {
+  const raw = String(value ?? "").trim();
+  if (!raw) return "—";
+  if (raw.toLowerCase().includes(suffix.toLowerCase())) return raw;
+  return `${raw} ${suffix}`;
+}
+
+function PremiumTourCard({ tour, index }: { tour: any; index: number }) {
+  const href = `/main-preview/ture/${tour.slug}`;
+  const feelings = tour.feelings ?? tour.feeling ?? [];
+  const region = tour.region ?? "";
+  const area = tour.area ?? "";
+  const type = tour.type ?? "";
+  const highest = tour.highest ?? tour.highestPoint ?? tour.maxElevation ?? "—";
+  const season = tour.season ?? "Apr–Nov";
+  const ambassador = tour.ambassador ?? tour.author ?? "Bojan Ratej";
+  const ambassadorRole =
+    tour.ambassadorRole ?? (region ? `Ambasador ${region}` : "Lokalni ambasador");
+
+  return (
+    <article className="group flex h-[790px] flex-col overflow-hidden rounded-[28px] border border-white/10 bg-[#0b1a10] transition duration-300 hover:-translate-y-1 hover:border-[#c58b46]/40">
+      <div
+        className="relative h-[250px] shrink-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${tour.image})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-[#0b1a10]/25 to-black/10" />
+
+        <div className="absolute left-4 top-4 rounded-full border border-white/10 bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-zinc-200 backdrop-blur">
+          {tour.difficulty}
+        </div>
+
+        <div className="absolute right-4 top-4 rounded-full border border-white/10 bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-zinc-200 backdrop-blur">
+          {type}
+        </div>
+
+        <div className="absolute bottom-4 left-4 right-4">
+          <div className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58b46]">
+            {region}{area ? ` · ${area}` : ""}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex min-h-0 flex-1 flex-col p-6">
+        <div className="mb-4 flex h-[30px] flex-wrap items-start gap-2 overflow-hidden">
+          {feelings.slice(0, 3).map((item: string) => (
+            <span
+              key={item}
+              className="rounded-full border border-[#c58b46]/25 bg-[#c58b46]/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#f4d7ad]"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-[34px_1fr] gap-3">
+          <div className="pt-1 font-serif text-2xl font-black italic leading-none text-[#f4d7ad]/35">
+            {String(index + 1).padStart(2, "0")}
+          </div>
+
+          <div className="min-w-0">
+            <h2 className="h-[68px] overflow-hidden font-serif text-[25px] font-black italic leading-[1.05] tracking-tight text-white">
+              {tour.title}
+            </h2>
+
+            <p className="mt-3 h-[84px] overflow-hidden text-sm leading-7 text-zinc-400">
+              {tour.description}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-4 overflow-hidden rounded-2xl border border-white/10 bg-black/15">
+          {[
+            [metricValue(tour.distance, "km"), "dolžina"],
+            [metricValue(tour.elevation, "vm"), "vzpon"],
+            [metricValue(highest, "m"), "najvišje"],
+            [season, "sezona"],
+          ].map(([value, label]) => (
+            <div
+              key={label}
+              className="min-w-0 border-r border-white/10 px-2 py-3 text-center last:border-r-0"
+            >
+              <div className="whitespace-nowrap font-serif text-[14px] font-black leading-none tracking-tight text-[#f4d7ad] md:text-[15px]">
+                {value}
+              </div>
+              <div className="mt-2 whitespace-nowrap text-[9px] font-black uppercase tracking-[0.12em] text-zinc-400 md:text-[10px]">
+                {label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-5">
+          <div className="text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600">
+            Višinski profil
+          </div>
+          <div className="h-[72px]">
+            <PremiumMiniProfile path={tour.profile} />
+          </div>
+        </div>
+
+        <div className="mt-4 h-[58px]">
+          <PremiumSurfaceLine surface={tour.surface} />
+        </div>
+
+        <div className="mt-auto flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0">
+            <div className="truncate text-[10px] font-black uppercase tracking-[0.18em] text-zinc-600">
+              {ambassadorRole}
+            </div>
+            <div className="mt-1 truncate text-xs font-black uppercase tracking-[0.14em] text-[#f4d7ad]">
+              {ambassador}
+            </div>
+          </div>
+
+          <Link
+            href={href}
+            className="shrink-0 text-[10px] font-black uppercase tracking-[0.18em] text-[#c58b46]"
+          >
+            Oglej si turo →
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+
 export default function ToursPage() {
   const [activeRegion, setActiveRegion] = useState("Vse");
 
@@ -208,75 +389,21 @@ export default function ToursPage() {
       </section>
 
       <section className="px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-10">
-            <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-              Izbrane ture
+        <div className="mx-auto max-w-[1480px]">
+          <div className="mb-10 flex items-end justify-between gap-6">
+            <div>
+              <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                Izbrane ture
+              </div>
+              <h2 className="mt-3 font-serif text-4xl font-black italic tracking-tight md:text-5xl">
+                Ture, ki ustrezajo tvoji izbiri.
+              </h2>
             </div>
-            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-              Ture, ki ustrezajo tvoji izbiri.
-            </h2>
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
-            {filteredTours.map((tour) => (
-              <article
-                key={tour.slug}
-                className="flex h-full flex-col overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10]"
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={tour.image}
-                    alt={tour.title}
-                    className="h-full w-full object-cover transition duration-500 hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
-                </div>
-
-                <div className="flex flex-1 flex-col p-7">
-                  <div className="mb-4 flex items-center justify-between gap-4 text-sm text-zinc-400">
-                    <span>{tour.region} • {tour.area}</span>
-                    <span>{tour.type}</span>
-                  </div>
-
-                  <div className="mb-4 flex flex-wrap gap-2">
-                    {tour.feelings.map((feeling) => (
-                      <span
-                        key={feeling}
-                        className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs font-semibold text-[#f4d7ad]"
-                      >
-                        {feeling}
-                      </span>
-                    ))}
-                  </div>
-
-                  <h2 className="text-3xl font-black leading-tight">{tour.title}</h2>
-
-                  <p className="mt-5 leading-7 text-zinc-400">{tour.description}</p>
-
-                  <div className="mt-6 flex flex-wrap gap-3 text-sm">
-                    <span className="rounded-full border border-white/10 px-4 py-2">{tour.distance}</span>
-                    <span className="rounded-full border border-white/10 px-4 py-2">{tour.elevation}</span>
-                    <span className="rounded-full border border-white/10 px-4 py-2">{tour.difficulty}</span>
-                  </div>
-
-                  <div className="mt-7 rounded-2xl border border-white/10 bg-black/20 p-5">
-                    <div className="mb-5 font-bold">Podlaga</div>
-                    <div className="space-y-4">
-                      <SurfaceBar label="Asfalt" value={tour.surface.asphalt} />
-                      <SurfaceBar label="Makadam" value={tour.surface.gravel} />
-                      <SurfaceBar label="Gozdna pot" value={tour.surface.forest} />
-                    </div>
-                  </div>
-
-                  <Link
-                    href={`/ture/${tour.slug}`}
-                    className="mt-auto inline-flex w-full justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black transition hover:opacity-90"
-                  >
-                    Odpri turo
-                  </Link>
-                </div>
-              </article>
+            {filteredTours.map((tour, index) => (
+              <PremiumTourCard key={tour.slug} tour={tour} index={index} />
             ))}
           </div>
         </div>
