@@ -137,7 +137,7 @@ function Pill({ children }: { children: React.ReactNode }) {
 function Metric({ value, label }: { value: string; label: string }) {
   return (
     <div className="border-r border-white/10 px-5 py-5 last:border-r-0 md:px-8">
-      <div className="font-serif text-2xl font-black leading-none text-[#edd098]">
+      <div className="text-2xl font-black leading-none text-[#f4d7ad]">
         {value}
       </div>
       <div className="mt-2 text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-500">
@@ -163,8 +163,8 @@ function MiniElevationProfile() {
       >
         <defs>
           <linearGradient id="elevFillV2" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#c8924a" stopOpacity="0.34" />
-            <stop offset="100%" stopColor="#c8924a" stopOpacity="0.02" />
+            <stop offset="0%" stopColor="#c58b46" stopOpacity="0.34" />
+            <stop offset="100%" stopColor="#c58b46" stopOpacity="0.02" />
           </linearGradient>
         </defs>
 
@@ -180,15 +180,15 @@ function MiniElevationProfile() {
         <path
           d="M20 92 C70 86 105 76 142 64 C178 52 205 32 244 28 C282 24 305 52 342 50 C390 48 412 24 458 22 C498 20 520 48 554 60 C586 70 604 72 620 64"
           fill="none"
-          stroke="#c8924a"
+          stroke="#c58b46"
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="4"
         />
 
-        <circle cx="20" cy="92" r="4" fill="#c8924a" />
-        <circle cx="458" cy="22" r="4" fill="#c8924a" />
-        <circle cx="620" cy="64" r="4" fill="#c8924a" />
+        <circle cx="20" cy="92" r="4" fill="#c58b46" />
+        <circle cx="458" cy="22" r="4" fill="#c58b46" />
+        <circle cx="620" cy="64" r="4" fill="#c58b46" />
 
         <text x="20" y="114" textAnchor="middle" fill="rgba(237,240,232,.5)" fontSize="10" fontWeight="700">0 km</text>
         <text x="458" y="16" textAnchor="middle" fill="rgba(237,240,232,.62)" fontSize="10" fontWeight="700">1.120 m</text>
@@ -215,7 +215,7 @@ function SurfaceBreakdown() {
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full rounded-full bg-[#c8924a]"
+              className="h-full rounded-full bg-[#c58b46]"
               style={{ width: surface.width }}
             />
           </div>
@@ -237,19 +237,19 @@ function HighlightCard({
   text: string;
 }) {
   return (
-    <article className="overflow-hidden rounded-[26px] border border-white/10 bg-[#0e1a11]">
+    <article className="overflow-hidden rounded-[26px] border border-white/10 bg-[#0b1a10]">
       <div
         className="h-[230px] bg-cover bg-center"
         style={{ backgroundImage: `url(${image})` }}
       >
         <div className="flex h-full items-start p-4">
-          <span className="rounded-full border border-[#c8924a]/35 bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#edd098] backdrop-blur">
+          <span className="rounded-full border border-[#c58b46]/35 bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#f4d7ad] backdrop-blur">
             {badge}
           </span>
         </div>
       </div>
       <div className="p-6">
-        <h3 className="font-serif text-2xl font-bold italic leading-tight text-white">
+        <h3 className="text-2xl font-bold leading-tight text-white">
           {title}
         </h3>
         <p className="mt-4 min-h-[84px] text-sm leading-7 text-zinc-400">
@@ -274,25 +274,25 @@ function ProviderCard({
   text: string;
 }) {
   return (
-    <article className="overflow-hidden rounded-[24px] border border-white/10 bg-[#0e1a11] transition hover:-translate-y-1 hover:border-[#c8924a]/35">
+    <article className="overflow-hidden rounded-[24px] border border-white/10 bg-[#0b1a10] transition hover:-translate-y-1 hover:border-[#c58b46]/35">
       <div
         className="relative h-[190px] bg-cover bg-center"
         style={{ backgroundImage: `url(${image})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0e1a11] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-transparent to-transparent" />
         <div className="absolute left-4 top-4 rounded-full border border-white/10 bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-zinc-200 backdrop-blur">
           {type}
         </div>
-        <div className="absolute bottom-4 right-4 text-[10px] font-black uppercase tracking-[0.16em] text-[#c8924a]">
+        <div className="absolute bottom-4 right-4 text-[10px] font-black uppercase tracking-[0.16em] text-[#c58b46]">
           {distance}
         </div>
       </div>
       <div className="p-6">
-        <h3 className="font-serif text-2xl font-bold italic text-white">
+        <h3 className="text-2xl font-bold text-white">
           {title}
         </h3>
         <p className="mt-3 text-sm leading-7 text-zinc-400">{text}</p>
-        <button className="mt-5 rounded-full border border-[#c8924a]/40 px-5 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-[#c8924a] transition hover:bg-[#c8924a] hover:text-black">
+        <button className="mt-5 rounded-full border border-[#c58b46]/40 px-5 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-[#c58b46] transition hover:bg-[#c58b46] hover:text-black">
           Ogled ponudnika
         </button>
       </div>
@@ -314,21 +314,21 @@ function PoiCard({
   text: string;
 }) {
   return (
-    <article className="overflow-hidden rounded-[22px] border border-white/10 bg-[#0e1a11]">
+    <article className="overflow-hidden rounded-[22px] border border-white/10 bg-[#0b1a10]">
       <div
         className="relative h-[150px] bg-cover bg-center"
         style={{ backgroundImage: `url(${image})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0e1a11] via-transparent to-transparent" />
-        <div className="absolute left-3 top-3 rounded-full bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#edd098]">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-transparent to-transparent" />
+        <div className="absolute left-3 top-3 rounded-full bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#f4d7ad]">
           {type}
         </div>
-        <div className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#c8924a]">
+        <div className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#c58b46]">
           {distance}
         </div>
       </div>
       <div className="p-5">
-        <h3 className="font-serif text-xl font-bold italic text-white">
+        <h3 className="text-xl font-bold text-white">
           {title}
         </h3>
         <p className="mt-2 text-sm leading-6 text-zinc-400">{text}</p>
@@ -345,7 +345,7 @@ function WeatherCard() {
   ];
 
   return (
-    <div className="rounded-[24px] border border-white/10 bg-[#0e1a11] p-5">
+    <div className="rounded-[24px] border border-white/10 bg-[#0b1a10] p-5">
       <div className="text-[10px] font-black uppercase tracking-[0.24em] text-zinc-500">
         Vreme na progi
       </div>
@@ -357,7 +357,7 @@ function WeatherCard() {
           <div key={day} className="rounded-2xl border border-white/10 bg-black/15 p-3 text-center">
             <div className="text-[10px] font-bold text-zinc-500">{day}</div>
             <div className="mt-2 text-2xl">{icon}</div>
-            <div className="mt-1 font-serif text-2xl font-black text-[#edd098]">
+            <div className="mt-1 text-2xl font-black text-[#f4d7ad]">
               {temp}
             </div>
             <div className="mt-1 text-[11px] text-zinc-500">{text}</div>
@@ -393,8 +393,8 @@ function BoschCard() {
   }, [weight, battery, mode]);
 
   return (
-    <div className="rounded-[24px] border border-[#c8924a]/25 bg-[#0e1a11] p-5">
-      <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c8924a]">
+    <div className="rounded-[24px] border border-[#c58b46]/25 bg-[#0b1a10] p-5">
+      <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c58b46]">
         eBike kalkulator dosega
       </div>
 
@@ -412,7 +412,7 @@ function BoschCard() {
             <span className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
               Teža kolesarja
             </span>
-            <span className="font-serif text-xl font-black text-[#edd098]">
+            <span className="text-xl font-black text-[#f4d7ad]">
               {weight} kg
             </span>
           </div>
@@ -423,7 +423,7 @@ function BoschCard() {
             step="1"
             value={weight}
             onChange={(e) => setWeight(Number(e.target.value))}
-            className="w-full accent-[#c8924a]"
+            className="w-full accent-[#c58b46]"
           />
           <div className="mt-1 flex justify-between text-[10px] font-bold text-zinc-600">
             <span>50 kg</span>
@@ -436,7 +436,7 @@ function BoschCard() {
             <span className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
               Kapaciteta baterije
             </span>
-            <span className="font-serif text-xl font-black text-[#edd098]">
+            <span className="text-xl font-black text-[#f4d7ad]">
               {battery} Wh
             </span>
           </div>
@@ -447,7 +447,7 @@ function BoschCard() {
             step="25"
             value={battery}
             onChange={(e) => setBattery(Number(e.target.value))}
-            className="w-full accent-[#c8924a]"
+            className="w-full accent-[#c58b46]"
           />
           <div className="mt-1 flex justify-between text-[10px] font-bold text-zinc-600">
             <span>250 Wh</span>
@@ -466,7 +466,7 @@ function BoschCard() {
                 onClick={() => setMode(item)}
                 className={`rounded-2xl px-3 py-3 text-xs font-semibold transition ${
                   mode === item
-                    ? "bg-[#c8924a] text-black"
+                    ? "bg-[#c58b46] text-black"
                     : "border border-white/10 bg-black/20 text-zinc-300"
                 }`}
               >
@@ -509,12 +509,12 @@ export default function PremiumTuraV2Page() {
     <main className="min-h-screen bg-[#080f0b] text-white">
       <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#080f0b]/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-6">
-          <Link href="/" className="font-serif text-lg font-black text-white">
-            Bojan <span className="font-normal italic text-[#edd098]">on Bike</span>
+          <Link href="/" className="text-lg font-black text-white">
+            Bojan <span className="font-normal text-[#f4d7ad]">on Bike</span>
           </Link>
 
           <nav className="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.12em] text-zinc-500 md:flex">
-            <Link href="/ture" className="text-[#c8924a]">Ture</Link>
+            <Link href="/ture" className="text-[#c58b46]">Ture</Link>
             <Link href="/dozivetja">Doživetja</Link>
             <Link href="/ponudniki">Ponudniki</Link>
             <Link href="/znamenitosti">Znamenitosti</Link>
@@ -522,7 +522,7 @@ export default function PremiumTuraV2Page() {
 
           <Link
             href="/main-preview/ture/gozdni-flow-nad-mariborom"
-            className="rounded-full border border-[#c8924a]/35 px-5 py-2 text-xs font-black text-[#c8924a]"
+            className="rounded-full border border-[#c58b46]/35 px-5 py-2 text-xs font-black text-[#c58b46]"
           >
             ← Trenutna tura
           </Link>
@@ -539,10 +539,10 @@ export default function PremiumTuraV2Page() {
 
         <div className="relative mx-auto flex min-h-[calc(92vh-64px)] max-w-[1480px] items-end px-6 pb-16">
           <div className="max-w-4xl">
-            <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+            <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
               MTB tura · Štajerska · Pohorje
             </div>
-            <h1 className="mt-6 font-serif text-6xl font-black italic leading-[0.88] tracking-tight text-white md:text-8xl">
+            <h1 className="mt-6 text-6xl font-black leading-[0.94] tracking-tight text-white md:text-8xl">
               Gozdni flow
               <br />
               nad Mariborom
@@ -561,10 +561,10 @@ export default function PremiumTuraV2Page() {
             </div>
 
             <div className="mt-9 flex flex-wrap gap-4">
-              <a href="#voznja" className="rounded-full bg-[#c8924a] px-7 py-3 text-sm font-black text-black">
+              <a href="#voznja" className="rounded-full bg-[#c58b46] px-7 py-3 text-sm font-black text-black">
                 Oglej si turo
               </a>
-              <button className="rounded-full border border-[#c8924a]/40 px-7 py-3 text-sm font-black text-[#edd098]">
+              <button className="rounded-full border border-[#c58b46]/40 px-7 py-3 text-sm font-black text-[#f4d7ad]">
                 Prenesi GPX
               </button>
             </div>
@@ -572,7 +572,7 @@ export default function PremiumTuraV2Page() {
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-[#0e1a11]">
+      <section className="border-y border-white/10 bg-[#0b1a10]">
         <div className="mx-auto grid max-w-[1480px] grid-cols-2 md:grid-cols-5">
           {stats.map((stat) => (
             <Metric key={stat.label} value={stat.value} label={stat.label} />
@@ -583,19 +583,19 @@ export default function PremiumTuraV2Page() {
       <div className="mx-auto grid max-w-[1480px] grid-cols-1 items-start lg:grid-cols-[1fr_360px]">
         <div className="min-w-0">
           <section className="border-b border-white/10 px-6 py-14">
-            <div className="rounded-[28px] border border-[#c8924a]/25 bg-[#0e1a11] p-7">
+            <div className="rounded-[28px] border border-[#c58b46]/25 bg-[#0b1a10] p-7">
               <div className="grid gap-6 md:grid-cols-[260px_1fr] md:items-center">
                 <div className="flex items-center gap-4">
                   <img
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200"
                     alt="Bojan Ratej"
-                    className="h-16 w-16 rounded-full border-2 border-[#c8924a]/35 object-cover"
+                    className="h-16 w-16 rounded-full border-2 border-[#c58b46]/35 object-cover"
                   />
                   <div>
-                    <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c8924a]">
+                    <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c58b46]">
                       Izbral lokalni ambasador
                     </div>
-                    <div className="mt-1 font-serif text-2xl font-bold italic">
+                    <div className="mt-1 text-2xl font-bold">
                       Bojan Ratej
                     </div>
                     <div className="text-xs font-bold text-zinc-500">
@@ -603,7 +603,7 @@ export default function PremiumTuraV2Page() {
                     </div>
                   </div>
                 </div>
-                <blockquote className="border-l border-[#c8924a]/35 pl-6 text-lg font-semibold leading-8 text-zinc-300">
+                <blockquote className="border-l border-[#c58b46]/35 pl-6 text-lg font-semibold leading-8 text-zinc-300">
                   “Ena tistih tur, kjer gozd dela svoje in misli se umirijo.
                   Hitri flow odseki, odprti razgledi in mirne povezave — popoln
                   krog nad mestom.”
@@ -611,11 +611,11 @@ export default function PremiumTuraV2Page() {
               </div>
             </div>
 
-            <div className="mt-6 rounded-[24px] border border-white/10 bg-[#0e1a11] p-6">
-              <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c8924a]">
+            <div className="mt-6 rounded-[24px] border border-white/10 bg-[#0b1a10] p-6">
+              <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c58b46]">
                 Ambasadorjev namig
               </div>
-              <h3 className="mt-2 font-serif text-2xl font-bold italic">
+              <h3 className="mt-2 text-2xl font-bold">
                 Tura z najlepšimi jutri.
               </h3>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">
@@ -628,10 +628,10 @@ export default function PremiumTuraV2Page() {
 
           <section className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto max-w-[1180px] text-center">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Poudarki na progi
               </div>
-              <h2 className="mt-4 font-serif text-5xl font-bold italic leading-tight">
+              <h2 className="mt-4 text-5xl font-bold leading-tight">
                 Kaj te čaka na poti
               </h2>
               <p className="mx-auto mt-4 max-w-3xl text-base leading-8 text-zinc-400">
@@ -648,12 +648,12 @@ export default function PremiumTuraV2Page() {
           </section>
 
           <section id="voznja" className="border-b border-white/10 px-6 py-16">
-            <div className="mx-auto grid max-w-[1180px] gap-6 rounded-[30px] border border-white/10 bg-[#0e1a11] p-7 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="mx-auto grid max-w-[1180px] gap-6 rounded-[30px] border border-white/10 bg-[#0b1a10] p-7 lg:grid-cols-[0.95fr_1.05fr]">
               <div>
-                <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+                <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                   Tehnične podrobnosti
                 </div>
-                <h2 className="mt-3 font-serif text-4xl font-bold italic">
+                <h2 className="mt-3 text-4xl font-bold">
                   Kakšna je vožnja?
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-zinc-400">
@@ -672,7 +672,7 @@ export default function PremiumTuraV2Page() {
                     ["Tip kolesa", "MTB / eMTB"],
                   ].map(([label, value]) => (
                     <div key={label} className="rounded-2xl border border-white/10 bg-black/15 p-4">
-                      <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c8924a]">
+                      <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c58b46]">
                         {label}
                       </div>
                       <div className="mt-2 text-lg font-black text-zinc-100">
@@ -685,10 +685,10 @@ export default function PremiumTuraV2Page() {
 
               <div className="flex flex-col justify-between">
                 <div>
-                  <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+                  <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                     Sestava podlage
                   </div>
-                  <h3 className="mt-3 font-serif text-4xl font-bold italic">
+                  <h3 className="mt-3 text-4xl font-bold">
                     Razgibana, gozdna in igriva
                   </h3>
 
@@ -706,10 +706,10 @@ export default function PremiumTuraV2Page() {
 
           <section className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto max-w-[1180px]">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Trasa ture
               </div>
-              <h2 className="mt-3 font-serif text-4xl font-bold italic">
+              <h2 className="mt-3 text-4xl font-bold">
                 Kje gre pot?
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
@@ -717,7 +717,7 @@ export default function PremiumTuraV2Page() {
                 potem pa točno pot, ki jo lahko preneseš na svojo napravo.
               </p>
 
-              <div className="mt-8 overflow-hidden rounded-[28px] border border-white/10 bg-[#0e1a11]">
+              <div className="mt-8 overflow-hidden rounded-[28px] border border-white/10 bg-[#0b1a10]">
                 <iframe
                   title="Zemljevid trase"
                   src="https://www.openstreetmap.org/export/embed.html?bbox=15.55%2C46.50%2C15.78%2C46.62&layer=mapnik"
@@ -726,7 +726,7 @@ export default function PremiumTuraV2Page() {
               </div>
 
               <div className="mt-5 flex gap-3">
-                <button className="rounded-full border border-[#c8924a]/40 px-5 py-3 text-xs font-black text-[#c8924a]">
+                <button className="rounded-full border border-[#c58b46]/40 px-5 py-3 text-xs font-black text-[#c58b46]">
                   Prenesi GPX
                 </button>
               </div>
@@ -735,20 +735,20 @@ export default function PremiumTuraV2Page() {
 
           <section className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto max-w-[1180px]">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Ritem dneva
               </div>
-              <h2 className="mt-3 font-serif text-4xl font-bold italic">
+              <h2 className="mt-3 text-4xl font-bold">
                 Od jutra do mirnega zaključka.
               </h2>
 
               <div className="mt-10 grid gap-4 md:grid-cols-5">
                 {dayPlan.map((item) => (
-                  <div key={item.time} className="border-l border-[#c8924a]/30 pl-5">
-                    <div className="text-xs font-black uppercase tracking-[0.2em] text-[#c8924a]">
+                  <div key={item.time} className="border-l border-[#c58b46]/30 pl-5">
+                    <div className="text-xs font-black uppercase tracking-[0.2em] text-[#c58b46]">
                       {item.time}
                     </div>
-                    <h3 className="mt-3 font-serif text-xl font-bold italic">
+                    <h3 className="mt-3 text-xl font-bold">
                       {item.title}
                     </h3>
                     <p className="mt-2 text-sm leading-6 text-zinc-500">
@@ -762,10 +762,10 @@ export default function PremiumTuraV2Page() {
 
           <section className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto max-w-[1180px]">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Postanek, ki dopolni dan
               </div>
-              <h2 className="mt-3 font-serif text-4xl font-bold italic">
+              <h2 className="mt-3 text-4xl font-bold">
                 Postanki, ki naredijo kolesarski dan.
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
@@ -783,10 +783,10 @@ export default function PremiumTuraV2Page() {
 
           <section className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto max-w-[1180px]">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Znamenitosti ob poti
               </div>
-              <h2 className="mt-3 font-serif text-4xl font-bold italic">
+              <h2 className="mt-3 text-4xl font-bold">
                 Razlogi, da se ustaviš.
               </h2>
 
@@ -800,10 +800,10 @@ export default function PremiumTuraV2Page() {
 
           <section className="px-6 py-16">
             <div className="mx-auto max-w-[1180px]">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c8924a]">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Galerija z utrinki
               </div>
-              <h2 className="mt-3 font-serif text-4xl font-bold italic">
+              <h2 className="mt-3 text-4xl font-bold">
                 Tura v slikah.
               </h2>
 
@@ -825,7 +825,7 @@ export default function PremiumTuraV2Page() {
             <WeatherCard />
             <BoschCard />
 
-            <div className="rounded-[24px] border border-white/10 bg-[#0e1a11] p-5">
+            <div className="rounded-[24px] border border-white/10 bg-[#0b1a10] p-5">
               <div className="text-[10px] font-black uppercase tracking-[0.24em] text-zinc-500">
                 Hitri povzetek
               </div>
@@ -844,7 +844,7 @@ export default function PremiumTuraV2Page() {
                 ))}
               </div>
 
-              <button className="mt-5 w-full rounded-full border border-[#c8924a]/35 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#c8924a] transition hover:bg-[#c8924a] hover:text-black">
+              <button className="mt-5 w-full rounded-full border border-[#c58b46]/35 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#c58b46] transition hover:bg-[#c58b46] hover:text-black">
                 Dodaj postanek
               </button>
             </div>
@@ -852,13 +852,13 @@ export default function PremiumTuraV2Page() {
         </aside>
       </div>
 
-      <section className="border-t border-white/10 bg-[#0e1a11] px-6 py-16">
-        <div className="mx-auto grid max-w-[1180px] gap-8 rounded-[30px] border border-[#c8924a]/25 bg-[#11170d] p-8 md:grid-cols-[1fr_auto] md:items-center">
+      <section className="border-t border-white/10 bg-[#0b1a10] px-6 py-16">
+        <div className="mx-auto grid max-w-[1180px] gap-8 rounded-[30px] border border-[#c58b46]/25 bg-[#11170d] p-8 md:grid-cols-[1fr_auto] md:items-center">
           <div>
-            <div className="text-xs font-black uppercase tracking-[0.3em] text-[#c8924a]">
+            <div className="text-xs font-black uppercase tracking-[0.3em] text-[#c58b46]">
               Predlagaj svojo turo
             </div>
-            <h2 className="mt-3 font-serif text-4xl font-bold italic">
+            <h2 className="mt-3 text-4xl font-bold">
               Poznaš lokalno pot, ki si zasluži biti tukaj?
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
@@ -867,10 +867,10 @@ export default function PremiumTuraV2Page() {
             </p>
           </div>
           <div className="flex flex-col gap-3">
-            <Link href="/predlagaj-turo" className="rounded-full bg-[#c8924a] px-7 py-3 text-center text-sm font-black text-black">
+            <Link href="/predlagaj-turo" className="rounded-full bg-[#c58b46] px-7 py-3 text-center text-sm font-black text-black">
               Predlagaj svojo turo
             </Link>
-            <Link href="/ture" className="rounded-full border border-[#c8924a]/35 px-7 py-3 text-center text-sm font-black text-[#c8924a]">
+            <Link href="/ture" className="rounded-full border border-[#c58b46]/35 px-7 py-3 text-center text-sm font-black text-[#c58b46]">
               Vse ture
             </Link>
           </div>
@@ -879,7 +879,7 @@ export default function PremiumTuraV2Page() {
 
       <footer className="border-t border-white/10 px-6 py-8 text-xs text-zinc-600">
         <div className="mx-auto flex max-w-[1480px] justify-between">
-          <span className="font-serif italic">Bojan on Bike</span>
+          <span className="italic">Bojan on Bike</span>
           <span>© koncept premium ture</span>
         </div>
       </footer>
