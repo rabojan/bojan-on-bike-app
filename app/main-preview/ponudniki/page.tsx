@@ -296,9 +296,16 @@ export default function ProvidersPage() {
                           key={trail.name}
                           className="flex items-start justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0"
                         >
-                          <span className="font-semibold text-[#f4d7ad]">
-                            {trail.name}
-                          </span>
+                          <a
+                      href={
+                        trail.name === "Gozdni flow nad Mariborom"
+                          ? "/main-preview/ture/gozdni-flow-nad-mariborom"
+                          : "/main-preview/ture"
+                      }
+                      className="font-semibold text-[#f4d7ad] transition hover:text-[#c58b46]"
+                    >
+                      {trail.name}
+                    </a>
                           <span className="shrink-0 text-right text-sm text-zinc-500">
                             {trail.distance}
                           </span>
