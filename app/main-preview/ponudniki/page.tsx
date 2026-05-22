@@ -335,6 +335,47 @@ export default function ProvidersPage() {
           </div>
         </div>
       </section>
-    </main>
+    
+      <section className="px-6 pb-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="overflow-hidden rounded-[36px] border border-[#c58b46]/25 bg-[#0b1a10] p-8 md:p-12">
+            <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-[0.34em] text-[#c58b46]">
+                  Skupnost lokalnih kolesarjev
+                </div>
+
+                <h2 className="mt-5 max-w-3xl font-serif text-4xl font-black italic leading-tight text-white md:text-5xl">
+                  Poznaš kolesarjem prijazno točko?
+                </h2>
+
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-400">
+                  Je ob tvoji turi gostilna, koča, vinska klet, prenočišče, servis ali polnilnica,
+                  ki si zasluži mesto med izbranimi postanki? Predlagaj jo — mi jo preverimo,
+                  povežemo s turami in predstavimo kot del kolesarskega dne.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-3 md:min-w-[240px]">
+                <a
+                  href="/predlagaj-turo"
+                  className="rounded-full bg-[#c58b46] px-7 py-4 text-center text-sm font-black text-black transition hover:bg-[#f4d7ad]"
+                >
+                  Predlagaj ponudnika
+                </a>
+
+                <a
+                  href="/main-preview/ture"
+                  className="rounded-full border border-[#c58b46]/35 px-7 py-4 text-center text-sm font-bold text-[#f4d7ad] transition hover:border-[#c58b46]"
+                >
+                  Razišči ture
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+</main>
   );
 }
