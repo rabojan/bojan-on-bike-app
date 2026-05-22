@@ -81,8 +81,6 @@ export default function ProvidersPage() {
         description="Kulinarika, vino, prenočišča, e-bike polnilnice in lokalni postanki ob izbranih kolesarskih turah. Samo tisti kraji, kjer se vožnja zares spremeni v del dneva."
         image="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1800&auto=format&fit=crop"
         imageAlt="Druženje ob hrani po kolesarski turi"
-        ctaHref="/main-preview/ponudniki"
-        ctaLabel="Oglej si ponudnike"
         secondaryHref="/predlagaj-turo"
         secondaryLabel="Predlagaj ponudnika"
         imagePosition="center"
