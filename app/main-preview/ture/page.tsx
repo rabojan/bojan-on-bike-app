@@ -143,6 +143,18 @@ function PremiumSurfaceLine({
   );
 }
 
+
+const tourHighestBySlug: Record<string, string> = {
+  "gozdni-flow-nad-mariborom": "1.120",
+  "med-vinogradi-in-grici": "540",
+  "alpski-pobeg-ob-vodi": "1.680",
+  "soska-kolesarska-pot": "420",
+  "kranjska-gora-panorama": "970",
+  "prekmurska-ravninska-pot": "220",
+  "koroska-pot-ob-dravi": "680",
+  "dolenjska-pot-med-gradovi": "510",
+};
+
 function metricValue(value: unknown, suffix: string) {
   const raw = String(value ?? "").trim();
   if (!raw) return "—";
@@ -156,7 +168,7 @@ function PremiumTourCard({ tour, index }: { tour: any; index: number }) {
   const region = tour.region ?? "";
   const area = tour.area ?? "";
   const type = tour.type ?? "";
-  const highest = tour.highest ?? tour.highestPoint ?? tour.maxElevation ?? "—";
+  const highest = tour.highest ?? tour.highestPoint ?? tour.maxElevation ?? tourHighestBySlug[tour.slug] ?? "—";
   const season = tour.season ?? "Apr–Nov";
   const ambassador = tour.ambassador ?? tour.author ?? "Bojan Ratej";
   const ambassadorRole =
@@ -389,7 +401,7 @@ export default function ToursPage() {
       </section>
 
       <section className="px-6 py-20">
-        <div className="mx-auto max-w-[1480px]">
+        <div className="mx-auto max-w-[1280px]">
           <div className="mb-10 flex items-end justify-between gap-6">
             <div>
               <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
@@ -416,7 +428,7 @@ export default function ToursPage() {
               Skupnost lokalnih kolesarjev
             </div>
 
-            <h2 className="mt-4 max-w-3xl text-3xl font-black tracking-tight text-white md:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-3xl font-black tracking-tight text-white md:text-4xl font-serif italic">
               Poznaš pot, ki si zasluži mesto med izbranimi turami?
             </h2>
 
