@@ -401,7 +401,7 @@ export default function ToursPage() {
       </section>
 
       <section className="px-6 py-20">
-        <div className="mx-auto max-w-[1220px]">
+        <div className="mx-auto max-w-[1280px]">
           <div className="mb-10 flex items-end justify-between gap-6">
             <div>
               <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
