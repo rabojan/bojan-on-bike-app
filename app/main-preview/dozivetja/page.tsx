@@ -50,6 +50,7 @@ export default function DozivetjaPage() {
             <PageHero
         eyebrow="Doživetja ob poti"
         title="Tura je šele začetek lepega dne."
+        titleClassName="font-serif italic"
         description="Tukaj najdeš skrbno izbrane kolesarske ideje, kjer se vožnja poveže z razgledi, lokalno hrano, vinom, druženjem in zgodbami krajev."
         image="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop"
         imageAlt="Kolesarsko doživetje v naravi"
