@@ -198,8 +198,8 @@ function PremiumTourCard({ tour, index }: { tour: any; index: number }) {
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col p-6">
-        <div className="mb-4 flex min-h-[42px] flex-wrap items-start gap-2 overflow-hidden">
-          {feelings.slice(0, 3).map((item: string) => (
+        <div className="mb-4 flex h-[42px] flex-wrap items-start gap-2 overflow-hidden">
+          {feelings.slice(0, 2).map((item: string) => (
             <span
               key={item}
               className="rounded-full border border-[#c58b46]/25 bg-[#c58b46]/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#f4d7ad]"
