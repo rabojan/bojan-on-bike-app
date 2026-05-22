@@ -83,8 +83,8 @@ export default function ProvidersPage() {
         imageAlt="Druženje ob hrani po kolesarski turi"
         ctaHref="/main-preview/ponudniki"
         ctaLabel="Oglej si ponudnike"
-        secondaryCtaHref="/predlagaj-turo"
-        secondaryCtaLabel="Predlagaj ponudnika"
+        secondaryHref="/predlagaj-turo"
+        secondaryLabel="Predlagaj ponudnika"
         imagePosition="center"
       />
 
