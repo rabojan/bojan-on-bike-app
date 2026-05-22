@@ -271,7 +271,7 @@ function PremiumTourCard({ tour, index }: { tour: any; index: number }) {
 
           <Link
             href={href}
-            className="shrink-0 text-[10px] font-black uppercase tracking-[0.18em] text-[#c58b46]"
+            className="shrink-0 rounded-full bg-[#c58b46] px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-[#07110b] transition hover:bg-[#f4d7ad]"
           >
             Oglej si turo →
           </Link>
