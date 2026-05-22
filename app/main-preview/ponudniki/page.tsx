@@ -75,12 +75,16 @@ export default function ProvidersPage() {
       <SiteHeader backHref="/" active="ponudniki" />
 
             <PageHero
-        eyebrow="Ponudniki ob poti"
+        eyebrow="Bojan on Bike · Ponudniki"
         title="Kjer se tura spremeni v doživetje."
         titleClassName="font-serif italic"
-        description="Kulinarika, vino in prenočišča ob izbranih kolesarskih turah po Sloveniji."
+        description="Kulinarika, vino, prenočišča, e-bike polnilnice in lokalni postanki ob izbranih kolesarskih turah. Samo tisti kraji, kjer se vožnja zares spremeni v del dneva."
         image="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1800&auto=format&fit=crop"
         imageAlt="Druženje ob hrani po kolesarski turi"
+        ctaHref="/main-preview/ponudniki"
+        ctaLabel="Oglej si ponudnike"
+        secondaryCtaHref="/predlagaj-turo"
+        secondaryCtaLabel="Predlagaj ponudnika"
         imagePosition="center"
       />
 
