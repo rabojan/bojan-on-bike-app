@@ -225,8 +225,19 @@ export default function ProvidersPage() {
 
       <section className="px-6 py-24">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10 text-sm text-zinc-500">
-            Prikazano: {filteredProviders.length} ponudnikov
+          <div className="mb-12 flex items-end justify-between gap-6">
+            <div>
+              <div className="text-[10px] font-black uppercase tracking-[0.34em] text-[#c58b46]">
+                Vsi ponudniki
+              </div>
+              <h2 className="mt-4 font-serif text-4xl font-black italic leading-tight text-white md:text-5xl">
+                Lokalni postanki ob poti.
+              </h2>
+            </div>
+
+            <div className="hidden text-sm text-zinc-500 md:block">
+              {filteredProviders.length} rezultati
+            </div>
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
@@ -268,7 +279,7 @@ export default function ProvidersPage() {
                     {provider.region} • {provider.location}
                   </div>
 
-                  <h2 className="text-3xl font-black">{provider.name}</h2>
+                  <h2 className="font-serif text-3xl font-black italic leading-tight text-white">{provider.name}</h2>
 
                   <p className="mt-5 leading-8 text-zinc-400">
                     {provider.description}
@@ -306,7 +317,7 @@ export default function ProvidersPage() {
 
                     <a
                       href={provider.website}
-                      className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-semibold text-black transition hover:opacity-90"
+                      className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
                     >
                       Spletna stran
                     </a>
