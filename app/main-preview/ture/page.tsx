@@ -134,10 +134,19 @@ function PremiumSurfaceLine({
         <div className="bg-[#746b3d]" style={{ width: `${gravel}%` }} />
         <div className="bg-emerald-500" style={{ width: `${forest}%` }} />
       </div>
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-bold text-zinc-600">
-        <span>• Asfalt {asphalt}%</span>
-        <span>• Makadam {gravel}%</span>
-        <span>• Gozdne poti {forest}%</span>
+      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-bold text-zinc-500">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-[#c58b46]" />
+          Asfalt {asphalt}%
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-[#746b3d]" />
+          Makadam {gravel}%
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          Gozdne poti {forest}%
+        </span>
       </div>
     </div>
   );
