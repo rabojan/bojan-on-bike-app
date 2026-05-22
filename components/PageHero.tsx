@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 type PageHeroProps = {
   eyebrow: string;
   title: ReactNode;
+  titleClassName?: string;
   description: string;
   image: string;
   mobileImage?: string;
@@ -18,6 +19,7 @@ type PageHeroProps = {
 export default function PageHero({
   eyebrow,
   title,
+  titleClassName = "",
   description,
   image,
   mobileImage,
@@ -51,7 +53,7 @@ export default function PageHero({
             {eyebrow}
           </div>
 
-          <h1 className="max-w-5xl text-5xl font-black leading-[0.95] tracking-[-0.045em] md:text-7xl lg:text-8xl">
+          <h1 className={`max-w-5xl text-5xl font-black leading-[0.95] tracking-[-0.045em] md:text-7xl lg:text-8xl ${titleClassName}`}>
             {title}
           </h1>
 
