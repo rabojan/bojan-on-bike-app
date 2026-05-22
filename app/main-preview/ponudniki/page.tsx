@@ -131,6 +131,89 @@ export default function ProvidersPage() {
         </div>
       </section>
 
+      <section className="border-b border-white/10 bg-[#07110b] px-6 py-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 text-[10px] font-black uppercase tracking-[0.34em] text-[#c58b46]">
+            Izpostavljeni ponudnik
+          </div>
+
+          <article className="overflow-hidden rounded-[36px] border border-[#c58b46]/20 bg-[#0b1a10]">
+            <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
+              <div className="relative min-h-[420px] overflow-hidden">
+                <img
+                  src={providers[0].image}
+                  alt={providers[0].name}
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-[#07110b]/20 to-transparent" />
+
+                <div className="absolute left-6 top-6 flex flex-wrap gap-2">
+                  {providers[0].types.slice(0, 3).map((type) => (
+                    <span
+                      key={type}
+                      className="rounded-full border border-white/15 bg-black/35 px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-white"
+                    >
+                      {type}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="absolute bottom-6 right-6 text-[10px] font-black uppercase tracking-[0.22em] text-[#c58b46]">
+                  Ob trasi
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-center p-8 md:p-12">
+                <div className="text-[10px] font-black uppercase tracking-[0.34em] text-[#c58b46]">
+                  Idealno za kosilo po gozdnem delu
+                </div>
+
+                <h2 className="mt-4 max-w-xl font-serif text-4xl font-black italic leading-tight text-white md:text-5xl">
+                  {providers[0].name}
+                </h2>
+
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-300">
+                  Topel domač postanek, terasa med gozdovi in tista točka, kjer tura dobi pravi ritem. Rudijev dom je kraj, kjer se kolesarski dan ne konča samo pri kilometrih, ampak pri hrani, razgledu in občutku, da si si postanek zaslužil.
+                </p>
+
+                <div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <div className="mb-4 text-[10px] font-black uppercase tracking-[0.28em] text-[#c58b46]">
+                    Ture ob ponudniku
+                  </div>
+
+                  <div className="space-y-3">
+                    {providers[0].nearbyTrails.map((trail) => (
+                      <div
+                        key={trail.name}
+                        className="flex items-center justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0"
+                      >
+                        <span className="font-semibold text-[#f4d7ad]">{trail.name}</span>
+                        <span className="shrink-0 text-sm text-zinc-500">{trail.distance}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a
+                    href="/main-preview/ponudniki/rudijev-dom-na-pohorju"
+                    className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
+                  >
+                    Oglej si ponudnika
+                  </a>
+                  <a
+                    href={`tel:${providers[0].phone.replace(/\s/g, "")}`}
+                    className="rounded-full border border-[#c58b46]/40 px-6 py-3 text-sm font-bold text-[#f4d7ad] transition hover:border-[#c58b46]"
+                  >
+                    Pokliči
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section className="px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-sm text-zinc-500">
