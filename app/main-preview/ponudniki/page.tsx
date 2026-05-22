@@ -88,7 +88,30 @@ export default function ProvidersPage() {
         imagePosition="center"
       />
 
-      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-10">
+      <section className="border-y border-white/10 bg-[#0b1a10]">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
+          {[
+            ["8", "ponudnikov"],
+            ["5", "pokrajin"],
+            ["4", "e-bike polnilnice"],
+            ["Vsi", "preverjeni lokalno"],
+          ].map(([value, label]) => (
+            <div
+              key={label}
+              className="border-r border-white/10 px-6 py-8 last:border-r-0 md:py-10"
+            >
+              <div className="font-serif text-4xl font-black leading-none text-[#f4d7ad] md:text-5xl">
+                {value}
+              </div>
+              <div className="mt-3 text-[10px] font-black uppercase tracking-[0.28em] text-zinc-500">
+                {label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 bg-[#07110b] px-6 py-6">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-wrap gap-3">
             {filters.map((filter) => (
