@@ -65,7 +65,7 @@ export default function DozivetjaPage() {
             Izbrana doživetja
           </div>
 
-          <h2 className="mt-4 text-4xl font-black md:text-5xl">
+          <h2 className="mt-4 font-serif text-4xl font-black italic md:text-5xl">
             Ideje za kolesarski dan, ki si ga zapomniš.
           </h2>
 
@@ -95,7 +95,7 @@ export default function DozivetjaPage() {
                   {experience.subtitle}
                 </div>
 
-                <h3 className="mt-4 text-3xl font-black leading-tight">
+                <h3 className="mt-4 font-serif text-3xl font-black italic leading-tight">
                   {experience.title}
                 </h3>
 
@@ -133,7 +133,7 @@ export default function DozivetjaPage() {
               Tematska doživetja
             </div>
 
-            <h2 className="mt-4 text-4xl font-black md:text-5xl">
+            <h2 className="mt-4 font-serif text-4xl font-black italic md:text-5xl">
               Izberi občutek, ne samo trase.
             </h2>
 
@@ -173,7 +173,7 @@ export default function DozivetjaPage() {
                 Zakaj doživetja
               </div>
 
-              <h2 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
+              <h2 className="mt-5 font-serif text-4xl font-black italic leading-tight md:text-5xl">
                 Ker se najboljše ture končajo z zgodbo.
               </h2>
 
