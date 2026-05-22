@@ -198,7 +198,7 @@ function PremiumTourCard({ tour, index }: { tour: any; index: number }) {
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col p-6">
-        <div className="mb-4 flex h-[30px] flex-wrap items-start gap-2 overflow-hidden">
+        <div className="mb-4 flex min-h-[42px] flex-wrap items-start gap-2 overflow-hidden">
           {feelings.slice(0, 3).map((item: string) => (
             <span
               key={item}
