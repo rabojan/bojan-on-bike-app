@@ -322,6 +322,7 @@ export default function ToursPage() {
             <PageHero
         eyebrow="Kolesarski dnevi"
         title="Poišči turo, ki paše tvojemu dnevu."
+        titleClassName="font-serif italic"
         description="Izberi po pokrajini, zahtevnosti ali občutku. Vsaka tura ostane praktična za kolesarja, a je zasnovana kot cel dan: pot, razgled, postanek in doživetje ob poti."
         image="/images/preview/hero-family-bike.png"
         imageAlt="Kolesarska tura skozi gozd"
