@@ -176,12 +176,14 @@ export default function AdminTrailsPage() {
                       Uredi
                     </Link>
 
-                    <Link
-                      href={`/ture/${trail.slug}`}
-                      className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
-                    >
-                      Predogled
-                    </Link>
+                    {trail.status === "Objavljeno" && (
+                      <Link
+                        href={`/ture/${trail.slug}`}
+                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
+                      >
+                        Predogled
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
