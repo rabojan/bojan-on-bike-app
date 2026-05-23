@@ -319,23 +319,14 @@ export default function ProvidersPage() {
                   </div>
 
                   <div className="mt-auto flex flex-wrap gap-3 pt-7">
-                    <a
-                      href={`tel:${provider.phone.replace(/\s/g, "")}`}
-                      className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40"
-                    >
-                      Pokliči
-                    </a>
-
-                    {hasWebsite(provider.website) && (
-                  <a
-                    href={provider.website}
-                    className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Spletna stran
-                  </a>
-                )}
+                    {provider.slug === "rudijev-dom-na-pohorju" && (
+                      <a
+                        href="/main-preview/ponudniki/rudijev-dom-na-pohorju"
+                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
+                      >
+                        Oglej si ponudnika
+                      </a>
+                    )}
                   </div>
                 </div>
               </article>
