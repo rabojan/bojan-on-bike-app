@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import SiteHeader from "@/components/SiteHeader";
 
 const photos = {
   hero:
@@ -517,27 +518,7 @@ function BoschCard() {
 export default function PremiumTuraV2Page() {
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#07110b]/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-6">
-          <Link href="/" className="text-lg font-black text-white">
-            Bojan <span className="font-normal text-[#f4d7ad]">on Bike</span>
-          </Link>
-
-          <nav className="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.12em] text-zinc-500 md:flex">
-            <Link href="/ture" className="text-[#c58b46]">Ture</Link>
-            <Link href="/dozivetja">Doživetja</Link>
-            <Link href="/ponudniki">Ponudniki</Link>
-            <Link href="/znamenitosti">Znamenitosti</Link>
-          </nav>
-
-          <Link
-            href="/ture/gozdni-flow-nad-mariborom"
-            className="rounded-full border border-[#c58b46]/35 px-5 py-2 text-xs font-black text-[#c58b46]"
-          >
-            ← Trenutna tura
-          </Link>
-        </div>
-      </header>
+      <SiteHeader active="ture" />
 
       <section className="relative min-h-[92vh] overflow-hidden pt-16">
         <div
@@ -887,12 +868,6 @@ export default function PremiumTuraV2Page() {
         </div>
       </section>
 
-      <footer className="border-t border-white/10 px-6 py-8 text-xs text-zinc-600">
-        <div className="mx-auto flex max-w-[1480px] justify-between">
-          <span className="italic">Bojan on Bike</span>
-          <span>© koncept premium ture</span>
-        </div>
-      </footer>
     </main>
   );
 }
