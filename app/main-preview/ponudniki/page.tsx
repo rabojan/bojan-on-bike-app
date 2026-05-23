@@ -62,6 +62,12 @@ const providers = [
   },
 ];
 
+function hasWebsite(website?: string) {
+  if (!website) return false;
+  const clean = website.trim();
+  return clean !== "" && clean !== "#" && clean !== "https://#" && clean !== "http://#";
+}
+
 export default function ProvidersPage() {
   const [activeFilter, setActiveFilter] = useState("Vsi");
 
