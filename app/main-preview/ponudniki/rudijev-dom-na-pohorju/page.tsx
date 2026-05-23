@@ -83,7 +83,7 @@ export default function ProviderDetailPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              {["Kulinarika", "Prenočišče", "e-bike polnilnica", "Ob trasi"].map((tag) => (
+              {["Kulinarika", "Prenočišče", "e-bike polnilnica"].map((tag) => (
                 <span
                   key={tag}
                   className="rounded-full border border-[#c58b46]/35 bg-black/25 px-5 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
@@ -241,29 +241,6 @@ export default function ProviderDetailPage() {
             </div>
           </div>
         </aside>
-      </section>
-
-      <section className="border-t border-white/10 px-6 py-16">
-        <div className="mx-auto grid max-w-7xl gap-8 rounded-[30px] border border-[#c58b46]/25 bg-[#0b1a10] p-8 md:grid-cols-[1fr_auto] md:items-center md:p-10">
-          <div>
-            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-              Nazaj na kolesarski dan
-            </div>
-            <h2 className="mt-4 font-serif text-3xl font-black italic md:text-4xl">
-              Poišči turo, ki gre mimo Rudijevega doma.
-            </h2>
-            <p className="mt-4 max-w-2xl leading-7 text-zinc-400">
-              Izberi pot, preveri postanke ob trasi in sestavi dan, ki ima pravi ritem.
-            </p>
-          </div>
-
-          <a
-            href="/main-preview/ture"
-            className="rounded-full bg-[#c58b46] px-7 py-4 text-center text-sm font-black text-black transition hover:bg-[#f4d7ad]"
-          >
-            Oglej si ture
-          </a>
-        </div>
       </section>
     </main>
   );
