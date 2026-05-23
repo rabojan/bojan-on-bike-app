@@ -320,7 +320,7 @@ export default function ProvidersPage() {
                   </div>
 
                   <div className="mt-auto flex flex-wrap gap-3 pt-7">
-                    {providers[0].profileHref && (
+                    {provider.profileHref && (
                       <a
                         href={provider.profileHref}
                         className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
