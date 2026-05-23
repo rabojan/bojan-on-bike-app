@@ -1,3 +1,12 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Local analysis files
+bojan-files-list.txt
+bojan-on-bike-review-package.txt
+vse-skupaj.txt
+
 # Logs
 logs
 *.log
