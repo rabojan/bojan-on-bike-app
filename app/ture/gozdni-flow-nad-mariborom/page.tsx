@@ -88,6 +88,7 @@ const providers = [
     distance: "ob trasi",
     text:
       "Topel postanek po vzponu, domača hrana in terasa, kjer tura za trenutek postane bolj družabna.",
+    href: "/main-preview/ponudniki/rudijev-dom-na-pohorju",
   },
   {
     image: photos.mountains,
@@ -96,6 +97,7 @@ const providers = [
     distance: "850 m od trase",
     text:
       "Mirna lokacija, svež zrak in dovolj prostora, da po vožnji še malo ostaneš v dnevu.",
+    href: "/ponudniki",
   },
 ];
 
@@ -266,12 +268,14 @@ function ProviderCard({
   title,
   distance,
   text,
+  href,
 }: {
   image: string;
   type: string;
   title: string;
   distance: string;
   text: string;
+  href?: string;
 }) {
   return (
     <article className="overflow-hidden rounded-[24px] border border-white/10 bg-[#0b1a10] transition hover:-translate-y-1 hover:border-[#c58b46]/35">
@@ -292,9 +296,15 @@ function ProviderCard({
           {title}
         </h3>
         <p className="mt-3 text-sm leading-7 text-zinc-400">{text}</p>
-        <button className="mt-5 rounded-full border border-[#c58b46]/40 px-5 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-[#c58b46] transition hover:bg-[#c58b46] hover:text-black">
-          Ogled ponudnika
-        </button>
+        {href ? (
+          <Link href={href} className="mt-5 inline-block rounded-full border border-[#c58b46]/40 px-5 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-[#c58b46] transition hover:bg-[#c58b46] hover:text-black">
+            Ogled ponudnika
+          </Link>
+        ) : (
+          <button className="mt-5 rounded-full border border-[#c58b46]/40 px-5 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-[#c58b46] transition hover:bg-[#c58b46] hover:text-black">
+            Ogled ponudnika
+          </button>
+        )}
       </div>
     </article>
   );
