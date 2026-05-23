@@ -134,7 +134,7 @@ export default function ProvidersPage() {
                     {provider.types.map((type) => (
                       <span
                         key={type}
-                        className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-4 py-2 text-sm text-[#f4d7ad]"
+                        className="rounded-full border border-[#c58b46]/35 bg-black/25 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
                       >
                         {type}
                       </span>
@@ -151,7 +151,7 @@ export default function ProvidersPage() {
                     {provider.region} • {provider.location}
                   </div>
 
-                  <h2 className="text-3xl font-black">{provider.name}</h2>
+                  <h2 className="font-serif text-3xl font-black italic">{provider.name}</h2>
 
                   <p className="mt-5 leading-8 text-zinc-400">
                     {provider.description}
@@ -183,7 +183,7 @@ export default function ProvidersPage() {
                     {provider.href && (
                       <Link
                         href={provider.href}
-                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-semibold text-black transition hover:opacity-90"
+                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:opacity-90"
                       >
                         Ogled ponudnika
                       </Link>

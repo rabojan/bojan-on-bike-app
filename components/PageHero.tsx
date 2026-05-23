@@ -49,11 +49,11 @@ export default function PageHero({
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-32 md:px-6 md:pt-36 lg:pt-40">
         <div className="max-w-5xl">
-          <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+          <div className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
             {eyebrow}
           </div>
 
-          <h1 className={`max-w-5xl text-5xl font-black leading-[0.95] tracking-[-0.045em] md:text-7xl lg:text-8xl ${titleClassName}`}>
+          <h1 className={`max-w-5xl font-serif text-5xl font-black italic leading-[0.95] tracking-[-0.045em] md:text-7xl lg:text-8xl ${titleClassName}`}>
             {title}
           </h1>
 
@@ -66,7 +66,7 @@ export default function PageHero({
               {ctaHref && ctaLabel && (
                 <Link
                   href={ctaHref}
-                  className="rounded-full bg-[#c58b46] px-7 py-4 text-sm font-bold text-black transition hover:bg-[#d9a35d]"
+                  className="rounded-full bg-[#c58b46] px-7 py-4 text-sm font-black text-black transition hover:bg-[#d9a35d]"
                 >
                   {ctaLabel}
                 </Link>

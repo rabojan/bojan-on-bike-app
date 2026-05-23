@@ -139,7 +139,7 @@ export default function ToursPage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
-              <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 Poišči turo zase
               </div>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
@@ -210,10 +210,10 @@ export default function ToursPage() {
       <section className="px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10">
-            <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Izbrane ture
             </div>
-            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+            <h2 className="mt-3 font-serif text-3xl font-black italic tracking-tight md:text-4xl">
               Ture, ki ustrezajo tvoji izbiri.
             </h2>
           </div>
@@ -243,14 +243,14 @@ export default function ToursPage() {
                     {tour.feelings.map((feeling) => (
                       <span
                         key={feeling}
-                        className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-xs font-semibold text-[#f4d7ad]"
+                        className="rounded-full border border-[#c58b46]/35 bg-black/25 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
                       >
                         {feeling}
                       </span>
                     ))}
                   </div>
 
-                  <h2 className="text-3xl font-black leading-tight">{tour.title}</h2>
+                  <h2 className="font-serif text-3xl font-black italic leading-tight">{tour.title}</h2>
 
                   <p className="mt-5 leading-7 text-zinc-400">{tour.description}</p>
 
@@ -271,7 +271,7 @@ export default function ToursPage() {
 
                   <Link
                     href={`/ture/${tour.slug}`}
-                    className="mt-auto inline-flex w-full justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black transition hover:opacity-90"
+                    className="mt-auto inline-flex w-full justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black transition hover:opacity-90"
                   >
                     Odpri turo
                   </Link>
@@ -289,7 +289,7 @@ export default function ToursPage() {
               Skupnost lokalnih kolesarjev
             </div>
 
-            <h2 className="mt-4 max-w-3xl text-3xl font-black tracking-tight text-white md:text-4xl">
+            <h2 className="mt-4 max-w-3xl font-serif text-3xl font-black italic tracking-tight text-white md:text-4xl">
               Poznaš pot, ki si zasluži mesto med izbranimi turami?
             </h2>
 

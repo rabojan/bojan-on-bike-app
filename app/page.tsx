@@ -148,7 +148,7 @@ export default function Home() {
 
       <section id="obcutek" className="border-b border-white/10 bg-[#07110b] px-5 py-10">
         <div className="mx-auto max-w-7xl">
-          <p className="mb-5 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+          <p className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
             Izberi po občutku
           </p>
 
@@ -168,10 +168,10 @@ export default function Home() {
       <section className="px-5 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12">
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Zadnja dodana tura
             </p>
-            <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
+            <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
               Sveža ideja za naslednji kolesarski dan.
             </h2>
           </div>
@@ -205,7 +205,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <h3 className="mb-5 text-3xl font-black leading-tight sm:text-4xl">
+              <h3 className="mb-5 font-serif text-3xl font-black italic leading-tight sm:text-4xl">
                 Gozdni flow nad Mariborom
               </h3>
 
@@ -233,7 +233,7 @@ export default function Home() {
 
               <Link
                 href="/ture/gozdni-flow-nad-mariborom"
-                className="rounded-full bg-[#c58b46] px-8 py-4 text-center font-semibold text-black transition hover:bg-[#d9a35d]"
+                className="rounded-full bg-[#c58b46] px-8 py-4 text-center text-sm font-black text-black transition hover:bg-[#d9a35d]"
               >
                 Oglej si turo
               </Link>
@@ -246,18 +246,18 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 TOP 3
               </p>
 
-              <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
+              <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
                 Izbrane ideje za kolesarski dan.
               </h2>
             </div>
 
             <Link
               href="/ture"
-              className="w-fit rounded-full border border-white/15 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
+              className="w-fit rounded-full border border-white/15 px-6 py-3 text-sm font-black text-white transition hover:bg-white/10"
             >
               Vse ture
             </Link>
@@ -286,7 +286,7 @@ export default function Home() {
                     {trail.region} • {trail.destination}
                   </div>
 
-                  <h3 className="mb-5 text-2xl font-bold leading-tight">
+                  <h3 className="mb-5 font-serif text-2xl font-black italic leading-tight">
                     {trail.title}
                   </h3>
 
@@ -294,7 +294,7 @@ export default function Home() {
                     {trail.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-3 py-1.5 text-[#f4d7ad]"
+                        className="rounded-full border border-[#c58b46]/35 bg-black/25 px-3 py-1.5 font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
                       >
                         {tag}
                       </span>
@@ -315,7 +315,7 @@ export default function Home() {
 
                   <Link
                     href={`/ture/${slugify(trail.title)}`}
-                    className="block w-full rounded-full border border-[#c58b46]/40 px-5 py-3 text-center font-semibold transition hover:bg-[#c58b46] hover:text-black"
+                    className="block w-full rounded-full border border-[#c58b46]/40 px-5 py-3 text-center text-sm font-black transition hover:bg-[#c58b46] hover:text-black"
                   >
                     Oglej si turo
                   </Link>
@@ -331,11 +331,11 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 grid gap-5 md:grid-cols-[1fr_0.8fr] md:items-end">
             <div>
-              <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 Odkrij pot na svoj način
               </p>
 
-              <h2 className="max-w-3xl text-4xl font-bold tracking-tight md:text-5xl">
+              <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
                 Ne začne vsak z isto idejo.
               </h2>
             </div>
@@ -371,11 +371,11 @@ export default function Home() {
                 </svg>
               </div>
 
-              <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 Ture
               </p>
 
-              <h3 className="text-3xl font-bold leading-tight">
+              <h3 className="font-serif text-3xl font-black italic leading-tight">
                 Začni s turo.
               </h3>
 
@@ -412,11 +412,11 @@ export default function Home() {
                 </svg>
               </div>
 
-              <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 Ponudniki
               </p>
 
-              <h3 className="text-3xl font-bold leading-tight">
+              <h3 className="font-serif text-3xl font-black italic leading-tight">
                 Najdi postanek.
               </h3>
 
@@ -450,11 +450,11 @@ export default function Home() {
                 </svg>
               </div>
 
-              <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 Znamenitosti
               </p>
 
-              <h3 className="text-3xl font-bold leading-tight">
+              <h3 className="font-serif text-3xl font-black italic leading-tight">
                 Začni z razlogom.
               </h3>
 
@@ -474,10 +474,10 @@ export default function Home() {
 <section className="border-b border-white/10 bg-[#07110b] px-5 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 max-w-3xl">
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Kako deluje
             </p>
-            <h2 className="text-4xl font-bold md:text-5xl">
+            <h2 className="font-serif text-4xl font-black italic md:text-5xl">
               Od ideje do popolnega kolesarskega dne.
             </h2>
           </div>
@@ -491,7 +491,7 @@ export default function Home() {
                 <div className="mb-8 text-sm font-semibold text-[#c58b46]">
                   {item.step}
                 </div>
-                <h3 className="mb-4 text-2xl font-bold">{item.title}</h3>
+                <h3 className="mb-4 font-serif text-2xl font-black italic">{item.title}</h3>
                 <p className="leading-7 text-zinc-400">{item.text}</p>
               </div>
             ))}
@@ -502,10 +502,10 @@ export default function Home() {
       <section id="pokrajine" className="border-b border-white/10 bg-[#0b1a10] px-5 py-24">
         <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-center">
           <div>
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Pokrajine
             </p>
-            <h2 className="mb-6 text-4xl font-bold md:text-5xl">
+            <h2 className="mb-6 font-serif text-4xl font-black italic md:text-5xl">
               Vsaka pokrajina ima svoj ritem.
             </h2>
             <p className="text-lg leading-8 text-zinc-400">
@@ -531,10 +531,10 @@ export default function Home() {
       <section id="dozivetja" className="px-5 py-24">
         <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#102417] to-[#07110b] p-8 md:p-12">
           <div className="max-w-3xl">
-            <p className="mb-3 text-sm uppercase tracking-[0.25em] text-[#c58b46]">
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Doživetja ob poti
             </p>
-            <h2 className="mb-6 text-4xl font-bold md:text-5xl">
+            <h2 className="mb-6 font-serif text-4xl font-black italic md:text-5xl">
               Ne gre samo za kilometre.
             </h2>
             <p className="mb-8 text-lg leading-8 text-zinc-400">
@@ -544,7 +544,7 @@ export default function Home() {
 
             <Link
               href="/dozivetja"
-              className="inline-block rounded-full bg-[#c58b46] px-8 py-4 font-semibold text-black transition hover:bg-[#d9a35d]"
+              className="inline-block rounded-full bg-[#c58b46] px-8 py-4 text-sm font-black text-black transition hover:bg-[#d9a35d]"
             >
               Začni raziskovati
             </Link>

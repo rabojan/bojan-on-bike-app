@@ -60,11 +60,11 @@ export default function DozivetjaPage() {
 
       <section className="mx-auto max-w-6xl px-5 py-16 md:px-6 md:py-24">
         <div className="mb-12 max-w-3xl">
-          <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+          <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
             Izbrana doživetja
           </div>
 
-          <h2 className="mt-4 text-4xl font-black md:text-5xl">
+          <h2 className="mt-4 font-serif text-4xl font-black italic md:text-5xl">
             Ideje za kolesarski dan, ki si ga zapomniš.
           </h2>
 
@@ -90,11 +90,11 @@ export default function DozivetjaPage() {
               </div>
 
               <div className="flex flex-1 flex-col p-7">
-                <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                   {experience.subtitle}
                 </div>
 
-                <h3 className="mt-4 text-3xl font-black leading-tight">
+                <h3 className="mt-4 font-serif text-3xl font-black italic leading-tight">
                   {experience.title}
                 </h3>
 
@@ -106,7 +106,7 @@ export default function DozivetjaPage() {
                   {experience.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300"
+                      className="rounded-full border border-[#c58b46]/35 bg-black/25 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
                     >
                       {tag}
                     </span>
@@ -115,7 +115,7 @@ export default function DozivetjaPage() {
 
                 <Link
                   href="/ture"
-                  className="mt-7 inline-flex justify-center rounded-full border border-[#c58b46]/40 bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
+                  className="mt-7 inline-flex justify-center rounded-full border border-[#c58b46]/40 bg-[#c58b46] px-5 py-3 text-sm font-black text-black"
                 >
                   Poglej povezane ture
                 </Link>
@@ -128,11 +128,11 @@ export default function DozivetjaPage() {
       <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-16 md:px-6 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-center">
           <div>
-            <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Tematska doživetja
             </div>
 
-            <h2 className="mt-4 text-4xl font-black md:text-5xl">
+            <h2 className="mt-4 font-serif text-4xl font-black italic md:text-5xl">
               Izberi občutek, ne samo trase.
             </h2>
 
@@ -168,11 +168,11 @@ export default function DozivetjaPage() {
             </div>
 
             <div className="flex flex-col justify-center p-8 md:p-14">
-              <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 Zakaj doživetja
               </div>
 
-              <h2 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
+              <h2 className="mt-5 font-serif text-4xl font-black italic leading-tight md:text-5xl">
                 Ker se najboljše ture končajo z zgodbo.
               </h2>
 
@@ -185,7 +185,7 @@ export default function DozivetjaPage() {
 
               <Link
                 href="/ponudniki"
-                className="mt-8 inline-flex w-fit rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
+                className="mt-8 inline-flex w-fit rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black"
               >
                 Odkrij ponudnike
               </Link>

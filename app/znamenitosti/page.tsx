@@ -100,11 +100,11 @@ export default function AttractionsPage() {
 
       <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
         <div className="mb-10">
-          <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+          <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
             Odkrij po motivu
           </div>
 
-          <h2 className="mt-4 text-4xl font-black md:text-5xl">
+          <h2 className="mt-4 font-serif text-4xl font-black italic md:text-5xl">
             Kaj želiš doživeti ob poti?
           </h2>
         </div>
@@ -176,11 +176,11 @@ export default function AttractionsPage() {
               </div>
 
               <div className="flex flex-1 flex-col p-6">
-                <div className="text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                   {attraction.area}
                 </div>
 
-                <h3 className="mt-3 text-3xl font-black leading-tight">
+                <h3 className="mt-3 font-serif text-3xl font-black italic leading-tight">
                   {attraction.name}
                 </h3>
 
@@ -192,7 +192,7 @@ export default function AttractionsPage() {
                   {attraction.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-300"
+                      className="rounded-full border border-[#c58b46]/35 bg-black/25 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
                     >
                       {tag}
                     </span>
@@ -215,7 +215,7 @@ export default function AttractionsPage() {
 
                 <Link
                   href={`/znamenitosti/${attraction.slug}`}
-                  className="mt-auto inline-flex justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
+                  className="mt-auto inline-flex justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black"
                 >
                   Odpri znamenitost
                 </Link>
@@ -237,11 +237,11 @@ export default function AttractionsPage() {
             </div>
 
             <div className="flex flex-col justify-center p-8 md:p-14">
-              <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 Drug način odkrivanja
               </div>
 
-              <h2 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
+              <h2 className="mt-5 font-serif text-4xl font-black italic leading-tight md:text-5xl">
                 Ne začneš vedno s turo.
               </h2>
 
@@ -253,7 +253,7 @@ export default function AttractionsPage() {
 
               <Link
                 href="/ture"
-                className="mt-8 inline-flex w-fit rounded-full border border-white/10 bg-white/5 px-6 py-4 text-sm font-bold text-white"
+                className="mt-8 inline-flex w-fit rounded-full border border-white/10 bg-white/5 px-6 py-4 text-sm font-black text-white"
               >
                 Odkrij vse ture
               </Link>

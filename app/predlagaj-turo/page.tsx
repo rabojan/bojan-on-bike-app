@@ -9,11 +9,11 @@ export default function PredlagajTuroPage() {
       <section className="px-6 py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <div className="text-xs uppercase tracking-[0.4em] text-[#c58b46]">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Skupnost lokalnih kolesarjev
             </div>
 
-            <h1 className="mt-6 max-w-4xl text-5xl font-black tracking-tight text-white md:text-7xl">
+            <h1 className="mt-6 max-w-4xl font-serif text-5xl font-black italic leading-[0.92] tracking-[-0.045em] text-white md:text-7xl">
               Poznaš pot, ki si zasluži mesto med izbranimi turami?
             </h1>
 
@@ -42,7 +42,7 @@ export default function PredlagajTuroPage() {
           </div>
 
           <div className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
-            <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Kaj potrebuješ?
             </div>
 
@@ -75,7 +75,7 @@ export default function PredlagajTuroPage() {
                     </div>
 
                     <div>
-                      <h2 className="text-lg font-black text-white">{item.title}</h2>
+                      <h2 className="font-serif text-lg font-black italic text-white">{item.title}</h2>
                       <p className="mt-2 text-sm leading-7 text-zinc-400">
                         {item.text}
                       </p>
@@ -94,7 +94,7 @@ export default function PredlagajTuroPage() {
             <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
               01
             </div>
-            <h3 className="mt-4 text-xl font-black text-white">
+            <h3 className="mt-4 font-serif text-xl font-black italic text-white">
               Tura ostane povezana s teboj
             </h3>
             <p className="mt-3 text-sm leading-7 text-zinc-400">
@@ -106,7 +106,7 @@ export default function PredlagajTuroPage() {
             <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
               02
             </div>
-            <h3 className="mt-4 text-xl font-black text-white">
+            <h3 className="mt-4 font-serif text-xl font-black italic text-white">
               Pred objavo preverimo osnovo
             </h3>
             <p className="mt-3 text-sm leading-7 text-zinc-400">
@@ -119,7 +119,7 @@ export default function PredlagajTuroPage() {
             <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
               03
             </div>
-            <h3 className="mt-4 text-xl font-black text-white">
+            <h3 className="mt-4 font-serif text-xl font-black italic text-white">
               Vsaka objavljena tura šteje
             </h3>
             <p className="mt-3 text-sm leading-7 text-zinc-400">
@@ -132,11 +132,11 @@ export default function PredlagajTuroPage() {
 
       <section className="px-6 py-16">
         <div className="mx-auto max-w-4xl rounded-[36px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-8 text-center">
-          <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+          <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
             Začni
           </div>
 
-          <h2 className="mt-4 text-3xl font-black tracking-tight text-white md:text-4xl">
+          <h2 className="mt-4 font-serif text-3xl font-black italic tracking-tight text-white md:text-4xl">
             Imaš GPX in dobro traso?
           </h2>
 

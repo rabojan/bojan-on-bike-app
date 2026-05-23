@@ -54,7 +54,7 @@ export default function AttractionDetailPage() {
               {attraction.region} · {attraction.area}
             </div>
 
-            <h1 className="text-5xl font-black leading-none md:text-7xl">
+            <h1 className="font-serif text-5xl font-black italic leading-[0.92] tracking-[-0.045em] md:text-7xl">
               {attraction.name}
             </h1>
 
@@ -66,7 +66,7 @@ export default function AttractionDetailPage() {
               {attraction.type.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm text-zinc-200"
+                  className="rounded-full border border-[#c58b46]/35 bg-black/25 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
                 >
                   {tag}
                 </span>
@@ -83,7 +83,7 @@ export default function AttractionDetailPage() {
               Zakaj se ustaviti
             </div>
 
-            <h2 className="mt-5 text-4xl font-black leading-tight">
+            <h2 className="mt-5 font-serif text-4xl font-black italic leading-tight">
               Pogled, ki turi doda občutek prostora.
             </h2>
 
@@ -97,7 +97,7 @@ export default function AttractionDetailPage() {
               Lokacija
             </div>
 
-            <h2 className="mt-5 text-4xl font-black">Kje je ta točka?</h2>
+            <h2 className="mt-5 font-serif text-4xl font-black italic">Kje je ta točka?</h2>
 
             <p className="mt-6 text-lg leading-9 text-zinc-300">
               {attraction.locationDescription}
@@ -137,7 +137,7 @@ export default function AttractionDetailPage() {
                 href={attraction.googleMapsUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
+                className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black"
               >
                 Odpri v Google Maps
               </a>
@@ -146,7 +146,7 @@ export default function AttractionDetailPage() {
                 href={attraction.wikipediaUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-white/10 bg-white/5 px-6 py-4 text-sm font-bold text-white"
+                className="rounded-full border border-white/10 bg-white/5 px-6 py-4 text-sm font-black text-white"
               >
                 Preberi več na Wikipediji
               </a>
@@ -212,7 +212,7 @@ export default function AttractionDetailPage() {
             Ture ob tej znamenitosti
           </div>
 
-          <h2 className="mt-4 text-4xl font-black">
+          <h2 className="mt-4 font-serif text-4xl font-black italic">
             Poti, ki peljejo mimo.
           </h2>
         </div>
@@ -229,7 +229,7 @@ export default function AttractionDetailPage() {
                     {trail.distance} · {trail.role}
                   </div>
 
-                  <h3 className="mt-2 text-3xl font-black">{trail.title}</h3>
+                  <h3 className="mt-2 font-serif text-3xl font-black italic">{trail.title}</h3>
 
                   <p className="mt-4 max-w-2xl leading-8 text-zinc-300">
                     {trail.description}
@@ -238,7 +238,7 @@ export default function AttractionDetailPage() {
 
                 <Link
                   href={trail.href}
-                  className="inline-flex justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
+                  className="inline-flex justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black"
                 >
                   Oglej si turo
                 </Link>

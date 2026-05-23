@@ -251,7 +251,7 @@ function HighlightCard({
         </div>
       </div>
       <div className="p-6">
-        <h3 className="text-2xl font-bold leading-tight text-white font-serif italic">
+        <h3 className="font-serif text-2xl font-black italic leading-tight text-white">
           {title}
         </h3>
         <p className="mt-4 min-h-[84px] text-sm leading-7 text-zinc-400">
@@ -292,7 +292,7 @@ function ProviderCard({
         </div>
       </div>
       <div className="p-6">
-        <h3 className="text-2xl font-bold text-white font-serif italic">
+        <h3 className="font-serif text-2xl font-black italic text-white">
           {title}
         </h3>
         <p className="mt-3 text-sm leading-7 text-zinc-400">{text}</p>
@@ -338,7 +338,7 @@ function PoiCard({
         </div>
       </div>
       <div className="p-5">
-        <h3 className="text-xl font-bold text-white font-serif italic">
+        <h3 className="font-serif text-xl font-black italic text-white">
           {title}
         </h3>
         <p className="mt-2 text-sm leading-6 text-zinc-400">{text}</p>
@@ -359,7 +359,7 @@ function WeatherCard() {
       <div className="text-[10px] font-black uppercase tracking-[0.24em] text-zinc-500">
         Vreme na progi
       </div>
-      <h3 className="mt-2 text-xl font-black text-white font-serif italic">
+      <h3 className="mt-2 font-serif text-xl font-black italic text-white">
         Napoved za lokacijo
       </h3>
       <div className="mt-5 grid grid-cols-3 gap-3">
@@ -408,7 +408,7 @@ function BoschCard() {
         eBike kalkulator dosega
       </div>
 
-      <h3 className="mt-2 text-xl font-black text-white font-serif italic">
+      <h3 className="mt-2 font-serif text-xl font-black italic text-white">
         Bosch Performance Line CX
       </h3>
 
@@ -549,10 +549,10 @@ export default function PremiumTuraV2Page() {
 
         <div className="relative mx-auto flex min-h-[calc(92vh-64px)] max-w-[1480px] items-end px-6 pb-16">
           <div className="max-w-4xl">
-            <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
+            <div className="text-xs font-black uppercase tracking-[0.35em] text-[#c58b46]">
               MTB tura · Štajerska · Pohorje
             </div>
-            <h1 className="mt-6 text-6xl font-black leading-[0.9] tracking-tight text-white md:text-8xl font-serif italic">
+            <h1 className="mt-6 font-serif text-6xl font-black italic leading-[0.92] tracking-[-0.045em] text-white md:text-8xl">
               Gozdni flow
               <br />
               nad Mariborom
@@ -625,7 +625,7 @@ export default function PremiumTuraV2Page() {
               <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c58b46]">
                 Ambasadorjev namig
               </div>
-              <h3 className="mt-2 text-2xl font-bold font-serif italic">
+              <h3 className="mt-2 font-serif text-2xl font-black italic">
                 Tura z najlepšimi jutri.
               </h3>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">
@@ -641,7 +641,7 @@ export default function PremiumTuraV2Page() {
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Poudarki na progi
               </div>
-              <h2 className="mt-4 text-5xl font-bold leading-tight font-serif italic">
+              <h2 className="mt-4 text-5xl font-black leading-tight font-serif italic">
                 Kaj te čaka na poti
               </h2>
               <p className="mx-auto mt-4 max-w-3xl text-base leading-8 text-zinc-400">
@@ -663,7 +663,7 @@ export default function PremiumTuraV2Page() {
                 <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                   Tehnične podrobnosti
                 </div>
-                <h2 className="mt-3 text-4xl font-bold font-serif italic">
+                <h2 className="mt-3 text-4xl font-black font-serif italic">
                   Kakšna je vožnja?
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-zinc-400">
@@ -698,7 +698,7 @@ export default function PremiumTuraV2Page() {
                   <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                     Sestava podlage
                   </div>
-                  <h3 className="mt-3 text-4xl font-bold font-serif italic">
+                  <h3 className="mt-3 text-4xl font-black font-serif italic">
                     Razgibana, gozdna in igriva
                   </h3>
 
@@ -719,7 +719,7 @@ export default function PremiumTuraV2Page() {
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Trasa ture
               </div>
-              <h2 className="mt-3 text-4xl font-bold font-serif italic">
+              <h2 className="mt-3 text-4xl font-black font-serif italic">
                 Kje gre pot?
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
@@ -748,7 +748,7 @@ export default function PremiumTuraV2Page() {
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Ritem dneva
               </div>
-              <h2 className="mt-3 text-4xl font-bold font-serif italic">
+              <h2 className="mt-3 text-4xl font-black font-serif italic">
                 Od jutra do mirnega zaključka.
               </h2>
 
@@ -758,7 +758,7 @@ export default function PremiumTuraV2Page() {
                     <div className="text-xs font-black uppercase tracking-[0.2em] text-[#c58b46]">
                       {item.time}
                     </div>
-                    <h3 className="mt-3 text-xl font-bold font-serif italic">
+                    <h3 className="mt-3 text-xl font-black font-serif italic">
                       {item.title}
                     </h3>
                     <p className="mt-2 text-sm leading-6 text-zinc-500">
@@ -775,7 +775,7 @@ export default function PremiumTuraV2Page() {
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Postanek, ki dopolni dan
               </div>
-              <h2 className="mt-3 text-4xl font-bold font-serif italic">
+              <h2 className="mt-3 text-4xl font-black font-serif italic">
                 Postanki, ki naredijo kolesarski dan.
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
@@ -796,7 +796,7 @@ export default function PremiumTuraV2Page() {
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Znamenitosti ob poti
               </div>
-              <h2 className="mt-3 text-4xl font-bold font-serif italic">
+              <h2 className="mt-3 text-4xl font-black font-serif italic">
                 Razlogi, da se ustaviš.
               </h2>
 
@@ -813,7 +813,7 @@ export default function PremiumTuraV2Page() {
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Galerija z utrinki
               </div>
-              <h2 className="mt-3 text-4xl font-bold font-serif italic">
+              <h2 className="mt-3 text-4xl font-black font-serif italic">
                 Tura v slikah.
               </h2>
 
@@ -868,7 +868,7 @@ export default function PremiumTuraV2Page() {
             <div className="text-xs font-black uppercase tracking-[0.3em] text-[#c58b46]">
               Predlagaj svojo turo
             </div>
-            <h2 className="mt-3 text-4xl font-bold font-serif italic">
+            <h2 className="mt-3 text-4xl font-black font-serif italic">
               Poznaš lokalno pot, ki si zasluži biti tukaj?
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">

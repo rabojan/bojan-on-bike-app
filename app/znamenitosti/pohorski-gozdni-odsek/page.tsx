@@ -21,7 +21,7 @@ export default function AttractionDetailPage() {
               Štajerska · Pohorje
             </div>
 
-            <h1 className="text-5xl font-black leading-none md:text-7xl">
+            <h1 className="font-serif text-5xl font-black italic leading-[0.92] tracking-[-0.045em] md:text-7xl">
               Pohorski gozdni odsek
             </h1>
 
@@ -42,7 +42,7 @@ export default function AttractionDetailPage() {
           <div className="mt-6 grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
             <div>
               <div className="text-sm text-zinc-500">na trasi</div>
-              <h2 className="mt-2 text-3xl font-black">
+              <h2 className="mt-2 font-serif text-3xl font-black italic">
                 Gozdni flow nad Mariborom
               </h2>
               <p className="mt-4 max-w-2xl leading-8 text-zinc-300">
@@ -53,7 +53,7 @@ export default function AttractionDetailPage() {
 
             <Link
               href="/ture/gozdni-flow-nad-mariborom"
-              className="inline-flex justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
+              className="inline-flex justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black"
             >
               Oglej si turo
             </Link>
