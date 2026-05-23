@@ -68,14 +68,6 @@ function hasWebsite(website?: string) {
   return clean.startsWith("https://") || clean.startsWith("http://");
 }
 
-function providerProfileHref(slug?: string) {
-  if (slug === "rudijev-dom-na-pohorju") {
-    return "/main-preview/ponudniki/rudijev-dom-na-pohorju";
-  }
-
-  return "";
-}
-
 export default function ProvidersPage() {
   const [activeFilter, setActiveFilter] = useState("Vsi");
 
@@ -327,16 +319,26 @@ export default function ProvidersPage() {
                   </div>
 
                   <div className="mt-auto flex flex-wrap gap-3 pt-7">
-                {providerProfileHref(provider.slug) && (
+                    <a
+                      href={`tel:${provider.phone.replace(/\s/g, "")}`}
+                      className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40"
+                    >
+                      Pokliči
+                    </a>
+
+                    {hasWebsite(provider.website) && (
                   <a
-                    href={providerProfileHref(provider.slug)}
+                    href={provider.website}
                     className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
+                    target="_blank"
+                    rel="noreferrer"
                   >
-                    Oglej si ponudnika
+                    Spletna stran
                   </a>
                 )}
-              </div>
-            </article>
+                  </div>
+                </div>
+              </article>
             ))}
           </div>
         </div>
