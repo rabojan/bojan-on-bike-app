@@ -85,6 +85,7 @@ const providers = [
     image: photos.hut,
     type: "Koča",
     title: "Rudijev dom na Pohorju",
+    href: "/main-preview/ponudniki/rudijev-dom-na-pohorju",
     distance: "ob trasi",
     text:
       "Topel postanek po vzponu, domača hrana in terasa, kjer tura za trenutek postane bolj družabna.",
@@ -516,7 +517,7 @@ export default function PremiumTuraV2Page() {
           <nav className="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.12em] text-zinc-500 md:flex">
             <Link href="/ture" className="text-[#c58b46]">Ture</Link>
             <Link href="/dozivetja">Doživetja</Link>
-            <Link href="/ponudniki">Ponudniki</Link>
+            <Link href="/main-preview/ponudniki">Ponudniki</Link>
             <Link href="/znamenitosti">Znamenitosti</Link>
           </nav>
 
