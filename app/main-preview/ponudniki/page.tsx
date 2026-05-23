@@ -326,12 +326,16 @@ export default function ProvidersPage() {
                       Pokliči
                     </a>
 
-                    <a
-                      href={provider.website}
-                      className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
-                    >
-                      Spletna stran
-                    </a>
+                    {hasWebsite(provider.website) && (
+                  <a
+                    href={provider.website}
+                    className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Spletna stran
+                  </a>
+                )}
                   </div>
                 </div>
               </article>
