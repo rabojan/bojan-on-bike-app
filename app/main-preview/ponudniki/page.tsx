@@ -11,6 +11,7 @@ const providers = [
   {
     name: "Rudijev dom na Pohorju",
     slug: "rudijev-dom-na-pohorju",
+    profileHref: "/main-preview/ponudniki/rudijev-dom-na-pohorju",
     region: "Štajerska",
     location: "Pohorje",
     types: ["Kulinarika", "Prenočišče"],
@@ -209,7 +210,7 @@ export default function ProvidersPage() {
 
                 <div className="mt-8 flex flex-wrap gap-3">
                   <a
-                    href="/main-preview/ponudniki/rudijev-dom-na-pohorju"
+                    href={providers[0].profileHref}
                     className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
                   >
                     Oglej si ponudnika
@@ -319,9 +320,9 @@ export default function ProvidersPage() {
                   </div>
 
                   <div className="mt-auto flex flex-wrap gap-3 pt-7">
-                    {provider.slug === "rudijev-dom-na-pohorju" && (
+                    {providers[0].profileHref && (
                       <a
-                        href="/main-preview/ponudniki/rudijev-dom-na-pohorju"
+                        href={provider.profileHref}
                         className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:bg-[#f4d7ad]"
                       >
                         Oglej si ponudnika
