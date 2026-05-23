@@ -18,7 +18,8 @@ const providers = [
     description:
       "Topel domač obrok, terasa med gozdovi in dobra izhodiščna točka za kolesarski dan na Pohorju.",
     phone: "031 344 640",
-    website: "#",
+    website: "https://rudijev-dom.si",
+    href: "/main-preview/ponudniki/rudijev-dom-na-pohorju",
     image:
       "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?q=80&w=1400&auto=format&fit=crop",
     nearbyTrails: [
@@ -36,7 +37,8 @@ const providers = [
     description:
       "Butična vinska izkušnja med griči, primerna za počasnejše gravel ali e-bike ture.",
     phone: "040 222 111",
-    website: "#",
+    website: "",
+    href: "",
     image:
       "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1400&auto=format&fit=crop",
     nearbyTrails: [
@@ -53,7 +55,8 @@ const providers = [
     description:
       "Mirna nastanitev za kolesarje, z možnostjo večerje, zajtrka in varnega prostora za kolesa.",
     phone: "041 555 888",
-    website: "#",
+    website: "",
+    href: "",
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
     nearbyTrails: [
@@ -177,6 +180,15 @@ export default function ProvidersPage() {
                   </div>
 
                   <div className="mt-auto flex flex-wrap gap-3 pt-7">
+                    {provider.href && (
+                      <Link
+                        href={provider.href}
+                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-semibold text-black transition hover:opacity-90"
+                      >
+                        Ogled ponudnika
+                      </Link>
+                    )}
+
                     <a
                       href={`tel:${provider.phone.replace(/\s/g, "")}`}
                       className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40"
@@ -184,12 +196,16 @@ export default function ProvidersPage() {
                       Pokliči
                     </a>
 
-                    <a
-                      href={provider.website}
-                      className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-semibold text-black transition hover:opacity-90"
-                    >
-                      Spletna stran
-                    </a>
+                    {provider.website && (
+                      <a
+                        href={provider.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40"
+                      >
+                        Spletna stran
+                      </a>
+                    )}
                   </div>
                 </div>
               </article>
