@@ -69,13 +69,13 @@ export const providers: Provider[] = [
     trails: [
       {
         name: "Gozdni flow nad Mariborom",
-        href: "/main-preview/ture/gozdni-flow-nad-mariborom",
+        href: "/ture/gozdni-flow-nad-mariborom",
         distance: "ob trasi",
         tone: "MTB · gozdni pobeg",
       },
       {
         name: "Pohorski razgledi",
-        href: "/main-preview/ture",
+        href: "/ture",
         distance: "700 m od trase",
         tone: "razgledi · asfalt",
       },
@@ -136,7 +136,7 @@ export const providers: Provider[] = [
     trails: [
       {
         name: "Med vinogradi in griči",
-        href: "/main-preview/ture",
+        href: "/ture",
         distance: "300 m od trase",
       },
     ],
@@ -166,7 +166,7 @@ export const providers: Provider[] = [
     trails: [
       {
         name: "Gozdni flow nad Mariborom",
-        href: "/main-preview/ture/gozdni-flow-nad-mariborom",
+        href: "/ture/gozdni-flow-nad-mariborom",
         distance: "500 m od trase",
       },
     ],

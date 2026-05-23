@@ -282,7 +282,7 @@ export default function ToursPage() {
         </div>
       </section>
     
-      <section className="border-y border-white/10 bg-[#07130b] px-6 py-16">
+      <section className="border-y border-white/10 bg-[#07110b] px-6 py-16">
         <div className="mx-auto grid max-w-6xl gap-8 rounded-[36px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-8 md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
             <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">

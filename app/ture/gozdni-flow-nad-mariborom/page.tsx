@@ -516,8 +516,8 @@ function BoschCard() {
 
 export default function PremiumTuraV2Page() {
   return (
-    <main className="min-h-screen bg-[#080f0b] text-white">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#080f0b]/85 backdrop-blur-xl">
+    <main className="min-h-screen bg-[#07110b] text-white">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#07110b]/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-6">
           <Link href="/" className="text-lg font-black text-white">
             Bojan <span className="font-normal text-[#f4d7ad]">on Bike</span>
@@ -544,8 +544,8 @@ export default function PremiumTuraV2Page() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${photos.hero})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#080f0b]/70 via-[#080f0b]/25 to-[#080f0b]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080f0b]/75 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07110b]/70 via-[#07110b]/25 to-[#07110b]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/75 via-transparent to-transparent" />
 
         <div className="relative mx-auto flex min-h-[calc(92vh-64px)] max-w-[1480px] items-end px-6 pb-16">
           <div className="max-w-4xl">

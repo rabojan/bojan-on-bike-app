@@ -1,31 +1,10 @@
 import Link from "next/link";
+import SiteHeader from "@/components/SiteHeader";
 
 export default function PredlagajTuroPage() {
   return (
-    <main className="min-h-screen bg-[#041008] text-white">
-      <section className="border-b border-white/10 bg-[#07130b] px-6 py-6">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
-          <Link href="/" className="text-sm font-black tracking-tight text-white">
-            Bojan on Bike
-          </Link>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href="/ture"
-              className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300"
-            >
-              Poglej ture
-            </Link>
-
-            <Link
-              href="/admin/predlog-ture/prvic"
-              className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
-            >
-              Začni predlog
-            </Link>
-          </div>
-        </div>
-      </section>
+    <main className="min-h-screen bg-[#07110b] text-white">
+      <SiteHeader />
 
       <section className="px-6 py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -54,7 +33,7 @@ export default function PredlagajTuroPage() {
               </Link>
 
               <Link
-                href="/admin/predlog-ture/nova"
+                href="/admin-login"
                 className="rounded-full border border-white/10 px-7 py-4 text-sm font-bold text-zinc-300"
               >
                 Prijava v moj kotiček
@@ -109,7 +88,7 @@ export default function PredlagajTuroPage() {
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-[#07130b] px-6 py-14">
+      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-14">
         <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
           <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
             <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">
@@ -175,7 +154,7 @@ export default function PredlagajTuroPage() {
             </Link>
 
             <Link
-              href="/admin/predlog-ture/nova"
+              href="/admin-login"
               className="rounded-full border border-white/10 px-7 py-4 text-sm font-bold text-zinc-300"
             >
               Prijava v moj kotiček
