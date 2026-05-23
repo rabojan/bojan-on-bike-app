@@ -261,8 +261,7 @@ function HighlightCard({
   );
 }
 
-function ProviderCard({
-  image,
+function ProviderCard({ href, image,
   type,
   title,
   distance,
@@ -565,9 +564,6 @@ export default function PremiumTuraV2Page() {
               <a href="#voznja" className="rounded-full bg-[#c58b46] px-7 py-3 text-sm font-black text-black">
                 Oglej si turo
               </a>
-              <button className="rounded-full border border-[#c58b46]/40 px-7 py-3 text-sm font-black text-[#f4d7ad]">
-                Prenesi GPX
-              </button>
             </div>
           </div>
         </div>
@@ -727,9 +723,6 @@ export default function PremiumTuraV2Page() {
               </div>
 
               <div className="mt-5 flex gap-3">
-                <button className="rounded-full border border-[#c58b46]/40 px-5 py-3 text-xs font-black text-[#c58b46]">
-                  Prenesi GPX
-                </button>
               </div>
             </div>
           </section>
@@ -845,9 +838,6 @@ export default function PremiumTuraV2Page() {
                 ))}
               </div>
 
-              <button className="mt-5 w-full rounded-full border border-[#c58b46]/35 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#c58b46] transition hover:bg-[#c58b46] hover:text-black">
-                Dodaj postanek
-              </button>
             </div>
           </div>
         </aside>
