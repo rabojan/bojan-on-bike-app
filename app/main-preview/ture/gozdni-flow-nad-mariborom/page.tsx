@@ -274,6 +274,9 @@ function ProviderCard({ href, image,
   distance: string;
   text: string;
 }) {
+  const providerHref =
+    href || (title === "Rudijev dom na Pohorju" ? "/main-preview/ponudniki/rudijev-dom-na-pohorju" : "");
+
   return (
     <article className="overflow-hidden rounded-[24px] border border-white/10 bg-[#0b1a10] transition hover:-translate-y-1 hover:border-[#c58b46]/35">
       <div
@@ -770,7 +773,7 @@ export default function PremiumTuraV2Page() {
 
               <div className="mt-8 grid gap-5 md:grid-cols-2">
                 {providers.map((provider) => (
-                  <ProviderCard key={provider.title} {...provider} />
+                  <ProviderCard key={provider.title} href={provider.href} {...provider} />
                 ))}
               </div>
             </div>
