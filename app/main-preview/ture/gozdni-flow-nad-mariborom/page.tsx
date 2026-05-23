@@ -267,6 +267,7 @@ function ProviderCard({ href, image,
   distance,
   text,
 }: {
+  href?: string;
   image: string;
   type: string;
   title: string;
