@@ -18,7 +18,7 @@ const providers = [
     description:
       "Topel domač obrok, terasa med gozdovi in dobra izhodiščna točka za kolesarski dan na Pohorju.",
     phone: "031 344 640",
-    website: "#",
+    website: "",
     image:
       "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?q=80&w=1400&auto=format&fit=crop",
     nearbyTrails: [
@@ -36,7 +36,7 @@ const providers = [
     description:
       "Butična vinska izkušnja med griči, primerna za počasnejše gravel ali e-bike ture.",
     phone: "040 222 111",
-    website: "#",
+    website: "",
     image:
       "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1400&auto=format&fit=crop",
     nearbyTrails: [
@@ -53,7 +53,7 @@ const providers = [
     description:
       "Mirna nastanitev za kolesarje, z možnostjo večerje, zajtrka in varnega prostora za kolesa.",
     phone: "041 555 888",
-    website: "#",
+    website: "",
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
     nearbyTrails: [
@@ -65,7 +65,7 @@ const providers = [
 function hasWebsite(website?: string) {
   if (!website) return false;
   const clean = website.trim();
-  return clean !== "" && clean !== "#" && clean !== "https://#" && clean !== "http://#";
+  return clean.startsWith("https://") || clean.startsWith("http://");
 }
 
 export default function ProvidersPage() {
