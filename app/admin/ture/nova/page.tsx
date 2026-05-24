@@ -208,7 +208,7 @@ export default function NewTrailPage() {
                 <label className="space-y-2">
                   <span className="text-sm font-semibold text-zinc-300">Območje</span>
                   <input
-                    placeholder="Pohorje"
+                    placeholder="npr. Pohorje"
                     className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
                   />
                 </label>
@@ -236,11 +236,20 @@ export default function NewTrailPage() {
                 </label>
 
                 {/* E-bike checkbox */}
-                <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-[#07110b] p-4 md:col-span-2">
+                <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-[#07110b] p-4">
                   <input type="checkbox" className="h-5 w-5 accent-[#c58b46]" />
                   <div>
                     <div className="font-bold">E-bike prijazen</div>
-                    <div className="text-xs text-zinc-500">Tura je primerna za električna kolesa</div>
+                    <div className="text-xs text-zinc-500">Primerno za električna kolesa</div>
+                  </div>
+                </label>
+
+                {/* Družinam prijazen checkbox */}
+                <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                  <input type="checkbox" className="h-5 w-5 accent-[#c58b46]" />
+                  <div>
+                    <div className="font-bold">Družinam prijazen</div>
+                    <div className="text-xs text-zinc-500">Primerno za otroke in družine</div>
                   </div>
                 </label>
 
