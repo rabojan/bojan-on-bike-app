@@ -106,6 +106,19 @@ export default function NewExperiencePage() {
                   />
                 </label>
 
+                <label className="space-y-2 md:col-span-2">
+                  <span className="text-sm font-semibold text-zinc-300">
+                    Poudarek doživetja *
+                  </span>
+                  <input
+                    placeholder="npr. Razgled nad Mariborom ali Vinogradniške terase"
+                    className="w-full rounded-2xl border border-[#c58b46]/25 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
+                  />
+                  <p className="text-xs text-zinc-600">
+                    Kratka oznaka ◈ ki se prikaže na kartici doživetja — en sam stavek ali beseda.
+                  </p>
+                </label>
+
                 <div className="space-y-3 md:col-span-2">
                   <span className="text-sm font-semibold text-zinc-300">
                     Tip doživetja *

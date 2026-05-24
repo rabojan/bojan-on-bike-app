@@ -149,22 +149,28 @@ export default function AdminTrailsPage() {
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between gap-4">
                       <span className="text-zinc-400">GPX</span>
-                      <span>{trail.hasGpx ? "naložen" : "manjka"}</span>
+                      <span className={trail.hasGpx ? "text-emerald-400" : "text-red-400"}>
+                        {trail.hasGpx ? "✓ naložen" : "✗ manjka"}
+                      </span>
                     </div>
 
                     <div className="flex justify-between gap-4">
                       <span className="text-zinc-400">Ponudniki</span>
-                      <span>{trail.hasProviders ? "dodani" : "manjkajo"}</span>
+                      <span className={trail.hasProviders ? "text-emerald-400" : "text-zinc-500"}>
+                        {trail.hasProviders ? "✓ dodani" : "— manjkajo"}
+                      </span>
                     </div>
 
                     <div className="flex justify-between gap-4">
                       <span className="text-zinc-400">Galerija</span>
-                      <span>{trail.hasGallery ? "dodana" : "manjka"}</span>
+                      <span className={trail.hasGallery ? "text-emerald-400" : "text-zinc-500"}>
+                        {trail.hasGallery ? "✓ dodana" : "— manjka"}
+                      </span>
                     </div>
 
                     <div className="flex justify-between gap-4">
                       <span className="text-zinc-400">Zadnja sprememba</span>
-                      <span>{trail.updated}</span>
+                      <span className="text-zinc-300">{trail.updated}</span>
                     </div>
                   </div>
 

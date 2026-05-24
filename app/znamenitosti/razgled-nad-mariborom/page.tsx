@@ -7,8 +7,7 @@ const attraction = {
   region: "Štajerska",
   area: "Pohorje",
   type: ["Razgled", "Foto točka", "Narava"],
-  image:
-    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop",
+  image: "/hero-znamenitosti.png",
   shortDescription:
     "Kratek postanek nad mestom, kjer se odpre pogled proti Mariboru, Dravski dolini in pohorskim gozdovom.",
   story:

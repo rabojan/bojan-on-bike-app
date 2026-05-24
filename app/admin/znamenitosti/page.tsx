@@ -176,12 +176,14 @@ export default function AdminPoisPage() {
                       Uredi
                     </Link>
 
-                    <Link
-                      href="/ture/gozdni-flow-nad-mariborom"
-                      className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
-                    >
-                      Predogled
-                    </Link>
+                    {poi.status === "Objavljeno" && (
+                      <Link
+                        href={`/znamenitosti/${poi.slug}`}
+                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
+                      >
+                        Predogled
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

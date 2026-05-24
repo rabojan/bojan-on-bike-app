@@ -30,7 +30,7 @@ const attractions = [
       "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1400&auto=format&fit=crop",
     description:
       "Mirnejši del poti med visokimi drevesi, kjer tura dobi pravi gozdni ritem in občutek pobega iz mesta.",
-    tags: ["Narava", "Gozd", "Mir"],
+    tags: ["Narava", "Foto točka"],
     trailsCount: 1,
   },
   {
@@ -43,19 +43,22 @@ const attractions = [
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
     description:
       "Stara pot z lokalno zgodbo, ki turi doda občutek prostora, časa in povezave z ljudmi, ki so te kraje uporabljali pred nami.",
-    tags: ["Zgodovina", "Lokalna zgodba", "Kultura"],
+    tags: ["Zgodovina", "Kultura"],
     trailsCount: 1,
   },
 ];
 
 const filters = [
   "Vse",
-  "Razgled",
   "Narava",
-  "Voda",
+  "Razgled",
+  "Voda / slap / jezero",
   "Zgodovina",
   "Kultura",
+  "Arhitektura",
   "Foto točka",
+  "Družinska zanimivost",
+  "Wikipedia točka",
 ];
 
 const regions = [
@@ -93,7 +96,7 @@ export default function AttractionsPage() {
         eyebrow="Znamenitosti ob poteh"
         title="Včasih je razlog za turo ena sama točka."
         description="Razgledi, slapovi, gozdne poti, zgodovinske točke in lokalne zgodbe. Izberi, kaj želiš videti — in odkrij ture, ki te peljejo mimo."
-        image="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1800&auto=format&fit=crop"
+        image="/hero-znamenitosti.png"
         imageAlt="Znamenitosti ob kolesarskih poteh"
         imagePosition="center"
       />

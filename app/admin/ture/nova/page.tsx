@@ -566,6 +566,10 @@ export default function NewTrailPage() {
                       <div className="mb-4 font-bold">{h.label}</div>
                       <div className="grid gap-3">
                         <input
+                          placeholder="Oznaka — npr. km 4–12 ali razgled"
+                          className="w-full rounded-xl border border-[#c58b46]/25 bg-[#07110b] px-4 py-3 text-sm font-bold text-[#f4d7ad] outline-none placeholder:font-normal placeholder:text-zinc-600 focus:border-[#c58b46]/60"
+                        />
+                        <input
                           placeholder={h.titlePlaceholder}
                           className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
                         />

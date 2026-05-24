@@ -192,12 +192,14 @@ export default function AdminProvidersPage() {
                       Uredi
                     </Link>
 
-                    <Link
-                      href="/ponudniki"
-                      className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
-                    >
-                      Predogled
-                    </Link>
+                    {provider.status === "Objavljeno" && (
+                      <Link
+                        href={`/ponudniki/${provider.slug}`}
+                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
+                      >
+                        Predogled
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

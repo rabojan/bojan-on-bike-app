@@ -565,10 +565,12 @@ export default function PremiumTuraV2Page() {
 
       {/* ── 2. STATS STRIP ── */}
       <section className="border-y border-white/10 bg-[#0b1a10]">
-        <div className="mx-auto grid max-w-[1480px] grid-cols-2 md:grid-cols-5">
-          {stats.map((stat) => (
-            <Metric key={stat.label} value={stat.value} label={stat.label} />
-          ))}
+        <div className="overflow-x-auto">
+          <div className="mx-auto grid min-w-[540px] max-w-[1480px] grid-cols-5 md:min-w-0">
+            {stats.map((stat) => (
+              <Metric key={stat.label} value={stat.value} label={stat.label} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -824,7 +826,7 @@ export default function PremiumTuraV2Page() {
         </div>
 
         {/* ── STICKY SIDEBAR ── */}
-        <aside className="hidden self-start border-l border-white/10 px-6 py-10 lg:sticky lg:top-20 lg:block">
+        <aside className="self-start border-t border-white/10 px-5 py-10 lg:border-l lg:border-t-0 lg:sticky lg:top-20 lg:px-6">
           <div className="space-y-5">
             <WeatherCard />
             <BoschCard />

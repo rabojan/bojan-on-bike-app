@@ -4,7 +4,7 @@ import SiteHeader from "@/components/SiteHeader";
 export default function PredlagajTuroPage() {
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
-      <SiteHeader />
+      <SiteHeader backHref="/" />
 
       <section className="px-6 py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
