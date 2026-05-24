@@ -602,6 +602,46 @@ export default function NewTrailPage() {
           </div>
         </section>
 
+        {/* RITEM DNEVA — čez celo širino */}
+        <section className={`rounded-[32px] border border-white/10 bg-black/20 p-7 transition ${locked ? "opacity-40 pointer-events-none select-none" : ""}`}>
+          <div className="mb-1 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+            Ritem dneva
+          </div>
+          <p className="mb-7 text-sm text-zinc-500">
+            Pet postaj skozi dan — ura, naslov in kratki opis. Pomaga kolesarju razumeti kako bo dan potekal, ne samo koliko kilometrov.
+          </p>
+
+          {locked ? (
+            <LockedSection />
+          ) : (
+            <div className="grid gap-4 md:grid-cols-5">
+              {[
+                { timePlaceholder: "09:00", titlePlaceholder: "Zgodnji štart",     descPlaceholder: "Najboljši del dne je zjutraj, ko so poti mirne." },
+                { timePlaceholder: "10:30", titlePlaceholder: "Gozdni ritem",      descPlaceholder: "Prvi vzpon prinese pravi občutek dneva." },
+                { timePlaceholder: "12:00", titlePlaceholder: "Razgled in pavza",  descPlaceholder: "Na višjem delu si vzamemo čas za pogled." },
+                { timePlaceholder: "13:00", titlePlaceholder: "Postanek ob poti",  descPlaceholder: "Naravna točka za kosilo ali kavo." },
+                { timePlaceholder: "14:30", titlePlaceholder: "Sproščen zaključek", descPlaceholder: "Ne hiti — flow se začuti, ko pustiš kolesu dihati." },
+              ].map((slot, i) => (
+                <div key={i} className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                  <input
+                    placeholder={slot.timePlaceholder}
+                    className="mb-3 w-full rounded-xl border border-[#c58b46]/30 bg-black/30 px-3 py-2 text-center text-sm font-black text-[#c58b46] outline-none focus:border-[#c58b46]/60"
+                  />
+                  <input
+                    placeholder={slot.titlePlaceholder}
+                    className="mb-3 w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm font-bold outline-none focus:border-[#c58b46]/60"
+                  />
+                  <textarea
+                    placeholder={slot.descPlaceholder}
+                    rows={3}
+                    className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs leading-6 text-zinc-400 outline-none focus:border-[#c58b46]/60"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
         {/* SPODNJA VRSTICA — čez celo širino */}
         <section className="grid gap-6 lg:grid-cols-[1fr_1fr_320px]">
 
