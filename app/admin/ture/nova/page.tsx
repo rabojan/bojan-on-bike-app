@@ -64,15 +64,72 @@ export default function NewTrailPage() {
     [asfalt, makadam, gozdna],
   );
 
+  function haversineM(lat1: number, lon1: number, lat2: number, lon2: number) {
+    const R = 6371000;
+    const toRad = (d: number) => (d * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  function parseGpx(text: string) {
+    const doc = new DOMParser().parseFromString(text, "application/xml");
+    const pts = Array.from(doc.querySelectorAll("trkpt"));
+    if (pts.length === 0) return null;
+
+    const elevations = pts.map((p) => parseFloat(p.querySelector("ele")?.textContent ?? "NaN"));
+    const validEle = elevations.filter((e) => !isNaN(e));
+
+    const maxEle = validEle.length ? Math.max(...validEle) : 0;
+
+    let totalAscent = 0;
+    for (let i = 1; i < elevations.length; i++) {
+      if (!isNaN(elevations[i]) && !isNaN(elevations[i - 1])) {
+        const diff = elevations[i] - elevations[i - 1];
+        if (diff > 0) totalAscent += diff;
+      }
+    }
+
+    let totalDistM = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const lat1 = parseFloat(pts[i - 1].getAttribute("lat") ?? "0");
+      const lon1 = parseFloat(pts[i - 1].getAttribute("lon") ?? "0");
+      const lat2 = parseFloat(pts[i].getAttribute("lat") ?? "0");
+      const lon2 = parseFloat(pts[i].getAttribute("lon") ?? "0");
+      totalDistM += haversineM(lat1, lon1, lat2, lon2);
+    }
+
+    return {
+      km: (totalDistM / 1000).toFixed(1),
+      vzpon: Math.round(totalAscent).toString(),
+      visina: Math.round(maxEle).toString(),
+    };
+  }
+
   function handleGpxUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setGpxFileName(file.name);
-    // Simulacija razčlenjevanja GPX — v produkciji se parsira XML in izračuna iz <ele> točk
-    setGpxKm("–");
-    setGpxVzpon("–");
-    setGpxVisina("–");
-    setGpxUploaded(true);
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const text = ev.target?.result as string;
+      const result = parseGpx(text);
+      if (result) {
+        setGpxKm(result.km);
+        setGpxVzpon(result.vzpon);
+        setGpxVisina(result.visina);
+      } else {
+        setGpxKm("–");
+        setGpxVzpon("–");
+        setGpxVisina("–");
+      }
+      setGpxUploaded(true);
+    };
+    reader.readAsText(file);
   }
 
   const locked = !gpxUploaded;
