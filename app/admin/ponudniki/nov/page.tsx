@@ -37,6 +37,9 @@ export default function NewProviderPage() {
   const [status, setStatus] = useState("Čaka na objavo");
   const [hasCharging, setHasCharging] = useState(false);
   const [isPartner, setIsPartner] = useState(false);
+  const [quote, setQuote] = useState("");
+  const [featureTitles, setFeatureTitles] = useState(["", "", "", "", "", ""]);
+  const [featureDescs, setFeatureDescs] = useState(["", "", "", "", "", ""]);
 
   return (
     <AdminShell active="ponudniki">
@@ -237,6 +240,87 @@ export default function NewProviderPage() {
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
                 />
               </label>
+
+              <label className="mt-5 block space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-zinc-300">Zakaj se ustaviti <span className="text-zinc-600">(citat)</span></span>
+                  <span className={`text-xs font-bold ${quote.length > 90 ? "text-red-400" : "text-zinc-600"}`}>
+                    {quote.length}/100
+                  </span>
+                </div>
+                <input
+                  maxLength={100}
+                  value={quote}
+                  onChange={(e) => setQuote(e.target.value)}
+                  placeholder="npr. Tukaj tura dobi svoj postanek — toplo, mirno in z razlogom."
+                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
+                />
+                <p className="text-xs text-zinc-600">
+                  Prikaže se na detail strani kot izpostavljen citat v zlati barvi.
+                </p>
+              </label>
+            </div>
+
+            {/* POUDARKI PONUDNIKA */}
+            <div className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+              <div className="mb-2 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                Poudarki ponudnika
+              </div>
+              <p className="mb-6 text-sm leading-7 text-zinc-500">
+                Do 6 kratkih kartic, ki pokažejo kaj ponudnik nudi — domača kuhinja, e-bike polnilnica, prenočišče, kava...
+              </p>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                {[0, 1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="rounded-2xl border border-white/10 bg-[#07110b] p-4">
+                    <div className="mb-3 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-600">
+                      Poudarek {i + 1}
+                    </div>
+
+                    <div className="space-y-3">
+                      <label className="block space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-semibold text-zinc-400">Naslov</span>
+                          <span className={`text-[10px] font-bold ${featureTitles[i].length > 25 ? "text-red-400" : "text-zinc-600"}`}>
+                            {featureTitles[i].length}/30
+                          </span>
+                        </div>
+                        <input
+                          maxLength={30}
+                          value={featureTitles[i]}
+                          onChange={(e) => {
+                            const next = [...featureTitles];
+                            next[i] = e.target.value;
+                            setFeatureTitles(next);
+                          }}
+                          placeholder="npr. Domača kuhinja"
+                          className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+
+                      <label className="block space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-semibold text-zinc-400">Opis</span>
+                          <span className={`text-[10px] font-bold ${featureDescs[i].length > 70 ? "text-red-400" : "text-zinc-600"}`}>
+                            {featureDescs[i].length}/80
+                          </span>
+                        </div>
+                        <input
+                          maxLength={80}
+                          value={featureDescs[i]}
+                          onChange={(e) => {
+                            const next = [...featureDescs];
+                            next[i] = e.target.value;
+                            setFeatureDescs(next);
+                          }}
+                          placeholder="npr. Topel obrok po turi, domači okusi."
+                          className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-[#c58b46]/60"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="rounded-[32px] border border-white/10 bg-black/20 p-7">

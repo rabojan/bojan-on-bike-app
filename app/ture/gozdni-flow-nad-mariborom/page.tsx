@@ -5,8 +5,7 @@ import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 
 const photos = {
-  hero:
-    "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=88&w=2400",
+  hero: "/hero-gozdni-flow.png",
   forest:
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=86&w=1400",
   view:

@@ -56,8 +56,7 @@ export const providers: Provider[] = [
     bookingUrl: "",
     hasCharging: true,
     partner: true,
-    heroImage:
-      "https://images.unsplash.com/photo-1518602164578-cd0074062767?q=80&w=1800&auto=format&fit=crop",
+    heroImage: "/hero-rudijev-dom.png",
     shortDescription:
       "Topel domač obrok, terasa med gozdovi in dobra izhodiščna točka za kolesarski dan na Pohorju.",
     story:

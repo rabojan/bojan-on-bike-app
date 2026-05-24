@@ -5,7 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { useMemo, useState } from "react";
 import PageHero from "@/components/PageHero";
 
-const filters = ["Vsi", "Kulinarika", "Vino", "Prenočišče"];
+const filters = ["Vsi", "Kulinarika", "Vino", "Prenočišče", "Bike servis", "Lokalni produkti"];
 
 const providers = [
   {
@@ -19,7 +19,7 @@ const providers = [
       "Topel domač obrok, terasa med gozdovi in dobra izhodiščna točka za kolesarski dan na Pohorju.",
     phone: "031 344 640",
     website: "https://rudijev-dom.si",
-    href: "/main-preview/ponudniki/rudijev-dom-na-pohorju",
+    href: "/ponudniki/rudijev-dom-na-pohorju",
     image:
       "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?q=80&w=1400&auto=format&fit=crop",
     nearbyTrails: [
@@ -79,9 +79,9 @@ export default function ProvidersPage() {
 
             <PageHero
         eyebrow="Ponudniki ob poti"
-        title="Kjer se tura spremeni v doživetje."
-        description="Kulinarika, vino in prenočišča ob izbranih kolesarskih turah po Sloveniji."
-        image="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1800&auto=format&fit=crop"
+        title="Postanki, ki naredijo kolesarski dan."
+        description="Lokalna kulinarika, vino, prenočišča in bike-friendly točke ob izbranih turah. Ne samo km — cel dan."
+        image="/hero-ponudniki.png"
         imageAlt="Druženje ob hrani po kolesarski turi"
         imagePosition="center"
       />

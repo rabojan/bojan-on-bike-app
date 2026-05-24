@@ -135,7 +135,7 @@ export default function ToursPage() {
         eyebrow="Kolesarski dnevi"
         title="Poišči turo, ki paše tvojemu dnevu."
         description="Izberi po pokrajini, zahtevnosti ali občutku. Vsaka tura ostane praktična za kolesarja, a je zasnovana kot cel dan: pot, razgled, postanek in doživetje ob poti."
-        image="https://images.unsplash.com/photo-1593764592116-bfb2a97c642a?q=80&w=1800&auto=format&fit=crop"
+        image="/hero-ture.png"
         imageAlt="Kolesarska tura skozi gozd"
         imagePosition="center"
       />
