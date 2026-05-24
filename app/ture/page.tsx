@@ -28,6 +28,8 @@ const feelings = [
   "Gozdni pobeg",
   "Lokalni postanek",
   "Vikend ideja",
+  "Jutranja tura",
+  "Skrita pot",
 ];
 
 const tours = [

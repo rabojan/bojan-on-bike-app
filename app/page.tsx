@@ -50,6 +50,39 @@ const topTrails = [
   },
 ];
 
+const dozivetja = [
+  {
+    title: "Gozdni dan nad mestom",
+    mood: "Gozdni pobeg",
+    image:
+      "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1400",
+    tour: "Gozdni flow nad Mariborom",
+    stop: "Rudijev dom na Pohorju",
+    highlight: "Razgled nad Mariborom",
+    href: "/ture/gozdni-flow-nad-mariborom",
+  },
+  {
+    title: "Vinski vikend za pare",
+    mood: "Za pare",
+    image:
+      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=85&w=1400",
+    tour: "Med vinogradi in griči",
+    stop: "Vinska klet med griči",
+    highlight: "Vinogradniške terase",
+    href: "/ture/med-vinogradi-in-grici",
+  },
+  {
+    title: "Alpska pustolovščina",
+    mood: "Vikend ideja",
+    image:
+      "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?auto=format&fit=crop&q=85&w=1400",
+    tour: "Alpski pobeg ob vodi",
+    stop: "Gorska koča ob reki",
+    highlight: "Soška dolina",
+    href: "/ture/alpski-pobeg-ob-vodi",
+  },
+];
+
 const regions = [
   "Štajerska",
   "Koroška",
@@ -96,14 +129,11 @@ function slugify(value: string) {
 }
 
 export default function Home() {
-  
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader />
 
-      
-
-            <PageHero
+      <PageHero
         eyebrow="Slovenija · kolesarski dnevi · narava · lokalni postanki"
         title={
           <>
@@ -124,6 +154,7 @@ export default function Home() {
         imagePosition="center 12%"
       />
 
+      {/* ── STATS ── */}
       <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-8">
         <div className="mx-auto grid max-w-7xl grid-cols-3 gap-2 sm:gap-4">
           {stats.map((stat) => (
@@ -135,7 +166,82 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 py-24">
+      {/* ── DOŽIVETJA — na vrhu, vizualne karte ── */}
+      <section id="dozivetja" className="px-5 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
+                Doživetja ob poti
+              </p>
+              <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
+                Cel kolesarski dan, ne samo tura.
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
+                Tura je začetek. Doživetje je vse skupaj — pot, razgled, postanek in občutek pokrajine.
+              </p>
+            </div>
+            <Link
+              href="/dozivetja"
+              className="w-fit shrink-0 rounded-full border border-white/15 px-6 py-3 text-sm font-black text-white transition hover:bg-white/10"
+            >
+              Vsa doživetja
+            </Link>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {dozivetja.map((d) => (
+              <Link
+                key={d.title}
+                href={d.href}
+                className="group overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1a10] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
+              >
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={d.image}
+                    alt={d.title}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-[#0b1a10]/30 to-transparent" />
+                  <div className="absolute left-4 top-4">
+                    <span className="rounded-full border border-[#c58b46]/40 bg-black/50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f4d7ad] backdrop-blur">
+                      {d.mood}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-7">
+                  <h3 className="font-serif text-2xl font-black italic leading-tight">
+                    {d.title}
+                  </h3>
+
+                  <div className="mt-5 space-y-3">
+                    <div className="flex items-start gap-3 text-sm">
+                      <span className="mt-0.5 shrink-0 text-[#c58b46]">⬡</span>
+                      <span className="text-zinc-300">{d.tour}</span>
+                    </div>
+                    <div className="flex items-start gap-3 text-sm">
+                      <span className="mt-0.5 shrink-0 text-[#c58b46]">◎</span>
+                      <span className="text-zinc-400">{d.stop}</span>
+                    </div>
+                    <div className="flex items-start gap-3 text-sm">
+                      <span className="mt-0.5 shrink-0 text-[#c58b46]">◈</span>
+                      <span className="text-zinc-400">{d.highlight}</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-7 text-sm font-bold text-[#c58b46]">
+                    Oglej si dan →
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ZADNJA DODANA TURA ── */}
+      <section className="border-t border-white/10 px-5 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12">
             <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
@@ -158,21 +264,11 @@ export default function Home() {
 
             <div className="flex flex-col justify-center p-8 md:p-12">
               <div className="mb-6 flex flex-wrap gap-3 text-sm">
-                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
-                  Štajerska
-                </span>
-                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
-                  Pohorje
-                </span>
-                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-emerald-300">
-                  e-bike friendly
-                </span>
-                <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-4 py-2 text-[#f4d7ad]">
-                  družinam prijazno
-                </span>
-                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
-                  lokalni postanek
-                </span>
+                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">Štajerska</span>
+                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">Pohorje</span>
+                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-emerald-300">e-bike friendly</span>
+                <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-4 py-2 text-[#f4d7ad]">družinam prijazno</span>
+                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">lokalni postanek</span>
               </div>
 
               <h3 className="mb-5 font-serif text-3xl font-black italic leading-tight sm:text-4xl">
@@ -189,12 +285,10 @@ export default function Home() {
                   <div className="font-bold">32 km</div>
                   <div className="text-xs text-zinc-500">dolžina</div>
                 </div>
-
                 <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                   <div className="font-bold">890 vm</div>
                   <div className="text-xs text-zinc-500">višinci</div>
                 </div>
-
                 <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
                   <div className="font-bold">Srednja</div>
                   <div className="text-xs text-zinc-500">težavnost</div>
@@ -212,6 +306,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── TOP 3 TURE ── */}
       <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -219,12 +314,10 @@ export default function Home() {
               <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 TOP 3
               </p>
-
               <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
                 Izbrane ideje za kolesarski dan.
               </h2>
             </div>
-
             <Link
               href="/ture"
               className="w-fit rounded-full border border-white/15 px-6 py-3 text-sm font-black text-white transition hover:bg-white/10"
@@ -255,11 +348,9 @@ export default function Home() {
                   <div className="mb-3 text-sm text-zinc-500">
                     {trail.region} • {trail.destination}
                   </div>
-
                   <h3 className="mb-5 font-serif text-2xl font-black italic leading-tight">
                     {trail.title}
                   </h3>
-
                   <div className="mb-5 flex flex-wrap gap-2 text-xs">
                     {trail.tags.map((tag) => (
                       <span
@@ -270,19 +361,11 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-
                   <div className="mb-6 flex flex-wrap gap-3 text-sm">
-                    <span className="rounded-full border border-white/10 px-3 py-2">
-                      {trail.distance}
-                    </span>
-                    <span className="rounded-full border border-white/10 px-3 py-2">
-                      {trail.elevation}
-                    </span>
-                    <span className="rounded-full border border-white/10 px-3 py-2">
-                      {trail.type}
-                    </span>
+                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.distance}</span>
+                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.elevation}</span>
+                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.type}</span>
                   </div>
-
                   <Link
                     href={`/ture/${slugify(trail.title)}`}
                     className="block w-full rounded-full border border-[#c58b46]/40 px-5 py-3 text-center text-sm font-black transition hover:bg-[#c58b46] hover:text-black"
@@ -296,20 +379,18 @@ export default function Home() {
         </div>
       </section>
 
-      
-            <section className="border-y border-white/10 bg-[#07110b] px-5 py-20 md:py-24">
+      {/* ── ODKRIJ POT NA SVOJ NAČIN ── */}
+      <section className="border-y border-white/10 bg-[#07110b] px-5 py-20 md:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 grid gap-5 md:grid-cols-[1fr_0.8fr] md:items-end">
             <div>
               <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
                 Odkrij pot na svoj način
               </p>
-
               <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
                 Ne začne vsak z isto idejo.
               </h2>
             </div>
-
             <p className="max-w-xl text-lg leading-8 text-zinc-400">
               Nekdo najprej išče lepo turo. Drugi dobro kosilo. Tretji razgled,
               miren gozd ali idejo za družinski dan. Bojan on Bike poveže vse v
@@ -323,16 +404,7 @@ export default function Home() {
               className="group flex h-full min-h-[360px] flex-col rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
             >
               <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-black">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-7 w-7"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <circle cx="6" cy="17" r="3" />
                   <circle cx="18" cy="17" r="3" />
                   <path d="M8.5 17h4l2-6h-4l-2 6Z" />
@@ -340,23 +412,10 @@ export default function Home() {
                   <path d="M14.5 11 17 17" />
                 </svg>
               </div>
-
-              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-                Ture
-              </p>
-
-              <h3 className="font-serif text-3xl font-black italic leading-tight">
-                Začni s turo.
-              </h3>
-
-              <p className="mt-5 leading-8 text-zinc-400">
-                Poišči turo po pokrajini, zahtevnosti in občutku, ki ga želiš
-                doživeti na kolesu.
-              </p>
-
-              <div className="mt-auto pt-8 text-sm font-bold text-white">
-                Razišči ture →
-              </div>
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ture</p>
+              <h3 className="font-serif text-3xl font-black italic leading-tight">Začni s turo.</h3>
+              <p className="mt-5 leading-8 text-zinc-400">Poišči turo po pokrajini, zahtevnosti in občutku, ki ga želiš doživeti na kolesu.</p>
+              <div className="mt-auto pt-8 text-sm font-bold text-white">Razišči ture →</div>
             </Link>
 
             <Link
@@ -364,16 +423,7 @@ export default function Home() {
               className="group flex h-full min-h-[360px] flex-col rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
             >
               <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-black">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-7 w-7"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M7 2v9" />
                   <path d="M4 2v5c0 2 1.5 4 3 4s3-2 3-4V2" />
                   <path d="M7 11v11" />
@@ -381,23 +431,10 @@ export default function Home() {
                   <path d="M17 2c2 2 3 4.5 3 8h-3" />
                 </svg>
               </div>
-
-              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-                Ponudniki
-              </p>
-
-              <h3 className="font-serif text-3xl font-black italic leading-tight">
-                Najdi postanek.
-              </h3>
-
-              <p className="mt-5 leading-8 text-zinc-400">
-                Kulinarika, vino, prenočišča, lokalni produkti in bike-friendly
-                točke, ki turi dodajo pravi zaključek.
-              </p>
-
-              <div className="mt-auto pt-8 text-sm font-bold text-white">
-                Odkrij ponudnike →
-              </div>
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ponudniki</p>
+              <h3 className="font-serif text-3xl font-black italic leading-tight">Najdi postanek.</h3>
+              <p className="mt-5 leading-8 text-zinc-400">Kulinarika, vino, prenočišča, lokalni produkti in bike-friendly točke, ki turi dodajo pravi zaključek.</p>
+              <div className="mt-auto pt-8 text-sm font-bold text-white">Odkrij ponudnike →</div>
             </Link>
 
             <Link
@@ -405,43 +442,22 @@ export default function Home() {
               className="group flex h-full min-h-[360px] flex-col rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8 transition hover:-translate-y-1 hover:border-[#c58b46]/50"
             >
               <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#c58b46] text-black">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-7 w-7"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M12 21s7-5.2 7-12a7 7 0 0 0-14 0c0 6.8 7 12 7 12Z" />
                   <circle cx="12" cy="9" r="2.5" />
                 </svg>
               </div>
-
-              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-                Znamenitosti
-              </p>
-
-              <h3 className="font-serif text-3xl font-black italic leading-tight">
-                Začni z razlogom.
-              </h3>
-
-              <p className="mt-5 leading-8 text-zinc-400">
-                Razgledi, slapovi, naravne posebnosti, zgodovinske točke in
-                lokalne zgodbe, zaradi katerih izbereš pot.
-              </p>
-
-              <div className="mt-auto pt-8 text-sm font-bold text-white">
-                Odkrij znamenitosti →
-              </div>
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Znamenitosti</p>
+              <h3 className="font-serif text-3xl font-black italic leading-tight">Začni z razlogom.</h3>
+              <p className="mt-5 leading-8 text-zinc-400">Razgledi, slapovi, naravne posebnosti, zgodovinske točke in lokalne zgodbe, zaradi katerih izbereš pot.</p>
+              <div className="mt-auto pt-8 text-sm font-bold text-white">Odkrij znamenitosti →</div>
             </Link>
           </div>
         </div>
       </section>
 
-<section className="border-b border-white/10 bg-[#07110b] px-5 py-24">
+      {/* ── KAKO DELUJE ── */}
+      <section className="border-b border-white/10 bg-[#07110b] px-5 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 max-w-3xl">
             <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
@@ -454,13 +470,8 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-3">
             {howItWorks.map((item) => (
-              <div
-                key={item.step}
-                className="rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8"
-              >
-                <div className="mb-8 text-sm font-semibold text-[#c58b46]">
-                  {item.step}
-                </div>
+              <div key={item.step} className="rounded-[2rem] border border-white/10 bg-[#0b1a10] p-8">
+                <div className="mb-8 text-sm font-semibold text-[#c58b46]">{item.step}</div>
                 <h3 className="mb-4 font-serif text-2xl font-black italic">{item.title}</h3>
                 <p className="leading-7 text-zinc-400">{item.text}</p>
               </div>
@@ -469,6 +480,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── POKRAJINE ── */}
       <section id="pokrajine" className="border-b border-white/10 bg-[#0b1a10] px-5 py-24">
         <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-center">
           <div>
@@ -498,55 +510,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="dozivetja" className="px-5 py-24">
-        <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#102417] to-[#07110b] p-8 md:p-12">
-          <div className="max-w-3xl">
-            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-              Doživetja ob poti
-            </p>
-            <h2 className="mb-6 font-serif text-4xl font-black italic md:text-5xl">
-              Ne gre samo za kilometre.
-            </h2>
-            <p className="mb-8 text-lg leading-8 text-zinc-400">
-              Bojan on Bike bo pomagal sestaviti celoten kolesarski dan: turo,
-              postanek, razgled, kosilo, zgodbo in občutek pokrajine.
-            </p>
-
-            <Link
-              href="/dozivetja"
-              className="inline-block rounded-full bg-[#c58b46] px-8 py-4 text-sm font-black text-black transition hover:bg-[#d9a35d]"
-            >
-              Začni raziskovati
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <footer className="border-t border-white/10 px-5 py-10 text-sm text-zinc-500">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p>© 2026 Bojan on Bike</p>
-          <p>Mobile-first kolesarska platforma za Slovenijo.</p>
-        </div>
-      </footer>
-    
-      <section className="border-y border-white/10 bg-[#07110b] px-6 py-16">
+      {/* ── PREDLAGAJ TURO CTA ── */}
+      <section className="border-b border-white/10 bg-[#07110b] px-6 py-16">
         <div className="mx-auto grid max-w-6xl gap-8 rounded-[36px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-8 md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
             <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
               Skupnost lokalnih kolesarjev
             </div>
-
             <h2 className="mt-4 max-w-3xl text-3xl font-black tracking-tight text-white md:text-4xl">
               Poznaš lokalno pot, ki si zasluži več pozornosti?
             </h2>
-
             <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
               Predlagaj traso, ki jo poznaš, si jo prevozil ali bi jo priporočil
               drugim. Tura ostane povezana s teboj, skupaj pa jo oblikujemo v
               pravo kolesarsko doživetje.
             </p>
           </div>
-
           <div className="flex flex-wrap gap-3 md:justify-end">
             <Link
               href="/predlagaj-turo"
@@ -558,6 +537,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── FOOTER ── */}
+      <footer className="border-t border-white/10 px-5 py-10 text-sm text-zinc-500">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <p>© 2026 Bojan on Bike</p>
+          <p>Mobile-first kolesarska platforma za Slovenijo.</p>
+        </div>
+      </footer>
     </main>
   );
 }

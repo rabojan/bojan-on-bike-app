@@ -520,6 +520,7 @@ export default function PremiumTuraV2Page() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader active="ture" />
 
+      {/* ── 1. HERO ── */}
       <section className="relative min-h-[92vh] overflow-hidden pt-16">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -552,8 +553,8 @@ export default function PremiumTuraV2Page() {
             </div>
 
             <div className="mt-9 flex flex-wrap gap-4">
-              <a href="#voznja" className="rounded-full bg-[#c58b46] px-7 py-3 text-sm font-black text-black">
-                Oglej si turo
+              <a href="#ritem" className="rounded-full bg-[#c58b46] px-7 py-3 text-sm font-black text-black">
+                Oglej si dan
               </a>
               <button className="rounded-full border border-[#c58b46]/40 px-7 py-3 text-sm font-black text-[#f4d7ad]">
                 Prenesi GPX
@@ -563,6 +564,7 @@ export default function PremiumTuraV2Page() {
         </div>
       </section>
 
+      {/* ── 2. STATS STRIP ── */}
       <section className="border-y border-white/10 bg-[#0b1a10]">
         <div className="mx-auto grid max-w-[1480px] grid-cols-2 md:grid-cols-5">
           {stats.map((stat) => (
@@ -573,6 +575,8 @@ export default function PremiumTuraV2Page() {
 
       <div className="mx-auto grid max-w-[1480px] grid-cols-1 items-start lg:grid-cols-[1fr_360px]">
         <div className="min-w-0">
+
+          {/* ── 3. AMBASSADOR ── */}
           <section className="border-b border-white/10 px-6 py-14">
             <div className="rounded-[28px] border border-[#c58b46]/25 bg-[#0b1a10] p-7">
               <div className="grid gap-6 md:grid-cols-[260px_1fr] md:items-center">
@@ -595,9 +599,9 @@ export default function PremiumTuraV2Page() {
                   </div>
                 </div>
                 <blockquote className="border-l border-[#c58b46]/35 pl-6 text-lg font-semibold leading-8 text-zinc-300">
-                  “Ena tistih tur, kjer gozd dela svoje in misli se umirijo.
+                  "Ena tistih tur, kjer gozd dela svoje in misli se umirijo.
                   Hitri flow odseki, odprti razgledi in mirne povezave — popoln
-                  krog nad mestom.”
+                  krog nad mestom."
                 </blockquote>
               </div>
             </div>
@@ -617,17 +621,48 @@ export default function PremiumTuraV2Page() {
             </div>
           </section>
 
+          {/* ── 4. RITEM DNEVA ── srce ture, takoj za ambasadorjem */}
+          <section id="ritem" className="border-b border-white/10 px-6 py-16">
+            <div className="mx-auto max-w-[1180px]">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
+                Ritem dneva
+              </div>
+              <h2 className="mt-3 font-serif text-4xl font-black italic">
+                Od jutra do mirnega zaključka.
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
+                Tura ni samo trasa — je cel dan. Tu je, kako ta dan teče.
+              </p>
+
+              <div className="mt-10 grid gap-4 md:grid-cols-5">
+                {dayPlan.map((item) => (
+                  <div key={item.time} className="border-l border-[#c58b46]/30 pl-5">
+                    <div className="text-xs font-black uppercase tracking-[0.2em] text-[#c58b46]">
+                      {item.time}
+                    </div>
+                    <h3 className="mt-3 font-serif text-xl font-black italic">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-zinc-500">
+                      {item.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── 5. HIGHLIGHTS ── */}
           <section className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto max-w-[1180px] text-center">
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Poudarki na progi
               </div>
-              <h2 className="mt-4 text-5xl font-black leading-tight font-serif italic">
+              <h2 className="mt-4 font-serif text-5xl font-black italic leading-tight">
                 Kaj te čaka na poti
               </h2>
               <p className="mx-auto mt-4 max-w-3xl text-base leading-8 text-zinc-400">
-                Najprej vidiš turo, nato kdo jo je izbral, potem pa takoj dobiš
-                odgovor: zakaj bi šel na to pot in kaj boš na njej doživel.
+                Tri trenutki, ki določijo občutek tega dne.
               </p>
 
               <div className="mt-10 grid gap-5 lg:grid-cols-3">
@@ -638,13 +673,36 @@ export default function PremiumTuraV2Page() {
             </div>
           </section>
 
+          {/* ── 6. PONUDNIKI ── */}
+          <section className="border-b border-white/10 px-6 py-16">
+            <div className="mx-auto max-w-[1180px]">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
+                Postanek, ki dopolni dan
+              </div>
+              <h2 className="mt-3 font-serif text-4xl font-black italic">
+                Postanki, ki naredijo kolesarski dan.
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
+                Ponudniki niso dodatek na koncu. So razlog, da se tura spremeni
+                v dan, ki ga priporočiš prijatelju.
+              </p>
+
+              <div className="mt-8 grid gap-5 md:grid-cols-2">
+                {providers.map((provider) => (
+                  <ProviderCard key={provider.title} {...provider} />
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── 7. TEHNIČNE PODROBNOSTI ── za tiste, ki jih iščejo */}
           <section id="voznja" className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto grid max-w-[1180px] gap-6 rounded-[30px] border border-white/10 bg-[#0b1a10] p-7 lg:grid-cols-[0.95fr_1.05fr]">
               <div>
                 <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                   Tehnične podrobnosti
                 </div>
-                <h2 className="mt-3 text-4xl font-black font-serif italic">
+                <h2 className="mt-3 font-serif text-4xl font-black italic">
                   Kakšna je vožnja?
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-zinc-400">
@@ -679,7 +737,7 @@ export default function PremiumTuraV2Page() {
                   <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                     Sestava podlage
                   </div>
-                  <h3 className="mt-3 text-4xl font-black font-serif italic">
+                  <h3 className="mt-3 font-serif text-4xl font-black italic">
                     Razgibana, gozdna in igriva
                   </h3>
 
@@ -695,17 +753,18 @@ export default function PremiumTuraV2Page() {
             </div>
           </section>
 
+          {/* ── 8. ZEMLJEVID ── */}
           <section className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto max-w-[1180px]">
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Trasa ture
               </div>
-              <h2 className="mt-3 text-4xl font-black font-serif italic">
+              <h2 className="mt-3 font-serif text-4xl font-black italic">
                 Kje gre pot?
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
-                Zemljevid in GPX sta osnova. Najprej vidiš občutek dneva,
-                potem pa točno pot, ki jo lahko preneseš na svojo napravo.
+                Zemljevid in GPX sta osnova. Prenesite datoteko na svojo napravo
+                in sledite poti.
               </p>
 
               <div className="mt-8 overflow-hidden rounded-[28px] border border-white/10 bg-[#0b1a10]">
@@ -724,60 +783,13 @@ export default function PremiumTuraV2Page() {
             </div>
           </section>
 
-          <section className="border-b border-white/10 px-6 py-16">
-            <div className="mx-auto max-w-[1180px]">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
-                Ritem dneva
-              </div>
-              <h2 className="mt-3 text-4xl font-black font-serif italic">
-                Od jutra do mirnega zaključka.
-              </h2>
-
-              <div className="mt-10 grid gap-4 md:grid-cols-5">
-                {dayPlan.map((item) => (
-                  <div key={item.time} className="border-l border-[#c58b46]/30 pl-5">
-                    <div className="text-xs font-black uppercase tracking-[0.2em] text-[#c58b46]">
-                      {item.time}
-                    </div>
-                    <h3 className="mt-3 text-xl font-black font-serif italic">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-6 text-zinc-500">
-                      {item.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="border-b border-white/10 px-6 py-16">
-            <div className="mx-auto max-w-[1180px]">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
-                Postanek, ki dopolni dan
-              </div>
-              <h2 className="mt-3 text-4xl font-black font-serif italic">
-                Postanki, ki naredijo kolesarski dan.
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
-                Ponudniki niso dodatek na koncu. So razlog, da se tura spremeni
-                v dan, ki ga priporočiš prijatelju.
-              </p>
-
-              <div className="mt-8 grid gap-5 md:grid-cols-2">
-                {providers.map((provider) => (
-                  <ProviderCard key={provider.title} {...provider} />
-                ))}
-              </div>
-            </div>
-          </section>
-
+          {/* ── 9. ZNAMENITOSTI ── */}
           <section className="border-b border-white/10 px-6 py-16">
             <div className="mx-auto max-w-[1180px]">
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Znamenitosti ob poti
               </div>
-              <h2 className="mt-3 text-4xl font-black font-serif italic">
+              <h2 className="mt-3 font-serif text-4xl font-black italic">
                 Razlogi, da se ustaviš.
               </h2>
 
@@ -789,12 +801,13 @@ export default function PremiumTuraV2Page() {
             </div>
           </section>
 
+          {/* ── 10. GALERIJA ── */}
           <section className="px-6 py-16">
             <div className="mx-auto max-w-[1180px]">
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
                 Galerija z utrinki
               </div>
-              <h2 className="mt-3 text-4xl font-black font-serif italic">
+              <h2 className="mt-3 font-serif text-4xl font-black italic">
                 Tura v slikah.
               </h2>
 
@@ -811,6 +824,7 @@ export default function PremiumTuraV2Page() {
           </section>
         </div>
 
+        {/* ── STICKY SIDEBAR ── */}
         <aside className="hidden self-start border-l border-white/10 px-6 py-10 lg:sticky lg:top-20 lg:block">
           <div className="space-y-5">
             <WeatherCard />
@@ -843,13 +857,14 @@ export default function PremiumTuraV2Page() {
         </aside>
       </div>
 
+      {/* ── CTA FOOTER ── */}
       <section className="border-t border-white/10 bg-[#0b1a10] px-6 py-16">
         <div className="mx-auto grid max-w-[1180px] gap-8 rounded-[30px] border border-[#c58b46]/25 bg-[#11170d] p-8 md:grid-cols-[1fr_auto] md:items-center">
           <div>
             <div className="text-xs font-black uppercase tracking-[0.3em] text-[#c58b46]">
               Predlagaj svojo turo
             </div>
-            <h2 className="mt-3 text-4xl font-black font-serif italic">
+            <h2 className="mt-3 font-serif text-4xl font-black italic">
               Poznaš lokalno pot, ki si zasluži biti tukaj?
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">

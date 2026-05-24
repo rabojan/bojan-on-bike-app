@@ -18,6 +18,15 @@ const regions = [
 
 const trailTypes = ["MTB", "Gravel", "Cesta", "Bikepacking", "Mešana", "Kolesarska steza"];
 
+const feelingOptions = [
+  "Gozdni pobeg",
+  "Lokalni postanek",
+  "Za pare",
+  "Vikend ideja",
+  "Jutranja tura",
+  "Skrita pot",
+];
+
 const difficulties = ["Lahka", "Srednja", "Zahtevna", "Ekspert"];
 
 const highlightSlots = [
@@ -51,6 +60,13 @@ export default function NewTrailPage() {
   const [status, setStatus] = useState("Čaka na objavo");
   const [title, setTitle] = useState("");
   const [druzinskaFriendly, setDruzinskaFriendly] = useState(false);
+  const [selectedFeelings, setSelectedFeelings] = useState<string[]>([]);
+
+  function toggleFeeling(feeling: string) {
+    setSelectedFeelings((prev) =>
+      prev.includes(feeling) ? prev.filter((f) => f !== feeling) : [...prev, feeling],
+    );
+  }
   const [ritmiNaslovi, setRitmiNaslovi] = useState(["", "", "", "", ""]);
   const [ritmiOpisi, setRitmiOpisi] = useState(["", "", "", "", ""]);
   const [gpxUploaded, setGpxUploaded] = useState(false);
@@ -274,6 +290,38 @@ export default function NewTrailPage() {
                     <div className="text-xs text-zinc-500">Primerno za otroke in družine</div>
                   </div>
                 </label>
+
+                {/* Občutki — multi-select pill tags */}
+                <div className="space-y-3 md:col-span-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-zinc-300">Občutki ture</span>
+                    <span className="text-xs text-zinc-600">
+                      {selectedFeelings.length === 0 ? "Izberi vsaj enega" : `${selectedFeelings.length} izbrano`}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {feelingOptions.map((feeling) => {
+                      const active = selectedFeelings.includes(feeling);
+                      return (
+                        <button
+                          key={feeling}
+                          type="button"
+                          onClick={() => toggleFeeling(feeling)}
+                          className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${
+                            active
+                              ? "border-[#c58b46] bg-[#c58b46]/15 text-[#f4d7ad]"
+                              : "border-white/10 bg-black/20 text-zinc-500 hover:border-white/25 hover:text-zinc-300"
+                          }`}
+                        >
+                          {feeling}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="text-xs text-zinc-600">
+                    Oznake se prikažejo na kartici ture in se uporabljajo za filtriranje.
+                  </p>
+                </div>
 
               </div>
 
