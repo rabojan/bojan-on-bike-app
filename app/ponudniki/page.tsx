@@ -185,7 +185,7 @@ export default function ProvidersPage() {
                         href={provider.href}
                         className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:opacity-90"
                       >
-                        Ogled ponudnika
+                        Ogled
                       </Link>
                     )}
 
