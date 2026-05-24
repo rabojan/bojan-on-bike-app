@@ -203,7 +203,7 @@ export default function ProvidersPage() {
                         rel="noopener noreferrer"
                         className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40"
                       >
-                        Spletna stran
+                        WWW
                       </a>
                     )}
                   </div>

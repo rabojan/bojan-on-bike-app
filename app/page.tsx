@@ -66,17 +66,6 @@ const stats = [
   { value: "za vse", label: "pare, družine in raziskovalce" },
 ];
 
-const experienceTags = [
-  "družinam prijazno",
-  "e-bike friendly",
-  "za pare",
-  "gozdni pobeg",
-  "razgledna tura",
-  "lokalni postanek",
-  "vikend ideja",
-  "kulinarika ob poti",
-];
-
 const howItWorks = [
   {
     step: "01",
@@ -130,7 +119,7 @@ export default function Home() {
         imageAlt="Kolesarsko doživetje v naravi"
         ctaHref="/ture"
         ctaLabel="Poišči svojo turo"
-        secondaryHref="#obcutek"
+        secondaryHref="/ture"
         secondaryLabel="Razišči po občutku"
         imagePosition="center 12%"
       />
@@ -143,25 +132,6 @@ export default function Home() {
               <div className="mt-1 text-[11px] leading-snug text-zinc-500 sm:text-sm">{stat.label}</div>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section id="obcutek" className="border-b border-white/10 bg-[#07110b] px-5 py-10">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-            Izberi po občutku
-          </p>
-
-          <div className="flex flex-wrap gap-3">
-            {experienceTags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-white/10 bg-[#0b1a10] px-4 py-2 text-sm font-semibold text-zinc-300"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
         </div>
       </section>
 
