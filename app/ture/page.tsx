@@ -39,6 +39,7 @@ const tours = [
     type: "MTB",
     distance: "32 km",
     elevation: "890 vm",
+    duration: "3–5 ur",
     difficulty: "Srednja",
     feelings: ["e-bike friendly", "Gozdni pobeg", "Lokalni postanek"],
     description: "Tura skozi pohorske gozdove, razglede in spuste, z dovolj prostora za postanek in lep kolesarski dan nad mestom.",
@@ -53,6 +54,7 @@ const tours = [
     type: "Gravel",
     distance: "48 km",
     elevation: "620 vm",
+    duration: "3–5 ur",
     difficulty: "Lahka",
     feelings: ["Za pare", "Lokalni postanek", "e-bike friendly"],
     description: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
@@ -67,6 +69,7 @@ const tours = [
     type: "Bikepacking",
     distance: "86 km",
     elevation: "1450 vm",
+    duration: "Cel dan",
     difficulty: "Zahtevna",
     feelings: ["Vikend ideja", "Gozdni pobeg", "Družinam prijazno"],
     description: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
@@ -257,6 +260,7 @@ export default function ToursPage() {
                   <div className="mt-6 flex flex-wrap gap-3 text-sm">
                     <span className="rounded-full border border-white/10 px-4 py-2">{tour.distance}</span>
                     <span className="rounded-full border border-white/10 px-4 py-2">{tour.elevation}</span>
+                    <span className="rounded-full border border-white/10 px-4 py-2">{tour.duration}</span>
                     <span className="rounded-full border border-white/10 px-4 py-2">{tour.difficulty}</span>
                   </div>
 

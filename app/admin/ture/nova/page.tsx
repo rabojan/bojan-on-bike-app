@@ -50,6 +50,7 @@ function LockedSection() {
 export default function NewTrailPage() {
   const [status, setStatus] = useState("Čaka na objavo");
   const [title, setTitle] = useState("");
+  const [druzinskaFriendly, setDruzinskaFriendly] = useState(false);
   const [gpxUploaded, setGpxUploaded] = useState(false);
   const [gpxFileName, setGpxFileName] = useState("");
   const [gpxKm, setGpxKm] = useState("");
@@ -235,6 +236,20 @@ export default function NewTrailPage() {
                   </select>
                 </label>
 
+                {/* Ocenjeni čas — za vse ture */}
+                <label className="space-y-2">
+                  <span className="text-sm font-semibold text-zinc-300">Ocenjeni čas *</span>
+                  <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60">
+                    <option value="">— izberi —</option>
+                    <option>1–2 uri</option>
+                    <option>2–3 ure</option>
+                    <option>3–5 ur</option>
+                    <option>5–7 ur</option>
+                    <option>Cel dan</option>
+                    <option>Več dni</option>
+                  </select>
+                </label>
+
                 {/* E-bike checkbox */}
                 <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-[#07110b] p-4">
                   <input type="checkbox" className="h-5 w-5 accent-[#c58b46]" />
@@ -246,7 +261,12 @@ export default function NewTrailPage() {
 
                 {/* Družinam prijazen checkbox */}
                 <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-white/10 bg-[#07110b] p-4">
-                  <input type="checkbox" className="h-5 w-5 accent-[#c58b46]" />
+                  <input
+                    type="checkbox"
+                    className="h-5 w-5 accent-[#c58b46]"
+                    checked={druzinskaFriendly}
+                    onChange={(e) => setDruzinskaFriendly(e.target.checked)}
+                  />
                   <div>
                     <div className="font-bold">Družinam prijazen</div>
                     <div className="text-xs text-zinc-500">Primerno za otroke in družine</div>
@@ -254,6 +274,49 @@ export default function NewTrailPage() {
                 </label>
 
               </div>
+
+              {/* Pogojni blok — pokaže se samo ko je Družinam prijazen odkljukano */}
+              {druzinskaFriendly && (
+                <div className="mt-5 rounded-2xl border border-[#c58b46]/25 bg-[#c58b46]/5 p-5">
+                  <div className="mb-4 text-xs uppercase tracking-[0.3em] text-[#c58b46]">
+                    Podrobnosti za družine
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <label className="space-y-2">
+                      <span className="text-sm font-semibold text-zinc-300">Primerno od starosti</span>
+                      <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60">
+                        <option value="">— izberi —</option>
+                        <option>Od 4 let (s sedežem)</option>
+                        <option>Od 6 let (otroško kolo)</option>
+                        <option>Od 8 let</option>
+                        <option>Od 10 let</option>
+                        <option>Od 12 let</option>
+                      </select>
+                    </label>
+                    <label className="space-y-2">
+                      <span className="text-sm font-semibold text-zinc-300">Zahtevnost za otroke</span>
+                      <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60">
+                        <option value="">— izberi —</option>
+                        <option>Zelo lahka</option>
+                        <option>Lahka</option>
+                        <option>Zmerna</option>
+                      </select>
+                    </label>
+                    <label className="space-y-2 md:col-span-2">
+                      <span className="text-sm font-semibold text-zinc-300">Postanki in posebnosti ob poti</span>
+                      <textarea
+                        placeholder="npr. Sladoledarna v Framju, igrišče pri Rudijevem domu, kmetija z živalmi pri km 8..."
+                        rows={3}
+                        className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm leading-7 outline-none focus:border-[#c58b46]/60"
+                      />
+                      <p className="text-xs text-zinc-600">
+                        Te informacije se prikažejo v sekciji "Postanki ob poti" — nevtralno, koristno za vse.
+                      </p>
+                    </label>
+                  </div>
+                </div>
+              )}
+
             </div>
 
             {/* 2. GPX — OBVEZNO, ODKLENE VSE OSTALO */}

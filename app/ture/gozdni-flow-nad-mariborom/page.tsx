@@ -26,7 +26,7 @@ const stats = [
   { value: "890 vm", label: "Skupni vzpon" },
   { value: "1.120 m", label: "Najvišja točka" },
   { value: "Srednja", label: "Zahtevnost" },
-  { value: "Apr–Nov", label: "Najboljši čas" },
+  { value: "3–5 ur", label: "Ocenjeni čas" },
 ];
 
 const highlights = [
