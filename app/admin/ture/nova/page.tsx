@@ -51,6 +51,8 @@ export default function NewTrailPage() {
   const [status, setStatus] = useState("Čaka na objavo");
   const [title, setTitle] = useState("");
   const [druzinskaFriendly, setDruzinskaFriendly] = useState(false);
+  const [ritmiNaslovi, setRitmiNaslovi] = useState(["", "", "", "", ""]);
+  const [ritmiOpisi, setRitmiOpisi] = useState(["", "", "", "", ""]);
   const [gpxUploaded, setGpxUploaded] = useState(false);
   const [gpxFileName, setGpxFileName] = useState("");
   const [gpxKm, setGpxKm] = useState("");
@@ -630,17 +632,37 @@ export default function NewTrailPage() {
                     type="time"
                     className="mb-4 w-full rounded-xl border border-[#c58b46]/30 bg-black/30 px-3 py-2 text-center text-sm font-black text-[#c58b46] outline-none focus:border-[#c58b46]/60"
                   />
-                  <label className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
-                    Naslov
-                  </label>
+                  <div className="mb-1 flex items-center justify-between">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Naslov</label>
+                    <span className={`text-[10px] font-bold ${ritmiNaslovi[i].length > 22 ? "text-red-400" : "text-zinc-600"}`}>
+                      {ritmiNaslovi[i].length}/25
+                    </span>
+                  </div>
                   <input
+                    maxLength={25}
+                    value={ritmiNaslovi[i]}
+                    onChange={(e) => {
+                      const next = [...ritmiNaslovi];
+                      next[i] = e.target.value;
+                      setRitmiNaslovi(next);
+                    }}
                     placeholder={slot.titlePlaceholder}
                     className="mb-4 w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm font-bold outline-none focus:border-[#c58b46]/60"
                   />
-                  <label className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
-                    Opis
-                  </label>
+                  <div className="mb-1 flex items-center justify-between">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Opis</label>
+                    <span className={`text-[10px] font-bold ${ritmiOpisi[i].length > 63 ? "text-red-400" : "text-zinc-600"}`}>
+                      {ritmiOpisi[i].length}/70
+                    </span>
+                  </div>
                   <textarea
+                    maxLength={70}
+                    value={ritmiOpisi[i]}
+                    onChange={(e) => {
+                      const next = [...ritmiOpisi];
+                      next[i] = e.target.value;
+                      setRitmiOpisi(next);
+                    }}
                     placeholder={slot.descPlaceholder}
                     rows={3}
                     className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs leading-6 text-zinc-400 outline-none focus:border-[#c58b46]/60"
