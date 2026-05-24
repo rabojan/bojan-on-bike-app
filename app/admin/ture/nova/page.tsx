@@ -16,7 +16,7 @@ const regions = [
   "Osrednja Slovenija",
 ];
 
-const trailTypes = ["MTB", "Gravel", "Cesta", "Bikepacking"];
+const trailTypes = ["MTB", "Gravel", "Cesta", "Bikepacking", "Mešana", "Kolesarska steza"];
 
 const difficulties = ["Lahka", "Srednja", "Zahtevna", "Ekspert"];
 
@@ -536,80 +536,85 @@ export default function NewTrailPage() {
               )}
             </div>
 
-            {/* PONUDNIKI OB TRASI */}
-            <div className={`rounded-[32px] border border-white/10 bg-[#0b1a10] p-7 transition ${locked ? "opacity-40 pointer-events-none select-none" : ""}`}>
-              <div className="mb-1 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Ponudniki ob trasi
-              </div>
-              <p className="mb-5 text-sm text-zinc-500">
-                Na osnovi GPX se iz baze prikažejo vsi ponudniki v 1 km od trase.
-              </p>
-
-              {locked ? (
-                <LockedSection />
-              ) : (
-                <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/5 p-5">
-                  <div className="text-sm font-bold text-[#f4d7ad]">Predlog na osnovi GPX</div>
-                  <p className="mt-2 text-sm leading-7 text-zinc-400">
-                    Ko shraniš turo, sistem avtomatsko predlaga ponudnike iz baze,
-                    ki so ob trasi ali do 1 km od nje. Označi tiste, ki jih želiš
-                    prikazati, ali dodaj svojega.
-                  </p>
-                  <button className="mt-4 rounded-full border border-white/10 px-5 py-2 text-sm font-semibold text-zinc-300 hover:border-[#c58b46]/40">
-                    + Dodaj ponudnika ročno
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* ZNAMENITOSTI OB TRASI */}
-            <div className={`rounded-[32px] border border-white/10 bg-[#0b1a10] p-7 transition ${locked ? "opacity-40 pointer-events-none select-none" : ""}`}>
-              <div className="mb-1 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Znamenitosti ob trasi
-              </div>
-              <p className="mb-5 text-sm text-zinc-500">
-                Na osnovi GPX se iz baze prikažejo vse znamenitosti v 1 km od trase.
-              </p>
-
-              {locked ? (
-                <LockedSection />
-              ) : (
-                <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/5 p-5">
-                  <div className="text-sm font-bold text-[#f4d7ad]">Predlog na osnovi GPX</div>
-                  <p className="mt-2 text-sm leading-7 text-zinc-400">
-                    Ko shraniš turo, sistem avtomatsko predlaga znamenitosti iz baze,
-                    ki so v 1 km od trase. Označi tiste, ki jih želiš prikazati,
-                    ali dodaj svojo.
-                  </p>
-                  <button className="mt-4 rounded-full border border-white/10 px-5 py-2 text-sm font-semibold text-zinc-300 hover:border-[#c58b46]/40">
-                    + Dodaj znamenitost ročno
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* STATUS OBJAVE */}
-            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Status objave
-              </div>
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
-              >
-                <option>Čaka na objavo</option>
-                <option>Oddano v pregled</option>
-                <option>Potrebni popravki</option>
-                <option>Objavljeno</option>
-                <option>Arhivirano</option>
-              </select>
-              <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm leading-7 text-zinc-400">
-                Nova tura gre po oddaji v pregled pred objavo. Objavo potrdi glavni admin.
-              </div>
-            </div>
-
           </div>
+        </section>
+
+        {/* SPODNJA VRSTICA — čez celo širino */}
+        <section className="grid gap-6 lg:grid-cols-[1fr_1fr_320px]">
+
+          {/* PONUDNIKI OB TRASI */}
+          <div className={`rounded-[32px] border border-white/10 bg-[#0b1a10] p-7 transition ${locked ? "opacity-40 pointer-events-none select-none" : ""}`}>
+            <div className="mb-1 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+              Ponudniki ob trasi
+            </div>
+            <p className="mb-5 text-sm text-zinc-500">
+              Na osnovi GPX se iz baze prikažejo vsi ponudniki v 1 km od trase.
+            </p>
+
+            {locked ? (
+              <LockedSection />
+            ) : (
+              <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/5 p-5">
+                <div className="text-sm font-bold text-[#f4d7ad]">Predlog na osnovi GPX</div>
+                <p className="mt-2 text-sm leading-7 text-zinc-400">
+                  Ko shraniš turo, sistem avtomatsko predlaga ponudnike iz baze,
+                  ki so ob trasi ali do 1 km od nje. Označi tiste, ki jih želiš
+                  prikazati, ali dodaj svojega.
+                </p>
+                <button className="mt-4 rounded-full border border-white/10 px-5 py-2 text-sm font-semibold text-zinc-300 hover:border-[#c58b46]/40">
+                  + Dodaj ponudnika ročno
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* ZNAMENITOSTI OB TRASI */}
+          <div className={`rounded-[32px] border border-white/10 bg-[#0b1a10] p-7 transition ${locked ? "opacity-40 pointer-events-none select-none" : ""}`}>
+            <div className="mb-1 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+              Znamenitosti ob trasi
+            </div>
+            <p className="mb-5 text-sm text-zinc-500">
+              Na osnovi GPX se iz baze prikažejo vse znamenitosti v 1 km od trase.
+            </p>
+
+            {locked ? (
+              <LockedSection />
+            ) : (
+              <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/5 p-5">
+                <div className="text-sm font-bold text-[#f4d7ad]">Predlog na osnovi GPX</div>
+                <p className="mt-2 text-sm leading-7 text-zinc-400">
+                  Ko shraniš turo, sistem avtomatsko predlaga znamenitosti iz baze,
+                  ki so v 1 km od trase. Označi tiste, ki jih želiš prikazati,
+                  ali dodaj svojo.
+                </p>
+                <button className="mt-4 rounded-full border border-white/10 px-5 py-2 text-sm font-semibold text-zinc-300 hover:border-[#c58b46]/40">
+                  + Dodaj znamenitost ročno
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* STATUS OBJAVE */}
+          <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
+            <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+              Status objave
+            </div>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
+            >
+              <option>Čaka na objavo</option>
+              <option>Oddano v pregled</option>
+              <option>Potrebni popravki</option>
+              <option>Objavljeno</option>
+              <option>Arhivirano</option>
+            </select>
+            <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm leading-7 text-zinc-400">
+              Nova tura gre po oddaji v pregled pred objavo. Objavo potrdi glavni admin.
+            </div>
+          </div>
+
         </section>
       </div>
     </AdminShell>
