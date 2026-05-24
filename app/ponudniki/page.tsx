@@ -179,7 +179,7 @@ export default function ProvidersPage() {
                     </div>
                   </div>
 
-                  <div className="mt-auto flex flex-wrap gap-3 pt-7">
+                  <div className="mt-auto flex items-center gap-3 pt-7">
                     {provider.href && (
                       <Link
                         href={provider.href}
