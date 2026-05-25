@@ -11,14 +11,16 @@ type TimelineStep = {
     href: string;
     type: string;
     distance: string;
-    quote?: string;
+    image: string;
   };
   attraction?: {
     name: string;
     href: string;
     type: string;
     distance: string;
+    image: string;
   };
+  posebnosti?: Array<{ icon: string; text: string }>;
 };
 
 const experience = {
@@ -35,64 +37,63 @@ const experience = {
       time: "08:00",
       icon: "🌅",
       title: "Start med griči",
-      description:
-        "Zjutraj, ko vinograde oblije prva svetloba. Kolo na traso, pogled naprej.",
+      description: "Zjutraj, ko vinograde oblije prva svetloba. Kolo na traso, pogled naprej.",
     },
     {
       time: "09:30",
       icon: "🚵",
       title: "Mehki vzponi",
-      description:
-        "Gravel pot med terasami. Ni strmih klancev — samo ritem, ki ga izbereš sam.",
+      description: "Gravel pot med terasami. Ni strmih klancev — samo ritem, ki ga izbereš sam.",
     },
     {
       time: "11:00",
       icon: "🌄",
       title: "Vinogradniška terasa",
-      description:
-        "Razgled na dolino in vinograde. Eden lepših pogledov v Slovenskih goricah.",
+      description: "Razgled na dolino in vinograde. Eden lepših pogledov v Slovenskih goricah.",
       attraction: {
         name: "Vinogradniške terase",
         href: "/znamenitosti",
         type: "Razgled · Narava",
         distance: "ob trasi",
+        image:
+          "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=800&auto=format&fit=crop",
       },
     },
     {
       time: "12:30",
       icon: "🍷",
       title: "Postanek pri vinski kleti",
-      description:
-        "Degustacija, pogovor z vinarjem in odmor v senci. Kolesarjenje dobi drugačen smisel.",
+      description: "Degustacija, pogovor z vinarjem in odmor v senci.",
       provider: {
         name: "Vinska klet Jurančič",
         href: "/ponudniki/vinska-klet-jurancic",
         type: "Vinska klet · Degustacija",
         distance: "300 m od trase",
-        quote: "Kozarec vina po vzponu ima popolnoma drugačen okus.",
+        image:
+          "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=800&auto=format&fit=crop",
       },
+      posebnosti: [
+        { icon: "🧀", text: "Lokalni prigrizki ob degustaciji" },
+        { icon: "🚲", text: "Kolo pustiš v dvorišču" },
+      ],
     },
     {
       time: "14:00",
       icon: "🏘️",
       title: "Vasi in lokalne poti",
-      description:
-        "Nazaj skozi vaške ulice, ki jih ni na nobenem turističnem zemljevidu.",
+      description: "Nazaj skozi vaške ulice, ki jih ni na nobenem turističnem zemljevidu.",
     },
     {
       time: "16:00",
       icon: "🏁",
       title: "Konec dneva",
-      description:
-        "Zložiš kolo in si misliš: naslednjič pridem prej. In dlje.",
+      description: "Zložiš kolo in si misliš: naslednjič pridem prej. In dlje.",
     },
   ] as TimelineStep[],
 
   trail: {
     name: "Med vinogradi in griči",
-    href: "/ture/med-vinogradi-in-grici",
     gpx: "/gpx/med-vinogradi-in-grici.gpx",
-    mapsUrl: "https://maps.google.com/?q=46.55,15.90",
     km: "48 km",
     vm: "620 vm",
     time: "3–5 ur",
@@ -101,6 +102,47 @@ const experience = {
     surface: { asphalt: 45, gravel: 40, forest: 15 },
   },
 };
+
+function TimelineCard({
+  label,
+  labelColor,
+  name,
+  href,
+  type,
+  distance,
+  image,
+  borderClass,
+}: {
+  label: string;
+  labelColor: string;
+  name: string;
+  href: string;
+  type: string;
+  distance: string;
+  image: string;
+  borderClass: string;
+}) {
+  return (
+    <div className="w-48 shrink-0 md:w-56">
+      <div className={`mb-2 text-[9px] font-black uppercase tracking-[0.28em] ${labelColor}`}>
+        {label}
+      </div>
+      <Link
+        href={href}
+        className={`block overflow-hidden rounded-[16px] border ${borderClass} bg-[#0b1a10] transition`}
+      >
+        <div className="px-4 pt-4 pb-3">
+          <div className="font-serif text-sm font-black italic leading-snug">{name}</div>
+          <div className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-zinc-600">{type}</div>
+        </div>
+        <img src={image} alt={name} className="h-24 w-full object-cover" />
+        <div className="px-4 py-3">
+          <div className="text-[10px] text-zinc-500">{distance}</div>
+        </div>
+      </Link>
+    </div>
+  );
+}
 
 export default function VinskoDozivetjePage() {
   return (
@@ -179,51 +221,46 @@ export default function VinskoDozivetjePage() {
                       {step.description}
                     </p>
 
-                    {step.provider && (
-                      <Link
-                        href={step.provider.href}
-                        className="mt-4 block rounded-[18px] border border-[#c58b46]/25 bg-[#0b1a10] p-5 transition hover:border-[#c58b46]/50"
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="min-w-0">
-                            <div className="text-[10px] font-black uppercase tracking-[0.25em] text-[#c58b46]">
-                              {step.provider.type}
-                            </div>
-                            <div className="mt-1.5 font-serif text-lg font-black italic">
-                              {step.provider.name}
-                            </div>
-                            {step.provider.quote && (
-                              <p className="mt-2 text-sm italic leading-6 text-zinc-500">
-                                &ldquo;{step.provider.quote}&rdquo;
-                              </p>
-                            )}
-                          </div>
-                          <div className="shrink-0 text-right text-xs text-zinc-500">
-                            {step.provider.distance}
-                          </div>
-                        </div>
-                      </Link>
+                    {(step.provider || step.attraction) && (
+                      <div className="mt-5 flex flex-wrap gap-4">
+                        {step.provider && (
+                          <TimelineCard
+                            label="Ponudnik"
+                            labelColor="text-[#c58b46]"
+                            name={step.provider.name}
+                            href={step.provider.href}
+                            type={step.provider.type}
+                            distance={step.provider.distance}
+                            image={step.provider.image}
+                            borderClass="border-[#c58b46]/25 hover:border-[#c58b46]/55"
+                          />
+                        )}
+                        {step.attraction && (
+                          <TimelineCard
+                            label="Znamenitost"
+                            labelColor="text-zinc-500"
+                            name={step.attraction.name}
+                            href={step.attraction.href}
+                            type={step.attraction.type}
+                            distance={step.attraction.distance}
+                            image={step.attraction.image}
+                            borderClass="border-white/10 hover:border-[#c58b46]/35"
+                          />
+                        )}
+                      </div>
                     )}
 
-                    {step.attraction && (
-                      <Link
-                        href={step.attraction.href}
-                        className="mt-4 block rounded-[18px] border border-white/10 bg-[#0b1a10] p-5 transition hover:border-[#c58b46]/35"
-                      >
-                        <div className="flex items-center justify-between gap-4">
-                          <div className="min-w-0">
-                            <div className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">
-                              {step.attraction.type}
-                            </div>
-                            <div className="mt-1.5 font-serif text-lg font-black italic">
-                              {step.attraction.name}
-                            </div>
-                          </div>
-                          <div className="shrink-0 text-right text-xs text-zinc-500">
-                            {step.attraction.distance}
-                          </div>
-                        </div>
-                      </Link>
+                    {step.posebnosti && step.posebnosti.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {step.posebnosti.map((p, j) => (
+                          <span
+                            key={j}
+                            className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-500"
+                          >
+                            {p.icon} {p.text}
+                          </span>
+                        ))}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -275,28 +312,14 @@ export default function VinskoDozivetjePage() {
             </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6">
             <a
               href={experience.trail.gpx}
               download
-              className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:opacity-90"
+              className="inline-flex rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:opacity-90"
             >
               ↓ Prenesi GPX
             </a>
-            <a
-              href={experience.trail.mapsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#f4d7ad]"
-            >
-              Odpri v Google Maps
-            </a>
-            <Link
-              href={experience.trail.href}
-              className="rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-zinc-500 transition hover:border-[#c58b46]/40 hover:text-[#f4d7ad]"
-            >
-              Samo tura →
-            </Link>
           </div>
         </div>
       </section>
