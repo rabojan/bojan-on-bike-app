@@ -13,8 +13,7 @@ const attractions = [
     type: "Razgled",
     region: "Štajerska",
     area: "Pohorje",
-    image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1400&auto=format&fit=crop",
+    image: "/hero-razgled-nad-mariborom.png",
     description:
       "Kratek postanek nad mestom, kjer se odpre pogled proti Mariboru, Dravski dolini in pohorskim gozdovom.",
     tags: ["Razgled", "Foto točka", "Narava"],
@@ -26,8 +25,7 @@ const attractions = [
     type: "Narava",
     region: "Štajerska",
     area: "Pohorje",
-    image:
-      "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1400&auto=format&fit=crop",
+    image: "/hero-pohorski-gozdni-odsek.png",
     description:
       "Mirnejši del poti med visokimi drevesi, kjer tura dobi pravi gozdni ritem in občutek pobega iz mesta.",
     tags: ["Narava", "Foto točka"],
@@ -39,8 +37,7 @@ const attractions = [
     type: "Zgodovina",
     region: "Štajerska",
     area: "Pohorje",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
+    image: "/hero-stara-planinska-pot.png",
     description:
       "Stara pot z lokalno zgodbo, ki turi doda občutek prostora, časa in povezave z ljudmi, ki so te kraje uporabljali pred nami.",
     tags: ["Zgodovina", "Kultura"],
