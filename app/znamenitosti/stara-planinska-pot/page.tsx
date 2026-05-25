@@ -7,7 +7,7 @@ const attraction = {
   region: "Štajerska",
   area: "Pohorje",
   type: ["Zgodovina", "Kultura"],
-  image: "/hero-znamenitosti.png",
+  image: "/hero-stara-planinska-pot.png",
   shortDescription:
     "Stara pot z lokalno zgodbo, ki turi doda občutek prostora, časa in povezave z ljudmi, ki so te kraje uporabljali pred nami.",
   story:

@@ -7,7 +7,7 @@ const attraction = {
   region: "Štajerska",
   area: "Pohorje",
   type: ["Narava", "Foto točka"],
-  image: "/hero-znamenitosti.png",
+  image: "/hero-pohorski-gozdni-odsek.png",
   shortDescription:
     "Mirnejši del poti med visokimi drevesi, kjer tura dobi pravi gozdni ritem in občutek pobega iz mesta.",
   story:
