@@ -2,11 +2,21 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 
 export default function AmbassadorLoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  function handleLogin() {
+    // Začasna prijava brez Supabase — za prototip
+    if (email && password) {
+      localStorage.setItem("bojan_ambassador_logged_in", "true");
+      router.push("/ambasador/koticek");
+    }
+  }
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
@@ -65,6 +75,7 @@ export default function AmbassadorLoginPage() {
             {/* Supabase Auth — prijava */}
             <button
               type="button"
+              onClick={handleLogin}
               className="mt-7 w-full rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black transition hover:opacity-90"
             >
               Prijavi se
