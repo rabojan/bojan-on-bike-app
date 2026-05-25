@@ -83,7 +83,7 @@ export default function DozivetjaPage() {
         ctaHref="/ture"
         ctaLabel="Odkrij ture"
         imagePosition="center"
-        mobileImagePosition="center 60%"
+        mobileImagePosition="75% 55%"
       />
 
       {/* ── FILTRI ── */}
