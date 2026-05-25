@@ -14,6 +14,7 @@ type PageHeroProps = {
   secondaryHref?: string;
   secondaryLabel?: string;
   imagePosition?: string;
+  mobileImagePosition?: string;
 };
 
 export default function PageHero({
@@ -29,6 +30,7 @@ export default function PageHero({
   secondaryHref,
   secondaryLabel,
   imagePosition = "center",
+  mobileImagePosition,
 }: PageHeroProps) {
   return (
     <section className="relative min-h-[680px] overflow-hidden border-b border-white/10 md:min-h-[720px]">
@@ -39,8 +41,11 @@ export default function PageHero({
         <img
           src={image}
           alt={imageAlt}
-          className="absolute inset-0 h-full w-full object-cover opacity-80"
-          style={{ objectPosition: imagePosition }}
+          className="hero-img absolute inset-0 h-full w-full object-cover opacity-80"
+          style={{
+            "--img-pos-desktop": imagePosition,
+            "--img-pos-mobile": mobileImagePosition ?? imagePosition,
+          } as React.CSSProperties}
         />
       </picture>
 

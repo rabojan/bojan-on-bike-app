@@ -138,6 +138,7 @@ export default function ToursPage() {
         image="/hero-ture.png"
         imageAlt="Kolesarska tura skozi gozd"
         imagePosition="center"
+        mobileImagePosition="center 60%"
       />
 
       <section className="border-y border-white/10 bg-[#0b1a10]/70 px-6 py-6">

@@ -99,6 +99,7 @@ export default function AttractionsPage() {
         image="/hero-znamenitosti.png"
         imageAlt="Znamenitosti ob kolesarskih poteh"
         imagePosition="center"
+        mobileImagePosition="center 65%"
       />
 
       <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">

@@ -84,6 +84,7 @@ export default function ProvidersPage() {
         image="/hero-ponudniki.png"
         imageAlt="Druženje ob hrani po kolesarski turi"
         imagePosition="center"
+        mobileImagePosition="center 55%"
       />
 
       <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-10">
