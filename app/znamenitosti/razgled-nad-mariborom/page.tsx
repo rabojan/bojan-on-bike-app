@@ -1,6 +1,16 @@
 import Link from "next/link";
 
 import SiteHeader from "@/components/SiteHeader";
+import AmbassadorCredit from "@/components/AmbassadorCredit";
+
+const ambassador = {
+  name: "Bojan Ratej",
+  slug: "bojan-ratej",
+  role: "Ambasador Štajerske",
+  region: "Štajerska",
+  bio: "Tukaj se vedno ustavim. Mesto pod tabo, gozd za hrbtom — samo tu razumeš zakaj je Pohorje poseben kraj za kolesarjenje.",
+  isTop: false,
+};
 
 const attraction = {
   name: "Razgled nad Mariborom",
@@ -202,6 +212,15 @@ export default function AttractionDetailPage() {
               {attraction.distanceFromRoute}
             </div>
           </div>
+
+          <AmbassadorCredit
+            name={ambassador.name}
+            slug={ambassador.slug}
+            role={ambassador.role}
+            region={ambassador.region}
+            bio={ambassador.bio}
+            isTop={ambassador.isTop}
+          />
         </aside>
       </section>
 

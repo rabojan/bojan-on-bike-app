@@ -1,7 +1,17 @@
 import SiteHeader from "@/components/SiteHeader";
 import LightboxGallery from "@/components/LightboxGallery";
+import AmbassadorCredit from "@/components/AmbassadorCredit";
 import { getProviderBySlug, hasProviderWebsite } from "@/lib/provider-data";
 import { notFound } from "next/navigation";
+
+const ambassador = {
+  name: "Bojan Ratej",
+  slug: "bojan-ratej",
+  role: "Ambasador Štajerske",
+  region: "Štajerska",
+  bio: "Rudijev dom je ena tistih koč, ki jo veš da bo tam. Terasa z razgledom, juha ki ogreje in polnilnica za baterije — vse kar kolesarski dan potrebuje na sredini.",
+  isTop: false,
+};
 
 const provider = getProviderBySlug("rudijev-dom-na-pohorju");
 
@@ -201,6 +211,15 @@ export default function ProviderDetailPage() {
               </a>
             </div>
           </div>
+
+          <AmbassadorCredit
+            name={ambassador.name}
+            slug={ambassador.slug}
+            role={ambassador.role}
+            region={ambassador.region}
+            bio={ambassador.bio}
+            isTop={ambassador.isTop}
+          />
         </aside>
       </section>
     </main>

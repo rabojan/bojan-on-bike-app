@@ -1,6 +1,16 @@
 import Link from "next/link";
 
 import SiteHeader from "@/components/SiteHeader";
+import AmbassadorCredit from "@/components/AmbassadorCredit";
+
+const ambassador = {
+  name: "Bojan Ratej",
+  slug: "bojan-ratej",
+  role: "Ambasador Štajerske",
+  region: "Štajerska",
+  bio: "Ta pot je za tiste ki iščejo več kot kilometre. Ko jo pelješ, veš da je pod kolesom kos zgodovine — in to se čuti.",
+  isTop: false,
+};
 
 const attraction = {
   name: "Stara planinska pot",
@@ -203,6 +213,15 @@ export default function AttractionDetailPage() {
               {attraction.distanceFromRoute}
             </div>
           </div>
+
+          <AmbassadorCredit
+            name={ambassador.name}
+            slug={ambassador.slug}
+            role={ambassador.role}
+            region={ambassador.region}
+            bio={ambassador.bio}
+            isTop={ambassador.isTop}
+          />
         </aside>
       </section>
 

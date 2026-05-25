@@ -1,6 +1,16 @@
 import Link from "next/link";
 
 import SiteHeader from "@/components/SiteHeader";
+import AmbassadorCredit from "@/components/AmbassadorCredit";
+
+const ambassador = {
+  name: "Bojan Ratej",
+  slug: "bojan-ratej",
+  role: "Ambasador Štajerske",
+  region: "Štajerska",
+  bio: "Ta gozdni del je razlog, da se vračam. Ne gre za kilometre — gre za tisti trenutek ko gozd požre vse zvoke in ostaneš samo s seboj.",
+  isTop: false,
+};
 
 const attraction = {
   name: "Pohorski gozdni odsek",
@@ -202,6 +212,15 @@ export default function AttractionDetailPage() {
               {attraction.distanceFromRoute}
             </div>
           </div>
+
+          <AmbassadorCredit
+            name={ambassador.name}
+            slug={ambassador.slug}
+            role={ambassador.role}
+            region={ambassador.region}
+            bio={ambassador.bio}
+            isTop={ambassador.isTop}
+          />
         </aside>
       </section>
 
