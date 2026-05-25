@@ -1,6 +1,26 @@
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 
+type TimelineStep = {
+  time: string;
+  icon: string;
+  title: string;
+  description: string;
+  provider?: {
+    name: string;
+    href: string;
+    type: string;
+    distance: string;
+    quote?: string;
+  };
+  attraction?: {
+    name: string;
+    href: string;
+    type: string;
+    distance: string;
+  };
+};
+
 const experience = {
   title: "Pohorski flow in kosilo",
   eyebrow: "MTB · Štajerska · Pohorje",
@@ -30,6 +50,12 @@ const experience = {
       title: "Razgled nad Mariborom",
       description:
         "Odpre se mesto. Kratek postanek — ne za GPS, ampak za pogled.",
+      attraction: {
+        name: "Razgled nad Mariborom",
+        href: "/znamenitosti/razgled-nad-mariborom",
+        type: "Razgled · Foto točka",
+        distance: "200 m od trase",
+      },
     },
     {
       time: "11:00",
@@ -37,6 +63,25 @@ const experience = {
       title: "Flow odseki",
       description:
         "Tisto, za kar si prišel. Enosledniki med drevesi, ki tečejo sami.",
+      attraction: {
+        name: "Pohorski gozdni odsek",
+        href: "/znamenitosti/pohorski-gozdni-odsek",
+        type: "Narava",
+        distance: "na trasi",
+      },
+    },
+    {
+      time: "12:30",
+      icon: "🥾",
+      title: "Stara planinska pot",
+      description:
+        "Kratek odmik od trase. Kos živega arhiva — pot, ki je tu že sto let.",
+      attraction: {
+        name: "Stara planinska pot",
+        href: "/znamenitosti/stara-planinska-pot",
+        type: "Zgodovina · Kultura",
+        distance: "700 m od trase",
+      },
     },
     {
       time: "13:00",
@@ -44,6 +89,13 @@ const experience = {
       title: "Kosilo pri Rudijevem domu",
       description:
         "Terasa, juha in zaslužena tišina. Tura se počasi zaključuje.",
+      provider: {
+        name: "Rudijev dom na Pohorju",
+        href: "/ponudniki/rudijev-dom-na-pohorju",
+        type: "Planinska koča · Hrana",
+        distance: "ob trasi",
+        quote: "Juha, ki je nisi naročil, ampak si jo zaslužil.",
+      },
     },
     {
       time: "15:00",
@@ -51,22 +103,13 @@ const experience = {
       title: "Spust in konec",
       description: "Nazaj v dolino. Noge so težke, glava pa lahka.",
     },
-  ],
-
-  provider: {
-    name: "Rudijev dom na Pohorju",
-    href: "/ponudniki/rudijev-dom-na-pohorju",
-    distance: "ob trasi",
-    image:
-      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1600&auto=format&fit=crop",
-    quote: "Juha, ki je nisi naročil, ampak si jo zaslužil.",
-    description:
-      "Rudijev dom je eden tistih redkih krajev, kjer se počutiš domače, čeprav si prvič. Domača kuhinja, terasa z razgledom in gostoljubnost, ki se jo zapomniš.",
-  },
+  ] as TimelineStep[],
 
   trail: {
     name: "Gozdni flow nad Mariborom",
     href: "/ture/gozdni-flow-nad-mariborom",
+    gpx: "/gpx/gozdni-flow-nad-mariborom.gpx",
+    mapsUrl: "https://maps.google.com/?q=46.5118,15.6012",
     km: "32 km",
     vm: "890 vm",
     time: "3–5 ur",
@@ -74,27 +117,6 @@ const experience = {
     difficulty: "Srednja",
     surface: { asphalt: 10, gravel: 25, forest: 65 },
   },
-
-  attractions: [
-    {
-      name: "Razgled nad Mariborom",
-      href: "/znamenitosti/razgled-nad-mariborom",
-      type: "Razgled",
-      distance: "200 m od trase",
-    },
-    {
-      name: "Pohorski gozdni odsek",
-      href: "/znamenitosti/pohorski-gozdni-odsek",
-      type: "Narava",
-      distance: "na trasi",
-    },
-    {
-      name: "Stara planinska pot",
-      href: "/znamenitosti/stara-planinska-pot",
-      type: "Zgodovina",
-      distance: "700 m od trase",
-    },
-  ],
 };
 
 export default function PohorskiFlowInKosiloPage() {
@@ -102,7 +124,7 @@ export default function PohorskiFlowInKosiloPage() {
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/dozivetja" active="dozivetja" />
 
-      {/* ── HERO ── cinematic, cel zaslon, brez tehničnih podatkov */}
+      {/* ── HERO ── */}
       <section className="relative flex min-h-screen items-end overflow-hidden">
         <img
           src={experience.image}
@@ -130,19 +152,19 @@ export default function PohorskiFlowInKosiloPage() {
         </div>
       </section>
 
-      {/* ── ZGODBA ── velik pull quote, čustveno, ne informativno */}
-      <section className="border-y border-[#c58b46]/15 bg-[#0b1a10] px-5 py-20 md:px-6 md:py-28">
+      {/* ── ZAKAJ TA DAN ── */}
+      <section className="border-y border-[#c58b46]/15 bg-[#0b1a10] px-5 py-16 md:px-6 md:py-20">
         <div className="mx-auto max-w-4xl">
-          <div className="mb-8 text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
+          <div className="mb-5 text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
             Zakaj ta dan?
           </div>
-          <p className="font-serif text-3xl font-black italic leading-snug text-[#f4d7ad] md:text-4xl md:leading-snug">
-            &ldquo;{experience.story}&rdquo;
+          <p className="max-w-2xl text-base leading-8 text-zinc-400">
+            {experience.story}
           </p>
         </div>
       </section>
 
-      {/* ── RITEM DNEVA ── vertikalna časovnica kot zgodba */}
+      {/* ── RITEM DNEVA ── */}
       <section className="px-5 py-20 md:px-6 md:py-28">
         <div className="mx-auto max-w-4xl">
           <div className="text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
@@ -153,28 +175,75 @@ export default function PohorskiFlowInKosiloPage() {
           </h2>
 
           <div className="relative mt-16">
-            {/* Vertikalna linija */}
             <div className="absolute left-[1.35rem] top-0 h-full w-px bg-gradient-to-b from-[#c58b46]/50 via-[#c58b46]/20 to-transparent md:left-[1.6rem]" />
 
             <div className="space-y-0">
               {experience.timeline.map((step, i) => (
                 <div key={i} className="relative flex gap-6 pb-12 md:gap-10">
-                  {/* Node */}
                   <div className="relative shrink-0">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#c58b46]/40 bg-[#0b1a10] text-lg md:h-12 md:w-12">
                       {step.icon}
                     </div>
                   </div>
-                  <div className="pt-1.5">
+                  <div className="min-w-0 flex-1 pt-1.5">
                     <div className="text-[10px] font-black uppercase tracking-[0.28em] text-[#c58b46]">
                       {step.time}
                     </div>
                     <h3 className="mt-2 font-serif text-2xl font-black italic">
                       {step.title}
                     </h3>
-                    <p className="mt-2 max-w-xl leading-7 text-zinc-400">
+                    <p className="mt-2 max-w-xl text-base leading-7 text-zinc-400">
                       {step.description}
                     </p>
+
+                    {/* Embedded provider card */}
+                    {step.provider && (
+                      <Link
+                        href={step.provider.href}
+                        className="mt-4 block rounded-[18px] border border-[#c58b46]/25 bg-[#0b1a10] p-5 transition hover:border-[#c58b46]/50"
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="min-w-0">
+                            <div className="text-[10px] font-black uppercase tracking-[0.25em] text-[#c58b46]">
+                              {step.provider.type}
+                            </div>
+                            <div className="mt-1.5 font-serif text-lg font-black italic">
+                              {step.provider.name}
+                            </div>
+                            {step.provider.quote && (
+                              <p className="mt-2 text-sm italic leading-6 text-zinc-500">
+                                &ldquo;{step.provider.quote}&rdquo;
+                              </p>
+                            )}
+                          </div>
+                          <div className="shrink-0 text-right text-xs text-zinc-500">
+                            {step.provider.distance}
+                          </div>
+                        </div>
+                      </Link>
+                    )}
+
+                    {/* Embedded attraction card */}
+                    {step.attraction && (
+                      <Link
+                        href={step.attraction.href}
+                        className="mt-4 block rounded-[18px] border border-white/10 bg-[#0b1a10] p-5 transition hover:border-[#c58b46]/35"
+                      >
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="min-w-0">
+                            <div className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">
+                              {step.attraction.type}
+                            </div>
+                            <div className="mt-1.5 font-serif text-lg font-black italic">
+                              {step.attraction.name}
+                            </div>
+                          </div>
+                          <div className="shrink-0 text-right text-xs text-zinc-500">
+                            {step.attraction.distance}
+                          </div>
+                        </div>
+                      </Link>
+                    )}
                   </div>
                 </div>
               ))}
@@ -183,128 +252,74 @@ export default function PohorskiFlowInKosiloPage() {
         </div>
       </section>
 
-      {/* ── POSTANEK DNEVA ── atmosferska sekcija, ne kartica */}
-      <section className="overflow-hidden border-y border-white/10">
-        <div className="relative min-h-[560px] bg-[#0b1a10]">
-          <img
-            src={experience.provider.image}
-            alt={experience.provider.name}
-            className="absolute inset-0 h-full w-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0b1a10] via-[#0b1a10]/90 to-[#0b1a10]/50" />
-
-          <div className="relative mx-auto max-w-6xl px-5 py-20 md:grid md:grid-cols-[1fr_0.6fr] md:items-center md:gap-16 md:px-6 md:py-28">
-            <div>
-              <div className="text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
-                Postanek dneva
-              </div>
-              <h2 className="mt-5 font-serif text-5xl font-black italic leading-tight text-white md:text-6xl">
-                {experience.provider.name}.
-              </h2>
-              <p className="mt-6 max-w-xl text-lg leading-9 text-zinc-300">
-                {experience.provider.description}
-              </p>
-              <blockquote className="mt-8 border-l-2 border-[#c58b46] pl-6 font-serif text-2xl italic leading-snug text-[#f4d7ad]">
-                &ldquo;{experience.provider.quote}&rdquo;
-              </blockquote>
-              <div className="mt-10 flex flex-wrap gap-3">
-                <Link
-                  href={experience.provider.href}
-                  className="rounded-full bg-[#c58b46] px-7 py-4 text-sm font-black text-black transition hover:opacity-90"
-                >
-                  Spoznaj ponudnika
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── KOLESARSKA OSNOVA ── trasa spodaj, sekundarno, zmanjšano */}
-      <section className="px-5 py-16 md:px-6">
+      {/* ── TRASA V PODATKIH ── */}
+      <section className="border-t border-white/10 bg-[#0b1a10] px-5 py-16 md:px-6">
         <div className="mx-auto max-w-4xl">
-          <div className="rounded-[32px] border border-white/8 bg-[#0b1a10] p-8 md:p-10">
-            <div className="text-[10px] font-black uppercase tracking-[0.38em] text-zinc-500">
-              Kolesarska osnova
+          <div className="text-[10px] font-black uppercase tracking-[0.38em] text-zinc-500">
+            Trasa v podatkih
+          </div>
+          <h3 className="mt-3 font-serif text-2xl font-black italic text-zinc-300">
+            {experience.trail.name}
+          </h3>
+
+          {/* Stats */}
+          <div className="mt-6 flex flex-wrap gap-3">
+            {[
+              experience.trail.km,
+              experience.trail.vm,
+              experience.trail.time,
+              experience.trail.type,
+              experience.trail.difficulty,
+            ].map((v) => (
+              <span
+                key={v}
+                className="rounded-full border border-white/10 px-4 py-2 text-sm text-zinc-400"
+              >
+                {v}
+              </span>
+            ))}
+          </div>
+
+          {/* Surface inline */}
+          <p className="mt-5 text-sm text-zinc-600">
+            Podlaga: Asfalt {experience.trail.surface.asphalt}% · Makadam{" "}
+            {experience.trail.surface.gravel}% · Gozdna pot{" "}
+            {experience.trail.surface.forest}%
+          </p>
+
+          {/* Map placeholder */}
+          <div className="mt-7 flex h-44 items-center justify-center overflow-hidden rounded-[20px] border border-white/10 bg-black/30 md:h-56">
+            <div className="text-center">
+              <div className="text-2xl">🗺️</div>
+              <p className="mt-2 text-sm text-zinc-600">
+                Interaktivni zemljevid bo na voljo kmalu
+              </p>
             </div>
-            <h3 className="mt-3 font-serif text-2xl font-black italic text-zinc-300">
-              {experience.trail.name}
-            </h3>
-            <div className="mt-5 flex flex-wrap gap-3">
-              {[
-                experience.trail.km,
-                experience.trail.vm,
-                experience.trail.time,
-                experience.trail.type,
-                experience.trail.difficulty,
-              ].map((v) => (
-                <span
-                  key={v}
-                  className="rounded-full border border-white/10 px-4 py-2 text-sm text-zinc-500"
-                >
-                  {v}
-                </span>
-              ))}
-            </div>
-            <div className="mt-7 space-y-3">
-              {[
-                { label: "Asfalt", value: experience.trail.surface.asphalt },
-                { label: "Makadam", value: experience.trail.surface.gravel },
-                { label: "Gozdna pot", value: experience.trail.surface.forest },
-              ].map(({ label, value }) => (
-                <div key={label}>
-                  <div className="mb-1.5 flex justify-between text-xs text-zinc-600">
-                    <span>{label}</span>
-                    <span>{value}%</span>
-                  </div>
-                  <div className="h-1.5 rounded-full bg-white/8">
-                    <div
-                      className="h-full rounded-full bg-[#c58b46]/40"
-                      style={{ width: `${value}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href={experience.trail.gpx}
+              download
+              className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:opacity-90"
+            >
+              ↓ Prenesi GPX
+            </a>
+            <a
+              href={experience.trail.mapsUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#f4d7ad]"
+            >
+              Odpri v Google Maps
+            </a>
             <Link
               href={experience.trail.href}
-              className="mt-8 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-zinc-500 transition hover:border-[#c58b46]/40 hover:text-[#f4d7ad]"
+              className="rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-zinc-500 transition hover:border-[#c58b46]/40 hover:text-[#f4d7ad]"
             >
               Samo tura →
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── OB POTI ── znamenitosti */}
-      <section className="px-5 pb-24 md:px-6 md:pb-32">
-        <div className="mx-auto max-w-4xl">
-          <div className="text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
-            Ob poti
-          </div>
-          <h2 className="mt-4 font-serif text-3xl font-black italic">
-            Kar ne smeš zamuditi.
-          </h2>
-          <div className="mt-8 space-y-4">
-            {experience.attractions.map((a) => (
-              <Link
-                key={a.name}
-                href={a.href}
-                className="group flex items-center justify-between gap-5 rounded-[22px] border border-white/10 bg-[#0b1a10] p-5 transition hover:border-[#c58b46]/45"
-              >
-                <div>
-                  <div className="font-serif text-xl font-black italic group-hover:text-[#f4d7ad]">
-                    {a.name}
-                  </div>
-                  <div className="mt-1 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
-                    {a.type}
-                  </div>
-                </div>
-                <div className="shrink-0 text-right text-sm text-zinc-500">
-                  {a.distance}
-                </div>
-              </Link>
-            ))}
           </div>
         </div>
       </section>
