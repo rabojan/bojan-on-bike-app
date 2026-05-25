@@ -216,33 +216,27 @@ export default function AttractionDetailPage() {
           </h2>
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-4">
           {attraction.trails.map((trail) => (
-            <article
+            <Link
               key={trail.title}
-              className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-6 md:p-8"
+              href={trail.href}
+              className="group flex items-center justify-between gap-5 rounded-[22px] border border-white/10 bg-[#0b1a10] p-5 transition hover:border-[#c58b46]/45"
             >
-              <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
-                <div>
-                  <div className="text-sm text-zinc-500">
-                    {trail.distance} · {trail.role}
-                  </div>
-
-                  <h3 className="mt-2 font-serif text-3xl font-black italic">{trail.title}</h3>
-
-                  <p className="mt-4 max-w-2xl leading-8 text-zinc-300">
-                    {trail.description}
-                  </p>
+              <div>
+                <div className="font-serif text-2xl font-black italic text-white group-hover:text-[#f4d7ad]">
+                  {trail.title}
                 </div>
-
-                <Link
-                  href={trail.href}
-                  className="inline-flex justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black"
-                >
-                  Oglej si turo
-                </Link>
+                {trail.role && (
+                  <div className="mt-2 text-[10px] font-black uppercase tracking-[0.22em] text-[#c58b46]">
+                    {trail.role}
+                  </div>
+                )}
               </div>
-            </article>
+              <div className="shrink-0 text-right text-sm text-zinc-500">
+                {trail.distance}
+              </div>
+            </Link>
           ))}
         </div>
       </section>

@@ -1,4 +1,5 @@
 import SiteHeader from "@/components/SiteHeader";
+import LightboxGallery from "@/components/LightboxGallery";
 import { getProviderBySlug, hasProviderWebsite } from "@/lib/provider-data";
 import { notFound } from "next/navigation";
 
@@ -147,21 +148,7 @@ export default function ProviderDetailPage() {
               <h2 className="mt-4 font-serif text-4xl font-black italic leading-tight md:text-5xl">
                 {provider.name} v slikah.
               </h2>
-
-              <div className="mt-8 grid gap-4 md:grid-cols-4">
-                {provider.gallery.map((image, index) => (
-                  <div
-                    key={image}
-                    className={index === 0 ? "md:col-span-2 md:row-span-2" : ""}
-                  >
-                    <img
-                      src={image}
-                      alt={`${provider.name} ${index + 1}`}
-                      className="h-full min-h-[180px] w-full rounded-[24px] object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+              <LightboxGallery images={provider.gallery} altPrefix={provider.name} />
             </section>
           )}
         </div>

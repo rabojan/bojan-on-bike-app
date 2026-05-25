@@ -80,8 +80,6 @@ export default function DozivetjaPage() {
         description="Skrbno izbrane kombinacije ture, postanka in doživetja. Ne samo km — cel dan, ki si ga zapomniš."
         image="/hero-dozivetja.png"
         imageAlt="Kolesarsko doživetje v naravi"
-        ctaHref="/ture"
-        ctaLabel="Odkrij ture"
         imagePosition="center"
         mobileImagePosition="75% 55%"
       />

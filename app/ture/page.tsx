@@ -45,8 +45,9 @@ const tours = [
     difficulty: "Srednja",
     feelings: ["e-bike friendly", "Gozdni pobeg", "Lokalni postanek"],
     description: "Tura skozi pohorske gozdove, razglede in spuste, z dovolj prostora za postanek in lep kolesarski dan nad mestom.",
-    image: "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?q=80&w=1600&auto=format&fit=crop",
+    image: "/hero-gozdni-flow.png",
     surface: { asphalt: 10, gravel: 25, forest: 65 },
+    dozivetje: { title: "Pohorski flow in kosilo", href: "/dozivetja/pohorski-flow-in-kosilo" },
   },
   {
     title: "Med vinogradi in griči",
@@ -62,6 +63,7 @@ const tours = [
     description: "Mehkejši ritmi, vinske ceste, razgledi in postanki pri lokalnih ponudnikih.",
     image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1600&auto=format&fit=crop",
     surface: { asphalt: 45, gravel: 40, forest: 15 },
+    dozivetje: { title: "Vinski kolesarski dan", href: "/dozivetja/vinski-kolesarski-dan" },
   },
   {
     title: "Alpski pobeg ob vodi",
@@ -75,8 +77,9 @@ const tours = [
     difficulty: "Zahtevna",
     feelings: ["Vikend ideja", "Gozdni pobeg", "Družinam prijazno"],
     description: "Večdnevna izkušnja med rekami, prelazi, vasicami in nepozabno naravo.",
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?q=80&w=1600&auto=format&fit=crop",
     surface: { asphalt: 30, gravel: 50, forest: 20 },
+    dozivetje: null,
   },
 ];
 
@@ -135,8 +138,8 @@ export default function ToursPage() {
         eyebrow="Kolesarski dnevi"
         title="Poišči turo, ki paše tvojemu dnevu."
         description="Izberi po pokrajini, zahtevnosti ali občutku. Vsaka tura ostane praktična za kolesarja, a je zasnovana kot cel dan: pot, razgled, postanek in doživetje ob poti."
-        image="/hero-ture.png"
-        imageAlt="Kolesarska tura skozi gozd"
+        image="https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=1600&auto=format&fit=crop"
+        imageAlt="Skupina zadovoljnih kolesarjev na poti"
         imagePosition="center"
         mobileImagePosition="center 60%"
       />
@@ -237,6 +240,13 @@ export default function ToursPage() {
                     className="h-full w-full object-cover transition duration-500 hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
+                  {tour.dozivetje && (
+                    <div className="absolute left-4 top-4">
+                      <span className="rounded-full border border-[#c58b46]/50 bg-black/60 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f4d7ad] backdrop-blur">
+                        ✦ del doživetja
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-1 flex-col p-7">
@@ -276,9 +286,17 @@ export default function ToursPage() {
                     </div>
                   </div>
 
+                  {tour.dozivetje && (
+                    <Link
+                      href={tour.dozivetje.href}
+                      className="mt-auto mb-2 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#c58b46]/40 px-6 py-3 text-sm font-bold text-[#f4d7ad] transition hover:bg-[#c58b46]/10"
+                    >
+                      ✦ {tour.dozivetje.title}
+                    </Link>
+                  )}
                   <Link
                     href={`/ture/${tour.slug}`}
-                    className="mt-auto inline-flex w-full justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black transition hover:opacity-90"
+                    className={`${tour.dozivetje ? "" : "mt-auto"} inline-flex w-full justify-center rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black transition hover:opacity-90`}
                   >
                     Odpri turo
                   </Link>

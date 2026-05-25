@@ -3,21 +3,26 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
+import LightboxGallery from "@/components/LightboxGallery";
 
 const photos = {
   hero: "/hero-gozdni-flow.png",
   forest:
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=86&w=1400",
+    "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=86&w=1400",
   view:
     "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=86&w=1400",
   hut:
-    "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=86&w=1400",
+    "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?auto=format&fit=crop&q=86&w=1400",
   lake:
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=86&w=1400",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=86&w=1400",
   rider:
-    "https://images.unsplash.com/photo-1593764592116-bfb2a97c642a?auto=format&fit=crop&q=86&w=1400",
+    "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?auto=format&fit=crop&q=86&w=1400",
   mountains:
     "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=86&w=1400",
+  trail:
+    "https://images.unsplash.com/photo-1558981285-6f0c68243c79?auto=format&fit=crop&q=86&w=1400",
+  sunrise:
+    "https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?auto=format&fit=crop&q=86&w=1400",
 };
 
 const stats = [
@@ -811,15 +816,46 @@ export default function PremiumTuraV2Page() {
               <h2 className="mt-3 font-serif text-4xl font-black italic">
                 Tura v slikah.
               </h2>
+              <LightboxGallery
+                images={[
+                  photos.view,
+                  photos.forest,
+                  photos.hut,
+                  photos.mountains,
+                  photos.rider,
+                  photos.lake,
+                  photos.trail,
+                  photos.sunrise,
+                ]}
+                altPrefix="Gozdni flow nad Mariborom"
+              />
+            </div>
+          </section>
 
-              <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-                {[photos.view, photos.forest, photos.hut, photos.mountains].map((image, index) => (
-                  <div
-                    key={image}
-                    className={index === 0 ? "col-span-2 row-span-2 h-[420px] rounded-[24px] bg-cover bg-center" : "h-[204px] rounded-[24px] bg-cover bg-center"}
-                    style={{ backgroundImage: `url(${image})` }}
-                  />
-                ))}
+          {/* ── 11. DEL DOŽIVETJA ── */}
+          <section className="border-t border-white/10 px-6 py-14">
+            <div className="mx-auto max-w-[1180px]">
+              <div className="flex flex-col gap-6 rounded-[32px] border border-[#c58b46]/25 bg-[#0b1a10] p-7 md:flex-row md:items-center md:gap-10">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 text-2xl">
+                  ✦
+                </div>
+                <div className="flex-1">
+                  <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
+                    Ta tura je del doživetja
+                  </div>
+                  <p className="mt-2 font-serif text-xl font-black italic text-white">
+                    Pohorski flow in kosilo
+                  </p>
+                  <p className="mt-1 text-sm leading-7 text-zinc-500">
+                    Tura + postanek pri Rudijevem domu + razgled nad Mariborom. Cel kolesarski dan v enem.
+                  </p>
+                </div>
+                <Link
+                  href="/dozivetja/pohorski-flow-in-kosilo"
+                  className="shrink-0 rounded-full bg-[#c58b46] px-6 py-3 text-center text-sm font-black text-black"
+                >
+                  Oglej si doživetje
+                </Link>
               </div>
             </div>
           </section>
