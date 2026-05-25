@@ -32,7 +32,7 @@ const topTrails = [
     distance: "48 km",
     elevation: "620 vm",
     type: "Gravel",
-    tags: ["za pare", "vino", "mirnejši ritem"],
+    tags: ["za pare", "lokalni postanek", "e-bike friendly"],
     image:
       "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=85&w=1400",
   },
@@ -44,7 +44,7 @@ const topTrails = [
     distance: "86 km",
     elevation: "1450 vm",
     type: "Bikepacking",
-    tags: ["vikend ideja", "narava", "razgled"],
+    tags: ["vikend ideja", "gozdni pobeg", "družinam prijazno"],
     image:
       "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?auto=format&fit=crop&q=85&w=1400",
   },
@@ -312,11 +312,14 @@ export default function Home() {
           <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-                TOP 3
+                Najpogosteje prenešene GPX ture
               </p>
               <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
-                Izbrane ideje za kolesarski dan.
+                Top 3 ture tega meseca.
               </h2>
+              <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-500">
+                Razvrščeno po številu prenosov GPX datoteke.
+              </p>
             </div>
             <Link
               href="/ture"
@@ -326,11 +329,11 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid items-stretch gap-6 md:grid-cols-3">
             {topTrails.map((trail) => (
               <article
                 key={trail.title}
-                className="group overflow-hidden rounded-[2rem] border border-white/10 bg-[#07110b] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
+                className="group flex flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#07110b] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
               >
                 <div className="relative h-48 overflow-hidden sm:h-56">
                   <img
@@ -344,7 +347,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="p-6">
+                <div className="flex flex-1 flex-col p-6">
                   <div className="mb-3 text-sm text-zinc-500">
                     {trail.region} • {trail.destination}
                   </div>
@@ -368,7 +371,7 @@ export default function Home() {
                   </div>
                   <Link
                     href={`/ture/${slugify(trail.title)}`}
-                    className="block w-full rounded-full border border-[#c58b46]/40 px-5 py-3 text-center text-sm font-black transition hover:bg-[#c58b46] hover:text-black"
+                    className="mt-auto block w-full rounded-full border border-[#c58b46]/40 px-5 py-3 text-center text-sm font-black transition hover:bg-[#c58b46] hover:text-black"
                   >
                     Oglej si turo
                   </Link>

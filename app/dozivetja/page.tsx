@@ -30,7 +30,7 @@ const experiences = [
     trail: { name: "Med vinogradi in griči", href: "/ture/med-vinogradi-in-grici" },
     provider: { name: "Vinska klet med griči", href: "/ponudniki" },
     highlight: "Vinogradniške terase",
-    href: "/dozivetja",
+    href: "/dozivetja/vinski-kolesarski-dan",
   },
   {
     title: "Družinski e-bike izlet",
@@ -44,7 +44,7 @@ const experiences = [
     trail: { name: "Gozdni flow nad Mariborom", href: "/ture/gozdni-flow-nad-mariborom" },
     provider: { name: "Rudijev dom na Pohorju", href: "/ponudniki/rudijev-dom-na-pohorju" },
     highlight: "Pohorski gozdni odsek",
-    href: "/dozivetja",
+    href: "/dozivetja/druzinski-e-bike-izlet",
   },
   {
     title: "Pohorski flow in kosilo",
@@ -58,7 +58,7 @@ const experiences = [
     trail: { name: "Gozdni flow nad Mariborom", href: "/ture/gozdni-flow-nad-mariborom" },
     provider: { name: "Rudijev dom na Pohorju", href: "/ponudniki/rudijev-dom-na-pohorju" },
     highlight: "Razgled nad Mariborom",
-    href: "/dozivetja",
+    href: "/dozivetja/pohorski-flow-in-kosilo",
   },
 ];
 
