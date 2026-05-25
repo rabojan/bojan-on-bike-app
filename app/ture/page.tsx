@@ -138,7 +138,7 @@ export default function ToursPage() {
         eyebrow="Kolesarski dnevi"
         title="Poišči turo, ki paše tvojemu dnevu."
         description="Izberi po pokrajini, zahtevnosti ali občutku. Vsaka tura ostane praktična za kolesarja, a je zasnovana kot cel dan: pot, razgled, postanek in doživetje ob poti."
-        image="https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=1600&auto=format&fit=crop"
+        image="/hero-ture.png"
         imageAlt="Skupina zadovoljnih kolesarjev na poti"
         imagePosition="center"
         mobileImagePosition="center 60%"
