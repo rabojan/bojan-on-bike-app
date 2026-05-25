@@ -104,6 +104,15 @@ export default function ProvidersPage() {
               </button>
             ))}
           </div>
+
+          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-[#c58b46] bg-[#c58b46]/15 px-5 py-4">
+            <span className="text-xl">🏅</span>
+            <p className="text-sm text-zinc-300">
+              <span className="font-bold text-white">Ponudnike lahko dodajajo samo kolesarski ambasadorji in admin.</span>
+              {"  "}
+              <Link href="/predlagaj-turo" className="font-bold text-[#c58b46] underline underline-offset-2 hover:text-[#f4d7ad]">Postani ambasador →</Link>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -211,6 +220,42 @@ export default function ProvidersPage() {
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SAMO AMBASADORJI ── */}
+      <section className="border-t border-white/10 bg-[#0b1a10] px-6 py-14">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-6 rounded-[32px] border border-white/10 bg-black/20 p-7 md:flex-row md:items-center md:gap-10">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 text-2xl">
+              🏅
+            </div>
+            <div className="flex-1">
+              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
+                Kdo lahko doda ponudnika?
+              </div>
+              <p className="mt-2 text-base font-semibold leading-7 text-zinc-200">
+                Ponudnike lahko dodajajo samo registrirani kolesarski ambasadorji in glavni admin.
+              </p>
+              <p className="mt-1 text-sm leading-7 text-zinc-500">
+                Tako zagotavljamo, da za vsak vnos stoji preverjena lokalna oseba, ki teren pozna iz prve roke.
+              </p>
+            </div>
+            <div className="flex shrink-0 flex-col gap-2 sm:flex-row md:flex-col">
+              <Link
+                href="/predlagaj-turo"
+                className="rounded-full bg-[#c58b46] px-6 py-3 text-center text-sm font-black text-black"
+              >
+                Postani ambasador
+              </Link>
+              <Link
+                href="/ambasador/prijava"
+                className="rounded-full border border-white/10 px-6 py-3 text-center text-sm font-bold text-zinc-300 hover:border-[#c58b46]/40"
+              >
+                Prijava
+              </Link>
+            </div>
           </div>
         </div>
       </section>
