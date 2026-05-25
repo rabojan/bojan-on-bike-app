@@ -31,11 +31,8 @@ const attractionOptions = [
   "Stara planinska pot",
 ];
 
-const trailOptions = [
-  "Gozdni flow nad Mariborom",
-  "Med vinogradi in griči",
-  "Alpski pobeg ob vodi",
-];
+const trailTypes = ["MTB", "Gravel", "E-bike", "Bikepacking", "Cesta"];
+const difficulties = ["Lahka", "Srednja", "Zahtevna"];
 
 const experienceTypes = [
   "MTB flow", "Vinsko doživetje", "Družinski izlet", "Kulinarična tura",
@@ -194,7 +191,8 @@ let nextId = 2;
 
 export default function NewExperiencePage() {
   const [status, setStatus] = useState("Čaka na objavo");
-  const [selectedTrail, setSelectedTrail] = useState("");
+  const [trailType, setTrailType] = useState("MTB");
+  const [difficulty, setDifficulty] = useState("Srednja");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
   const [steps, setSteps] = useState<Step[]>([
@@ -337,6 +335,87 @@ export default function NewExperiencePage() {
               </button>
             </section>
 
+            {/* ── Trasa v podatkih ── */}
+            <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+              <div className="mb-1 text-[10px] font-black uppercase tracking-[0.35em] text-zinc-500">
+                Trasa v podatkih
+              </div>
+              <p className="mb-6 text-xs leading-6 text-zinc-600">
+                Podatki trase so del tega doživetja — neodvisni od /ture.
+              </p>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <label className="col-span-2 space-y-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Naslov trase</span>
+                  <input placeholder="npr. Gozdna pot nad Pohorjem"
+                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Razdalja</span>
+                  <input placeholder="npr. 32 km"
+                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Višinska razlika</span>
+                  <input placeholder="npr. 890 vm"
+                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Čas</span>
+                  <input placeholder="npr. 3–5 ur"
+                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Tip</span>
+                  <select value={trailType} onChange={(e) => setTrailType(e.target.value)}
+                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60">
+                    {trailTypes.map((t) => <option key={t}>{t}</option>)}
+                  </select>
+                </label>
+
+                <div className="col-span-2 space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Težavnost</span>
+                  <div className="flex gap-3">
+                    {difficulties.map((d) => (
+                      <label key={d} className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-bold transition ${difficulty === d ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
+                        <input type="radio" name="difficulty" value={d} checked={difficulty === d} onChange={() => setDifficulty(d)} className="sr-only" />
+                        {d}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="col-span-2 space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Podlaga (skupaj 100%)</span>
+                  <div className="grid grid-cols-3 gap-4">
+                    {[["Asfalt", "0"], ["Makadam", "0"], ["Gozdna pot", "0"]].map(([label, def]) => (
+                      <label key={label} className="space-y-1.5">
+                        <span className="text-xs text-zinc-500">{label} %</span>
+                        <input type="number" min="0" max="100" defaultValue={def}
+                          className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-center outline-none focus:border-[#c58b46]/60" />
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="col-span-2 space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">GPX datoteka</span>
+                  <div className="rounded-2xl border border-dashed border-white/15 bg-[#07110b] p-6 text-center">
+                    <div className="text-2xl">📍</div>
+                    <p className="mt-2 text-xs text-zinc-600">Naloži .gpx datoteko trase</p>
+                    <label className="mt-3 inline-flex cursor-pointer rounded-full border border-white/10 px-5 py-2 text-xs font-bold text-zinc-400 transition hover:border-[#c58b46]/40">
+                      Izberi GPX
+                      <input type="file" accept=".gpx" className="hidden" />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
           </div>
 
           {/* ── Stranska kolona ── */}
@@ -375,22 +454,6 @@ export default function NewExperiencePage() {
                   </label>
                 </div>
               </div>
-            </div>
-
-            {/* Trasa */}
-            <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
-              <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Trasa v podatkih</div>
-              <label className="block space-y-1.5">
-                <span className="text-xs text-zinc-500">Osnovna tura (za GPX in stats)</span>
-                <select
-                  value={selectedTrail}
-                  onChange={(e) => setSelectedTrail(e.target.value)}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
-                >
-                  <option value="">— izberi turo —</option>
-                  {trailOptions.map((t) => <option key={t} value={t}>{t}</option>)}
-                </select>
-              </label>
             </div>
 
             {/* Tip doživetja */}

@@ -27,11 +27,8 @@ const attractionOptions = [
   "Stara planinska pot",
 ];
 
-const trailOptions = [
-  "Gozdni flow nad Mariborom",
-  "Med vinogradi in griči",
-  "Alpski pobeg ob vodi",
-];
+const trailTypes = ["MTB", "Gravel", "E-bike", "Bikepacking", "Cesta"];
+const difficulties = ["Lahka", "Srednja", "Zahtevna"];
 
 const experienceTypes = [
   "MTB flow", "Vinsko doživetje", "Družinski izlet", "Kulinarična tura",
@@ -151,7 +148,8 @@ let nextId = 10;
 
 export default function EditPohorskiFlowPage() {
   const [status, setStatus] = useState("Objavljeno");
-  const [selectedTrail, setSelectedTrail] = useState("Gozdni flow nad Mariborom");
+  const [trailType, setTrailType] = useState("MTB");
+  const [difficulty, setDifficulty] = useState("Srednja");
   const [selectedTypes, setSelectedTypes] = useState(["MTB flow"]);
 
   const [steps, setSteps] = useState<Step[]>([
@@ -283,6 +281,91 @@ export default function EditPohorskiFlowPage() {
               </button>
             </section>
 
+            {/* ── Trasa v podatkih ── */}
+            <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+              <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-zinc-500">Trasa v podatkih</div>
+              <p className="mb-6 text-sm leading-7 text-zinc-500">Podatki o trasi so del doživetja — neodvisni od tur.</p>
+
+              <div className="space-y-5">
+                <label className="block space-y-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Naslov trase</span>
+                  <input defaultValue="Gozdni flow nad Mariborom"
+                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+                </label>
+
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <label className="space-y-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Km</span>
+                    <input defaultValue="32"
+                      className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60" />
+                  </label>
+                  <label className="space-y-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Višinske metre</span>
+                    <input defaultValue="890"
+                      className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60" />
+                  </label>
+                  <label className="space-y-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Čas</span>
+                    <input defaultValue="3–5 ur"
+                      className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60" />
+                  </label>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Tip trase</span>
+                  <div className="flex flex-wrap gap-2">
+                    {trailTypes.map((t) => (
+                      <button key={t} onClick={() => setTrailType(t)}
+                        className={`rounded-full border px-4 py-2 text-sm font-bold transition ${trailType === t ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Težavnost</span>
+                  <div className="flex gap-3">
+                    {difficulties.map((d) => (
+                      <button key={d} onClick={() => setDifficulty(d)}
+                        className={`flex-1 rounded-2xl border py-3 text-sm font-bold transition ${difficulty === d ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
+                        {d}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Podlaga (%)</span>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    <label className="space-y-1.5">
+                      <span className="text-[11px] text-zinc-500">Asfalt</span>
+                      <input type="number" defaultValue="10" min="0" max="100"
+                        className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60" />
+                    </label>
+                    <label className="space-y-1.5">
+                      <span className="text-[11px] text-zinc-500">Makadam</span>
+                      <input type="number" defaultValue="25" min="0" max="100"
+                        className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60" />
+                    </label>
+                    <label className="space-y-1.5">
+                      <span className="text-[11px] text-zinc-500">Gozdna pot</span>
+                      <input type="number" defaultValue="65" min="0" max="100"
+                        className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60" />
+                    </label>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">GPX datoteka</span>
+                  <label className="flex cursor-pointer items-center justify-center rounded-2xl border border-dashed border-white/20 py-5 transition hover:border-[#c58b46]/40">
+                    <span className="text-sm text-zinc-500">↑ Naloži .gpx</span>
+                    <input type="file" accept=".gpx" className="hidden" />
+                  </label>
+                </div>
+              </div>
+            </section>
+
           </div>
 
           {/* ── Stranska kolona ── */}
@@ -311,15 +394,6 @@ export default function EditPohorskiFlowPage() {
                   </label>
                 </div>
               </div>
-            </div>
-
-            <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
-              <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Trasa v podatkih</div>
-              <select value={selectedTrail} onChange={(e) => setSelectedTrail(e.target.value)}
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60">
-                <option value="">— izberi turo —</option>
-                {trailOptions.map((t) => <option key={t} value={t}>{t}</option>)}
-              </select>
             </div>
 
             <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
