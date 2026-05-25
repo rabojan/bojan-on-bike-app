@@ -323,13 +323,44 @@ export default async function EditAmbassadorPage({
               </div>
             </section>
 
-            <section className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
-              <p className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Vloga ambasadorja
+            <section className="rounded-[28px] border border-[#c58b46]/25 bg-[#0b1a10] p-6">
+              <p className="mb-4 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                TOP ambasador
               </p>
 
+              {/* Stats summary */}
+              <div className="mb-5 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+                {[
+                  { value: ambassador.role === "TOP ambasador regije" ? 31 : 7, label: "ture" },
+                  { value: 3, label: "ponudniki" },
+                  { value: 2, label: "doživetja" },
+                  { value: 3, label: "znamenitosti" },
+                ].map((s) => (
+                  <div key={s.label} className="rounded-xl border border-white/10 bg-[#07110b] p-3 text-center">
+                    <div className="text-2xl font-black">{s.value}</div>
+                    <div className="mt-0.5 text-xs text-zinc-500">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Progress */}
+              <div className="mb-5">
+                <div className="mb-1.5 flex justify-between text-xs text-zinc-500">
+                  <span>Napredek do TOP ({30} tur)</span>
+                  <span className="font-bold">
+                    {ambassador.role === "TOP ambasador regije" ? 31 : 7} / 30
+                  </span>
+                </div>
+                <div className="h-2.5 overflow-hidden rounded-full bg-black/40">
+                  <div
+                    className="h-full rounded-full bg-[#c58b46]"
+                    style={{ width: ambassador.role === "TOP ambasador regije" ? "100%" : "23%" }}
+                  />
+                </div>
+              </div>
+
               <div className="grid gap-3">
-                <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm font-bold text-zinc-300">
+                <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm font-bold text-zinc-300 transition hover:border-white/20">
                   <input
                     type="radio"
                     name="ambassadorRole"
@@ -339,12 +370,12 @@ export default async function EditAmbassadorPage({
                   <span>
                     Ambasador regije
                     <span className="mt-1 block text-xs font-normal leading-5 text-zinc-500">
-                      Osnovna enakovredna vloga za ambasadorje izbranih regij.
+                      Osnovna vloga — brez posebne oznake.
                     </span>
                   </span>
                 </label>
 
-                <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4 text-sm font-bold text-zinc-300">
+                <label className={`flex items-start gap-3 rounded-2xl border p-4 text-sm font-bold transition ${ambassador.role === "TOP ambasador regije" ? "border-[#c58b46]/50 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-300 hover:border-[#c58b46]/30"}`}>
                   <input
                     type="radio"
                     name="ambassadorRole"
@@ -352,10 +383,9 @@ export default async function EditAmbassadorPage({
                     className="mt-1"
                   />
                   <span>
-                    TOP ambasador regije
+                    ★ TOP ambasador regije
                     <span className="mt-1 block text-xs font-normal leading-5 text-zinc-500">
-                      Posebna izpostavljena oznaka za najbolj aktivnega ali
-                      posebej izbranega ambasadorja.
+                      Posebna oznaka — vklopi ročno ko ambasador doseže 30 objavljenih tur.
                     </span>
                   </span>
                 </label>
