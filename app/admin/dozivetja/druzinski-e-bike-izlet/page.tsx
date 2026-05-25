@@ -2,227 +2,198 @@
 
 import Link from "next/link";
 import { useState } from "react";
-
 import AdminShell from "@/components/AdminShell";
 
-const experienceTypes = [
-  "Vinsko doživetje",
-  "Družinski izlet",
-  "Kulinarična tura",
-  "Razgledna pot",
-  "Vikend pobeg",
-  "Zgodbe krajev",
-  "e-bike dan",
-  "MTB flow",
-];
+type Step = {
+  id: number;
+  time: string;
+  icon: string;
+  title: string;
+  description: string;
+  provider: string;
+  attraction: string;
+  posebnosti: string[];
+};
 
-const trails = [
-  "Gozdni flow nad Mariborom",
-  "Med vinogradi in griči",
-  "Alpski pobeg ob vodi",
-];
+const providerOptions = ["Rudijev dom na Pohorju", "Gorska hiša Pohorje", "Vinska klet Jurančič"];
+const attractionOptions = ["Razgled nad Mariborom", "Pohorski gozdni odsek", "Stara planinska pot"];
+const trailOptions = ["Gozdni flow nad Mariborom", "Med vinogradi in griči", "Alpski pobeg ob vodi"];
+const experienceTypes = ["MTB flow", "Vinsko doživetje", "Družinski izlet", "Kulinarična tura", "Razgledna pot", "Vikend pobeg", "Zgodbe krajev", "E-bike dan"];
 
-const providers = [
-  "Rudijev dom na Pohorju",
-  "Gorska hiša Pohorje",
-  "Vinska klet med griči",
-];
+function StepCard({ step, index, total, onChange, onRemove, onMoveUp, onMoveDown }: {
+  step: Step; index: number; total: number;
+  onChange: (id: number, field: keyof Step, value: string | string[]) => void;
+  onRemove: (id: number) => void;
+  onMoveUp: (index: number) => void;
+  onMoveDown: (index: number) => void;
+}) {
+  const [newPosebnost, setNewPosebnost] = useState("");
+  const addPosebnost = () => { if (!newPosebnost.trim()) return; onChange(step.id, "posebnosti", [...step.posebnosti, newPosebnost.trim()]); setNewPosebnost(""); };
+  const removePosebnost = (j: number) => onChange(step.id, "posebnosti", step.posebnosti.filter((_, i) => i !== j));
 
-const attractions = [
-  "Razgled nad Mariborom",
-  "Pohorski gozdni odsek",
-  "Stara planinska pot",
-];
+  return (
+    <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-6">
+      <div className="mb-5 flex items-center gap-3">
+        <input value={step.icon} onChange={(e) => onChange(step.id, "icon", e.target.value)} className="w-14 rounded-xl border border-white/10 bg-black/20 py-3 text-center text-xl outline-none focus:border-[#c58b46]/50" />
+        <input value={step.time} onChange={(e) => onChange(step.id, "time", e.target.value)} placeholder="07:30" className="w-24 rounded-xl border border-white/10 bg-black/20 px-3 py-3 text-center text-sm font-bold text-[#c58b46] outline-none focus:border-[#c58b46]/50" />
+        <div className="flex-1" />
+        <div className="flex gap-1.5">
+          <button onClick={() => onMoveUp(index)} disabled={index === 0} className="rounded-lg border border-white/10 bg-black/20 px-2.5 py-1.5 text-sm text-zinc-400 disabled:opacity-20">↑</button>
+          <button onClick={() => onMoveDown(index)} disabled={index === total - 1} className="rounded-lg border border-white/10 bg-black/20 px-2.5 py-1.5 text-sm text-zinc-400 disabled:opacity-20">↓</button>
+          <button onClick={() => onRemove(step.id)} className="rounded-lg border border-red-900/40 bg-red-950/20 px-2.5 py-1.5 text-sm text-red-400">✕</button>
+        </div>
+      </div>
+      <div className="space-y-4">
+        <label className="block space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Naslov sklopa *</span>
+          <input value={step.title} onChange={(e) => onChange(step.id, "title", e.target.value)} className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50" /></label>
+        <label className="block space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Opis — ena vrstica</span>
+          <input value={step.description} onChange={(e) => onChange(step.id, "description", e.target.value)} className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50" /></label>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="block space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#c58b46]">Ponudnik</span>
+            <select value={step.provider} onChange={(e) => onChange(step.id, "provider", e.target.value)} className="w-full rounded-xl border border-[#c58b46]/20 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50">
+              <option value="">— brez ponudnika —</option>
+              {providerOptions.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select></label>
+          <label className="block space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Znamenitost</span>
+            <select value={step.attraction} onChange={(e) => onChange(step.id, "attraction", e.target.value)} className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50">
+              <option value="">— brez znamenitosti —</option>
+              {attractionOptions.map((a) => <option key={a} value={a}>{a}</option>)}
+            </select></label>
+        </div>
+        <div className="space-y-2">
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Posebnosti ob poti</span>
+          {step.posebnosti.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {step.posebnosti.map((p, j) => (
+                <span key={j} className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-400">
+                  {p} <button onClick={() => removePosebnost(j)} className="text-zinc-600 hover:text-red-400">×</button>
+                </span>
+              ))}
+            </div>
+          )}
+          <div className="flex gap-2">
+            <input value={newPosebnost} onChange={(e) => setNewPosebnost(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addPosebnost())}
+              placeholder="npr. 🛝 Igrišče za otroke ob stezi"
+              className="flex-1 rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-[#c58b46]/50" />
+            <button onClick={addPosebnost} className="rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm font-bold text-zinc-400 hover:border-[#c58b46]/40 hover:text-[#f4d7ad]">+ Dodaj</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-export default function EditExperiencePage() {
-  const [status, setStatus] = useState("Čaka na objavo");
+let nextId = 30;
+
+export default function EditDruzinskiEBikePage() {
+  const [status, setStatus] = useState("Objavljeno");
+  const [selectedTrail, setSelectedTrail] = useState("Gozdni flow nad Mariborom");
+  const [selectedTypes, setSelectedTypes] = useState(["Družinski izlet", "E-bike dan"]);
+
+  const [steps, setSteps] = useState<Step[]>([
+    { id: 21, time: "08:30", icon: "👨‍👩‍👧", title: "Start za vse", description: "Parkirišče ob spodnjem delu Pohorja. Koles naloženih, nahrbtnikov napolnjenih.", provider: "", attraction: "", posebnosti: ["🅿️ Brezplačno parkirišče", "🚻 Sanitarije ob parkirišču"] },
+    { id: 22, time: "09:00", icon: "🔋", title: "Vzpon brez stresa", description: "E-bike poskrbi, da vzpon ne izčrpa. Otroci in starši v istem tempu.", provider: "", attraction: "", posebnosti: [] },
+    { id: 23, time: "10:30", icon: "🌲", title: "Gozdni postanek", description: "Mirno mesto med drevesi. Malica, opazovanje narave, kratek počitek.", provider: "", attraction: "Pohorski gozdni odsek", posebnosti: ["🛝 Igrišče za otroke ob stezi", "🪵 Klopca in mize za malico"] },
+    { id: 24, time: "12:00", icon: "🍲", title: "Kosilo pri Rudijevem domu", description: "Terasa z razgledom, domača hrana in polnilnica za baterije.", provider: "Rudijev dom na Pohorju", attraction: "", posebnosti: ["🔋 E-bike polnilnica", "👶 Otroški meni"] },
+    { id: 25, time: "13:30", icon: "🚵", title: "Povratek po gozdnih poteh", description: "Nazaj s spusti, ki so ravno prav dolgimi za otroke.", provider: "", attraction: "", posebnosti: [] },
+    { id: 26, time: "15:30", icon: "🏁", title: "Konec, ki se ga zapomni", description: "Utrujeni in zadovoljni. Otroci bodo prosili, da greste spet.", provider: "", attraction: "", posebnosti: [] },
+  ]);
+
+  const addStep = () => setSteps((prev) => [...prev, { id: nextId++, time: "", icon: "📍", title: "", description: "", provider: "", attraction: "", posebnosti: [] }]);
+  const updateStep = (id: number, field: keyof Step, value: string | string[]) => setSteps((prev) => prev.map((s) => s.id === id ? { ...s, [field]: value } : s));
+  const removeStep = (id: number) => setSteps((prev) => prev.filter((s) => s.id !== id));
+  const moveStep = (index: number, direction: number) => { setSteps((prev) => { const next = [...prev]; const [removed] = next.splice(index, 1); next.splice(index + direction, 0, removed); return next; }); };
+  const toggleType = (type: string) => setSelectedTypes((prev) => prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]);
 
   return (
     <AdminShell active="dozivetja">
       <div className="space-y-8">
         <section className="flex flex-col gap-5 rounded-[36px] border border-white/10 bg-[#0b1a10] p-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-              Admin / Doživetja / Uredi
-            </div>
+            <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">Admin / Doživetja / Uredi</div>
             <h1 className="mt-4 text-4xl font-black">Družinski e-bike izlet</h1>
-            <p className="mt-5 max-w-3xl leading-8 text-zinc-400">
-              Doživetje poveže turo, ponudnike, znamenitosti in občutek dneva v
-              eno jasno idejo za uporabnika.
-            </p>
+            <p className="mt-3 max-w-xl text-sm leading-7 text-zinc-500">Uredi časovne sklope, ponudnike, znamenitosti in posebnosti dneva.</p>
           </div>
-
           <div className="flex flex-wrap gap-3">
-            <Link
-              href="/admin/dozivetja"
-              className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-zinc-300"
-            >
-              ← Nazaj na doživetja
-            </Link>
-            <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">
-              Shrani spremembe
-            </button>
+            <Link href="/dozivetja/druzinski-e-bike-izlet" target="_blank" className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-zinc-300">Predogled ↗</Link>
+            <Link href="/admin/dozivetja" className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-zinc-300">← Nazaj</Link>
+            <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">Shrani spremembe</button>
           </div>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-2">
-          <div className="space-y-6">
-            <div className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Osnovni podatki
-              </div>
-
+        <div className="grid gap-8 xl:grid-cols-[1fr_320px]">
+          <div className="space-y-8">
+            <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+              <div className="mb-6 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Osnovni podatki</div>
               <div className="grid gap-5 md:grid-cols-2">
-                <label className="space-y-2 md:col-span-2">
-                  <span className="text-sm font-semibold text-zinc-300">Naslov doživetja *</span>
-                  <input
-                    defaultValue="Družinski e-bike izlet"
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
-                  />
-                </label>
-
-                <label className="space-y-2">
-                  <span className="text-sm font-semibold text-zinc-300">Regija *</span>
-                  <input
-                    defaultValue="Pohorje"
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
-                  />
-                </label>
-
-                <label className="space-y-2">
-                  <span className="text-sm font-semibold text-zinc-300">Območje</span>
-                  <input
-                    defaultValue="Pohorje"
-                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
-                  />
-                </label>
-
-                <div className="space-y-3 md:col-span-2">
-                  <span className="text-sm font-semibold text-zinc-300">Tip doživetja *</span>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {experienceTypes.map((type) => (
-                      <label
-                        key={type}
-                        className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#07110b] p-4"
-                      >
-                        <input type="checkbox" defaultChecked={type === "Družinski izlet"} />
-                        <span className="font-bold">{type}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+                <label className="col-span-2 space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Naslov *</span>
+                  <input defaultValue="Družinski e-bike izlet" className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" /></label>
+                <label className="col-span-2 space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Tagline *</span>
+                  <input defaultValue="Gozd, ki počaka. Tempo, ki ga narekujete vi. Dan za celo družino." className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" /></label>
+                <label className="space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Regija</span>
+                  <input defaultValue="Štajerska" className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" /></label>
+                <label className="space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Območje</span>
+                  <input defaultValue="Pohorje" className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" /></label>
+                <label className="col-span-2 space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Zakaj ta dan?</span>
+                  <textarea defaultValue="Pohorje ni samo za tekmovalce. Ta dan je zasnovan za družine — odseki, ki so obvladljivi za otroke, postanki, kjer se vsi nasmejijo, in tempo, ki dovoli, da dan res dihate skupaj." rows={4}
+                    className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60" /></label>
               </div>
-            </div>
+            </section>
 
-            <div className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Zgodba doživetja
+            <section className="rounded-[32px] border border-[#c58b46]/20 bg-black/20 p-7">
+              <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ritem dneva</div>
+              <p className="mb-7 text-sm leading-7 text-zinc-500">{steps.length} korakov</p>
+              <div className="space-y-4">
+                {steps.map((step, i) => (
+                  <StepCard key={step.id} step={step} index={i} total={steps.length}
+                    onChange={updateStep} onRemove={removeStep} onMoveUp={(idx) => moveStep(idx, -1)} onMoveDown={(idx) => moveStep(idx, 1)} />
+                ))}
               </div>
-
-              <label className="space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">Kratek opis *</span>
-                <textarea
-                  defaultValue="Krajša razdalja, varnejši odseki in dovolj postankov, da lahko v dnevu uživa cela družina."
-                  rows={5}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
-                />
-              </label>
-
-              <label className="mt-5 block space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">Daljša zgodba</span>
-                <textarea
-                  placeholder="Dodaj širši kontekst, občutek dneva ali zakaj je to doživetje idealno za družine..."
-                  rows={7}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
-                />
-              </label>
-            </div>
-
-            <div className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Hero slika *
-              </div>
-              <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]">
-                <div className="flex min-h-[240px] items-center justify-center bg-black/20 p-8 text-center">
-                  <div>
-                    <div className="text-5xl">✨</div>
-                    <div className="mt-4 text-xl font-black">Naloži sliko doživetja</div>
-                    <p className="mt-3 max-w-sm text-sm leading-7 text-zinc-400">
-                      Slika naj pokaže občutek dneva: družina, kolesarjenje, razgled ali narava.
-                    </p>
-                  </div>
-                </div>
-                <div className="border-t border-white/10 p-5">
-                  <label className="flex cursor-pointer items-center justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black transition hover:opacity-90">
-                    Izberi sliko
-                    <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" />
-                  </label>
-                </div>
-              </div>
-            </div>
+              <button onClick={addStep} className="mt-5 flex w-full items-center justify-center gap-2 rounded-[20px] border border-dashed border-white/20 py-4 text-sm font-bold text-zinc-500 transition hover:border-[#c58b46]/40 hover:text-[#f4d7ad]">
+                + Dodaj časovni sklop
+              </button>
+            </section>
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Status objave *
-              </div>
-              <select
-                value={status}
-                onChange={(event) => setStatus(event.target.value)}
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
-              >
-                <option>Čaka na objavo</option>
-                <option>Oddano v pregled</option>
-                <option>Potrebni popravki</option>
-                <option>Objavljeno</option>
-                <option>Arhivirano</option>
+            <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
+              <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Status</div>
+              <select value={status} onChange={(e) => setStatus(e.target.value)} className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none">
+                <option>Čaka na objavo</option><option>Oddano v pregled</option><option>Potrebni popravki</option><option>Objavljeno</option><option>Arhivirano</option>
               </select>
             </div>
-
-            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Povezane ture *
-              </div>
-              <div className="space-y-4">
-                {trails.map((trail) => (
-                  <label key={trail} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <input type="checkbox" defaultChecked={trail === "Gozdni flow nad Mariborom"} />
-                    <span className="font-bold">{trail}</span>
+            <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
+              <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Hero slika</div>
+              <div className="overflow-hidden rounded-[20px] border border-white/10 bg-[#07110b]">
+                <div className="flex h-36 items-center justify-center bg-black/20"><span className="text-zinc-600 text-sm">Unsplash slika</span></div>
+                <div className="border-t border-white/10 p-4">
+                  <label className="flex cursor-pointer items-center justify-center rounded-full border border-white/10 px-5 py-3 text-xs font-bold text-zinc-400">
+                    Zamenjaj sliko <input type="file" accept="image/*" className="hidden" />
                   </label>
-                ))}
+                </div>
               </div>
             </div>
-
-            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Povezani ponudniki
-              </div>
-              <div className="space-y-4">
-                {providers.map((provider) => (
-                  <label key={provider} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <input type="checkbox" defaultChecked={provider === "Gorska hiša Pohorje"} />
-                    <span className="font-bold">{provider}</span>
-                  </label>
-                ))}
-              </div>
+            <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
+              <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Trasa</div>
+              <select value={selectedTrail} onChange={(e) => setSelectedTrail(e.target.value)} className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none">
+                <option value="">— izberi —</option>
+                {trailOptions.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
             </div>
-
-            <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
-              <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Povezane znamenitosti
-              </div>
-              <div className="space-y-4">
-                {attractions.map((attraction) => (
-                  <label key={attraction} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <input type="checkbox" />
-                    <span className="font-bold">{attraction}</span>
+            <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
+              <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Tip doživetja</div>
+              <div className="space-y-2">
+                {experienceTypes.map((type) => (
+                  <label key={type} className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-black/20 px-4 py-3">
+                    <input type="checkbox" checked={selectedTypes.includes(type)} onChange={() => toggleType(type)} className="accent-[#c58b46]" />
+                    <span className="text-sm font-semibold">{type}</span>
                   </label>
                 ))}
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </AdminShell>
   );
