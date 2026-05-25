@@ -88,7 +88,7 @@ export default function AmbassadorDashboardPage() {
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
-      <SiteHeader backHref="/" active="ambasador" />
+      <SiteHeader backHref="/" />
 
       {/* ── PROFIL HERO ── */}
       <section className="border-b border-white/10 bg-[#0b1a10] px-5 py-12 md:px-6 md:py-16">
