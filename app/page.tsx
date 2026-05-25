@@ -510,29 +510,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PREDLAGAJ TURO CTA ── */}
+      {/* ── AMBASADOR CTA ── */}
       <section className="border-b border-white/10 bg-[#07110b] px-6 py-16">
-        <div className="mx-auto grid max-w-6xl gap-8 rounded-[36px] border border-[#c58b46]/20 bg-[#c58b46]/10 p-8 md:grid-cols-[1fr_auto] md:items-center md:p-10">
-          <div>
-            <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-              Skupnost lokalnih kolesarjev
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] border border-[#c58b46]/20 bg-[#c58b46]/10">
+          <div className="grid md:grid-cols-[1fr_auto] md:items-center">
+            <div className="p-8 md:p-10">
+              <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                Kolesarski ambasadorji
+              </div>
+              <h2 className="mt-4 max-w-3xl font-serif text-4xl font-black italic leading-tight tracking-tight text-white md:text-5xl">
+                Postani kolesarski ambasador svoje regije.
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-zinc-400">
+                Poznaš lokalno pot, ki si zasluži več pozornosti? Pridruži se
+                mreži ambasadorjev — predlagaj ture, poveži ponudnike in
+                znamenitosti. Vsaka objava nosi tvoj podpis.
+              </p>
             </div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-black tracking-tight text-white md:text-4xl">
-              Poznaš lokalno pot, ki si zasluži več pozornosti?
-            </h2>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-              Predlagaj traso, ki jo poznaš, si jo prevozil ali bi jo priporočil
-              drugim. Tura ostane povezana s teboj, skupaj pa jo oblikujemo v
-              pravo kolesarsko doživetje.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3 md:justify-end">
-            <Link
-              href="/predlagaj-turo"
-              className="rounded-full bg-[#c58b46] px-7 py-4 text-sm font-black text-black"
-            >
-              Predlagaj svojo turo
-            </Link>
+            <div className="flex flex-col gap-3 border-t border-white/10 p-8 md:border-l md:border-t-0 md:p-10">
+              <Link
+                href="/predlagaj-turo"
+                className="rounded-full bg-[#c58b46] px-7 py-4 text-center text-sm font-black text-black"
+              >
+                Postani ambasador
+              </Link>
+              <Link
+                href="/ambasador/prijava"
+                className="rounded-full border border-white/10 px-7 py-4 text-center text-sm font-bold text-zinc-300"
+              >
+                Prijava
+              </Link>
+            </div>
           </div>
         </div>
       </section>
