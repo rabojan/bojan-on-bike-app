@@ -166,6 +166,20 @@ export default function NewPoiPage() {
 
               <label className="mt-5 block space-y-2">
                 <span className="text-sm font-semibold text-zinc-300">
+                  Namig za obisk
+                </span>
+                <textarea
+                  placeholder="npr. Najlepši razgled je ob jasnem vremenu ali pozno popoldne. Do točke vodi kratek odcep..."
+                  rows={4}
+                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
+                />
+                <p className="text-xs text-zinc-600">
+                  Praktičen nasvet za kolesarja: kdaj obiskati, na kaj paziti, kako dostopati. Prikaže se v sekciji "Namig za obisk" na strani znamenitosti.
+                </p>
+              </label>
+
+              <label className="mt-5 block space-y-2">
+                <span className="text-sm font-semibold text-zinc-300">
                   Wikipedia povezava
                 </span>
                 <input

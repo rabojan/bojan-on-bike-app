@@ -225,9 +225,26 @@ export default function NewProviderPage() {
                 </span>
                 <textarea
                   placeholder="Kratek opis ponudbe, vzdušja in zakaj je zanimiv za kolesarje..."
-                  rows={5}
+                  rows={4}
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
                 />
+                <p className="text-xs text-zinc-600">
+                  Prikaže se na kartici v katalogu ponudnikov (kratko, do 2 vrstici).
+                </p>
+              </label>
+
+              <label className="mt-5 block space-y-2">
+                <span className="text-sm font-semibold text-zinc-300">
+                  Zgodba ponudnika
+                </span>
+                <textarea
+                  placeholder="Daljše besedilo, ki pove kdo je ponudnik, kakšen je prostor, zakaj se splača ustaviti..."
+                  rows={6}
+                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
+                />
+                <p className="text-xs text-zinc-600">
+                  Prikaže se v heroju in glavnem tekstu na detail strani ponudnika. Piši v prvem ali tretjem osebu, v duhu Bojan on Bike glasnika.
+                </p>
               </label>
 
               <label className="mt-5 block space-y-2">
@@ -325,38 +342,58 @@ export default function NewProviderPage() {
 
             <div className="rounded-[32px] border border-white/10 bg-black/20 p-7">
               <div className="mb-6 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-                Slika ponudnika
+                Slike ponudnika
               </div>
 
+              {/* Hero slika */}
               <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]">
-                <div className="flex min-h-[240px] items-center justify-center bg-black/20 p-8 text-center">
+                <div className="flex min-h-[200px] items-center justify-center bg-black/20 p-8 text-center">
                   <div>
                     <div className="text-5xl">📷</div>
                     <div className="mt-4 text-xl font-black">
-                      Naloži sliko ponudnika
+                      Hero slika ponudnika
                     </div>
                     <p className="mt-3 max-w-sm text-sm leading-7 text-zinc-400">
-                      Najbolje delujejo horizontalne slike ponudnika, ambienta,
-                      hrane, terase, vinske kleti ali lokacije.
+                      Glavna slika — prikaže se v heroju in katalogu. Horizontalna,
+                      ambiente, terasa ali razgled.
                     </p>
                   </div>
                 </div>
 
                 <div className="border-t border-white/10 p-5">
                   <label className="flex cursor-pointer items-center justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black transition hover:opacity-90">
-                    Izberi sliko
+                    Izberi hero sliko
                     <input
                       type="file"
                       accept="image/jpeg,image/png,image/webp"
                       className="hidden"
                     />
                   </label>
-
-                  <div className="mt-4 text-center text-xs leading-6 text-zinc-500">
-                    Podprto: JPG, PNG, WEBP. Kasneje bo slika shranjena v
-                    Supabase Storage.
-                  </div>
                 </div>
+              </div>
+
+              {/* Galerija */}
+              <div className="mt-6">
+                <div className="mb-3 text-sm font-semibold text-zinc-300">
+                  Galerija <span className="font-normal text-zinc-600">(do 6 slik)</span>
+                </div>
+                <p className="mb-4 text-xs leading-6 text-zinc-600">
+                  Slike galerije se prikažejo na detail strani ponudnika v sekciji "v slikah". Priporoča se vsaj 4 slike: ambient, hrana, pogled, detajl.
+                </p>
+
+                <div className="grid grid-cols-3 gap-3">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <label key={i} className="group cursor-pointer">
+                      <div className="flex aspect-square items-center justify-center rounded-2xl border border-dashed border-white/20 bg-black/20 transition group-hover:border-[#c58b46]/40">
+                        <span className="text-xl text-zinc-600 group-hover:text-zinc-400">+</span>
+                      </div>
+                      <input type="file" accept="image/*" className="hidden" />
+                    </label>
+                  ))}
+                </div>
+                <p className="mt-3 text-xs text-zinc-600">
+                  Podprto: JPG, PNG, WEBP. Slike bodo shranjene v Supabase Storage.
+                </p>
               </div>
             </div>
           </div>

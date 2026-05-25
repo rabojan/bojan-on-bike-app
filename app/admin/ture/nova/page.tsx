@@ -74,6 +74,8 @@ export default function NewTrailPage() {
   const [gpxKm, setGpxKm] = useState("");
   const [gpxVzpon, setGpxVzpon] = useState("");
   const [gpxVisina, setGpxVisina] = useState("");
+  const [gpxSpust, setGpxSpust] = useState("");
+  const [gpxMinVisina, setGpxMinVisina] = useState("");
   const [asfalt, setAsfalt] = useState("");
   const [makadam, setMakadam] = useState("");
   const [gozdna, setGozdna] = useState("");
@@ -103,12 +105,15 @@ export default function NewTrailPage() {
     const validEle = elevations.filter((e) => !isNaN(e));
 
     const maxEle = validEle.length ? Math.max(...validEle) : 0;
+    const minEle = validEle.length ? Math.min(...validEle) : 0;
 
     let totalAscent = 0;
+    let totalDescent = 0;
     for (let i = 1; i < elevations.length; i++) {
       if (!isNaN(elevations[i]) && !isNaN(elevations[i - 1])) {
         const diff = elevations[i] - elevations[i - 1];
         if (diff > 0) totalAscent += diff;
+        else if (diff < 0) totalDescent += Math.abs(diff);
       }
     }
 
@@ -125,6 +130,8 @@ export default function NewTrailPage() {
       km: (totalDistM / 1000).toFixed(1),
       vzpon: Math.round(totalAscent).toString(),
       visina: Math.round(maxEle).toString(),
+      spust: Math.round(totalDescent).toString(),
+      minVisina: Math.round(minEle).toString(),
     };
   }
 
@@ -141,10 +148,14 @@ export default function NewTrailPage() {
         setGpxKm(result.km);
         setGpxVzpon(result.vzpon);
         setGpxVisina(result.visina);
+        setGpxSpust(result.spust);
+        setGpxMinVisina(result.minVisina);
       } else {
         setGpxKm("–");
         setGpxVzpon("–");
         setGpxVisina("–");
+        setGpxSpust("–");
+        setGpxMinVisina("–");
       }
       setGpxUploaded(true);
     };
@@ -415,11 +426,13 @@ export default function NewTrailPage() {
               {locked ? (
                 <LockedSection />
               ) : (
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-4 md:grid-cols-5">
                   {[
                     { label: "Dolžina", value: gpxKm, unit: "km" },
                     { label: "Skupni vzpon", value: gpxVzpon, unit: "vm" },
+                    { label: "Skupni spust", value: gpxSpust, unit: "vm" },
                     { label: "Najvišja točka", value: gpxVisina, unit: "m" },
+                    { label: "Najnižja točka", value: gpxMinVisina, unit: "m" },
                   ].map((item) => (
                     <div
                       key={item.label}
