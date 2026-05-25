@@ -103,16 +103,7 @@ export default function AttractionsPage() {
       />
 
       <section className="mx-auto max-w-6xl px-5 py-12 md:px-6 md:py-16">
-        <div className="mb-8 flex items-center gap-3 rounded-2xl border border-[#c58b46] bg-[#c58b46]/15 px-5 py-4">
-          <span className="text-xl">🏅</span>
-          <p className="text-sm text-zinc-300">
-            <span className="font-bold text-white">Znamenitosti lahko dodajajo samo kolesarski ambasadorji in admin.</span>
-            {"  "}
-            <Link href="/predlagaj-turo" className="font-bold text-[#c58b46] underline underline-offset-2 hover:text-[#f4d7ad]">Postani ambasador →</Link>
-          </p>
-        </div>
-
-        <div className="mb-10">
+<div className="mb-10">
           <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
             Odkrij po motivu
           </div>

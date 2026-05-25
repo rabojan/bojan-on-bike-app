@@ -105,14 +105,6 @@ export default function ProvidersPage() {
             ))}
           </div>
 
-          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-[#c58b46] bg-[#c58b46]/15 px-5 py-4">
-            <span className="text-xl">🏅</span>
-            <p className="text-sm text-zinc-300">
-              <span className="font-bold text-white">Ponudnike lahko dodajajo samo kolesarski ambasadorji in admin.</span>
-              {"  "}
-              <Link href="/predlagaj-turo" className="font-bold text-[#c58b46] underline underline-offset-2 hover:text-[#f4d7ad]">Postani ambasador →</Link>
-            </p>
-          </div>
         </div>
       </section>
 
