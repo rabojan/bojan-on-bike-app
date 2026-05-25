@@ -82,39 +82,36 @@ export default function SiteHeader({ backHref, active }: SiteHeaderProps) {
       </header>
 
       {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#07110b]/95 px-5 pt-24 backdrop-blur-2xl md:hidden">
+        <div className="fixed inset-0 z-40 bg-[#07110b]/95 px-5 pt-20 backdrop-blur-2xl md:hidden">
           <nav className="flex flex-col">
             <Link
               href="/ture"
               onClick={() => setMenuOpen(false)}
-              className="border-b border-white/10 py-7 text-4xl font-black text-white"
+              className={`border-b border-white/10 py-4 text-xl font-bold ${navClass("ture")}`}
             >
               Ture
             </Link>
-
             <Link
               href="/dozivetja"
               onClick={() => setMenuOpen(false)}
-              className="border-b border-white/10 py-7 text-4xl font-black text-white"
+              className={`border-b border-white/10 py-4 text-xl font-bold ${navClass("dozivetja")}`}
             >
               Doživetja
             </Link>
-
             <Link
               href="/ponudniki"
               onClick={() => setMenuOpen(false)}
-              className="border-b border-white/10 py-7 text-4xl font-black text-white"
+              className={`border-b border-white/10 py-4 text-xl font-bold ${navClass("ponudniki")}`}
             >
               Ponudniki
             </Link>
-
-          <Link
-            href="/znamenitosti"
-            onClick={() => setMenuOpen(false)}
-            className="border-b border-white/10 py-7 text-4xl font-black text-white"
-          >
-            Znamenitosti
-          </Link>
+            <Link
+              href="/znamenitosti"
+              onClick={() => setMenuOpen(false)}
+              className={`border-b border-white/10 py-4 text-xl font-bold ${navClass("znamenitosti")}`}
+            >
+              Znamenitosti
+            </Link>
           </nav>
         </div>
       )}
