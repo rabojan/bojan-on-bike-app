@@ -231,8 +231,8 @@ export default function AttractionsPage() {
           <div className="grid md:grid-cols-2">
             <div className="min-h-[420px]">
               <img
-                src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop"
-                alt="Postanek ob poti"
+                src="/hero-ture.png"
+                alt="Kolesarska tura"
                 className="h-full w-full object-cover"
               />
             </div>

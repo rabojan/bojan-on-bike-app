@@ -43,6 +43,7 @@ export default function AttractionDetailPage() {
           src={attraction.image}
           alt={attraction.name}
           className="absolute inset-0 h-full w-full object-cover opacity-55"
+          style={{ objectPosition: "20% center" }}
         />
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-[#07110b]/50 to-[#07110b]" />
