@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import { useEffect, useMemo, useState } from "react";
 import PageHero from "@/components/PageHero";
@@ -57,19 +58,45 @@ type Tura = {
 };
 
 export default function TurePage() {
+  const router = useRouter();
   const [ture, setTure] = useState<Tura[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeRegion, setActiveRegion] = useState("Vse");
   const [activeDifficulty, setActiveDifficulty] = useState("Vse");
 
+  // Beri URL parametre ob prvem nalaganju
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const regionFromUrl = params.get("pokrajina") || params.get("regija");
+    const diffFromUrl = params.get("tezavnost");
     if (regionFromUrl) {
       const matched = regions.find((r) => slugify(r) === regionFromUrl);
       if (matched) setActiveRegion(matched);
     }
+    if (diffFromUrl) {
+      const matched = difficulties.find((d) => slugify(d) === diffFromUrl);
+      if (matched) setActiveDifficulty(matched);
+    }
   }, []);
+
+  // Posodobi URL ko se filter spremeni (za deljenje linkov)
+  function updateUrl(region: string, difficulty: string) {
+    const params = new URLSearchParams();
+    if (region !== "Vse") params.set("pokrajina", slugify(region));
+    if (difficulty !== "Vse") params.set("tezavnost", slugify(difficulty));
+    const qs = params.toString();
+    router.replace(qs ? `/ture?${qs}` : "/ture", { scroll: false });
+  }
+
+  function handleRegionChange(value: string) {
+    setActiveRegion(value);
+    updateUrl(value, activeDifficulty);
+  }
+
+  function handleDifficultyChange(value: string) {
+    setActiveDifficulty(value);
+    updateUrl(activeRegion, value);
+  }
 
   useEffect(() => {
     async function load() {
@@ -121,14 +148,14 @@ export default function TurePage() {
           <div className="grid gap-3 md:grid-cols-2">
             <label className="block">
               <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">Pokrajina</span>
-              <select value={activeRegion} onChange={(e) => setActiveRegion(e.target.value)}
+              <select value={activeRegion} onChange={(e) => handleRegionChange(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60">
                 {regions.map((r) => <option key={r}>{r}</option>)}
               </select>
             </label>
             <label className="block">
               <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">Zahtevnost</span>
-              <select value={activeDifficulty} onChange={(e) => setActiveDifficulty(e.target.value)}
+              <select value={activeDifficulty} onChange={(e) => handleDifficultyChange(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60">
                 {difficulties.map((d) => <option key={d}>{d}</option>)}
               </select>
