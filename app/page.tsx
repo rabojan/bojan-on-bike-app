@@ -1,87 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import PageHero from "@/components/PageHero";
+import { supabase } from "@/lib/supabase";
 
-const menuItems = [
-  { label: "Ture", href: "/ture" },
-  { label: "Doživetja", href: "#dozivetja" },
-  { label: "Ponudniki", href: "/ponudniki" },
-];
-
-const topTrails = [
-  {
-    rank: "01",
-    title: "Gozdni flow nad Mariborom",
-    region: "Štajerska",
-    destination: "Pohorje",
-    distance: "32 km",
-    elevation: "890 vm",
-    type: "MTB",
-    tags: ["e-bike friendly", "gozdni pobeg", "lokalni postanek"],
-    image:
-      "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1400",
-  },
-  {
-    rank: "02",
-    title: "Med vinogradi in griči",
-    region: "Štajerska",
-    destination: "Slovenske gorice",
-    distance: "48 km",
-    elevation: "620 vm",
-    type: "Gravel",
-    tags: ["za pare", "lokalni postanek", "e-bike friendly"],
-    image:
-      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=85&w=1400",
-  },
-  {
-    rank: "03",
-    title: "Alpski pobeg ob vodi",
-    region: "Primorska",
-    destination: "Soška dolina",
-    distance: "86 km",
-    elevation: "1450 vm",
-    type: "Bikepacking",
-    tags: ["vikend ideja", "gozdni pobeg", "družinam prijazno"],
-    image:
-      "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?auto=format&fit=crop&q=85&w=1400",
-  },
-];
-
-const dozivetja = [
-  {
-    title: "Gozdni dan nad mestom",
-    mood: "Gozdni pobeg",
-    image:
-      "https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1400",
-    tour: "Gozdni flow nad Mariborom",
-    stop: "Rudijev dom na Pohorju",
-    highlight: "Razgled nad Mariborom",
-    href: "/ture/gozdni-flow-nad-mariborom",
-  },
-  {
-    title: "Vinski vikend za pare",
-    mood: "Za pare",
-    image:
-      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=85&w=1400",
-    tour: "Med vinogradi in griči",
-    stop: "Vinska klet med griči",
-    highlight: "Vinogradniške terase",
-    href: "/ture/med-vinogradi-in-grici",
-  },
-  {
-    title: "Alpska pustolovščina",
-    mood: "Vikend ideja",
-    image:
-      "https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?auto=format&fit=crop&q=85&w=1400",
-    tour: "Alpski pobeg ob vodi",
-    stop: "Gorska koča ob reki",
-    highlight: "Soška dolina",
-    href: "/ture/alpski-pobeg-ob-vodi",
-  },
-];
+type TuraCard = {
+  id: string;
+  ime: string;
+  regija: string;
+  obmocje: string | null;
+  km: number | null;
+  visinska_razlika: number | null;
+  tezavnost: string | null;
+  tipi: string[] | null;
+  hero_image: string | null;
+  opis: string | null;
+};
 
 const regions = [
   "Štajerska",
@@ -91,12 +27,6 @@ const regions = [
   "Notranjska",
   "Dolenjska",
   "Prekmurje",
-];
-
-const stats = [
-  { value: "30+", label: "idej za kolesarski dan" },
-  { value: "7", label: "slovenskih pokrajin" },
-  { value: "za vse", label: "pare, družine in raziskovalce" },
 ];
 
 const howItWorks = [
@@ -129,6 +59,53 @@ function slugify(value: string) {
 }
 
 export default function Home() {
+  const [ture, setTure] = useState<TuraCard[]>([]);
+  const [tureCount, setTureCount] = useState<number | null>(null);
+  const [ponudnikiCount, setPonudnikiCount] = useState<number | null>(null);
+  const [znamenitostiCount, setZnamenitostiCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function load() {
+      const [tureRes, ponudnikiRes, znamenitostiRes] = await Promise.all([
+        supabase
+          .from("predlogi_tur")
+          .select("id, ime, regija, obmocje, km, visinska_razlika, tezavnost, tipi, hero_image, opis")
+          .eq("status", "approved")
+          .order("created_at", { ascending: false })
+          .limit(3),
+        supabase
+          .from("predlogi_ponudnikov")
+          .select("id", { count: "exact", head: true })
+          .eq("status", "approved"),
+        supabase
+          .from("predlogi_znamenitosti")
+          .select("id", { count: "exact", head: true })
+          .eq("status", "approved"),
+      ]);
+
+      const tureData = tureRes.data ?? [];
+      setTure(tureData);
+      setTureCount(tureData.length > 0 ? (tureRes.count ?? tureData.length) : 0);
+      setPonudnikiCount(ponudnikiRes.count ?? 0);
+      setZnamenitostiCount(znamenitostiRes.count ?? 0);
+    }
+    load();
+  }, []);
+
+  const zadnjaTura = ture[0] ?? null;
+  const top3 = ture.slice(0, 3);
+
+  const stats = [
+    { value: tureCount !== null ? `${tureCount}` : "—", label: "kolesarskih tur" },
+    { value: "7", label: "slovenskih pokrajin" },
+    {
+      value: ponudnikiCount !== null && znamenitostiCount !== null
+        ? `${ponudnikiCount + znamenitostiCount}`
+        : "—",
+      label: "postankov in točk",
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader />
@@ -166,7 +143,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── DOŽIVETJA — na vrhu, vizualne karte ── */}
+      {/* ── DOŽIVETJA — CTA ── */}
       <section id="dozivetja" className="px-5 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -189,198 +166,201 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            {dozivetja.map((d) => (
-              <Link
-                key={d.title}
-                href={d.href}
-                className="group overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1a10] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
-              >
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={d.image}
-                    alt={d.title}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-[#0b1a10]/30 to-transparent" />
-                  <div className="absolute left-4 top-4">
-                    <span className="rounded-full border border-[#c58b46]/40 bg-black/50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f4d7ad] backdrop-blur">
-                      {d.mood}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-7">
-                  <h3 className="font-serif text-2xl font-black italic leading-tight">
-                    {d.title}
-                  </h3>
-
-                  <div className="mt-5 space-y-3">
-                    <div className="flex items-start gap-3 text-sm">
-                      <span className="mt-0.5 shrink-0 text-[#c58b46]">⬡</span>
-                      <span className="text-zinc-300">{d.tour}</span>
-                    </div>
-                    <div className="flex items-start gap-3 text-sm">
-                      <span className="mt-0.5 shrink-0 text-[#c58b46]">◎</span>
-                      <span className="text-zinc-400">{d.stop}</span>
-                    </div>
-                    <div className="flex items-start gap-3 text-sm">
-                      <span className="mt-0.5 shrink-0 text-[#c58b46]">◈</span>
-                      <span className="text-zinc-400">{d.highlight}</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-7 text-sm font-bold text-[#c58b46]">
-                    Oglej si dan →
-                  </div>
-                </div>
-              </Link>
-            ))}
+          <div className="overflow-hidden rounded-[2rem] border border-[#c58b46]/20 bg-[#c58b46]/5 p-10 md:p-14">
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Prihaja kmalu</p>
+            <h3 className="mb-5 font-serif text-3xl font-black italic leading-tight md:text-4xl">
+              Doživetja — kurirana kolesarska doživetja.
+            </h3>
+            <p className="mb-8 max-w-2xl text-base leading-8 text-zinc-400">
+              Vsako doživetje bo vključevalo turo, postanke pri lokalnih ponudnikih in znamenitosti ob poti — vse v enem.
+            </p>
+            <Link
+              href="/ture"
+              className="inline-flex rounded-full bg-[#c58b46] px-8 py-4 text-sm font-black text-black transition hover:bg-[#d9a35d]"
+            >
+              Medtem si oglej ture →
+            </Link>
           </div>
         </div>
       </section>
 
       {/* ── ZADNJA DODANA TURA ── */}
-      <section className="border-t border-white/10 px-5 py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12">
-            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-              Zadnja dodana tura
-            </p>
-            <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
-              Sveža ideja za naslednji kolesarski dan.
-            </h2>
-          </div>
-
-          <article className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1a10] md:grid-cols-[1.15fr_0.85fr]">
-            <div className="relative h-72 overflow-hidden md:min-h-[360px] md:h-auto">
-              <img
-                src="https://images.unsplash.com/photo-1669372701525-06dde0779ba6?auto=format&fit=crop&q=85&w=1800"
-                alt="Gorsko kolesarjenje po gozdu"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/80 via-transparent to-transparent" />
-            </div>
-
-            <div className="flex flex-col justify-center p-8 md:p-12">
-              <div className="mb-6 flex flex-wrap gap-3 text-sm">
-                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">Štajerska</span>
-                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">Pohorje</span>
-                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-emerald-300">e-bike friendly</span>
-                <span className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-4 py-2 text-[#f4d7ad]">družinam prijazno</span>
-                <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">lokalni postanek</span>
-              </div>
-
-              <h3 className="mb-5 font-serif text-3xl font-black italic leading-tight sm:text-4xl">
-                Gozdni flow nad Mariborom
-              </h3>
-
-              <p className="mb-7 text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
-                Tura skozi pohorske gozdove, razglede in spuste, z dovolj prostora
-                za lep ritem, postanek in občutek dneva nad mestom.
-              </p>
-
-              <div className="mb-8 grid grid-cols-3 gap-2 sm:gap-3">
-                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                  <div className="font-bold">32 km</div>
-                  <div className="text-xs text-zinc-500">dolžina</div>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                  <div className="font-bold">890 vm</div>
-                  <div className="text-xs text-zinc-500">višinci</div>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                  <div className="font-bold">Srednja</div>
-                  <div className="text-xs text-zinc-500">težavnost</div>
-                </div>
-              </div>
-
-              <Link
-                href="/ture/gozdni-flow-nad-mariborom"
-                className="rounded-full bg-[#c58b46] px-8 py-4 text-center text-sm font-black text-black transition hover:bg-[#d9a35d]"
-              >
-                Oglej si turo
-              </Link>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      {/* ── TOP 3 TURE ── */}
-      <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
+      {zadnjaTura && (
+        <section className="border-t border-white/10 px-5 py-24">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12">
               <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-                Najpogosteje prenešene GPX ture
+                Zadnja dodana tura
               </p>
               <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
-                Top 3 ture tega meseca.
+                Sveža ideja za naslednji kolesarski dan.
               </h2>
-              <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-500">
-                Razvrščeno po številu prenosov GPX datoteke.
-              </p>
             </div>
-            <Link
-              href="/ture"
-              className="w-fit rounded-full border border-white/15 px-6 py-3 text-sm font-black text-white transition hover:bg-white/10"
-            >
-              Vse ture
-            </Link>
-          </div>
 
-          <div className="grid items-stretch gap-6 md:grid-cols-3">
-            {topTrails.map((trail) => (
-              <article
-                key={trail.title}
-                className="group flex flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#07110b] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
-              >
-                <div className="relative h-48 overflow-hidden sm:h-56">
+            <article className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1a10] md:grid-cols-[1.15fr_0.85fr]">
+              <div className="relative h-72 overflow-hidden md:min-h-[360px] md:h-auto">
+                {zadnjaTura.hero_image ? (
                   <img
-                    src={trail.image}
-                    alt={trail.title}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    src={zadnjaTura.hero_image}
+                    alt={zadnjaTura.ime}
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/90 to-transparent" />
-                  <div className="absolute left-5 top-5 rounded-full bg-[#c58b46] px-4 py-2 text-sm font-black text-black">
-                    {trail.rank}
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-[#0b1a10]">
+                    <span className="text-7xl opacity-10">🚵</span>
                   </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/80 via-transparent to-transparent" />
+              </div>
+
+              <div className="flex flex-col justify-center p-8 md:p-12">
+                <div className="mb-6 flex flex-wrap gap-3 text-sm">
+                  <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
+                    {zadnjaTura.regija}
+                  </span>
+                  {zadnjaTura.obmocje && (
+                    <span className="rounded-full border border-white/10 px-4 py-2 text-zinc-300">
+                      {zadnjaTura.obmocje}
+                    </span>
+                  )}
+                  {zadnjaTura.tipi?.map((t) => (
+                    <span key={t} className="rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-4 py-2 text-[#f4d7ad]">
+                      {t}
+                    </span>
+                  ))}
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="mb-3 text-sm text-zinc-500">
-                    {trail.region} • {trail.destination}
-                  </div>
-                  <h3 className="mb-5 font-serif text-2xl font-black italic leading-tight">
-                    {trail.title}
-                  </h3>
-                  <div className="mb-5 flex flex-wrap gap-2 text-xs">
-                    {trail.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-[#c58b46]/35 bg-black/25 px-3 py-1.5 font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mb-6 flex flex-wrap gap-3 text-sm">
-                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.distance}</span>
-                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.elevation}</span>
-                    <span className="rounded-full border border-white/10 px-3 py-2">{trail.type}</span>
-                  </div>
-                  <Link
-                    href={`/ture/${slugify(trail.title)}`}
-                    className="mt-auto block w-full rounded-full border border-[#c58b46]/40 px-5 py-3 text-center text-sm font-black transition hover:bg-[#c58b46] hover:text-black"
-                  >
-                    Oglej si turo
-                  </Link>
+                <h3 className="mb-5 font-serif text-3xl font-black italic leading-tight sm:text-4xl">
+                  {zadnjaTura.ime}
+                </h3>
+
+                {zadnjaTura.opis && (
+                  <p className="mb-7 text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8 line-clamp-3">
+                    {zadnjaTura.opis}
+                  </p>
+                )}
+
+                <div className="mb-8 grid grid-cols-3 gap-2 sm:gap-3">
+                  {zadnjaTura.km != null && (
+                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
+                      <div className="font-bold">{zadnjaTura.km} km</div>
+                      <div className="text-xs text-zinc-500">dolžina</div>
+                    </div>
+                  )}
+                  {zadnjaTura.visinska_razlika != null && (
+                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
+                      <div className="font-bold">{zadnjaTura.visinska_razlika} vm</div>
+                      <div className="text-xs text-zinc-500">višinci</div>
+                    </div>
+                  )}
+                  {zadnjaTura.tezavnost && (
+                    <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
+                      <div className="font-bold">{zadnjaTura.tezavnost}</div>
+                      <div className="text-xs text-zinc-500">težavnost</div>
+                    </div>
+                  )}
                 </div>
-              </article>
-            ))}
+
+                <Link
+                  href={`/ture/${zadnjaTura.id}`}
+                  className="rounded-full bg-[#c58b46] px-8 py-4 text-center text-sm font-black text-black transition hover:bg-[#d9a35d]"
+                >
+                  Oglej si turo
+                </Link>
+              </div>
+            </article>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* ── TOP 3 TURE ── */}
+      {top3.length > 0 && (
+        <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-24">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
+                  Sveže dodane ture
+                </p>
+                <h2 className="max-w-3xl font-serif text-4xl font-black italic tracking-tight md:text-5xl">
+                  Najnovejše ture na platformi.
+                </h2>
+              </div>
+              <Link
+                href="/ture"
+                className="w-fit rounded-full border border-white/15 px-6 py-3 text-sm font-black text-white transition hover:bg-white/10"
+              >
+                Vse ture
+              </Link>
+            </div>
+
+            <div className="grid items-stretch gap-6 md:grid-cols-3">
+              {top3.map((tura, i) => (
+                <article
+                  key={tura.id}
+                  className="group flex flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#07110b] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
+                >
+                  <div className="relative h-48 overflow-hidden sm:h-56">
+                    {tura.hero_image ? (
+                      <img
+                        src={tura.hero_image}
+                        alt={tura.ime}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center bg-[#0b1a10]">
+                        <span className="text-5xl opacity-10">🚵</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/90 to-transparent" />
+                    <div className="absolute left-5 top-5 rounded-full bg-[#c58b46] px-4 py-2 text-sm font-black text-black">
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="mb-3 text-sm text-zinc-500">
+                      {tura.regija}{tura.obmocje ? ` • ${tura.obmocje}` : ""}
+                    </div>
+                    <h3 className="mb-5 font-serif text-2xl font-black italic leading-tight">
+                      {tura.ime}
+                    </h3>
+                    {tura.tipi && tura.tipi.length > 0 && (
+                      <div className="mb-5 flex flex-wrap gap-2 text-xs">
+                        {tura.tipi.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-full border border-[#c58b46]/35 bg-black/25 px-3 py-1.5 font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="mb-6 flex flex-wrap gap-3 text-sm">
+                      {tura.km != null && (
+                        <span className="rounded-full border border-white/10 px-3 py-2">{tura.km} km</span>
+                      )}
+                      {tura.visinska_razlika != null && (
+                        <span className="rounded-full border border-white/10 px-3 py-2">{tura.visinska_razlika} vm</span>
+                      )}
+                      {tura.tezavnost && (
+                        <span className="rounded-full border border-white/10 px-3 py-2">{tura.tezavnost}</span>
+                      )}
+                    </div>
+                    <Link
+                      href={`/ture/${tura.id}`}
+                      className="mt-auto block w-full rounded-full border border-[#c58b46]/40 px-5 py-3 text-center text-sm font-black transition hover:bg-[#c58b46] hover:text-black"
+                    >
+                      Oglej si turo
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── ODKRIJ POT NA SVOJ NAČIN ── */}
       <section className="border-y border-white/10 bg-[#07110b] px-5 py-20 md:py-24">
@@ -532,7 +512,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-3 border-t border-white/10 p-8 md:border-l md:border-t-0 md:p-10">
               <Link
-                href="/predlagaj-turo"
+                href="/ambasador/registracija"
                 className="rounded-full bg-[#c58b46] px-7 py-4 text-center text-sm font-black text-black"
               >
                 Postani ambasador

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 type AmbassadorShellProps = {
   children: ReactNode;
@@ -20,23 +21,41 @@ export default function AmbassadorShell({ children }: AmbassadorShellProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [isReady, setIsReady] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userRegija, setUserRegija] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("bojan_ambassador_logged_in");
-    if (isLoggedIn !== "true") {
-      router.push("/ambasador/prijava");
-      return;
-    }
-    setIsReady(true);
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) {
+        router.push("/ambasador/prijava");
+        return;
+      }
+
+      // Naloži profil ambasadorja
+      const { data: profil } = await supabase
+        .from("ambasadorji")
+        .select("ime, regija")
+        .eq("user_id", session.user.id)
+        .single();
+
+      if (profil) {
+        setUserName(profil.ime);
+        setUserRegija(profil.regija ?? "");
+      } else {
+        // Ambasador nima profila še — email kot ime
+        setUserName(session.user.email ?? "");
+      }
+
+      setIsReady(true);
+    });
   }, [router]);
 
-  function logout() {
-    localStorage.removeItem("bojan_ambassador_logged_in");
+  async function logout() {
+    await supabase.auth.signOut();
     router.push("/ambasador/prijava");
   }
 
-  // Match active nav item — exact for koticek root, startsWith for sub-pages
   const activeKey =
     navItems.find((item) =>
       item.key === "koticek"
@@ -54,7 +73,6 @@ export default function AmbassadorShell({ children }: AmbassadorShellProps) {
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
-      {/* ── Header ── */}
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#07110b]/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1480px] items-center justify-between px-5 py-4">
           <div>
@@ -86,7 +104,6 @@ export default function AmbassadorShell({ children }: AmbassadorShellProps) {
           </div>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
           <div className="border-t border-white/10 px-5 py-4 lg:hidden">
             <div className="mx-auto grid max-w-xl grid-cols-2 gap-2">
@@ -109,10 +126,7 @@ export default function AmbassadorShell({ children }: AmbassadorShellProps) {
         )}
       </header>
 
-      {/* ── Layout ── */}
       <div className="mx-auto grid max-w-[1480px] gap-7 px-5 py-7 lg:grid-cols-[280px_1fr]">
-
-        {/* Sidebar */}
         <aside className="hidden lg:block">
           <div className="sticky top-28 rounded-[34px] border border-white/10 bg-[#0b1a10] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
             <div className="mb-4 px-3 text-xs uppercase tracking-[0.25em] text-zinc-500">
@@ -135,22 +149,24 @@ export default function AmbassadorShell({ children }: AmbassadorShellProps) {
               ))}
             </nav>
 
-            {/* Ambassador identity card */}
             <div className="mt-6 border-t border-white/10 pt-5">
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0b1a10] text-xl">
                   🚴
                 </div>
                 <div className="min-w-0">
-                  <div className="truncate text-sm font-black text-white">Bojan Ratej</div>
-                  <div className="text-[11px] text-zinc-500">Ambasador · Štajerska</div>
+                  <div className="truncate text-sm font-black text-white">
+                    {userName || "Ambasador"}
+                  </div>
+                  <div className="text-[11px] text-zinc-500">
+                    {userRegija ? `Ambasador · ${userRegija}` : "Ambasador"}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </aside>
 
-        {/* Main content */}
         <section className="min-w-0">{children}</section>
       </div>
     </main>

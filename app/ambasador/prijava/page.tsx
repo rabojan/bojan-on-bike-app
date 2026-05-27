@@ -4,18 +4,32 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
+import { supabase } from "@/lib/supabase";
 
 export default function AmbassadorLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleLogin() {
-    // Začasna prijava brez Supabase — za prototip
-    if (email && password) {
-      localStorage.setItem("bojan_ambassador_logged_in", "true");
-      router.push("/ambasador/koticek");
+  async function handleLogin() {
+    if (!email || !password) return;
+    setError("");
+    setLoading(true);
+
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (authError) {
+      setError("Email ali geslo ni pravilno.");
+      setLoading(false);
+      return;
     }
+
+    router.push("/ambasador/koticek");
   }
 
   return (
@@ -25,7 +39,6 @@ export default function AmbassadorLoginPage() {
       <section className="flex min-h-[calc(100vh-64px)] items-center justify-center px-5 py-16">
         <div className="w-full max-w-md">
 
-          {/* Glava */}
           <div className="mb-8 text-center">
             <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Kolesarski ambasadorji
@@ -38,7 +51,6 @@ export default function AmbassadorLoginPage() {
             </p>
           </div>
 
-          {/* Forma */}
           <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
             <div className="space-y-5">
               <label className="block space-y-2">
@@ -46,7 +58,7 @@ export default function AmbassadorLoginPage() {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => { setEmail(e.target.value); setError(""); }}
                   placeholder="tvoj@email.si"
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none transition focus:border-[#c58b46]/60"
                 />
@@ -55,39 +67,37 @@ export default function AmbassadorLoginPage() {
               <label className="block space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-semibold text-zinc-300">Geslo</span>
-                  <button
-                    type="button"
-                    className="text-xs text-[#c58b46] hover:underline"
-                  >
+                  <button type="button" className="text-xs text-[#c58b46] hover:underline">
                     Pozabljeno geslo?
                   </button>
                 </div>
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                  onKeyDown={(e) => e.key === "Enter" && handleLogin()}
                   placeholder="••••••••"
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none transition focus:border-[#c58b46]/60"
                 />
               </label>
             </div>
 
-            {/* Supabase Auth — prijava */}
+            {error && (
+              <div className="mt-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+                {error}
+              </div>
+            )}
+
             <button
               type="button"
               onClick={handleLogin}
-              className="mt-7 w-full rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black transition hover:opacity-90"
+              disabled={loading || !email || !password}
+              className="mt-7 w-full rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black transition hover:opacity-90 disabled:opacity-50"
             >
-              Prijavi se
+              {loading ? "Preverjam..." : "Prijavi se"}
             </button>
-
-            <div className="mt-5 rounded-2xl border border-dashed border-white/10 bg-black/20 p-4 text-center text-xs leading-6 text-zinc-600">
-              {/* Supabase Auth: signInWithPassword() */}
-              Prijava bo aktivna po integraciji Supabase Auth.
-            </div>
           </div>
 
-          {/* Registracija link */}
           <div className="mt-6 text-center text-sm text-zinc-500">
             Še nimaš profila?{" "}
             <Link

@@ -1,33 +1,81 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AmbassadorShell from "@/components/AmbassadorShell";
+import { supabase } from "@/lib/supabase";
 
-const providers = [
-  { title: "Rudijev dom na Pohorju", type: "Planinska koča", status: "Objavljeno", region: "Štajerska", note: "Objavljeno in vidno na platformi." },
-  { title: "Vinska klet Jurančič", type: "Vinska klet", status: "Čaka na objavo", region: "Štajerska", note: "Predlog čaka na pregled uredništva." },
-];
+type Ponudnik = {
+  id: string;
+  ime: string;
+  tip: string | null;
+  regija: string | null;
+  status: string;
+  admin_opomba: string | null;
+  created_at: string;
+};
 
-const filters = ["Vse", "Čaka na objavo", "Objavljeno", "Potreben popravek"];
+const statusLabel: Record<string, string> = {
+  pending: "Čaka na objavo",
+  approved: "Objavljeno",
+  rejected: "Zavrnjeno",
+  revision: "Potreben popravek",
+};
+
+const filters = ["Vse", "Čaka na objavo", "Objavljeno", "Potreben popravek", "Zavrnjeno"];
 
 function StatusBadge({ status }: { status: string }) {
+  const label = statusLabel[status] ?? status;
   const tone =
-    status === "Objavljeno" ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
-    : status === "Potreben popravek" ? "border-[#c58b46]/20 bg-[#c58b46]/10 text-[#c58b46]"
+    status === "approved" ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
+    : status === "revision" ? "border-[#c58b46]/20 bg-[#c58b46]/10 text-[#c58b46]"
+    : status === "rejected" ? "border-red-400/20 bg-red-400/10 text-red-300"
     : "border-white/10 bg-white/5 text-zinc-400";
-  return <span className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-[11px] font-bold ${tone}`}>{status}</span>;
+  return <span className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-[11px] font-bold ${tone}`}>{label}</span>;
 }
 
 export default function AmbassadorPonudnikiPage() {
+  const [ponudniki, setPonudniki] = useState<Ponudnik[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("Vse");
-  const filtered = providers.filter((p) => activeFilter === "Vse" || p.status === activeFilter);
+
+  useEffect(() => {
+    async function load() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const { data: profil } = await supabase
+        .from("ambasadorji")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .single();
+
+      if (!profil) return;
+
+      const { data } = await supabase
+        .from("predlogi_ponudnikov")
+        .select("id, ime, tip, regija, status, admin_opomba, created_at")
+        .eq("ambasador_id", profil.id)
+        .order("created_at", { ascending: false });
+
+      setPonudniki(data ?? []);
+      setLoading(false);
+    }
+    load();
+  }, []);
+
+  const filtered = ponudniki.filter((p) => {
+    if (activeFilter === "Vse") return true;
+    return statusLabel[p.status] === activeFilter;
+  });
+
+  const objavljenih = ponudniki.filter((p) => p.status === "approved").length;
+  const cakajo = ponudniki.filter((p) => p.status === "pending").length;
 
   return (
     <AmbassadorShell>
       <div className="space-y-8">
 
-        {/* ── Glava ── */}
         <section className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-start">
             <div>
@@ -53,12 +101,11 @@ export default function AmbassadorPonudnikiPage() {
           </div>
         </section>
 
-        {/* ── Statistike ── */}
         <section className="grid gap-4 sm:grid-cols-3">
           {[
-            { value: String(providers.length), label: "vseh predlaganih" },
-            { value: String(providers.filter(p => p.status === "Objavljeno").length), label: "objavljenih" },
-            { value: String(providers.filter(p => p.status === "Čaka na objavo").length), label: "čakajo na pregled" },
+            { value: loading ? "—" : String(ponudniki.length), label: "vseh predlaganih" },
+            { value: loading ? "—" : String(objavljenih), label: "objavljenih" },
+            { value: loading ? "—" : String(cakajo), label: "čakajo na pregled" },
           ].map((s) => (
             <div key={s.label} className="flex min-h-[120px] flex-col items-center justify-center rounded-[26px] border border-white/10 bg-[#07110b] p-5 text-center">
               <div className="text-4xl font-black leading-none text-white">{s.value}</div>
@@ -67,7 +114,6 @@ export default function AmbassadorPonudnikiPage() {
           ))}
         </section>
 
-        {/* ── Seznam ── */}
         <section className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <h2 className="text-2xl font-black text-white">Pregled predlaganih ponudnikov.</h2>
@@ -81,35 +127,42 @@ export default function AmbassadorPonudnikiPage() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            {filtered.map((p) => (
-              <article key={p.title}
-                className="grid gap-4 rounded-[28px] border border-white/10 bg-black/20 p-5 md:grid-cols-[1fr_auto] md:items-center">
-                <div>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-lg font-black text-white">{p.title}</h3>
-                    <StatusBadge status={p.status} />
-                  </div>
-                  <div className="mt-1.5 text-sm text-zinc-500">{p.type} · {p.region}</div>
-                  <p className="mt-2 text-sm leading-7 text-zinc-600">{p.note}</p>
-                </div>
-                <button className="rounded-full border border-white/10 px-5 py-2.5 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40 hover:text-white">
-                  Odpri
-                </button>
-              </article>
-            ))}
-
-            {filtered.length === 0 && (
-              <div className="py-16 text-center">
-                <div className="text-3xl">🏪</div>
-                <p className="mt-4 text-sm text-zinc-600">Ni predlaganih ponudnikov s tem statusom.</p>
+          {loading ? (
+            <div className="py-12 text-center text-sm text-zinc-500">Nalagam...</div>
+          ) : filtered.length === 0 ? (
+            <div className="py-16 text-center">
+              <div className="text-3xl">🏪</div>
+              <p className="mt-4 text-sm text-zinc-600">
+                {activeFilter === "Vse" ? "Še nisi predlagal nobenega ponudnika." : "Ni predlogov s tem statusom."}
+              </p>
+              {activeFilter === "Vse" && (
                 <Link href="/ambasador/koticek/ponudniki/nova"
                   className="mt-5 inline-flex rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:opacity-90">
                   + Predlagaj prvega
                 </Link>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filtered.map((p) => (
+                <article key={p.id}
+                  className="grid gap-4 rounded-[28px] border border-white/10 bg-black/20 p-5 md:grid-cols-[1fr_auto] md:items-center">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h3 className="text-lg font-black text-white">{p.ime}</h3>
+                      <StatusBadge status={p.status} />
+                    </div>
+                    <div className="mt-1.5 text-sm text-zinc-500">
+                      {[p.tip, p.regija].filter(Boolean).join(" · ")}
+                    </div>
+                    {p.admin_opomba && (
+                      <p className="mt-2 text-sm leading-7 text-[#c58b46]">💬 {p.admin_opomba}</p>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </section>
 
       </div>

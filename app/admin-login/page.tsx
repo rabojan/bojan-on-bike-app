@@ -3,24 +3,41 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-
-const ADMIN_PASSWORD = "bojan2026";
+import { supabase } from "@/lib/supabase";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setError("");
+    setLoading(true);
 
-    if (password === ADMIN_PASSWORD) {
-      localStorage.setItem("bojan_admin_logged_in", "true");
-      router.push("/admin");
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (authError) {
+      setError("Email ali geslo ni pravilno.");
+      setLoading(false);
       return;
     }
 
-    setError("Geslo ni pravilno.");
+    // Preveri ali je admin
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+    if (email !== adminEmail) {
+      await supabase.auth.signOut();
+      setError("Nimaš administratorskih pravic.");
+      setLoading(false);
+      return;
+    }
+
+    router.push("/admin");
   }
 
   return (
@@ -58,17 +75,28 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
               <label className="mb-3 block text-sm font-semibold text-zinc-300">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setError(""); }}
+                placeholder="tvoj@email.si"
+                required
+                className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-white outline-none transition focus:border-[#c58b46]/60"
+              />
+            </div>
+
+            <div>
+              <label className="mb-3 block text-sm font-semibold text-zinc-300">
                 Geslo
               </label>
-
               <input
                 type="password"
                 value={password}
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                  setError("");
-                }}
+                onChange={(e) => { setPassword(e.target.value); setError(""); }}
                 placeholder="Vnesi geslo"
+                required
                 className="w-full rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-white outline-none transition focus:border-[#c58b46]/60"
               />
             </div>
@@ -81,16 +109,12 @@ export default function AdminLoginPage() {
 
             <button
               type="submit"
-              className="w-full rounded-full bg-[#c58b46] px-6 py-4 font-bold text-black transition hover:opacity-90"
+              disabled={loading}
+              className="w-full rounded-full bg-[#c58b46] px-6 py-4 font-bold text-black transition hover:opacity-90 disabled:opacity-50"
             >
-              Vstopi v pisarno
+              {loading ? "Preverjam..." : "Vstopi v pisarno"}
             </button>
           </form>
-
-          <p className="mt-6 text-xs leading-6 text-zinc-600">
-            To je začasna demo zaščita. Kasneje jo zamenjamo s pravim
-            Supabase Auth loginom.
-          </p>
         </div>
       </section>
     </main>

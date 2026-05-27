@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
+import { supabase } from "@/lib/supabase";
 
 const regions = [
   "Štajerska",
@@ -26,13 +27,39 @@ export default function AmbassadorRegistrationPage() {
   const [geslo, setGeslo] = useState("");
   const [potrdiGeslo, setPotrdiGeslo] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const gesloMismatch = potrdiGeslo.length > 0 && geslo !== potrdiGeslo;
   const gesloStrong = geslo.length >= 8;
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Supabase Auth: signUp() + insert ambassador profile
+    if (gesloMismatch || !gesloStrong) return;
+
+    setError("");
+    setLoading(true);
+
+    // Ustvari Supabase Auth račun — profil se ustvari ob potrditvi emaila
+    const { error: authError } = await supabase.auth.signUp({
+      email,
+      password: geslo,
+      options: {
+        data: {
+          ime: `${ime} ${priimek}`.trim(),
+          regija,
+          kraj,
+        },
+        emailRedirectTo: `${window.location.origin}/ambasador/registracija/potrdi`,
+      },
+    });
+
+    if (authError) {
+      setError(authError.message);
+      setLoading(false);
+      return;
+    }
+
     router.push("/ambasador/registracija/potrdi");
   }
 
@@ -43,7 +70,6 @@ export default function AmbassadorRegistrationPage() {
       <section className="px-5 py-16">
         <div className="mx-auto max-w-xl">
 
-          {/* Glava */}
           <div className="mb-8 text-center">
             <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
               Kolesarski ambasadorji
@@ -59,7 +85,6 @@ export default function AmbassadorRegistrationPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
 
-            {/* Osebni podatki */}
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
                 Osebni podatki
@@ -126,7 +151,6 @@ export default function AmbassadorRegistrationPage() {
               )}
             </div>
 
-            {/* Račun */}
             <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
               <div className="mb-5 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
                 Podatki za prijavo
@@ -202,13 +226,18 @@ export default function AmbassadorRegistrationPage() {
               </div>
             </div>
 
-            {/* Pošlji */}
+            {error && (
+              <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+                {error}
+              </div>
+            )}
+
             <button
               type="submit"
-              disabled={gesloMismatch || !gesloStrong}
+              disabled={gesloMismatch || !gesloStrong || loading}
               className="w-full rounded-full bg-[#c58b46] px-6 py-4 text-sm font-black text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Ustvari ambasadorski profil
+              {loading ? "Ustvarjam profil..." : "Ustvari ambasadorski profil"}
             </button>
 
             <p className="text-center text-xs leading-6 text-zinc-600">
@@ -218,7 +247,6 @@ export default function AmbassadorRegistrationPage() {
 
           </form>
 
-          {/* Login link */}
           <div className="mt-6 text-center text-sm text-zinc-500">
             Imaš že profil?{" "}
             <Link

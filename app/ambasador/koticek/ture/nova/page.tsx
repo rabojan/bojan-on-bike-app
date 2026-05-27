@@ -1,16 +1,204 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import AmbassadorShell from "@/components/AmbassadorShell";
+import { supabase } from "@/lib/supabase";
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 const trailTypes = ["MTB", "Gravel", "E-bike", "Bikepacking", "Cesta"];
 const difficulties = ["Lahka", "Srednja", "Zahtevna"];
+const casOptions = ["1–2 uri", "2–3 ure", "3–5 ur", "5–7 ur", "Cel dan", "Več dni"];
+const casUrMap: Record<string, number> = {
+  "1–2 uri": 1.5, "2–3 ure": 2.5, "3–5 ur": 4, "5–7 ur": 6, "Cel dan": 8, "Več dni": 16,
+};
+
+function haversine(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function parseGPX(xml: string): { km: number; vm: number } {
+  const doc = new DOMParser().parseFromString(xml, "application/xml");
+  const points = doc.querySelectorAll("trkpt");
+  let dist = 0, gain = 0;
+  let prevLat: number | null = null, prevLng: number | null = null, prevEle: number | null = null;
+  points.forEach((pt) => {
+    const lat = parseFloat(pt.getAttribute("lat") ?? "0");
+    const lng = parseFloat(pt.getAttribute("lon") ?? "0");
+    const ele = parseFloat(pt.querySelector("ele")?.textContent ?? "0");
+    if (prevLat !== null && prevLng !== null) dist += haversine(prevLat, prevLng, lat, lng);
+    if (prevEle !== null && ele > prevEle) gain += ele - prevEle;
+    prevLat = lat; prevLng = lng; prevEle = ele;
+  });
+  return { km: Math.round(dist / 100) / 10, vm: Math.round(gain) };
+}
+
+type RitemKorak = { time: string; title: string; text: string };
+type Poudarek = { badge: string; title: string; text: string };
 
 export default function NovaTuraPage() {
-  const [trailType, setTrailType] = useState("MTB");
-  const [difficulty, setDifficulty] = useState("Srednja");
+  const router = useRouter();
+
+  const [ime, setIme] = useState("");
+  const [regija, setRegija] = useState("Štajerska");
+  const [obmocje, setObmocje] = useState("");
+  const [opis, setOpis] = useState("");
+  const [zakaj, setZakaj] = useState("");
+  const [km, setKm] = useState("");
+  const [vm, setVm] = useState("");
+  const [cas, setCas] = useState("");
+  const [tipi, setTipi] = useState<string[]>(["MTB"]);
+  const [tezavnost, setTezavnost] = useState("Srednja");
+  const [asfalt, setAsfalt] = useState("");
+  const [makadam, setMakadam] = useState("");
+  const [gozd, setGozd] = useState("");
+
+  const surfaceSum = useMemo(
+    () => (Number(asfalt) || 0) + (Number(makadam) || 0) + (Number(gozd) || 0),
+    [asfalt, makadam, gozd],
+  );
+
+  const [gpxFile, setGpxFile] = useState<File | null>(null);
+  const [gpxParsed, setGpxParsed] = useState<{ km: number; vm: number } | null>(null);
+  const [gpxError, setGpxError] = useState("");
+
+  const [ritemDneva, setRitemDneva] = useState<RitemKorak[]>([
+    { time: "", title: "", text: "" },
+    { time: "", title: "", text: "" },
+    { time: "", title: "", text: "" },
+    { time: "", title: "", text: "" },
+    { time: "", title: "", text: "" },
+  ]);
+
+  const [poudarki, setPoudarki] = useState<Poudarek[]>([
+    { badge: "", title: "", text: "" },
+    { badge: "", title: "", text: "" },
+    { badge: "", title: "", text: "" },
+  ]);
+
+  // Hero image
+  const [heroFile, setHeroFile] = useState<File | null>(null);
+  const [heroPreview, setHeroPreview] = useState("");
+
+  // Gallery (8 slots)
+  const [galFiles, setGalFiles] = useState<(File | null)[]>(Array(8).fill(null));
+  const [galPreviews, setGalPreviews] = useState<string[]>(Array(8).fill(""));
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  function toggleTip(tip: string) {
+    setTipi((prev) => prev.includes(tip) ? prev.filter((t) => t !== tip) : [...prev, tip]);
+  }
+
+  function updateRitem(i: number, field: keyof RitemKorak, value: string) {
+    setRitemDneva((prev) => prev.map((k, idx) => idx === i ? { ...k, [field]: value } : k));
+  }
+
+  function updatePoudarek(i: number, field: keyof Poudarek, value: string) {
+    setPoudarki((prev) => prev.map((p, idx) => idx === i ? { ...p, [field]: value } : p));
+  }
+
+  function handleHeroChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setHeroFile(file);
+    setHeroPreview(URL.createObjectURL(file));
+  }
+
+  function handleGalChange(i: number, e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setGalFiles((prev) => prev.map((f, idx) => idx === i ? file : f));
+    setGalPreviews((prev) => prev.map((p, idx) => idx === i ? URL.createObjectURL(file) : p));
+  }
+
+  async function handleGpxChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setGpxError(""); setGpxParsed(null);
+    if (!file.name.toLowerCase().endsWith(".gpx")) { setGpxError("Prosim naloži .gpx datoteko"); return; }
+    try {
+      const text = await file.text();
+      const result = parseGPX(text);
+      if (result.km === 0) { setGpxError("GPX ne vsebuje slednih točk."); return; }
+      setGpxFile(file); setGpxParsed(result); setKm(String(result.km)); setVm(String(result.vm));
+    } catch { setGpxError("Napaka pri branju GPX."); }
+  }
+
+  async function uploadImage(file: File, path: string): Promise<string | null> {
+    const { error: uploadErr } = await supabase.storage.from("slike").upload(path, file, { upsert: true });
+    if (uploadErr) return null;
+    return supabase.storage.from("slike").getPublicUrl(path).data.publicUrl;
+  }
+
+  async function handleSubmit() {
+    if (!ime || !opis || !zakaj) { setError("Ime, opis in ambasadorjev namig so obvezni."); return; }
+    setError(""); setLoading(true);
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { setError("Nisi prijavljen."); setLoading(false); return; }
+
+    const { data: profil } = await supabase.from("ambasadorji").select("id").eq("user_id", session.user.id).single();
+    if (!profil) { setError("Ambasadorski profil ni najden."); setLoading(false); return; }
+
+    // Upload GPX
+    let gpxUrl: string | null = null;
+    if (gpxFile) {
+      const filename = `${profil.id}/${Date.now()}-${gpxFile.name}`;
+      const { error: uploadError } = await supabase.storage.from("gpx-files").upload(filename, gpxFile);
+      if (!uploadError) {
+        gpxUrl = supabase.storage.from("gpx-files").getPublicUrl(filename).data.publicUrl;
+      }
+    }
+
+    // Upload hero image
+    let heroUrl: string | null = null;
+    if (heroFile) {
+      heroUrl = await uploadImage(heroFile, `${profil.id}/${Date.now()}-hero-${heroFile.name}`);
+    }
+
+    // Upload gallery images
+    const galUrls: string[] = [];
+    for (let i = 0; i < galFiles.length; i++) {
+      const f = galFiles[i];
+      if (f) {
+        const url = await uploadImage(f, `${profil.id}/${Date.now()}-gal${i}-${f.name}`);
+        if (url) galUrls.push(url);
+      }
+    }
+
+    const ritemClean = ritemDneva.filter(k => k.title.trim());
+    const poudarkyClean = poudarki.filter(p => p.title.trim());
+
+    const { error: dbError } = await supabase.from("predlogi_tur").insert({
+      ambasador_id: profil.id,
+      ime, regija,
+      obmocje: obmocje || null,
+      opis, zakaj,
+      km: km ? parseFloat(km) : null,
+      visinska_razlika: vm ? parseInt(vm) : null,
+      cas_ur: cas ? (casUrMap[cas] ?? null) : null,
+      tipi, tezavnost,
+      podlaga_asfalt: asfalt ? parseInt(asfalt) : 0,
+      podlaga_makadam: makadam ? parseInt(makadam) : 0,
+      podlaga_gozd: gozd ? parseInt(gozd) : 0,
+      gpx_url: gpxUrl,
+      hero_image: heroUrl,
+      ritem_dneva: ritemClean.length > 0 ? ritemClean : null,
+      poudarki: poudarkyClean.length > 0 ? poudarkyClean : null,
+      galerija: galUrls.length > 0 ? galUrls : null,
+    });
+
+    if (dbError) { setError("Napaka pri shranjevanju. Poskusi znova."); setLoading(false); return; }
+    router.push("/ambasador/koticek/ture");
+  }
 
   return (
     <AmbassadorShell>
@@ -21,79 +209,180 @@ export default function NovaTuraPage() {
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-start">
             <div>
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorski kotiček / Ture / Nova</div>
-              <h1 className="mt-4 font-serif text-4xl font-black italic leading-tight text-white">
-                Predlagaj novo turo.
-              </h1>
+              <h1 className="mt-4 font-serif text-4xl font-black italic leading-tight text-white">Predlagaj novo turo.</h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-                Izpolni podatke o trasi. Po oddaji gre predlog v pregled — ko je odobren,
-                se pojavi na platformi pod tvojim imenom.
+                Izpolni vse razdelke — bolj kot je predlog popoln, hitreje bo objavljen.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/ambasador/koticek/ture"
-                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">
-                ← Nazaj
-              </Link>
-              <button className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:opacity-90">
-                Oddaj predlog
-              </button>
-            </div>
+            <Link href="/ambasador/koticek/ture" className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">← Nazaj</Link>
           </div>
         </section>
 
-        {/* ── Forma ── */}
+        {/* ── 1. GPX ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-          <div className="mb-6 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Osnovni podatki</div>
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">GPX datoteka</div>
+          <p className="mb-5 text-sm text-zinc-500">Razdalja in vzpon se izpolnita samodejno. Obiskovalci jo bodo lahko prenesli.</p>
+          {!gpxParsed ? (
+            <label className="flex cursor-pointer flex-col items-center justify-center gap-4 rounded-[24px] border-2 border-dashed border-white/10 bg-[#07110b] px-6 py-12 text-center transition hover:border-[#c58b46]/30">
+              <div className="text-4xl">📍</div>
+              <div>
+                <div className="font-bold text-zinc-300">Klikni in izberi GPX datoteko</div>
+                <div className="mt-1 text-sm text-zinc-500">Podpira format .gpx</div>
+              </div>
+              <input type="file" accept=".gpx" onChange={handleGpxChange} className="hidden" />
+            </label>
+          ) : (
+            <div className="rounded-[24px] border border-emerald-500/20 bg-emerald-500/5 p-5">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">✅</span>
+                <div>
+                  <div className="font-bold text-emerald-300">GPX prebran: {gpxFile?.name}</div>
+                  <div className="mt-1 text-sm text-zinc-400">Razdalja: <span className="font-bold text-white">{gpxParsed.km} km</span> · Vzpon: <span className="font-bold text-white">{gpxParsed.vm} vm</span></div>
+                </div>
+                <label className="ml-auto cursor-pointer rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-400 hover:border-white/20">
+                  Zamenjaj
+                  <input type="file" accept=".gpx" onChange={(e) => { setGpxFile(null); setGpxParsed(null); setKm(""); setVm(""); handleGpxChange(e); }} className="hidden" />
+                </label>
+              </div>
+            </div>
+          )}
+          {gpxError && <p className="mt-3 text-sm text-red-400">{gpxError}</p>}
+        </section>
 
+        {/* ── 2. OSNOVNA INFORMACIJA ── */}
+        <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Osnovna informacija</div>
+          <p className="mb-5 text-sm text-zinc-500">Prikaže se v naslovu ture.</p>
+          <div className="grid gap-5 md:grid-cols-2">
             <label className="col-span-2 block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Ime ture *</span>
-              <input placeholder="npr. Pohorski veliki krog do Areha"
+              <input value={ime} onChange={(e) => setIme(e.target.value)} placeholder="npr. Pohorski veliki krog do Areha"
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
             </label>
-
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Regija *</span>
-              <select className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60">
+              <select value={regija} onChange={(e) => setRegija(e.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60">
                 {regions.map((r) => <option key={r}>{r}</option>)}
               </select>
             </label>
-
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Območje</span>
-              <input placeholder="npr. Pohorje, Mariborsko"
+              <input value={obmocje} onChange={(e) => setObmocje(e.target.value)} placeholder="npr. Pohorje"
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
             </label>
-
-            <label className="col-span-2 block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Zakaj ta tura? Tvoj ambasadorski namig *</span>
-              <textarea rows={4} placeholder="Kaj naredi to turo posebno? Kateri del je nepozaben? Kdaj je najboljši čas?"
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
-            </label>
-
           </div>
         </section>
 
-        {/* ── Podatki trase ── */}
+        {/* ── 3. OPIS TURE ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-          <div className="mb-6 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Podatki trase</div>
-          <div className="space-y-6">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Opis ture</div>
+          <p className="mb-5 text-sm text-zinc-500">Glavna zgodba — prikaže se pod naslovom na javni strani.</p>
+          <textarea rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
+            placeholder="Tura se začne pri... Gozd te popelje... Na vrhu se odpre razgled..."
+            className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+        </section>
 
+        {/* ── 4. AMBASADORJEV NAMIG ── */}
+        <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorjev namig</div>
+          <p className="mb-5 text-sm text-zinc-500">Tvoj osebni citat — prikaže se v razdelku z tvojim imenom in fotografijo.</p>
+          <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
+            placeholder="Najlepše je, ko se megla še dviga med drevesi..."
+            className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+        </section>
+
+        {/* ── 5. RITEM DNEVA ── */}
+        <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ritem dneva</div>
+          <p className="mb-5 text-sm text-zinc-500">5 korakov ki opišejo potek dneva — ura, naslov in kratek opis. Prikaže se kot časovnica na strani ture.</p>
+          <div className="grid gap-4 md:grid-cols-5">
+            {ritemDneva.map((korak, i) => (
+              <div key={i} className="rounded-[20px] border border-white/10 bg-[#07110b] p-4">
+                <div className="mb-3 text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Korak {i + 1}</div>
+                <label className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Ura</label>
+                <input
+                  type="time"
+                  value={korak.time}
+                  onChange={(e) => updateRitem(i, "time", e.target.value)}
+                  className="mb-4 w-full rounded-xl border border-[#c58b46]/30 bg-black/30 px-3 py-2 text-center text-sm font-black text-[#c58b46] outline-none focus:border-[#c58b46]/60"
+                />
+                <label className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Naslov</label>
+                <input
+                  value={korak.title}
+                  onChange={(e) => updateRitem(i, "title", e.target.value)}
+                  placeholder="npr. Zgodnji štart"
+                  className="mb-4 w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-sm font-bold outline-none focus:border-[#c58b46]/60"
+                />
+                <label className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Opis</label>
+                <textarea
+                  rows={3}
+                  value={korak.text}
+                  onChange={(e) => updateRitem(i, "text", e.target.value)}
+                  placeholder="Zjutraj so poti mirne..."
+                  className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs leading-6 text-zinc-400 outline-none focus:border-[#c58b46]/60"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── 6. POUDARKI NA PROGI ── */}
+        <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Poudarki na progi</div>
+          <p className="mb-5 text-sm text-zinc-500">3 kartice ki izpostavijo posebne trenutke na trasi. Prikazane so kot galerija kart na strani ture.</p>
+          <div className="space-y-4">
+            {poudarki.map((p, i) => (
+              <div key={i} className="rounded-[20px] border border-white/10 bg-[#07110b] p-4">
+                <div className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-zinc-500">Poudarek {i + 1}</div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <label className="space-y-1.5">
+                    <span className="text-xs text-zinc-500">Oznaka / badge</span>
+                    <input value={p.badge} onChange={(e) => updatePoudarek(i, "badge", e.target.value)}
+                      placeholder="npr. km 4–12 ali razgled"
+                      className="w-full rounded-xl border border-[#c58b46]/25 bg-black/20 px-3 py-2.5 text-sm font-bold text-[#f4d7ad] outline-none placeholder:font-normal placeholder:text-zinc-600 focus:border-[#c58b46]/60" />
+                  </label>
+                  <label className="space-y-1.5">
+                    <span className="text-xs text-zinc-500">Naslov kartice</span>
+                    <input value={p.title} onChange={(e) => updatePoudarek(i, "title", e.target.value)}
+                      placeholder="npr. Flow skozi pohorske gozdove"
+                      className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-sm outline-none focus:border-[#c58b46]/60" />
+                  </label>
+                </div>
+                <label className="mt-3 block space-y-1.5">
+                  <span className="text-xs text-zinc-500">Opis</span>
+                  <textarea rows={2} value={p.text} onChange={(e) => updatePoudarek(i, "text", e.target.value)}
+                    placeholder="Tura se začne z občutkom pobega iz mesta..."
+                    className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-sm leading-6 outline-none focus:border-[#c58b46]/60" />
+                </label>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── 7. TEHNIČNI PODATKI ── */}
+        <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Tehnični podatki</div>
+          <p className="mb-5 text-sm text-zinc-500">Razdalja in vzpon se izpolnita iz GPX — ročno popravi samo če je treba.</p>
+          <div className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-3">
               <label className="space-y-2">
                 <span className="text-sm font-bold text-zinc-300">Razdalja (km)</span>
-                <input type="number" placeholder="npr. 45"
+                <input type="number" value={km} onChange={(e) => setKm(e.target.value)} placeholder="45"
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60" />
               </label>
               <label className="space-y-2">
                 <span className="text-sm font-bold text-zinc-300">Vzpon (vm)</span>
-                <input type="number" placeholder="npr. 1200"
+                <input type="number" value={vm} onChange={(e) => setVm(e.target.value)} placeholder="1200"
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60" />
               </label>
               <label className="space-y-2">
                 <span className="text-sm font-bold text-zinc-300">Ocenjeni čas</span>
-                <input placeholder="npr. 4–6 ur"
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60" />
+                <select value={cas} onChange={(e) => setCas(e.target.value)}
+                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60">
+                  <option value="">— izberi —</option>
+                  {casOptions.map((o) => <option key={o}>{o}</option>)}
+                </select>
               </label>
             </div>
 
@@ -101,8 +390,8 @@ export default function NovaTuraPage() {
               <span className="text-sm font-bold text-zinc-300">Tip trase</span>
               <div className="flex flex-wrap gap-2">
                 {trailTypes.map((t) => (
-                  <button key={t} onClick={() => setTrailType(t)}
-                    className={`rounded-full border px-5 py-2.5 text-sm font-bold transition ${trailType === t ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
+                  <button key={t} type="button" onClick={() => toggleTip(t)}
+                    className={`rounded-full border px-5 py-2.5 text-sm font-bold transition ${tipi.includes(t) ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
                     {t}
                   </button>
                 ))}
@@ -113,46 +402,95 @@ export default function NovaTuraPage() {
               <span className="text-sm font-bold text-zinc-300">Težavnost</span>
               <div className="flex gap-3">
                 {difficulties.map((d) => (
-                  <button key={d} onClick={() => setDifficulty(d)}
-                    className={`flex-1 rounded-2xl border py-3.5 text-sm font-bold transition ${difficulty === d ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
+                  <button key={d} type="button" onClick={() => setTezavnost(d)}
+                    className={`flex-1 rounded-2xl border py-3.5 text-sm font-bold transition ${tezavnost === d ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
                     {d}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Podlaga (%)</span>
+            <div className="space-y-3">
+              <span className="text-sm font-bold text-zinc-300">Sestava podlage (%)</span>
+              <p className="text-xs text-zinc-500">Skupna vsota mora biti točno 100 %.</p>
               <div className="grid gap-3 sm:grid-cols-3">
-                {[{ label: "Asfalt" }, { label: "Makadam" }, { label: "Gozdna pot" }].map((s) => (
-                  <label key={s.label} className="space-y-1.5">
-                    <span className="text-xs text-zinc-500">{s.label}</span>
-                    <input type="number" min="0" max="100" placeholder="0"
+                {([["Asfalt", asfalt, setAsfalt], ["Makadam / gravel", makadam, setMakadam], ["Gozdna pot", gozd, setGozd]] as [string, string, (v: string) => void][]).map(([label, val, setter]) => (
+                  <label key={label} className="space-y-1.5">
+                    <span className="text-xs text-zinc-500">{label}</span>
+                    <input type="number" min="0" max="100" value={val} onChange={(e) => setter(e.target.value)} placeholder="0"
                       className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60" />
                   </label>
                 ))}
               </div>
+              <div className={`rounded-2xl border p-4 text-sm font-bold transition ${
+                surfaceSum === 100 ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                : surfaceSum === 0 ? "border-white/10 bg-black/20 text-zinc-500"
+                : "border-red-500/30 bg-red-500/10 text-red-400"
+              }`}>
+                {surfaceSum === 100
+                  ? "✓ Skupaj 100 % — podlaga je pravilno vnesena."
+                  : surfaceSum === 0
+                    ? "Vnesi deleže podlag (skupaj mora biti 100 %)."
+                    : `Skupaj: ${surfaceSum} % — vsota mora biti točno 100 %.`}
+              </div>
             </div>
-
-            <div className="space-y-2">
-              <span className="text-sm font-bold text-zinc-300">GPX datoteka</span>
-              <label className="flex cursor-pointer items-center justify-center rounded-2xl border border-dashed border-white/20 py-6 transition hover:border-[#c58b46]/40">
-                <span className="text-sm text-zinc-500">↑ Naloži .gpx</span>
-                <input type="file" accept=".gpx" className="hidden" />
-              </label>
-            </div>
-
           </div>
         </section>
 
-        {/* ── Oddaj ── */}
+        {/* ── 8. SLIKE ── */}
+        <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Slike ture</div>
+          <p className="mb-5 text-sm text-zinc-500">Hero slika + do 8 slik v galeriji. Naloži jih neposredno s svojega računalnika ali telefona.</p>
+
+          {/* Hero slika */}
+          <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#07110b]">
+            <div className="flex min-h-[180px] items-center justify-center bg-black/20 p-6 text-center">
+              {heroPreview ? (
+                <img src={heroPreview} alt="Hero predogled" className="max-h-[200px] rounded-xl object-cover" />
+              ) : (
+                <div>
+                  <div className="text-4xl">🖼️</div>
+                  <div className="mt-3 font-bold text-zinc-300">Hero slika ture</div>
+                  <p className="mt-1 text-sm text-zinc-500">Glavna slika za katalog in vrh strani.</p>
+                </div>
+              )}
+            </div>
+            <div className="flex gap-3 border-t border-white/10 p-4">
+              <label className="flex-1 cursor-pointer rounded-full bg-[#c58b46] px-4 py-2 text-center text-sm font-bold text-black transition hover:opacity-90">
+                {heroFile ? "Zamenjaj hero sliko" : "Naloži hero sliko"}
+                <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleHeroChange} />
+              </label>
+            </div>
+          </div>
+
+          {/* Galerija 4×2 */}
+          <div className="mt-6">
+            <div className="mb-3 text-sm font-bold text-zinc-300">Galerija <span className="font-normal text-zinc-600">(do 8 slik)</span></div>
+            <div className="grid grid-cols-4 gap-3">
+              {galFiles.map((_, i) => (
+                <label key={i} className="group cursor-pointer">
+                  <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/20 bg-black/20 transition group-hover:border-[#c58b46]/40">
+                    {galPreviews[i] ? (
+                      <img src={galPreviews[i]} alt={`Galerija ${i + 1}`} className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="text-xl text-zinc-600 group-hover:text-zinc-400">+</span>
+                    )}
+                  </div>
+                  <input type="file" accept="image/*" className="hidden" onChange={(e) => handleGalChange(i, e)} />
+                </label>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-zinc-600">Klik na polje odpre izbiralnik datotek. Na naloženi sliki klikni za zamenjavo.</p>
+          </div>
+        </section>
+
+        {error && <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">{error}</div>}
+
         <div className="flex justify-end gap-3">
-          <Link href="/ambasador/koticek/ture"
-            className="rounded-full border border-white/10 px-6 py-3.5 text-sm font-bold text-zinc-300 transition hover:border-white/20">
-            Prekliči
-          </Link>
-          <button className="rounded-full bg-[#c58b46] px-8 py-3.5 text-sm font-black text-black transition hover:opacity-90">
-            Oddaj predlog ture
+          <Link href="/ambasador/koticek/ture" className="rounded-full border border-white/10 px-6 py-3.5 text-sm font-bold text-zinc-300 transition hover:border-white/20">Prekliči</Link>
+          <button type="button" onClick={handleSubmit} disabled={loading}
+            className="rounded-full bg-[#c58b46] px-8 py-3.5 text-sm font-black text-black transition hover:opacity-90 disabled:opacity-50">
+            {loading ? "Shranjujem..." : "Oddaj predlog ture"}
           </button>
         </div>
 

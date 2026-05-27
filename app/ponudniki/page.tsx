@@ -2,253 +2,138 @@
 
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageHero from "@/components/PageHero";
+import { supabase } from "@/lib/supabase";
 
-const filters = ["Vsi", "Kulinarika", "Vino", "Prenočišče", "Bike servis", "Lokalni produkti"];
+const regions = ["Vse", "Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
+const types = ["Vse", "Planinska koča", "Restavracija", "Vinska klet", "Bike shop", "Hotel / apartma", "Kavarna / bistro", "Drugo"];
 
-const providers = [
-  {
-    name: "Rudijev dom na Pohorju",
-    slug: "rudijev-dom-na-pohorju",
-    region: "Štajerska",
-    location: "Pohorje",
-    types: ["Kulinarika", "Prenočišče"],
-    hasCharging: true,
-    description:
-      "Topel domač obrok, terasa med gozdovi in dobra izhodiščna točka za kolesarski dan na Pohorju.",
-    phone: "031 344 640",
-    website: "https://rudijev-dom.si",
-    href: "/ponudniki/rudijev-dom-na-pohorju",
-    image:
-      "https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?q=80&w=1400&auto=format&fit=crop",
-    nearbyTrails: [
-      { name: "Gozdni flow nad Mariborom", distance: "ob trasi" },
-      { name: "Pohorski razgledi", distance: "700 m od trase" },
-    ],
-  },
-  {
-    name: "Vinska klet med griči",
-    slug: "vinska-klet-med-grici",
-    region: "Štajerska",
-    location: "Slovenske gorice",
-    types: ["Vino", "Kulinarika"],
-    hasCharging: false,
-    description:
-      "Butična vinska izkušnja med griči, primerna za počasnejše gravel ali e-bike ture.",
-    phone: "040 222 111",
-    website: "",
-    href: "",
-    image:
-      "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1400&auto=format&fit=crop",
-    nearbyTrails: [
-      { name: "Med vinogradi in griči", distance: "300 m od trase" },
-    ],
-  },
-  {
-    name: "Gorska hiša Pohorje",
-    slug: "gorska-hisa-pohorje",
-    region: "Štajerska",
-    location: "Pohorje",
-    types: ["Prenočišče", "Kulinarika"],
-    hasCharging: true,
-    description:
-      "Mirna nastanitev za kolesarje, z možnostjo večerje, zajtrka in varnega prostora za kolesa.",
-    phone: "041 555 888",
-    website: "",
-    href: "",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop",
-    nearbyTrails: [
-      { name: "Gozdni flow nad Mariborom", distance: "500 m od trase" },
-    ],
-  },
-];
+type Ponudnik = {
+  id: string;
+  ime: string;
+  tip: string | null;
+  regija: string;
+  lokacija: string | null;
+  opis: string | null;
+  hero_image: string | null;
+};
 
-export default function ProvidersPage() {
-  const [activeFilter, setActiveFilter] = useState("Vsi");
+export default function PonudnikiPage() {
+  const [ponudniki, setPonudniki] = useState<Ponudnik[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeRegion, setActiveRegion] = useState("Vse");
+  const [activeType, setActiveType] = useState("Vse");
 
-  const filteredProviders = useMemo(() => {
-    if (activeFilter === "Vsi") return providers;
-    return providers.filter((provider) => provider.types.includes(activeFilter));
-  }, [activeFilter]);
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from("predlogi_ponudnikov")
+        .select("id, ime, tip, regija, lokacija, opis, hero_image")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false });
+      setPonudniki(data ?? []);
+      setLoading(false);
+    }
+    load();
+  }, []);
+
+  const filtered = useMemo(() => ponudniki.filter((p) => {
+    const regionMatch = activeRegion === "Vse" || p.regija === activeRegion;
+    const typeMatch = activeType === "Vse" || p.tip === activeType;
+    return regionMatch && typeMatch;
+  }), [ponudniki, activeRegion, activeType]);
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/" active="ponudniki" />
 
-            <PageHero
-        eyebrow="Ponudniki ob poti"
-        title="Postanki, ki naredijo kolesarski dan."
-        description="Lokalna kulinarika, vino, prenočišča in bike-friendly točke ob izbranih turah. Ne samo km — cel dan."
+      <PageHero
+        eyebrow="Lokalni ponudniki"
+        title="Dobri postanki ob poti."
+        description="Koče, kleti, bifeji in bike shopi, ki jih priporočajo naši ambasadorji. Vsak potrjen ponudnik pozna kolesarje in ve, kaj potrebuješ ob trasi."
         image="/hero-ponudniki.png"
-        imageAlt="Druženje ob hrani po kolesarski turi"
+        imageAlt="Lokalni ponudnik ob kolesarski poti"
         imagePosition="center"
-        mobileImagePosition="center 55%"
+        mobileImagePosition="center"
       />
 
-      <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-wrap gap-3">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`rounded-full px-6 py-3 font-semibold transition ${
-                  activeFilter === filter
-                    ? "bg-[#c58b46] text-black"
-                    : "border border-white/10 bg-black/20 text-zinc-300 hover:border-[#c58b46]/40"
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
+      <section className="border-y border-white/10 bg-[#0b1a10]/70 px-6 py-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Filtriraj ponudnike</div>
+            </div>
+            <div className="text-sm text-zinc-500">
+              {loading ? "—" : `${filtered.length} ${filtered.length === 1 ? "ponudnik" : "ponudnikov"}`}
+            </div>
           </div>
-
-        </div>
-      </section>
-
-      <section className="px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10 text-sm text-zinc-500">
-            Prikazano: {filteredProviders.length} ponudnikov
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-3">
-            {filteredProviders.map((provider) => (
-              <article
-                key={provider.name}
-              id={provider.slug}
-                className="flex h-full flex-col overflow-hidden rounded-[36px] border border-white/10 bg-[#0b1a10]"
-              >
-                <div className="relative h-72 overflow-hidden">
-                  <img
-                    src={provider.image}
-                    alt={provider.name}
-                    className="h-full w-full object-cover transition duration-500 hover:scale-105"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
-                </div>
-
-                <div className="flex flex-1 flex-col p-8">
-                  <div className="mb-5 flex flex-wrap gap-2">
-                    {provider.types.map((type) => (
-                      <span
-                        key={type}
-                        className="rounded-full border border-[#c58b46]/35 bg-black/25 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#f4d7ad]"
-                      >
-                        {type}
-                      </span>
-                    ))}
-
-                    {provider.hasCharging && (
-                      <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
-                        🔋 e-bike polnilnica
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="mb-3 text-sm text-zinc-500">
-                    {provider.region} • {provider.location}
-                  </div>
-
-                  <h2 className="font-serif text-3xl font-black italic">{provider.name}</h2>
-
-                  <p className="mt-5 leading-8 text-zinc-400">
-                    {provider.description}
-                  </p>
-
-                  <div className="mt-7 rounded-2xl border border-white/10 bg-black/20 p-5">
-                    <div className="mb-4 text-sm uppercase tracking-[0.2em] text-[#c58b46]">
-                      Ture ob ponudniku
-                    </div>
-
-                    <div className="space-y-3">
-                      {provider.nearbyTrails.map((trail) => (
-                        <div
-                          key={trail.name}
-                          className="flex items-start justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0"
-                        >
-                          <span className="font-semibold text-[#f4d7ad]">
-                            {trail.name}
-                          </span>
-                          <span className="shrink-0 text-right text-sm text-zinc-500">
-                            {trail.distance}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-auto flex items-center gap-3 pt-7">
-                    {provider.href && (
-                      <Link
-                        href={provider.href}
-                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:opacity-90"
-                      >
-                        Ogled
-                      </Link>
-                    )}
-
-                    <a
-                      href={`tel:${provider.phone.replace(/\s/g, "")}`}
-                      className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40"
-                    >
-                      Pokliči
-                    </a>
-
-                    {provider.website && (
-                      <a
-                        href={provider.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40"
-                      >
-                        WWW
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div className="grid gap-3 md:grid-cols-2">
+            <label className="block">
+              <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">Pokrajina</span>
+              <select value={activeRegion} onChange={(e) => setActiveRegion(e.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60">
+                {regions.map((r) => <option key={r}>{r}</option>)}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">Tip ponudnika</span>
+              <select value={activeType} onChange={(e) => setActiveType(e.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60">
+                {types.map((t) => <option key={t}>{t}</option>)}
+              </select>
+            </label>
           </div>
         </div>
       </section>
 
-      {/* ── SAMO AMBASADORJI ── */}
-      <section className="border-t border-white/10 bg-[#0b1a10] px-6 py-14">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-6 rounded-[32px] border border-white/10 bg-black/20 p-7 md:flex-row md:items-center md:gap-10">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 text-2xl">
-              🏅
-            </div>
-            <div className="flex-1">
-              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-                Kdo lahko doda ponudnika?
-              </div>
-              <p className="mt-2 text-base font-semibold leading-7 text-zinc-200">
-                Ponudnike lahko dodajajo samo registrirani kolesarski ambasadorji in glavni admin.
-              </p>
-              <p className="mt-1 text-sm leading-7 text-zinc-500">
-                Tako zagotavljamo, da za vsak vnos stoji preverjena lokalna oseba, ki teren pozna iz prve roke.
-              </p>
-            </div>
-            <div className="flex shrink-0 flex-col gap-2 sm:flex-row md:flex-col">
-              <Link
-                href="/predlagaj-turo"
-                className="rounded-full bg-[#c58b46] px-6 py-3 text-center text-sm font-black text-black"
-              >
-                Postani ambasador
-              </Link>
-              <Link
-                href="/ambasador/prijava"
-                className="rounded-full border border-white/10 px-6 py-3 text-center text-sm font-bold text-zinc-300 hover:border-[#c58b46]/40"
-              >
-                Prijava
-              </Link>
-            </div>
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Izbrani ponudniki</div>
+            <h2 className="mt-3 font-serif text-3xl font-black italic tracking-tight md:text-4xl">
+              Postanki, ki so vredni tvoje ture.
+            </h2>
           </div>
+
+          {loading ? (
+            <div className="py-20 text-center text-zinc-500">Nalagam ponudnike...</div>
+          ) : filtered.length === 0 ? (
+            <div className="py-20 text-center text-zinc-500">Ni ponudnikov s temi filtri.</div>
+          ) : (
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((p) => (
+                <article key={p.id} className="flex h-full flex-col overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10]">
+                  <div className="relative h-52 overflow-hidden bg-black/30">
+                    {p.hero_image ? (
+                      <img src={p.hero_image} alt={p.ime}
+                        className="h-full w-full object-cover transition duration-500 hover:scale-105" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center">
+                        <span className="text-5xl opacity-20">🏡</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-transparent" />
+                  </div>
+
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="mb-3 flex items-center justify-between text-sm text-zinc-500">
+                      <span>{p.regija}{p.lokacija ? ` · ${p.lokacija}` : ""}</span>
+                      {p.tip && <span className="rounded-full border border-white/10 px-3 py-1 text-xs">{p.tip}</span>}
+                    </div>
+                    <h2 className="font-serif text-2xl font-black italic leading-tight text-white">{p.ime}</h2>
+                    {p.opis && (
+                      <p className="mt-3 text-sm leading-7 text-zinc-400 line-clamp-3">{p.opis}</p>
+                    )}
+                    <Link href={`/ponudniki/${p.id}`}
+                      className="mt-auto pt-6 inline-flex w-full justify-center rounded-full bg-[#c58b46] px-6 py-3.5 text-sm font-black text-black transition hover:opacity-90">
+                      Poglej ponudnika
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </main>

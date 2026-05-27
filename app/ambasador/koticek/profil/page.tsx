@@ -1,9 +1,73 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import AmbassadorShell from "@/components/AmbassadorShell";
+import { supabase } from "@/lib/supabase";
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 
 export default function AmbassadorProfilePage() {
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
+
+  // Podatki profila
+  const [userId, setUserId] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [ime, setIme] = useState("");
+  const [regija, setRegija] = useState("");
+  const [kraj, setKraj] = useState("");
+  const [opis, setOpis] = useState("");
+
+  useEffect(() => {
+    async function load() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { setLoading(false); return; }
+
+      setEmail(session.user.email ?? "");
+      setUserId(session.user.id);
+
+      const { data: profil } = await supabase
+        .from("ambasadorji")
+        .select("ime, regija, kraj, opis")
+        .eq("user_id", session.user.id)
+        .single();
+
+      if (profil) {
+        setIme(profil.ime ?? "");
+        setRegija(profil.regija ?? "");
+        setKraj(profil.kraj ?? "");
+        setOpis(profil.opis ?? "");
+      }
+
+      setLoading(false);
+    }
+    load();
+  }, []);
+
+  async function handleSave() {
+    if (!userId) return;
+    setSaving(true);
+    setError("");
+    setSaved(false);
+
+    const { error: err } = await supabase
+      .from("ambasadorji")
+      .update({ ime, regija, kraj, opis })
+      .eq("user_id", userId);
+
+    setSaving(false);
+
+    if (err) {
+      setError("Shranjevanje ni uspelo. Poskusi znova.");
+    } else {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    }
+  }
+
   return (
     <AmbassadorShell>
       <div className="space-y-8">
@@ -26,11 +90,25 @@ export default function AmbassadorProfilePage() {
                 className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">
                 ← Kotiček
               </Link>
-              <button className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:opacity-90">
-                Shrani profil
+              <button
+                onClick={handleSave}
+                disabled={saving || loading}
+                className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:opacity-90 disabled:opacity-40">
+                {saving ? "Shranjujem..." : "Shrani profil"}
               </button>
             </div>
           </div>
+
+          {saved && (
+            <div className="mt-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-3 text-sm font-bold text-emerald-300">
+              ✓ Profil je bil uspešno shranjen.
+            </div>
+          )}
+          {error && (
+            <div className="mt-5 rounded-2xl border border-red-500/30 bg-red-500/10 px-5 py-3 text-sm font-bold text-red-300">
+              {error}
+            </div>
+          )}
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[0.85fr_1.15fr]">
@@ -42,65 +120,93 @@ export default function AmbassadorProfilePage() {
               <div className="flex h-28 w-28 items-center justify-center rounded-[32px] border border-white/10 bg-[#0b1a10] text-5xl">
                 🚴
               </div>
-              <h2 className="mt-5 text-2xl font-black text-white">Bojan Ratej</h2>
-              <p className="mt-1.5 text-sm font-semibold text-zinc-400">Ambasador Štajerske</p>
-              <p className="mt-4 max-w-xs text-sm leading-7 text-zinc-500">
-                Lokalni kolesar, ki rad poveže dobro traso, lep razgled in postanek, ki naredi dan boljši.
+              <h2 className="mt-5 text-2xl font-black text-white">
+                {loading ? "—" : (ime || "Tvoje ime")}
+              </h2>
+              <p className="mt-1.5 text-sm font-semibold text-zinc-400">
+                {regija ? `Ambasador ${regija}` : "Ambasador"}
               </p>
-              <label className="mt-6 inline-flex cursor-pointer rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">
-                Zamenjaj sliko
-                <input type="file" accept="image/*" className="hidden" />
-              </label>
+              {opis && (
+                <p className="mt-4 max-w-xs text-sm leading-7 text-zinc-500">
+                  {opis}
+                </p>
+              )}
             </div>
             <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
-              Sprememba profila ne vpliva na že objavljene ture — posodobi samo tvoj prikaz.
+              Sprememba profila ne vpliva na že objavljene ture — posodobi samo tvoj prikaz pri novih objavah.
             </div>
           </div>
 
           {/* ── Podatki ── */}
           <div className="rounded-[32px] border border-white/10 bg-[#07110b] p-6">
             <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">Podatki profila</div>
-            <div className="mt-6 grid gap-5 md:grid-cols-2">
 
-              <label className="block space-y-2">
-                <span className="text-sm font-bold text-zinc-300">Ime in priimek</span>
-                <input defaultValue="Bojan Ratej"
-                  className="h-14 w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 text-white outline-none focus:border-[#c58b46]/60" />
-              </label>
+            {loading ? (
+              <div className="mt-8 text-center text-zinc-500">Nalagam profil...</div>
+            ) : (
+              <div className="mt-6 grid gap-5 md:grid-cols-2">
 
-              <label className="block space-y-2">
-                <span className="text-sm font-bold text-zinc-300">Email</span>
-                <input defaultValue="bojan@bojanonbike.si" type="email"
-                  className="h-14 w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 text-white outline-none focus:border-[#c58b46]/60" />
-              </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-bold text-zinc-300">Ime in priimek</span>
+                  <input
+                    value={ime}
+                    onChange={(e) => setIme(e.target.value)}
+                    placeholder="npr. Bojan Ratej"
+                    className="h-14 w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 text-white outline-none transition focus:border-[#c58b46]/60" />
+                </label>
 
-              <label className="block space-y-2">
-                <span className="text-sm font-bold text-zinc-300">Regija ambasadorja</span>
-                <select defaultValue="Štajerska"
-                  className="h-14 w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 text-white outline-none focus:border-[#c58b46]/60">
-                  {regions.map((r) => <option key={r}>{r}</option>)}
-                </select>
-              </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-bold text-zinc-300">Email</span>
+                  <input
+                    value={email}
+                    readOnly
+                    className="h-14 w-full cursor-not-allowed rounded-2xl border border-white/5 bg-black/20 px-4 text-zinc-500 outline-none" />
+                  <span className="text-xs text-zinc-600">Email ni mogoče spremeniti tukaj.</span>
+                </label>
 
-              <label className="block space-y-2">
-                <span className="text-sm font-bold text-zinc-300">Kraj / območje</span>
-                <input defaultValue="Maribor, Pohorje"
-                  className="h-14 w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 text-white outline-none focus:border-[#c58b46]/60" />
-              </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-bold text-zinc-300">Regija ambasadorja</span>
+                  <select
+                    value={regija}
+                    onChange={(e) => setRegija(e.target.value)}
+                    className="h-14 w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 text-white outline-none transition focus:border-[#c58b46]/60">
+                    <option value="">— izberi regijo —</option>
+                    {regions.map((r) => <option key={r}>{r}</option>)}
+                  </select>
+                </label>
 
-              <label className="col-span-2 block space-y-2">
-                <span className="text-sm font-bold text-zinc-300">Kratek opis</span>
-                <textarea rows={5} defaultValue="Lokalni kolesar, ki rad poveže dobro traso, lep razgled in postanek, ki naredi dan boljši."
-                  className="w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 py-4 leading-7 text-white outline-none focus:border-[#c58b46]/60" />
-              </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-bold text-zinc-300">Kraj / območje</span>
+                  <input
+                    value={kraj}
+                    onChange={(e) => setKraj(e.target.value)}
+                    placeholder="npr. Maribor, Pohorje"
+                    className="h-14 w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 text-white outline-none transition focus:border-[#c58b46]/60" />
+                </label>
 
-            </div>
+                <label className="col-span-2 block space-y-2">
+                  <span className="text-sm font-bold text-zinc-300">Kratek opis</span>
+                  <textarea
+                    rows={4}
+                    value={opis}
+                    onChange={(e) => setOpis(e.target.value)}
+                    placeholder="Povej kaj o sebi kot kolesarju — kaj te žene, katere poti poznaš, kaj rad odkritvaš..."
+                    className="w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 py-4 leading-7 text-white outline-none transition focus:border-[#c58b46]/60" />
+                </label>
 
-            <div className="mt-6 flex justify-end">
-              <button className="rounded-full bg-[#c58b46] px-8 py-3.5 text-sm font-black text-black transition hover:opacity-90">
-                Shrani profil
-              </button>
-            </div>
+              </div>
+            )}
+
+            {!loading && (
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="rounded-full bg-[#c58b46] px-8 py-3.5 text-sm font-black text-black transition hover:opacity-90 disabled:opacity-40">
+                  {saving ? "Shranjujem..." : "Shrani profil"}
+                </button>
+              </div>
+            )}
           </div>
 
         </section>

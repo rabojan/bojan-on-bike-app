@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 type AdminShellProps = {
   children: ReactNode;
@@ -38,18 +39,25 @@ export default function AdminShell({ children, active }: AdminShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("bojan_admin_logged_in");
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        router.push("/admin-login");
+        return;
+      }
 
-    if (isLoggedIn !== "true") {
-      router.push("/admin-login");
-      return;
-    }
+      const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+      if (session.user.email !== adminEmail) {
+        supabase.auth.signOut();
+        router.push("/admin-login");
+        return;
+      }
 
-    setIsReady(true);
+      setIsReady(true);
+    });
   }, [router]);
 
-  function logout() {
-    localStorage.removeItem("bojan_admin_logged_in");
+  async function logout() {
+    await supabase.auth.signOut();
     router.push("/");
   }
 
