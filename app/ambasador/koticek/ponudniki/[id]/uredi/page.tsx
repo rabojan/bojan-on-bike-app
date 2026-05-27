@@ -120,7 +120,7 @@ export default function UrejiPonudnikaPage() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { setError("Nisi prijavljen."); setLoading(false); return; }
 
-    const { data: profil } = await supabase.from("ambasadorji").select("id").eq("user_id", session.user.id).single();
+    const { data: profil } = await supabase.from("ambasadorji").select("id, ime, regija").eq("user_id", session.user.id).single();
     if (!profil) { setError("Ambasadorski profil ni najden."); setLoading(false); return; }
 
     let heroUrl = existingHeroUrl;
@@ -158,6 +158,21 @@ export default function UrejiPonudnikaPage() {
       .eq("ambasador_id", profil.id);
 
     if (dbError) { setError("Napaka pri shranjevanju."); setLoading(false); return; }
+
+    fetch("/api/email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "nova_prijava",
+        predlogTip: "ponudnik",
+        predlogIme: ime,
+        predlogRegija: regija,
+        ambasadorIme: (profil as { id: string; ime?: string; regija?: string }).ime ?? null,
+        ambasadorRegija: (profil as { id: string; ime?: string; regija?: string }).regija ?? null,
+        jeRevizija: true,
+      }),
+    }).catch(() => {});
+
     router.push("/ambasador/koticek/ponudniki");
   }
 
