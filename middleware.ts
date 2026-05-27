@@ -7,8 +7,8 @@ const PITCH_TOKEN = process.env.PITCH_TOKEN ?? 'bob-pitch-2026';
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
-  // Zaščiti samo /predstavitev
-  if (pathname === '/predstavitev') {
+  // Zaščiti samo /predstavitev.html
+  if (pathname === '/predstavitev.html') {
     const token = searchParams.get('token');
 
     if (token !== PITCH_TOKEN) {
@@ -21,5 +21,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/predstavitev'],
+  matcher: ['/predstavitev.html'],
 };
