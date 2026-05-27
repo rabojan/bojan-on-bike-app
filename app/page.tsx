@@ -19,6 +19,16 @@ type TuraCard = {
   opis: string | null;
 };
 
+type DozivetjeCard = {
+  id: string;
+  title: string;
+  regija: string;
+  obmocje: string | null;
+  tip: string[] | null;
+  hero_image: string | null;
+  tagline: string | null;
+};
+
 const regions = [
   "Štajerska",
   "Koroška",
@@ -60,13 +70,14 @@ function slugify(value: string) {
 
 export default function Home() {
   const [ture, setTure] = useState<TuraCard[]>([]);
+  const [dozivetja, setDozivetja] = useState<DozivetjeCard[]>([]);
   const [tureCount, setTureCount] = useState<number | null>(null);
   const [ponudnikiCount, setPonudnikiCount] = useState<number | null>(null);
   const [znamenitostiCount, setZnamenitostiCount] = useState<number | null>(null);
 
   useEffect(() => {
     async function load() {
-      const [tureRes, ponudnikiRes, znamenitostiRes] = await Promise.all([
+      const [tureRes, ponudnikiRes, znamenitostiRes, dozivetjaRes] = await Promise.all([
         supabase
           .from("predlogi_tur")
           .select("id, ime, regija, obmocje, km, visinska_razlika, tezavnost, tipi, hero_image, opis")
@@ -81,6 +92,12 @@ export default function Home() {
           .from("predlogi_znamenitosti")
           .select("id", { count: "exact", head: true })
           .eq("status", "approved"),
+        supabase
+          .from("dozivetja")
+          .select("id, title, regija, obmocje, tip, hero_image, tagline")
+          .eq("status", "published")
+          .order("created_at", { ascending: false })
+          .limit(3),
       ]);
 
       const tureData = tureRes.data ?? [];
@@ -88,6 +105,7 @@ export default function Home() {
       setTureCount(tureData.length > 0 ? (tureRes.count ?? tureData.length) : 0);
       setPonudnikiCount(ponudnikiRes.count ?? 0);
       setZnamenitostiCount(znamenitostiRes.count ?? 0);
+      setDozivetja(dozivetjaRes.data ?? []);
     }
     load();
   }, []);
@@ -166,21 +184,73 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="overflow-hidden rounded-[2rem] border border-[#c58b46]/20 bg-[#c58b46]/5 p-10 md:p-14">
-            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Prihaja kmalu</p>
-            <h3 className="mb-5 font-serif text-3xl font-black italic leading-tight md:text-4xl">
-              Doživetja — kurirana kolesarska doživetja.
-            </h3>
-            <p className="mb-8 max-w-2xl text-base leading-8 text-zinc-400">
-              Vsako doživetje bo vključevalo turo, postanke pri lokalnih ponudnikih in znamenitosti ob poti — vse v enem.
-            </p>
-            <Link
-              href="/ture"
-              className="inline-flex rounded-full bg-[#c58b46] px-8 py-4 text-sm font-black text-black transition hover:bg-[#d9a35d]"
-            >
-              Medtem si oglej ture →
-            </Link>
-          </div>
+          {dozivetja.length > 0 ? (
+            <div className="grid items-stretch gap-6 md:grid-cols-3">
+              {dozivetja.map((d) => (
+                <article
+                  key={d.id}
+                  className="group flex flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1a10] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
+                >
+                  <div className="relative h-52 overflow-hidden">
+                    {d.hero_image ? (
+                      <img
+                        src={d.hero_image}
+                        alt={d.title}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center bg-[#0b1a10]">
+                        <span className="text-5xl opacity-10">✨</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10]/90 to-transparent" />
+                    {d.tip && d.tip.length > 0 && (
+                      <div className="absolute left-4 top-4">
+                        <span className="rounded-full border border-[#c58b46]/40 bg-black/50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] text-[#f4d7ad] backdrop-blur">
+                          {d.tip[0]}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="mb-2 text-xs text-zinc-500">
+                      {d.regija}{d.obmocje ? ` · ${d.obmocje}` : ""}
+                    </div>
+                    <h3 className="mb-3 font-serif text-2xl font-black italic leading-tight">
+                      {d.title}
+                    </h3>
+                    {d.tagline && (
+                      <p className="flex-1 text-sm leading-7 text-zinc-400 line-clamp-2">
+                        {d.tagline}
+                      </p>
+                    )}
+                    <Link
+                      href={`/dozivetja/${d.id}`}
+                      className="mt-5 block rounded-full border border-[#c58b46]/40 px-5 py-3 text-center text-sm font-black text-[#f4d7ad] transition hover:bg-[#c58b46] hover:text-black"
+                    >
+                      Oglej si dan
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="overflow-hidden rounded-[2rem] border border-[#c58b46]/20 bg-[#c58b46]/5 p-10 md:p-14">
+              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Prihaja kmalu</p>
+              <h3 className="mb-5 font-serif text-3xl font-black italic leading-tight md:text-4xl">
+                Doživetja — kurirana kolesarska doživetja.
+              </h3>
+              <p className="mb-8 max-w-2xl text-base leading-8 text-zinc-400">
+                Vsako doživetje bo vključevalo turo, postanke pri lokalnih ponudnikih in znamenitosti ob poti — vse v enem.
+              </p>
+              <Link
+                href="/ture"
+                className="inline-flex rounded-full bg-[#c58b46] px-8 py-4 text-sm font-black text-black transition hover:bg-[#d9a35d]"
+              >
+                Medtem si oglej ture →
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

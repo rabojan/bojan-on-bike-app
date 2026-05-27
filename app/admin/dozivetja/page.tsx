@@ -1,68 +1,74 @@
+"use client";
+
 import Link from "next/link";
-
+import { useEffect, useState } from "react";
 import AdminShell from "@/components/AdminShell";
+import { supabase } from "@/lib/supabase";
 
-const experiences = [
-  {
-    title: "Vinski kolesarski dan",
-    slug: "vinski-kolesarski-dan",
-    type: "Vinsko doživetje",
-    region: "Štajerska",
-    status: "Objavljeno",
-    trails: 1,
-    providers: 1,
-    attractions: 1,
-    updated: "Danes",
-    description:
-      "Lahkotna vožnja med griči, postanek pri vinski kleti in občutek dneva, ki se konča za mizo.",
-  },
-  {
-    title: "Družinski e-bike izlet",
-    slug: "druzinski-e-bike-izlet",
-    type: "Družinski izlet",
-    region: "Pohorje",
-    status: "Čaka na objavo",
-    trails: 1,
-    providers: 1,
-    attractions: 2,
-    updated: "Čaka na objavo",
-    description:
-      "Krajša razdalja, varnejši odseki in dovolj postankov, da lahko v dnevu uživa cela družina.",
-  },
-  {
-    title: "Pohorski flow in kosilo",
-    slug: "pohorski-flow-in-kosilo",
-    type: "Kulinarična tura",
-    region: "Štajerska",
-    status: "Čaka na objavo",
-    trails: 1,
-    providers: 2,
-    attractions: 1,
-    updated: "Čaka na objavo",
-    description:
-      "Gozdni odseki, občutek svobode in postanek pri lokalnem ponudniku ob poti.",
-  },
-];
+type Dozivete = {
+  id: string;
+  title: string;
+  regija: string;
+  obmocje: string | null;
+  tip: string[] | null;
+  status: string;
+  ritem_dneva: unknown[];
+  created_at: string;
+};
 
-export default function AdminExperiencesPage() {
+const statusLabel: Record<string, string> = {
+  draft: "Osnutek",
+  published: "Objavljeno",
+};
+
+function StatusBadge({ status }: { status: string }) {
+  const label = statusLabel[status] ?? status;
+  const tone =
+    status === "published"
+      ? "bg-emerald-500/10 text-emerald-300"
+      : "bg-yellow-500/10 text-yellow-300";
+  return (
+    <span className={`rounded-full px-4 py-2 text-xs font-bold ${tone}`}>
+      {label}
+    </span>
+  );
+}
+
+export default function AdminDozivetjaPage() {
+  const [dozivetja, setDozivetja] = useState<Dozivete[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from("dozivetja")
+        .select("id, title, regija, obmocje, tip, status, ritem_dneva, created_at")
+        .order("created_at", { ascending: false });
+      setDozivetja(data ?? []);
+      setLoading(false);
+    }
+    load();
+  }, []);
+
+  const published = dozivetja.filter((d) => d.status === "published").length;
+  const drafts = dozivetja.filter((d) => d.status === "draft").length;
+
   return (
     <AdminShell active="dozivetja">
       <div className="space-y-8">
+
         <section className="flex flex-col gap-5 rounded-[36px] border border-white/10 bg-[#0b1a10] p-8 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
               Admin / Doživetja
             </div>
-
             <h1 className="mt-4 text-4xl font-black">Doživetja</h1>
-
             <p className="mt-5 max-w-3xl leading-8 text-zinc-400">
-              Tukaj urejaš ideje za kolesarski dan: vinska doživetja,
-              družinske izlete, kulinarične ture, razgledne poti, vikend pobege
-              in zgodbe krajev.
+              Tukaj urejaš ideje za kolesarski dan: vinska doživetja, družinske
+              izlete, kulinarične ture, razgledne poti, vikend pobege in zgodbe
+              krajev.
             </p>
           </div>
-
           <Link
             href="/admin/dozivetja/novo"
             className="rounded-full bg-[#c58b46] px-6 py-4 text-sm font-bold text-black"
@@ -71,119 +77,100 @@ export default function AdminExperiencesPage() {
           </Link>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-4">
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">3</div>
-            <div className="mt-2 text-sm text-zinc-400">vsa doživetja</div>
-          </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">1</div>
-            <div className="mt-2 text-sm text-zinc-400">objavljeno</div>
-          </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">2</div>
-            <div className="mt-2 text-sm text-zinc-400">čakata na objavo</div>
-          </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <div className="text-4xl font-black">4</div>
-            <div className="mt-2 text-sm text-zinc-400">tipi doživetij</div>
-          </div>
+        <section className="grid gap-4 md:grid-cols-3">
+          {[
+            { value: loading ? "—" : String(dozivetja.length), label: "vsa doživetja" },
+            { value: loading ? "—" : String(published), label: "objavljeno" },
+            { value: loading ? "—" : String(drafts), label: "osnutki" },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="rounded-[28px] border border-white/10 bg-black/20 p-6"
+            >
+              <div className="text-4xl font-black">{s.value}</div>
+              <div className="mt-2 text-sm text-zinc-400">{s.label}</div>
+            </div>
+          ))}
         </section>
 
         <section className="grid gap-5">
-          {experiences.map((experience) => (
-            <article
-              key={experience.slug}
-              className="rounded-[32px] border border-white/10 bg-black/20 p-6"
-            >
-              <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-                <div>
-                  <div className="mb-4 flex flex-wrap gap-2">
-                    <span
-                      className={`rounded-full px-4 py-2 text-xs font-bold ${
-                        experience.status === "Objavljeno"
-                          ? "bg-emerald-500/10 text-emerald-300"
-                          : "bg-yellow-500/10 text-yellow-300"
-                      }`}
-                    >
-                      {experience.status}
-                    </span>
-
-                    <span className="rounded-full border border-white/10 bg-[#07110b] px-4 py-2 text-xs text-zinc-300">
-                      {experience.type}
-                    </span>
-
-                    <span className="rounded-full border border-white/10 bg-[#07110b] px-4 py-2 text-xs text-zinc-300">
-                      {experience.region}
-                    </span>
+          {loading ? (
+            <div className="py-12 text-center text-sm text-zinc-500">
+              Nalagam...
+            </div>
+          ) : dozivetja.length === 0 ? (
+            <div className="rounded-[32px] border border-white/10 bg-black/20 p-12 text-center">
+              <div className="text-3xl">✨</div>
+              <p className="mt-4 text-sm text-zinc-500">
+                Še ni doživetij. Dodaj prvo.
+              </p>
+              <Link
+                href="/admin/dozivetja/novo"
+                className="mt-5 inline-flex rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black"
+              >
+                + Dodaj doživetje
+              </Link>
+            </div>
+          ) : (
+            dozivetja.map((d) => (
+              <article
+                key={d.id}
+                className="rounded-[32px] border border-white/10 bg-black/20 p-6"
+              >
+                <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+                  <div>
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      <StatusBadge status={d.status} />
+                      <span className="rounded-full border border-white/10 bg-[#07110b] px-4 py-2 text-xs text-zinc-300">
+                        {d.regija}
+                        {d.obmocje ? ` · ${d.obmocje}` : ""}
+                      </span>
+                      {d.tip?.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-full border border-white/10 bg-[#07110b] px-4 py-2 text-xs text-zinc-300"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <h2 className="text-3xl font-black">{d.title}</h2>
+                    <div className="mt-4 text-sm text-zinc-500">
+                      {Array.isArray(d.ritem_dneva) ? d.ritem_dneva.length : 0}{" "}
+                      {Array.isArray(d.ritem_dneva) && d.ritem_dneva.length === 1
+                        ? "sklop"
+                        : "sklopov"}{" "}
+                      · Dodano:{" "}
+                      {new Date(d.created_at).toLocaleDateString("sl-SI")}
+                    </div>
                   </div>
 
-                  <h2 className="text-3xl font-black">{experience.title}</h2>
-
-                  <p className="mt-4 max-w-3xl leading-8 text-zinc-400">
-                    {experience.description}
-                  </p>
-
-                  <div className="mt-5 text-sm text-zinc-500">
-                    Zadnja sprememba: {experience.updated}
+                  <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+                    <div className="mb-4 text-xs uppercase tracking-[0.25em] text-[#c58b46]">
+                      Dejanja
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                      <Link
+                        href={`/admin/dozivetja/${d.id}`}
+                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
+                      >
+                        Uredi
+                      </Link>
+                      <Link
+                        href={`/dozivetja/${d.id}`}
+                        target="_blank"
+                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
+                      >
+                        Predogled
+                      </Link>
+                    </div>
                   </div>
                 </div>
-
-                <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
-                  <div className="mb-4 text-xs uppercase tracking-[0.25em] text-[#c58b46]">
-                    Povezave
-                  </div>
-
-                  <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <div className="text-2xl font-black">
-                        {experience.trails}
-                      </div>
-                      <div className="mt-1 text-sm text-zinc-500">tura</div>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <div className="text-2xl font-black">
-                        {experience.providers}
-                      </div>
-                      <div className="mt-1 text-sm text-zinc-500">
-                        ponudnik
-                      </div>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <div className="text-2xl font-black">
-                        {experience.attractions}
-                      </div>
-                      <div className="mt-1 text-sm text-zinc-500">
-                        znamenitost
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    <Link
-                      href={`/admin/dozivetja/${experience.slug}`}
-                      className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
-                    >
-                      Uredi
-                    </Link>
-
-                    <Link
-                      href="/dozivetja"
-                      className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300"
-                    >
-                      Predogled
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))
+          )}
         </section>
+
       </div>
     </AdminShell>
   );

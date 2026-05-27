@@ -1,74 +1,61 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import PageHero from "@/components/PageHero";
+import { supabase } from "@/lib/supabase";
+
+type Dozivete = {
+  id: string;
+  title: string;
+  regija: string;
+  obmocje: string | null;
+  tip: string[] | null;
+  hero_image: string | null;
+  tagline: string | null;
+  trasa_km: string | null;
+  trasa_vm: string | null;
+  trasa_tezavnost: string | null;
+  trasa_naslov: string | null;
+};
 
 const filters = [
   "Vsi",
+  "MTB flow",
   "Vinsko doživetje",
   "Družinski izlet",
   "Kulinarična tura",
   "Razgledna pot",
   "Vikend pobeg",
   "Zgodbe krajev",
-  "e-bike dan",
-  "MTB flow",
-];
-
-const experiences = [
-  {
-    title: "Vinski kolesarski dan",
-    region: "Štajerska",
-    area: "Slovenske gorice",
-    type: "Vinsko doživetje",
-    image:
-      "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=1400&auto=format&fit=crop",
-    description:
-      "Lahkotna vožnja med griči, postanek pri vinski kleti, domača kulinarika in razgled, ki naredi dan poseben.",
-    trail: { name: "Med vinogradi in griči", href: "/ture/med-vinogradi-in-grici" },
-    provider: { name: "Vinska klet med griči", href: "/ponudniki" },
-    highlight: "Vinogradniške terase",
-    href: "/dozivetja/vinski-kolesarski-dan",
-  },
-  {
-    title: "Družinski e-bike izlet",
-    region: "Štajerska",
-    area: "Pohorje",
-    type: "Družinski izlet",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
-    description:
-      "Varnejše poti, krajše razdalje, lepi postanki in dovolj prostora, da lahko v dnevu uživa cela družina.",
-    trail: { name: "Gozdni flow nad Mariborom", href: "/ture/gozdni-flow-nad-mariborom" },
-    provider: { name: "Rudijev dom na Pohorju", href: "/ponudniki/rudijev-dom-na-pohorju" },
-    highlight: "Pohorski gozdni odsek",
-    href: "/dozivetja/druzinski-e-bike-izlet",
-  },
-  {
-    title: "Pohorski flow in kosilo",
-    region: "Štajerska",
-    area: "Pohorje",
-    type: "MTB flow",
-    image:
-      "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=1400&auto=format&fit=crop",
-    description:
-      "Gozdni odseki, občutek svobode, nato pa zaslužen postanek pri lokalnem ponudniku ob poti.",
-    trail: { name: "Gozdni flow nad Mariborom", href: "/ture/gozdni-flow-nad-mariborom" },
-    provider: { name: "Rudijev dom na Pohorju", href: "/ponudniki/rudijev-dom-na-pohorju" },
-    highlight: "Razgled nad Mariborom",
-    href: "/dozivetja/pohorski-flow-in-kosilo",
-  },
+  "E-bike dan",
 ];
 
 export default function DozivetjaPage() {
+  const [dozivetja, setDozivetja] = useState<Dozivete[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("Vsi");
 
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from("dozivetja")
+        .select(
+          "id, title, regija, obmocje, tip, hero_image, tagline, trasa_km, trasa_vm, trasa_tezavnost, trasa_naslov"
+        )
+        .eq("status", "published")
+        .order("created_at", { ascending: false });
+      setDozivetja(data ?? []);
+      setLoading(false);
+    }
+    load();
+  }, []);
+
   const filtered = useMemo(() => {
-    if (activeFilter === "Vsi") return experiences;
-    return experiences.filter((e) => e.type === activeFilter);
-  }, [activeFilter]);
+    if (activeFilter === "Vsi") return dozivetja;
+    return dozivetja.filter((d) => d.tip?.includes(activeFilter));
+  }, [dozivetja, activeFilter]);
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
@@ -116,71 +103,96 @@ export default function DozivetjaPage() {
               Ideje za dan, ki si ga zapomniš.
             </h2>
           </div>
-          <div className="text-sm text-zinc-500">
-            {filtered.length} {filtered.length === 1 ? "doživetje" : "doživetja"}
-          </div>
+          {!loading && (
+            <div className="text-sm text-zinc-500">
+              {filtered.length}{" "}
+              {filtered.length === 1 ? "doživetje" : "doživetja"}
+            </div>
+          )}
         </div>
 
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="py-16 text-center text-sm text-zinc-500">
+            Nalagam...
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] px-8 py-16 text-center text-zinc-500">
-            Za izbrani filter trenutno ni doživetij.
+            {activeFilter === "Vsi"
+              ? "Doživetja prihajajo kmalu."
+              : "Za izbrani filter trenutno ni doživetij."}
           </div>
         ) : (
           <div className="grid items-stretch gap-8 md:grid-cols-3">
-            {filtered.map((experience) => (
+            {filtered.map((d) => (
               <article
-                key={experience.title}
+                key={d.id}
                 className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1a10] transition hover:-translate-y-1 hover:border-[#c58b46]/40"
               >
                 <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={experience.image}
-                    alt={experience.title}
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                  />
+                  {d.hero_image ? (
+                    <img
+                      src={d.hero_image}
+                      alt={d.title}
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-[#0b1a10]">
+                      <span className="text-7xl opacity-10">✨</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-transparent to-transparent" />
-                  <div className="absolute left-4 top-4">
-                    <span className="rounded-full border border-[#c58b46]/40 bg-black/50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f4d7ad] backdrop-blur">
-                      {experience.type}
-                    </span>
-                  </div>
+                  {d.tip && d.tip.length > 0 && (
+                    <div className="absolute left-4 top-4">
+                      <span className="rounded-full border border-[#c58b46]/40 bg-black/50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-[#f4d7ad] backdrop-blur">
+                        {d.tip[0]}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-1 flex-col p-7">
                   <div className="mb-2 text-xs text-zinc-500">
-                    {experience.region} · {experience.area}
+                    {d.regija}
+                    {d.obmocje ? ` · ${d.obmocje}` : ""}
                   </div>
 
                   <h3 className="font-serif text-2xl font-black italic leading-tight">
-                    {experience.title}
+                    {d.title}
                   </h3>
 
-                  <p className="mt-4 flex-1 text-sm leading-7 text-zinc-400">
-                    {experience.description}
-                  </p>
+                  {d.tagline && (
+                    <p className="mt-4 flex-1 text-sm leading-7 text-zinc-400">
+                      {d.tagline}
+                    </p>
+                  )}
 
-                  {/* TRIO */}
-                  <div className="mt-6 space-y-2.5 rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <div className="flex items-center gap-3 text-sm">
-                      <span className="shrink-0 text-[#c58b46]">⬡</span>
-                      <Link href={experience.trail.href} className="text-zinc-300 hover:text-[#f4d7ad]">
-                        {experience.trail.name}
-                      </Link>
+                  {(d.trasa_km || d.trasa_vm || d.trasa_tezavnost) && (
+                    <div className="mt-6 flex flex-wrap gap-2 rounded-2xl border border-white/10 bg-black/20 p-4">
+                      {d.trasa_naslov && (
+                        <div className="mb-2 w-full text-xs font-semibold text-zinc-400">
+                          {d.trasa_naslov}
+                        </div>
+                      )}
+                      {d.trasa_km && (
+                        <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-zinc-400">
+                          {d.trasa_km} km
+                        </span>
+                      )}
+                      {d.trasa_vm && (
+                        <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-zinc-400">
+                          {d.trasa_vm} vm
+                        </span>
+                      )}
+                      {d.trasa_tezavnost && (
+                        <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-zinc-400">
+                          {d.trasa_tezavnost}
+                        </span>
+                      )}
                     </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <span className="shrink-0 text-[#c58b46]">◎</span>
-                      <Link href={experience.provider.href} className="text-zinc-400 hover:text-[#f4d7ad]">
-                        {experience.provider.name}
-                      </Link>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <span className="shrink-0 text-[#c58b46]">◈</span>
-                      <span className="text-zinc-500">{experience.highlight}</span>
-                    </div>
-                  </div>
+                  )}
 
                   <Link
-                    href={experience.href}
+                    href={`/dozivetja/${d.id}`}
                     className="mt-6 inline-flex justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:opacity-90"
                   >
                     Oglej si dan
