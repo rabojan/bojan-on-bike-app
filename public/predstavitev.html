@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bojan on Bike — Celotni dokument 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #c58b46;
+      --gold-light: #f4d7ad;
+      --gold-pale: #fdf6ec;
+      --dark: #07110b;
+      --dark-mid: #0b1a10;
+      --ink: #1c1c1c;
+      --ink-soft: #3d3d3d;
+      --ink-muted: #6b6b6b;
+      --cream: #f9f5ef;
+      --white: #ffffff;
+      --border: #e8e0d4;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── TIPOGRAFIJA ── */
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; }
+
+    /* ── ANIMACIJE ── */
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes wheel-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.75s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── COVER ── */
+    .cover {
+      background: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 64px 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(197,139,70,0.14) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: -200px; left: -200px;
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(197,139,70,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cover-wheel-wrap {
+      position: absolute;
+      right: -100px; top: 50%;
+      transform: translateY(-50%);
+      width: 580px; height: 580px;
+      pointer-events: none;
+      color: var(--gold);
+    }
+    .cover-wheel-wrap svg { width: 100%; height: 100%; animation: wheel-spin 130s linear infinite; }
+    .cover-terrain { position: absolute; bottom: 0; left: 0; right: 0; width: 100%; pointer-events: none; }
+    .cover-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.38em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .cover-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 900; font-style: italic;
+      line-height: 0.9; color: var(--white); max-width: 700px;
+    }
+    .cover-logo span { color: var(--gold); }
+    .cover-tagline {
+      font-size: clamp(18px, 2.5vw, 26px); font-weight: 300;
+      color: rgba(255,255,255,0.65); max-width: 480px; line-height: 1.6; margin-top: 28px;
+    }
+    .cover-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+    .cover-url { font-size: 13px; letter-spacing: 0.12em; color: var(--gold); font-weight: 600; }
+    .cover-year { font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.2em; }
+    .cover-divider { width: 64px; height: 2px; background: var(--gold); margin: 32px 0; }
+
+    /* ── NAV ── */
+    .doc-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--dark);
+      border-bottom: 1px solid rgba(197,139,70,0.2);
+      padding: 0 72px;
+      display: flex; gap: 0; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .doc-nav::-webkit-scrollbar { display: none; }
+    .doc-nav a {
+      color: rgba(255,255,255,0.45); text-decoration: none;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 16px 20px;
+      white-space: nowrap; flex-shrink: 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .doc-nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── SECTION SKUPNO ── */
+    section { padding: 96px 72px; }
+    .section-eyebrow {
+      font-size: 10px; font-weight: 900; letter-spacing: 0.42em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: clamp(34px, 4vw, 54px); font-weight: 900; font-style: italic;
+      line-height: 1.1; color: var(--ink); max-width: 720px;
+    }
+    .section-title--white { color: var(--white); }
+    .section-text {
+      font-size: 17px; line-height: 1.9; color: var(--ink-soft);
+      max-width: 680px; margin-top: 28px;
+    }
+    .section-text--white { color: rgba(255,255,255,0.7); }
+    .section-text p + p { margin-top: 20px; }
+
+    /* ── SEKCIJE OZADJE ── */
+    .bg-white    { background: var(--white); }
+    .bg-cream    { background: var(--cream); }
+    .bg-dark     { background: var(--dark); }
+    .bg-dark-mid { background: var(--dark-mid); }
+    .bg-gold-pale { background: var(--gold-pale); }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote {
+      border-left: 3px solid var(--gold);
+      padding: 8px 0 8px 36px; margin: 48px 0; max-width: 680px;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(22px, 3vw, 32px); font-style: italic;
+      font-weight: 700; line-height: 1.4; color: var(--ink);
+    }
+    .pull-quote p.dark { color: var(--gold-light); }
+
+    /* ── GRID ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+    /* ── KARTICE ── */
+    .card {
+      border: 1px solid var(--border); border-radius: 20px; padding: 32px; background: var(--white);
+    }
+    .card--dark {
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 20px;
+      padding: 32px; background: rgba(255,255,255,0.04);
+    }
+    .card-number { font-family:'Playfair Display',Georgia,serif; font-size:44px; font-weight:900; color:var(--gold); line-height:1; margin-bottom:12px; }
+    .card-label { font-size:10px; font-weight:900; letter-spacing:0.35em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:16px; }
+    .card-label--light { color: rgba(255,255,255,0.4); }
+    .card-title { font-family:'Playfair Display',Georgia,serif; font-size:22px; font-weight:900; font-style:italic; line-height:1.3; color:var(--ink); margin-bottom:14px; }
+    .card-title--light { color: var(--white); }
+    .card-text { font-size:14px; line-height:1.85; color:var(--ink-muted); }
+    .card-text--light { color: rgba(255,255,255,0.55); }
+    .card-icon { width:44px; height:44px; margin-bottom:20px; }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-block; border: 1px solid var(--gold); border-radius: 100px;
+      padding: 6px 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+    }
+
+    /* ── STAT BLOCK ── */
+    .stat-block { text-align: center; padding: 40px 24px; }
+    .stat-ring-wrap {
+      position: relative; width: 144px; height: 144px;
+      margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
+    }
+    .stat-ring-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .stat-number { font-family:'Playfair Display',Georgia,serif; font-size:56px; font-weight:900; color:var(--gold); line-height:1; position:relative; z-index:1; }
+    .stat-number--sm { font-size: 42px; }
+    .stat-label { font-size:12px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--ink-muted); margin-top:12px; }
+    .stat-label--light { color: rgba(255,255,255,0.45); }
+
+    /* ── DIVIDER ── */
+    .divider { width: 100%; height: 1px; background: var(--border); margin: 0; }
+    .divider--dark { background: rgba(255,255,255,0.07); }
+
+    /* ── HIGHLIGHT BAR ── */
+    .highlight-bar {
+      background: var(--gold-pale); border-left: 4px solid var(--gold);
+      border-radius: 0 12px 12px 0; padding: 24px 32px; margin: 40px 0; max-width: 680px;
+    }
+    .highlight-bar p { font-size:16px; line-height:1.8; color:var(--ink-soft); }
+    .highlight-bar strong { color: var(--ink); }
+
+    /* ── CALLOUT BOX ── */
+    .callout {
+      border-left: 5px solid var(--gold); border-radius: 0 12px 12px 0;
+      background: var(--gold-pale); padding: 24px 32px; margin: 32px 0; max-width: 780px;
+    }
+    .callout .callout-label {
+      font-size: 11px; font-weight: 900; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+    }
+    .callout p { font-size: 15px; line-height: 1.85; color: var(--ink-soft); }
+    .callout--dark {
+      background: rgba(197,139,70,0.10); border-color: var(--gold);
+    }
+    .callout--dark p { color: rgba(255,255,255,0.7); }
+    .callout--dark .callout-label { color: var(--gold); }
+
+    /* ── SEZNAM S PIKO ── */
+    .custom-list { list-style: none; margin-top: 28px; }
+    .custom-list li {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      font-size: 15px; line-height: 1.7; color: var(--ink-soft);
+    }
+    .custom-list li:last-child { border-bottom: none; }
+    .custom-list li::before { content: '—'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .custom-list li strong { color: var(--ink); }
+    .custom-list--light li { border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.65); }
+    .custom-list--light li::before { color: var(--gold); }
+    .custom-list--light li strong { color: var(--gold-light); }
+
+    /* ── TABELE ── */
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 32px; font-size: 14px; }
+    .data-table th {
+      background: var(--dark); color: var(--white); font-weight: 700;
+      padding: 14px 18px; text-align: left; letter-spacing: 0.05em;
+      border: 1px solid rgba(197,139,70,0.3);
+    }
+    .data-table th:first-child { border-left: 3px solid var(--gold); }
+    .data-table td {
+      padding: 12px 18px; border: 1px solid var(--border);
+      vertical-align: top; line-height: 1.6; color: var(--ink-soft);
+    }
+    .data-table tr:nth-child(even) td { background: var(--cream); }
+    .data-table tr:hover td { background: var(--gold-pale); }
+    .data-table td.yes  { color: #2e7d32; font-weight: 700; }
+    .data-table td.no   { color: #c62828; }
+    .data-table td.part { color: #e65100; }
+    .data-table td.first { font-weight: 600; color: var(--ink); }
+    .data-table--dark th { background: rgba(255,255,255,0.06); color: var(--gold-light); border-color: rgba(197,139,70,0.2); }
+    .data-table--dark td { border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
+    .data-table--dark tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+
+    /* ── FAZE RASTI ── */
+    .phase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px; }
+    .phase-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px 24px; border-top: 3px solid var(--gold);
+    }
+    .phase-num {
+      font-family: 'Playfair Display', Georgia, serif; font-size: 48px; font-weight: 900;
+      color: rgba(197,139,70,0.15); line-height: 1; margin-bottom: 12px;
+    }
+    .phase-name { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .phase-period { font-size: 12px; color: var(--ink-muted); margin-bottom: 16px; }
+    .phase-focus { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-style: italic; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+    .phase-goals { font-size: 13px; line-height: 1.8; color: var(--ink-muted); }
+
+    /* ── TECH BADGES ── */
+    .tech-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .tech-badge {
+      background: var(--gold-pale); border: 1px solid rgba(197,139,70,0.3);
+      border-radius: 8px; padding: 6px 14px; font-size: 13px;
+      font-weight: 600; color: var(--ink-soft);
+    }
+    .tech-badge strong { color: var(--gold); }
+
+    /* ── PHOTO BREAK ── */
+    .photo-break {
+      position: relative; height: 480px; overflow: hidden;
+      display: flex; align-items: center; background: var(--dark);
+    }
+    .photo-break img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center 40%;
+    }
+    .photo-break-overlay { position: absolute; inset: 0; }
+    .photo-break-content { position: relative; z-index: 2; padding: 0 72px; max-width: 900px; width: 100%; }
+    .photo-break-content--center {
+      max-width: 100%; text-align: center; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* ── ELEVATION DECO ── */
+    .elev-deco { width: 100%; max-width: 520px; margin-top: 40px; }
+
+    /* ── MARQUEE ── */
+    .marquee-row { overflow: hidden; padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .marquee-track { display: flex; gap: 48px; width: max-content; animation: marquee-scroll 50s linear infinite; }
+    .marquee-word { font-family:'Playfair Display',Georgia,serif; font-size:28px; font-style:italic; font-weight:700; color:var(--ink); white-space:nowrap; flex-shrink:0; }
+    .marquee-word span { color: var(--gold); }
+
+    /* ── FINAL CTA ── */
+    .cta-section { background: var(--dark); text-align: center; padding: 120px 72px; position: relative; overflow: hidden; }
+    .cta-url {
+      display: inline-block; margin-top: 40px; border: 2px solid var(--gold); border-radius: 100px;
+      padding: 18px 48px; font-size: 14px; font-weight: 900; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold); text-decoration: none;
+    }
+
+    /* ── REVENUE CARDS ── */
+    .revenue-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .revenue-card {
+      border: 1px solid var(--border); border-radius: 16px; padding: 28px;
+      border-top: 3px solid transparent;
+    }
+    .revenue-card.primary { border-top-color: var(--gold); }
+    .revenue-card.secondary { border-top-color: #4a9c6f; }
+    .revenue-card.tertiary { border-top-color: var(--ink-muted); }
+    .revenue-card .rev-label { font-size: 10px; font-weight: 900; letter-spacing: 0.32em; text-transform: uppercase; margin-bottom: 12px; }
+    .revenue-card.primary .rev-label { color: var(--gold); }
+    .revenue-card.secondary .rev-label { color: #4a9c6f; }
+    .revenue-card.tertiary .rev-label { color: var(--ink-muted); }
+    .revenue-card .rev-title { font-family:'Playfair Display',serif; font-size:18px; font-style:italic; font-weight:700; color:var(--ink); margin-bottom:12px; }
+    .revenue-card .rev-text { font-size:13px; line-height:1.8; color:var(--ink-muted); }
+
+    /* ── PRINT ── */
+    @media print {
+      .doc-nav { display: none; }
+      section { padding: 64px 48px; }
+      .cover { min-height: auto; padding: 64px 48px; page-break-after: always; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .cover-wheel-wrap { display: none; }
+      .marquee-track { animation: none; }
+      .photo-break { height: 260px; page-break-inside: avoid; }
+      .phase-grid { grid-template-columns: repeat(2, 1fr); }
+      .revenue-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .doc-nav { padding: 0 24px; }
+      section { padding: 64px 32px; }
+      .cover { padding: 48px 32px; }
+      .grid-2, .grid-3, .grid-4, .phase-grid, .revenue-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 80px 32px; }
+      .photo-break { height: 380px; }
+      .photo-break-content { padding: 0 32px; }
+      .cover-wheel-wrap { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- ════════════════════════════════════════
+     COVER
+════════════════════════════════════════ -->
+<div class="cover" id="vrh">
+
+  <div class="cover-wheel-wrap" aria-hidden="true">
+    <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="194" stroke="currentColor" stroke-width="5" opacity="0.22"/>
+      <circle cx="200" cy="200" r="156" stroke="currentColor" stroke-width="2.5" opacity="0.14"/>
+      <circle cx="200" cy="200" r="26"  stroke="currentColor" stroke-width="4" opacity="0.32"/>
+      <circle cx="200" cy="200" r="9"   fill="currentColor" opacity="0.38"/>
+      <g stroke="currentColor" stroke-width="1.5" opacity="0.18">
+        <line x1="224" y1="200" x2="356" y2="200"/>
+        <line x1="220" y1="213" x2="335" y2="278"/>
+        <line x1="212" y1="221" x2="278" y2="335"/>
+        <line x1="200" y1="224" x2="200" y2="356"/>
+        <line x1="188" y1="221" x2="122" y2="335"/>
+        <line x1="180" y1="213" x2="65"  y2="278"/>
+        <line x1="176" y1="200" x2="44"  y2="200"/>
+        <line x1="180" y1="187" x2="65"  y2="122"/>
+        <line x1="188" y1="179" x2="122" y2="65"/>
+        <line x1="200" y1="176" x2="200" y2="44"/>
+        <line x1="212" y1="179" x2="278" y2="65"/>
+        <line x1="220" y1="187" x2="335" y2="122"/>
+      </g>
+    </svg>
+  </div>
+
+  <svg class="cover-terrain" viewBox="0 0 1200 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M0,160 L0,118 L70,72 L150,108 L240,46 L340,98 L450,24 L550,80 L650,42 L750,88 L850,18 L950,68 L1060,36 L1140,75 L1200,55 L1200,160 Z" fill="rgba(197,139,70,0.06)"/>
+    <path d="M0,160 L0,138 L100,105 L210,128 L320,82 L440,118 L560,70 L670,108 L780,62 L900,96 L1020,72 L1130,100 L1200,84 L1200,160 Z" fill="rgba(197,139,70,0.04)"/>
+    <path d="M0,160 L0,150 L180,130 L380,148 L600,122 L800,142 L1020,118 L1200,136 L1200,160 Z" fill="rgba(197,139,70,0.035)"/>
+  </svg>
+
+  <div style="position:relative; z-index:2;">
+    <div class="cover-eyebrow">Celotni dokument · Predstavitev + Projektna biblija · 2026</div>
+  </div>
+
+  <div style="position:relative; z-index:2;">
+    <div class="cover-logo">Bojan<br/><span>on Bike.</span></div>
+    <div class="cover-tagline">Slovenija, ki jo čutiš pod kolesi.<br/>Doživetja, ne kilometri.</div>
+    <div class="cover-divider"></div>
+    <div style="font-size:13px; color:rgba(255,255,255,0.35); letter-spacing:0.12em;">
+      Vizija · Filozofija · Platforma · Skupnost · Arhitektura · Poslovni model · Strategija rasti
+    </div>
+  </div>
+
+  <div class="cover-footer" style="position:relative; z-index:2;">
+    <div class="cover-url">www.bojanonbike.si</div>
+    <div class="cover-year">© 2026 Bojan Ratej</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     NAVIGACIJA
+════════════════════════════════════════ -->
+<nav class="doc-nav" aria-label="Poglavja dokumenta">
+  <a href="#zgodba">Zgodba</a>
+  <a href="#filozofija">Filozofija</a>
+  <a href="#problem">Problem</a>
+  <a href="#platforma">Platforma</a>
+  <a href="#ambasadorji">Ambasadorji</a>
+  <a href="#diferenciacija">Diferenciacija</a>
+  <a href="#brezplacno">Brezplačno</a>
+  <a href="#arhitektura">Arhitektura</a>
+  <a href="#poslovni">Poslovni model</a>
+  <a href="#rast">Strategija rasti</a>
+  <a href="#zakaj">Zakaj zdaj</a>
+  <a href="#vizija">Vizija</a>
+  <a href="#povabilo">Povabilo</a>
+</nav>
+
+
+<!-- ════════════════════════════════════════
+     IZVRŠNI POVZETEK
+════════════════════════════════════════ -->
+<section class="bg-white" id="zgodba">
+  <div class="section-eyebrow">Kje se je vse začelo</div>
+  <h2 class="section-title">Veliko prekolesarjenih kilometrov je bilo potrebnih,<br/>da je ideja dozorela.</h2>
+
+  <div class="section-text">
+    <p>Tisoče prekolesarjenih kilometrov. Stotine ur v sedlu, kjer misli tečejo svobodneje kot kjerkoli drugje. In nekega dne — med vzponom na samotno planino nad Mariborom — je postalo jasno: kolesarjenje ni šport. Je izkušnja. Meditacija. Način življenja.</p>
+    <p>Bojan Ratej je videl vrzel: obstoječe platforme (Strava, Komoot) obravnavajo kolesarjenje kot tekmovanje. Monetizirane strani zaklenejo GPX datoteke za plačilnimi zidovi. Splošne platforme pokrivajo svet, a ne poznajo nobene konkretne poti. Ni bilo ničesar resnično slovenskega, resnično osebnega, resnično brezplačnega.</p>
+    <p>Zato ga je zgradil sam. Ne v pisarni. Na kolesu. Vsaka tura osebno preizkušena. Vsak ponudnik osebno obiskan. Vsak razgled osebno fotografiran.</p>
+  </div>
+
+  <div class="pull-quote">
+    <p>"Kolesarjenje mi je dalo odgovore na vprašanja, ki si jih sploh nisem zastavil. Dalo mi je prostor, tišino, naravo. In začel sem si misliti: zakaj tega ne morem deliti z vsakim, ki sedi na kolo?"</p>
+  </div>
+
+  <div class="section-text">
+    <p>Bojan on Bike ni nastal v pisarni ali v PowerPoint prezentaciji. Nastal je na cestah Pohorja, na makadamih Haloz, na gozdnih poteh Kozjanskega in ob pristankih pri lokalnih kočah, kjer je kava boljša kot na katerem koli mestnem vogalu. Z vsako turo je ideja zorela. Z vsakim pogovorom z lokalcem je postajalo jasnejše: Slovenija ima neverjetne kolesarske zgodbe — ampak nihče jih ne pripoveduje na pravi način.</p>
+  </div>
+
+  <div class="callout" style="margin-top:40px;">
+    <div class="callout-label">⚠️ Temeljna usmeritev</div>
+    <p>Ne gradimo aplikacije. Gradimo ekosistem kolesarskih doživetij za Slovenijo. Ko pride nova ideja, se vprašaj: ali to gradi ekosistem ali samo dodaja funkcijo? Če je odgovor drugi — počakaj.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FOTO PRELOM 1
+════════════════════════════════════════ -->
+<div class="photo-break">
+  <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85&fit=crop&crop=center" alt="Kolesarjenje v gorah" loading="lazy" />
+  <div class="photo-break-overlay" style="background: linear-gradient(135deg, rgba(7,17,11,0.90) 0%, rgba(7,17,11,0.55) 55%, rgba(7,17,11,0.72) 100%);"></div>
+  <div class="photo-break-content photo-break-content--center" style="padding:0 48px; max-width:820px;">
+    <div style="font-size:10px; font-weight:900; letter-spacing:0.44em; text-transform:uppercase; color:var(--gold); margin-bottom:28px;">Naše prepričanje</div>
+    <p style="font-family:'Playfair Display',serif; font-size:clamp(26px,3.8vw,52px); font-style:italic; font-weight:700; color:white; line-height:1.22; text-align:center;">
+      Ko se premikaš pri 15 km/h,<br/>nisi samo turist. Si del pokrajine.
+    </p>
+    <div style="width:52px; height:2px; background:var(--gold); margin:32px auto 0;"></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     FILOZOFIJA
+════════════════════════════════════════ -->
+<section class="bg-cream" id="filozofija">
+  <div class="section-eyebrow">Naša filozofija</div>
+  <h2 class="section-title">Štiri prepričanja, ki vodijo vsako odločitev — od dizajna do vsebine.</h2>
+
+  <div class="section-text">
+    <p>Živimo v svetu, kjer nas kolesarske aplikacije merijo, primerjajo in razvrščajo. Strava šteje sekunde. Komoot beleži rekorde. Toda Bojan on Bike se je rodil iz drugačnega prepričanja. Ne bo dovolj imeti platforme — imeti moraš platformo z dušo.</p>
+  </div>
+
+  <div class="pull-quote">
+    <p>"Kolesarstvo ni tekma s časom. Je uživanje v prostoru, ki ga prečiš."</p>
+  </div>
+
+  <div class="grid-2" style="margin-top:56px; gap:40px;">
+
+    <div class="card">
+      <div class="card-icon" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <path d="M10 34C10 34 13 20 26 14C32 11 38 11 38 11C38 11 38 18 35 24C29 32 16 35 10 34Z" stroke="#c58b46" stroke-width="1.8" stroke-linejoin="round" fill="rgba(197,139,70,0.10)"/>
+          <path d="M10 34L20 24" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="10" cy="34" r="2" fill="#c58b46"/>
+        </svg>
+      </div>
+      <div class="card-title">01 — Narava je cilj, ne kulisa</div>
+      <div class="card-text">Ko se premikaš pri 15 km/h, nisi mimo pokrajine — si v njej. Vsak ovinek ti prinese novo sliko, ki jo avto ne more ujeti. Vsak vzpon — naj bo le 50 metrov ali 500 — ti da pogled, ki si ga zaslužil s trudom svojih nog. Bojan on Bike je zgrajen za tiste, ki v naravi ne iščejo ozadja za selfie. Jo iščejo, ker jo potrebujejo.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <rect x="6" y="16" width="22" height="20" rx="4" stroke="#c58b46" stroke-width="1.8" fill="rgba(197,139,70,0.08)"/>
+          <path d="M28 20H33C34.657 20 36 21.343 36 23V25C36 26.657 34.657 28 33 28H28" stroke="#c58b46" stroke-width="1.8"/>
+          <path d="M12 10C12 10 12 8 15 8C18 8 18 6 21 6" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="6" y1="16" x2="28" y2="16" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-title">02 — Postanek je del poti, ne odmor</div>
+      <div class="card-text">Najboljše ture se ne merijo samo v kilometrih. Merijo se v kavah, ki si jih spil na planinski koči med dežjem in soncem. V pogovorih z lokalcem, ki ti je razkril skrito pot, ki je ni na nobenem zemljevidu. V okusu hrane, ki si jo zaslužil z lastnim naporom. Bojan on Bike slavi postanek.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <circle cx="22" cy="11" r="5.5" stroke="#c58b46" stroke-width="1.8"/>
+          <path d="M10 39C10 31.268 15.373 25 22 25C28.627 25 34 31.268 34 39" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="8" cy="15" r="3.5" stroke="#c58b46" stroke-width="1.6"/>
+          <path d="M3 35C3 30 5.2 27 8 27" stroke="#c58b46" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="36" cy="15" r="3.5" stroke="#c58b46" stroke-width="1.6"/>
+          <path d="M41 35C41 30 38.8 27 36 27" stroke="#c58b46" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-title">03 — Kolesarstvo je za vse — brez izjeme</div>
+      <div class="card-text">Sedemletni otrok na svojem prvem kolesarskem izletu in šestdesetletnik na e-kolesu, ki odkriva svojo regijo — imata enako pravico do lepega kolesarskega dneva. Bojan on Bike ne ločuje med "resnim" kolesarjem in tistim, ki kolesari za uživanje. Tukaj ima vsak enako vrednost.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <circle cx="22" cy="9" r="5" stroke="#c58b46" stroke-width="1.8"/>
+          <path d="M22 14V24" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M10 26C10 26 14 22 22 22C30 22 34 26 34 26" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M6 36C8 30 12 27 14 26" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M38 36C36 30 32 27 30 26" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M6 36H38" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-title">04 — Gibanje je meditacija</div>
+      <div class="card-text">Kolesa izklopijo um. Ne čisto, ampak dovolj. Telo se premika, misli pa se umirijo — ali pa se prestrukturirajo v obliki, ki je na mizi nemogoča. To je dar kolesarstva, ki ga nobena app ne more izmeriti. Bojan on Bike je platforma, ki ta dar spoštuje, ne reducira.</div>
+    </div>
+
+  </div>
+
+  <div class="callout" style="margin-top:48px;">
+    <div class="callout-label">❤️ Temeljna zaveza</div>
+    <p>Bojan on Bike je bil, je in bo vedno brezplačen za kolesarje. Brez naročnin. Brez plačljivih GPX datotek. Brez skritih stroškov. Kolesarjenje je gibanje, ki ne sme imeti cene.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     ZA KOGA
+════════════════════════════════════════ -->
+<section class="bg-dark">
+  <div class="section-eyebrow" style="color:var(--gold);">Za koga je Bojan on Bike</div>
+  <h2 class="section-title section-title--white">Vsak, ki je kdaj sedel na kolo<br/>in čutil, da je to posebno.</h2>
+  <div class="section-text section-text--white">
+    <p>Nismo naredili platforme za profesionalce. Naredili smo jo za vse — za tiste, ki kolesarijo vsak dan, in za tiste, ki si to šele privoščijo ob koncu tedna.</p>
+  </div>
+  <div class="grid-3" style="margin-top:56px;">
+    <div class="card--dark">
+      <div class="card-label card-label--light">Profil</div>
+      <div class="card-title card-title--light">Družine in pari</div>
+      <div class="card-text card-text--light">Iščejo ture, ki so primerne za vse generacije. Hočejo vedeti, kje se bodo ustavili na malico, kaj bodo videli in ali bo otrok zmogel. Bojan on Bike jim to pove.</div>
+    </div>
+    <div class="card--dark">
+      <div class="card-label card-label--light">Profil</div>
+      <div class="card-title card-title--light">E-kolesarji in začetniki</div>
+      <div class="card-text card-text--light">Kolesarstvo se jih ni balo — a ni vedelo, kje začeti. Tukaj najdejo ture po meri, z vsemi podatki, ki jih potrebujejo za zaupanje v lastno odločitev.</div>
+    </div>
+    <div class="card--dark">
+      <div class="card-label card-label--light">Profil</div>
+      <div class="card-title card-title--light">Izkušeni in lokalni</div>
+      <div class="card-text card-text--light">Poznajo pokrajino in hočejo deliti. Postanejo ambasadorji — tisti, ki ustvarijo vsebino, ki jo bodo drugi z veseljem uporabili.</div>
+    </div>
+  </div>
+  <div class="highlight-bar" style="background:rgba(197,139,70,0.1); border-color:var(--gold); margin-top:48px;">
+    <p style="color:rgba(255,255,255,0.7);">Bojan on Bike je platforma, ki ne ločuje med "resnim" kolesarjem in tistim, ki kolesari za užitek.
+      <strong style="color:var(--gold-light);">Tukaj ima vsak enako vrednost in enako dobrodošlico.</strong></p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     PROBLEM NA TRGU
+════════════════════════════════════════ -->
+<section class="bg-white" id="problem">
+  <div class="section-eyebrow">Problem na trgu</div>
+  <h2 class="section-title">Preden razumemo rešitev,<br/>moramo pogledati problemu v oči.</h2>
+
+  <div class="pull-quote">
+    <p>"Kolesarstvo je v Sloveniji eksplodiralo. Platforme pa so ostale tam, kjer so bile."</p>
+  </div>
+
+  <div class="grid-3" style="margin-top:16px;">
+    <div class="card" style="border-top:3px solid #c62828;">
+      <div style="font-size:11px; font-weight:900; letter-spacing:0.3em; text-transform:uppercase; color:#c62828; margin-bottom:14px;">Praznina 1</div>
+      <div class="card-title">Tekmovalnost namesto izkušnje</div>
+      <div class="card-text">Strava in Komoot sta brilliantni orodji za enega kolesarja: tistega, ki meri segmente in beleži rekorde. Toda teh kolesarjev je manj kot 20%. Preostalih 80% — družine, rekreativci, e-kolesarji — nima platforme, ki bi jim resnično služila.</div>
+    </div>
+    <div class="card" style="border-top:3px solid #c62828;">
+      <div style="font-size:11px; font-weight:900; letter-spacing:0.3em; text-transform:uppercase; color:#c62828; margin-bottom:14px;">Praznina 2</div>
+      <div class="card-title">Zaklenjene GPX datoteke</div>
+      <div class="card-text">Kolesarjenje se začne z GPX datoteko. In ta datoteka je v letu 2026 še vedno za plačilnim zidom. 3€, 5€, 8€ za eno datoteko. Vodnik z GPX paketom za 30€. Letna naročnina za dostop do lokalnih tur. To ni model, ki služi kolesarjem.</div>
+    </div>
+    <div class="card" style="border-top:3px solid #c62828;">
+      <div style="font-size:11px; font-weight:900; letter-spacing:0.3em; text-transform:uppercase; color:#c62828; margin-bottom:14px;">Praznina 3</div>
+      <div class="card-title">Globalno vs. Lokalno</div>
+      <div class="card-text">Komoot pozna Slovenijo. Ampak ne ve, da je Planinska koča Pesek zaprta ob ponedeljkih, da je spust s Pohorja po dežju klizav in da pri Pr Smrtniku naredijo najboljšo juho na svetu. To znanje ima samo domačin.</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:40px;">
+    <div class="callout-label">Resničnost 2026</div>
+    <p>Več kot <strong>60% novih kolesarjev v Sloveniji je e-kolesarjev</strong>. Večina ima nad 45 let. Niti ena platforma ni prilagojena njihovim potrebam — izkušnji, ne zmogljivosti.</p>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:24px; font-style:italic; font-weight:700; color:var(--ink); margin:48px 0 0;">Primerjava obstoječih platform</h3>
+  <div style="overflow-x:auto; margin-top:16px;">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Platforma</th>
+          <th>Brezplačne GPX</th>
+          <th>Lokalno znanje</th>
+          <th>Celostna izkušnja</th>
+          <th>Za rekreativce</th>
+          <th>Ponudniki ob poti</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="first">Strava</td><td class="no">❌ Ne</td><td class="no">❌ Algoritem</td><td class="no">❌ Samo šport</td><td class="part">⚠️ Delno</td><td class="no">❌ Ne</td></tr>
+        <tr><td class="first">Komoot</td><td class="part">⚠️ Omejeno</td><td class="part">⚠️ Generično</td><td class="no">❌ Samo nav.</td><td class="part">⚠️ Delno</td><td class="no">❌ Ne</td></tr>
+        <tr><td class="first">Wikiloc</td><td class="part">⚠️ Omejeno</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td></tr>
+        <tr><td class="first">SL portali</td><td class="part">⚠️ Plačljivo</td><td class="part">⚠️ Delno</td><td class="no">❌ Ne</td><td class="part">⚠️ Delno</td><td class="no">❌ Ne</td></tr>
+        <tr style="background:var(--gold-pale);"><td class="first" style="color:var(--gold); font-weight:800;">Bojan on Bike</td><td class="yes">✅ Vedno</td><td class="yes">✅ Ambasadorji</td><td class="yes">✅ Da</td><td class="yes">✅ Da</td><td class="yes">✅ Da</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     PLATFORMA
+════════════════════════════════════════ -->
+<section class="bg-white" id="platforma">
+  <div class="section-eyebrow">Platforma</div>
+  <h2 class="section-title">Štiri stebre. En cel kolesarski dan.<br/>En ekosistem, ki deluje skupaj.</h2>
+
+  <div class="section-text">
+    <p>Bojan on Bike ni aplikacija. Je ekosistem, ki kolesarju pomaga načrtovati, odkriti in doživeti Slovenijo na dveh kolesih — od ideje v četrtek zvečer do zaslužene kave po turi v nedeljo.</p>
+  </div>
+
+  <svg class="elev-deco" viewBox="0 0 520 58" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M0,50 L28,44 L58,36 L86,19 L108,7 L132,17 L158,11 L182,3 L208,14 L232,24 L258,9 L282,27 L312,37 L344,31 L374,41 L408,34 L444,43 L480,48 L520,50" stroke="rgba(197,139,70,0.48)" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M0,58 L0,50 L28,44 L58,36 L86,19 L108,7 L132,17 L158,11 L182,3 L208,14 L232,24 L258,9 L282,27 L312,37 L344,31 L374,41 L408,34 L444,43 L480,48 L520,50 L520,58 Z" fill="rgba(197,139,70,0.06)"/>
+    <circle cx="0" cy="50" r="4" fill="#4a9c6f"/>
+    <circle cx="182" cy="3" r="4.5" fill="#c58b46"/>
+    <circle cx="520" cy="50" r="4" fill="#c58b46" opacity="0.7"/>
+  </svg>
+
+  <div class="grid-2" style="margin-top:40px; gap:32px;">
+    <div style="padding:40px; background:var(--dark); border-radius:24px; color:white;">
+      <div class="badge" style="border-color:var(--gold); color:var(--gold);">01</div>
+      <h3 style="font-family:'Playfair Display',serif; font-size:28px; font-style:italic; font-weight:900; color:white; margin-bottom:16px;">Ture</h3>
+      <p style="font-size:15px; line-height:1.85; color:rgba(255,255,255,0.6);">Kolesarska tura na Bojan on Bike ni samo GPX datoteka. Je celostna izkušnja z vsem, kar potrebuješ za zaupanje v odločitev. Brezplačno. Vedno.</p>
+      <ul style="margin-top:20px; list-style:none;">
+        <li style="font-size:13px; color:rgba(255,255,255,0.5); padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.07);">✓ Brezplačna GPX datoteka</li>
+        <li style="font-size:13px; color:rgba(255,255,255,0.5); padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.07);">✓ Interaktivna karta z višinskim profilom</li>
+        <li style="font-size:13px; color:rgba(255,255,255,0.5); padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.07);">✓ Razdalja, vzpon, težavnost, podlaga</li>
+        <li style="font-size:13px; color:rgba(255,255,255,0.5); padding:6px 0;">✓ Ambasadorjev osebni namig</li>
+      </ul>
+      <div style="margin-top:24px; font-size:13px; color:var(--gold); font-weight:600; letter-spacing:0.1em;">GPX · Karta · Višinski profil · Ambasadorjev namig</div>
+    </div>
+
+    <div style="padding:40px; background:var(--gold-pale); border-radius:24px; border:1px solid var(--border);">
+      <div class="badge">02</div>
+      <h3 style="font-family:'Playfair Display',serif; font-size:28px; font-style:italic; font-weight:900; color:var(--ink); margin-bottom:16px;">Doživetja</h3>
+      <p style="font-size:15px; line-height:1.85; color:var(--ink-soft);">Kurirana kolesarska doživetja — cel dan, sestavljen korak za korakom. Tura + postanki + hrana + znamenitosti v eni nepozabni zgodbi. Za tiste, ki hočejo več kot GPS točko.</p>
+      <ul style="margin-top:20px; list-style:none;">
+        <li style="font-size:13px; color:var(--ink-muted); padding:6px 0; border-bottom:1px solid var(--border);">✓ Celotna dnevna itinerarija</li>
+        <li style="font-size:13px; color:var(--ink-muted); padding:6px 0; border-bottom:1px solid var(--border);">✓ Časovnica z vmesnimi postanki</li>
+        <li style="font-size:13px; color:var(--ink-muted); padding:6px 0; border-bottom:1px solid var(--border);">✓ Kje jesti, kje kavo, kje polniti</li>
+        <li style="font-size:13px; color:var(--ink-muted); padding:6px 0;">✓ Ambasadorjeva osebna zgodba</li>
+      </ul>
+      <div style="margin-top:24px; font-size:13px; color:var(--gold); font-weight:600; letter-spacing:0.1em;">Cel dan · Časovnica · Lokalni postanki</div>
+    </div>
+
+    <div style="padding:40px; background:var(--gold-pale); border-radius:24px; border:1px solid var(--border);">
+      <div class="badge">03</div>
+      <h3 style="font-family:'Playfair Display',serif; font-size:28px; font-style:italic; font-weight:900; color:var(--ink); margin-bottom:16px;">Ponudniki</h3>
+      <p style="font-size:15px; line-height:1.85; color:var(--ink-soft);">Lokalne koče, restavracije, vinske kleti, bike shopi — preizkušeni in priporočeni s strani ambasadorjev, ki jih poznajo osebno. Ne oglasi. Pristna priporočila.</p>
+      <ul style="margin-top:20px; list-style:none;">
+        <li style="font-size:13px; color:var(--ink-muted); padding:6px 0; border-bottom:1px solid var(--border);">✓ Planinske koče in gostilne ob poteh</li>
+        <li style="font-size:13px; color:var(--ink-muted); padding:6px 0; border-bottom:1px solid var(--border);">✓ Bike-friendly restavracije</li>
+        <li style="font-size:13px; color:var(--ink-muted); padding:6px 0; border-bottom:1px solid var(--border);">✓ Vinske kleti, turistične kmetije</li>
+        <li style="font-size:13px; color:var(--ink-muted); padding:6px 0;">✓ Bike shopi za vzdrževanje in najem</li>
+      </ul>
+      <div style="margin-top:24px; font-size:13px; color:var(--gold); font-weight:600; letter-spacing:0.1em;">Lokalno · Osebno preizkušeno · Bike-friendly</div>
+    </div>
+
+    <div style="padding:40px; background:var(--dark); border-radius:24px; color:white;">
+      <div class="badge" style="border-color:var(--gold); color:var(--gold);">04</div>
+      <h3 style="font-family:'Playfair Display',serif; font-size:28px; font-style:italic; font-weight:900; color:white; margin-bottom:16px;">Znamenitosti</h3>
+      <p style="font-size:15px; line-height:1.85; color:rgba(255,255,255,0.6);">Razgledi, naravne posebnosti, kulturna dediščina, foto točke — skriti biseri, ki jih pozna le lokalni kolesarj in ki naredijo turo nepozabno.</p>
+      <ul style="margin-top:20px; list-style:none;">
+        <li style="font-size:13px; color:rgba(255,255,255,0.5); padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.07);">✓ Razgledi — točke za nujno ustavitev</li>
+        <li style="font-size:13px; color:rgba(255,255,255,0.5); padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.07);">✓ Naravne posebnosti: slapovi, jezera</li>
+        <li style="font-size:13px; color:rgba(255,255,255,0.5); padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.07);">✓ Kulturna dediščina in lokalne zgodbe</li>
+        <li style="font-size:13px; color:rgba(255,255,255,0.5); padding:6px 0;">✓ Foto točke, ki so vredne tisoč besed</li>
+      </ul>
+      <div style="margin-top:24px; font-size:13px; color:var(--gold); font-weight:600; letter-spacing:0.1em;">Razgledi · Narava · Kultura · Zgodbe</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:48px;">
+    <div class="callout-label">✨ Kaj je drugače?</div>
+    <p>Vsaka tura je bila <strong>osebno preizkušena</strong>. Ne algoritmično generirana, ne sestavljena iz podatkov tretjih strank. Ambasador je šel tja, prevozil pot in napisal, kaj je doživel. To je razlika, ki jo čutiš.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ════════════════════════════════════════
+     AMBASADORJI
+════════════════════════════════════════ -->
+<section class="bg-cream" id="ambasadorji">
+  <div class="section-eyebrow">Skupnost</div>
+  <h2 class="section-title">Ambasadorji. Naše skrivno orožje.<br/>Skupnost, ki ne more biti algoritemsko posnemana.</h2>
+
+  <div class="section-text">
+    <p>Srce Bojan on Bike je mreža kolesarskih ambasadorjev — lokalnih kolesarjev, ki poznajo svojo regijo kot dlan in so pripravljeni to znanje deliti. Vsaka tura, vsak ponudnik, vsaka znamenitost na platformi nosi podpis ambasadorja, ki jo je sam preizkusil.</p>
+  </div>
+
+  <div class="pull-quote">
+    <p>"Vsaka objava nosi ambasadorjev podpis. Ne algoritem. Človek. In to se čuti — celo skozi zaslon."</p>
+  </div>
+
+  <div class="grid-3" style="margin-top:48px;">
+    <div class="card">
+      <div class="card-icon" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <path d="M22 4C15.373 4 10 9.373 10 16C10 24 22 42 22 42C22 42 34 24 34 16C34 9.373 28.627 4 22 4Z" stroke="#c58b46" stroke-width="1.8" fill="rgba(197,139,70,0.10)"/>
+          <circle cx="22" cy="16" r="5" stroke="#c58b46" stroke-width="1.8" fill="rgba(197,139,70,0.18)"/>
+        </svg>
+      </div>
+      <div class="card-title">Lokalno znanje</div>
+      <div class="card-text">Ve, kje je cesta, ki jo Google Maps ne pozna. Ve, kdaj je koča odprta in ali sprejemajo kolesarje. Vsaka tura, ki jo objavi, je bila osebno prevožena — ne enkrat, ampak večkrat.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <path d="M22 4L7 9.5V21C7 30.388 13.627 39.1 22 42C30.373 39.1 37 30.388 37 21V9.5L22 4Z" stroke="#c58b46" stroke-width="1.8" fill="rgba(197,139,70,0.08)"/>
+          <path d="M14 22L19.5 27.5L30 17" stroke="#c58b46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-title">Uredniški pregled</div>
+      <div class="card-text">Vsak predlog gre skozi pregled pred objavo. Platforma zagotavlja, da objavljene vsebine resnično ustrezajo standardu Bojan on Bike — osebno, točno, kakovostno.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <circle cx="10" cy="33" r="7" stroke="#c58b46" stroke-width="1.8"/>
+          <circle cx="34" cy="33" r="7" stroke="#c58b46" stroke-width="1.8"/>
+          <circle cx="28" cy="9" r="4" stroke="#c58b46" stroke-width="1.8"/>
+          <path d="M18 19L10 33" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M18 19L26 26L34 33" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 19L24 13" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M28 14L34 13L36 16" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 19L22 19" stroke="#c58b46" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-title">Skupnost, ne aplikacija</div>
+      <div class="card-text">Ambasadorji niso vsebinski producenti. So kolesarji, ki delijo svojo ljubezen do pokrajine. To se čuti — in bralci to prepoznajo. To zaupanje se ne more kupiti.</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:24px; font-style:italic; font-weight:700; color:var(--ink); margin:48px 0 0;">Kako deluje ambasadorski sistem?</h3>
+  <div style="overflow-x:auto; margin-top:16px;">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Korak</th><th>Opis</th></tr></thead>
+      <tbody>
+        <tr><td class="first">1</td><td class="first">Registracija</td><td>Ambasador se registrira in dobi dostop do Kotička ambasadorja.</td></tr>
+        <tr><td class="first">2</td><td class="first">Predlog</td><td>Predloži turo, ponudnika ali znamenitost skozi obrazec v platformi.</td></tr>
+        <tr><td class="first">3</td><td class="first">Pregled</td><td>Ekipa Bojan on Bike pregleda predlog in ga po odobritvi objavi.</td></tr>
+        <tr><td class="first">4</td><td class="first">Objava</td><td>Vsebina nosi ambasadorjevo ime in regijo — brez anonimnosti.</td></tr>
+        <tr><td class="first">5</td><td class="first">Vzdrževanje</td><td>Ambasador nadgrajuje vsebino glede na sezonske spremembe.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:40px;">
+    <div class="callout-label">🎯 Strateška prednost</div>
+    <p>Ko bo mreža ambasadorjev dovolj gosta, bo vsak nov kolesarj na platformi našel vsebino, za katero bo vedel: <strong>"Nekdo, ki živi tam, mi to priporoča."</strong> To je zaupanje, ki ga Google ne more kupiti in Strava ne more zgraditi.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     DIFERENCIACIJA
+════════════════════════════════════════ -->
+<section class="bg-white" id="diferenciacija">
+  <div class="section-eyebrow">Zakaj Bojan on Bike</div>
+  <h2 class="section-title">Kar smo videli drugje — in kar smo se<br/>odločili narediti popolnoma drugače.</h2>
+
+  <div class="section-text">
+    <p>Ko potegnemo črto, nobena obstoječa platforma ne ponuja tega, kar Bojan on Bike daje kolesarju brez kakršnega koli plačila. To je izjava, ki jo močno zagovarjamo.</p>
+  </div>
+
+  <ul class="custom-list" style="margin-top:40px; max-width:700px;">
+    <li><div><strong>vs. Strava in Komoot:</strong> odlični za beleženje, a zasnovani na tekmovalnosti. Bojan on Bike slavi izkušnjo, ne zmogljivost.</div></li>
+    <li><div><strong>vs. Plačljivi vodniki:</strong> ponujajo vsebino, a jo zaklenejo za plačilnim zidom. Bojan on Bike je in bo ostal brezplačen — za vedno.</div></li>
+    <li><div><strong>vs. Generične platforme:</strong> pokrivajo cel svet a ne poznajo nobene poti. Bojan on Bike je globoko lokalen, oseben, slovensko specifičen.</div></li>
+    <li><div><strong>vs. Statične spletne strani:</strong> ponujajo GPX brez zgodbe ali skupnosti. Bojan on Bike vsaki turi doda ambasadorjev namig, ponudnike in doživetje dneva.</div></li>
+  </ul>
+
+  <div class="highlight-bar" style="margin-top:48px;">
+    <p><strong>Bojan on Bike je edina slovenska kolesarska platforma, ki združuje turo, doživetje, lokalne ponudnike in skupnost ambasadorjev</strong> — brezplačno, v enem mestu, z osebnim dotikom, ki ga algoritmi ne morejo nadomestiti.</p>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:24px; font-style:italic; font-weight:700; color:var(--ink); margin:48px 0 0;">Polna primerjalna analiza</h3>
+  <div style="overflow-x:auto; margin-top:16px;">
+    <table class="data-table">
+      <thead>
+        <tr><th>Kriterij</th><th style="color:var(--gold);">Bojan on Bike</th><th>Strava</th><th>Komoot</th><th>Wikiloc</th><th>SL portali</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="first">Brezplačne GPX</td><td class="yes">✅ Vedno</td><td class="no">❌ Ne</td><td class="part">⚠️ Omejeno</td><td class="part">⚠️ Omejeno</td><td class="part">⚠️ Plačljivo</td></tr>
+        <tr><td class="first">Lokalno znanje</td><td class="yes">✅ Ambasadorji</td><td class="no">❌ Algoritmi</td><td class="part">⚠️ Generično</td><td class="no">❌ Ne</td><td class="part">⚠️ Delno</td></tr>
+        <tr><td class="first">Celostna izkušnja</td><td class="yes">✅ Da</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td></tr>
+        <tr><td class="first">Za rekreativce</td><td class="yes">✅ Da</td><td class="part">⚠️ Delno</td><td class="part">⚠️ Delno</td><td class="no">❌ Ne</td><td class="part">⚠️ Delno</td></tr>
+        <tr><td class="first">Ponudniki ob poti</td><td class="yes">✅ Da</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td></tr>
+        <tr><td class="first">Ambasadorska mreža</td><td class="yes">✅ Da</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td></tr>
+        <tr><td class="first">Osebno preizkušeno</td><td class="yes">✅ Da</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="no">❌ Ne</td><td class="part">⚠️ Redko</td></tr>
+        <tr><td class="first">Slovenija fokus</td><td class="yes">✅ Globoko</td><td class="no">❌ Globalno</td><td class="no">❌ Globalno</td><td class="no">❌ Globalno</td><td class="part">⚠️ Površno</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     BREZPLAČNO
+════════════════════════════════════════ -->
+<section class="bg-dark-mid" id="brezplacno">
+  <div class="section-eyebrow" style="color:var(--gold);">Naše prepričanje</div>
+  <h2 class="section-title section-title--white">Brezplačno.<br/>Za vsakogar.<br/>Vedno.</h2>
+
+  <div class="section-text section-text--white" style="margin-top:32px;">
+    <p>V svetu, kjer je dostop do informacij vse bolj omejen z naročninami in plačilnimi zidovi, Bojan on Bike stoji za nasprotnim principom. Kolesarjenje je gibanje, ki ne sme imeti cene.</p>
+  </div>
+
+  <div class="pull-quote" style="border-color:var(--gold); margin-top:40px;">
+    <p class="dark">"Kolesarjenje je gibanje, ki ne sme imeti cene. Naša platforma to spoštuje."</p>
+  </div>
+
+  <div class="grid-3" style="margin-top:56px;">
+    <div class="stat-block">
+      <div class="stat-ring-wrap">
+        <svg viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="72" cy="72" r="69" stroke="rgba(197,139,70,0.28)" stroke-width="2"/>
+          <circle cx="72" cy="72" r="56" stroke="rgba(197,139,70,0.12)" stroke-width="1.5" stroke-dasharray="5 9"/>
+          <circle cx="72" cy="72" r="40" stroke="rgba(197,139,70,0.06)" stroke-width="1"/>
+        </svg>
+        <div class="stat-number">∞</div>
+      </div>
+      <div class="stat-label stat-label--light">GPX datotek<br/>brezplačno</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-ring-wrap">
+        <svg viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="72" cy="72" r="69" stroke="rgba(197,139,70,0.28)" stroke-width="2"/>
+          <circle cx="72" cy="72" r="56" stroke="rgba(197,139,70,0.12)" stroke-width="1.5" stroke-dasharray="5 9"/>
+          <circle cx="72" cy="72" r="40" stroke="rgba(197,139,70,0.06)" stroke-width="1"/>
+        </svg>
+        <div class="stat-number stat-number--sm">0 €</div>
+      </div>
+      <div class="stat-label stat-label--light">Cena dostopa<br/>za kolesarje</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-ring-wrap">
+        <svg viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="72" cy="72" r="69" stroke="rgba(197,139,70,0.28)" stroke-width="2"/>
+          <circle cx="72" cy="72" r="56" stroke="rgba(197,139,70,0.12)" stroke-width="1.5" stroke-dasharray="5 9"/>
+          <circle cx="72" cy="72" r="40" stroke="rgba(197,139,70,0.06)" stroke-width="1"/>
+        </svg>
+        <div class="stat-number">7</div>
+      </div>
+      <div class="stat-label stat-label--light">Slovenskih pokrajin<br/>v eni platformi</div>
+    </div>
+  </div>
+
+  <div style="max-width:600px; margin-top:56px; padding:32px; background:rgba(197,139,70,0.10); border:1px solid rgba(197,139,70,0.25); border-radius:20px;">
+    <div style="font-size:10px; font-weight:900; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:16px;">🔒 Nepogodljivo načelo</div>
+    <p style="font-size:15px; line-height:1.9; color:rgba(255,255,255,0.65);">Kolesarji nikoli ne plačujejo. Ne za GPX, ne za vsebino, ne za dostop. Pika. To je temelj Bojan on Bike in tega načela ne bomo nikoli kompromitirali — ne glede na poslovni model, ki ga bomo razvili v prihodnosti.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     TEHNIČNA ARHITEKTURA
+════════════════════════════════════════ -->
+<section class="bg-white" id="arhitektura">
+  <div class="section-eyebrow">Tehnična arhitektura</div>
+  <h2 class="section-title">Moderna, skalabilna, vzdržljiva —<br/>zgrajena za rast brez meja.</h2>
+
+  <div class="section-text">
+    <p>Bojan on Bike je zgrajen na tehničnem skladu, ki je hkrati moderen, preizkušen in cenovno vzdržen. Vsaka odločitev je bila premišljena: zmogljivost, varnost, skalabilnost.</p>
+  </div>
+
+  <div class="tech-badges">
+    <div class="tech-badge"><strong>Next.js 16</strong> + React 19</div>
+    <div class="tech-badge"><strong>TailwindCSS</strong> v4</div>
+    <div class="tech-badge"><strong>Supabase</strong> PostgreSQL</div>
+    <div class="tech-badge"><strong>Vercel</strong> Edge</div>
+    <div class="tech-badge"><strong>Resend</strong> E-mail</div>
+    <div class="tech-badge"><strong>Leaflet</strong> Karte</div>
+    <div class="tech-badge"><strong>TypeScript</strong></div>
+  </div>
+
+  <div style="overflow-x:auto; margin-top:32px;">
+    <table class="data-table">
+      <thead>
+        <tr><th>Plast</th><th>Tehnologija</th><th>Verzija</th><th>Namen</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="first">Frontend</td><td>Next.js + React</td><td>16 / 19</td><td>Server-side rendering, App Router, vrhunska performanca in SEO</td></tr>
+        <tr><td class="first">Stilizacija</td><td>TailwindCSS</td><td>v4</td><td>Utility-first design sistem, mobile-first pristop</td></tr>
+        <tr><td class="first">Baza podatkov</td><td>Supabase (PostgreSQL)</td><td>Najnovejša</td><td>Relacijska baza, real-time, Row Level Security</td></tr>
+        <tr><td class="first">Shramba</td><td>Supabase Storage</td><td>—</td><td>Slike in GPX datoteke, CDN dostava po svetu</td></tr>
+        <tr><td class="first">Hosting</td><td>Vercel</td><td>—</td><td>Avtomatski CI/CD, edge network, brezhibna deploya</td></tr>
+        <tr><td class="first">E-pošta</td><td>Resend</td><td>—</td><td>Transakcijska pošta, obvestila ambasadorjem in adminu</td></tr>
+        <tr><td class="first">Karte</td><td>Leaflet / react-leaflet</td><td>1.9 / 5.0</td><td>Interaktivne karte, GPX vizualizacija, postanki</td></tr>
+        <tr><td class="first">Avtentikacija</td><td>Supabase Auth</td><td>—</td><td>E-mail/geslo, session management, Row Level Security</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:24px; font-style:italic; font-weight:700; color:var(--ink); margin:48px 0 16px;">Ključni podatkovni model</h3>
+  <div style="overflow-x:auto;">
+    <table class="data-table">
+      <thead><tr><th>Entiteta</th><th>Opis</th><th>Ključna polja</th></tr></thead>
+      <tbody>
+        <tr><td class="first">ture</td><td>Kolesarske ture z GPX</td><td>id, ime, regija, km, vm, težavnost, gpx_url, status</td></tr>
+        <tr><td class="first">dozivetja</td><td>Celodnevna doživetja</td><td>id, naziv, tip, ritem_dneva (JSONB), status</td></tr>
+        <tr><td class="first">ponudniki</td><td>Lokalni ponudniki</td><td>id, ime, tip, kontakt, bike_friendly, ambasador_id, status</td></tr>
+        <tr><td class="first">znamenitosti</td><td>Znamenitosti in biseri</td><td>id, naziv, tip, koordinate (POINT), opis, foto_url, status</td></tr>
+        <tr><td class="first">ambasadorji</td><td>Mreža ambasadorjev</td><td>id, ime, regija, email, bio, foto_url, je_aktiven</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:24px; font-style:italic; font-weight:700; color:var(--ink); margin:48px 0 16px;">Varnost in administracija</h3>
+  <ul class="custom-list" style="max-width:680px;">
+    <li><div><strong>Row Level Security (RLS):</strong> vsak ambasador vidi samo svojo vsebino — varnost na ravni baze.</div></li>
+    <li><div><strong>Admin panel:</strong> ločen vmesnik za uredniški pregled, odobritev in objavo vsebine.</div></li>
+    <li><div><strong>Dvo-fazni tok objave:</strong> predlog → pregled → objava. Nič ne gre na produkcijo brez pregleda.</div></li>
+    <li><div><strong>E-mail obvestila:</strong> admin dobi obvestilo ob vsakem novem predlogu ambasadorja.</div></li>
+  </ul>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     POSLOVNI MODEL
+════════════════════════════════════════ -->
+<section class="bg-cream" id="poslovni">
+  <div class="section-eyebrow">Poslovni model</div>
+  <h2 class="section-title">Danes brezplačno za vse.<br/>Jutri trajnostno. Vedno etično.</h2>
+
+  <div class="callout" style="margin-top:32px;">
+    <div class="callout-label">🔒 Nepogodljivo načelo</div>
+    <p>Kolesarji nikoli ne plačujejo. Ne za GPX, ne za vsebino, ne za dostop. To je temelj Bojan on Bike — za vedno.</p>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-style:italic; font-weight:700; color:var(--ink); margin:40px 0 16px;">Sedanji model (2026) — Investicija v skupnost</h3>
+  <div class="section-text" style="margin-top:0;">
+    <p>Platforma deluje brez prihodkov — kot investicija v skupnost in znamko. Stroški so minimalni zahvaljujoč pametnemu izboru tehničnega sklada:</p>
+  </div>
+  <ul class="custom-list" style="max-width:600px; margin-top:16px;">
+    <li><div><strong>Vercel (hosting):</strong> brezplačen do visokih prometnih vrednosti</div></li>
+    <li><div><strong>Supabase:</strong> brezplačen do 500 MB baze in 1 GB shrambe</div></li>
+    <li><div><strong>Resend (e-pošta):</strong> brezplačen do 3000 e-mailov/mesec</div></li>
+    <li><div><strong>Domena + SSL:</strong> ~20 EUR/leto</div></li>
+  </ul>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-style:italic; font-weight:700; color:var(--ink); margin:48px 0 24px;">Prihodnji viri prihodkov (2027+)</h3>
+  <div class="revenue-grid">
+    <div class="revenue-card primary">
+      <div class="rev-label">Visok potencial</div>
+      <div class="rev-title">Partnerstvo s ponudniki</div>
+      <div class="rev-text">Ponudniki plačajo majhno letno provizijo za Premium profil z dodatno vidnostjo. Etično — kolesarji vidijo vse, ponudniki pa dobijo več prostora za svojo zgodbo.</div>
+    </div>
+    <div class="revenue-card primary">
+      <div class="rev-label">Visok potencial</div>
+      <div class="rev-title">Turistične organizacije</div>
+      <div class="rev-text">Občine in TIC-ji financirajo vsebino za svojo regijo. Bojan on Bike postane orodje za digitalizacijo kolesarskega turizma — z EU sredstvi in lokalnimi proračuni.</div>
+    </div>
+    <div class="revenue-card secondary">
+      <div class="rev-label">Srednji potencial</div>
+      <div class="rev-title">EU Grants / Projekti</div>
+      <div class="rev-text">Digitalizacija turizma in kolesarska infrastruktura sta EU prioriteti. Bojan on Bike je pripravljena rešitev, ki se uvršča v razpise za digitalni turizem.</div>
+    </div>
+    <div class="revenue-card secondary">
+      <div class="rev-label">Srednji potencial</div>
+      <div class="rev-title">B2B: kolesarski turizem</div>
+      <div class="rev-text">Paketi za organizatorje večdnevnih kolesarskih tur. Platforma postane orodje za profesionalne operaterje, ki iščejo lokalno znanje in zanesljive podatke.</div>
+    </div>
+    <div class="revenue-card tertiary">
+      <div class="rev-label">Dolgoročno</div>
+      <div class="rev-title">Sponzorstvo opreme</div>
+      <div class="rev-text">Bike brandi sponzorirajo vsebino transparentno — jasno označeno, nikoli ne vpliva na uredniško neodvisnost ambasadorjev.</div>
+    </div>
+    <div class="revenue-card tertiary">
+      <div class="rev-label">Skupnost</div>
+      <div class="rev-title">Prostovoljne donacije</div>
+      <div class="rev-text">Kolesarji, ki cenijo platformo, prispevajo prostovoljno. Brez obveznosti. Ko je vsebina resnično vredna — se to povrne.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     STRATEGIJA RASTI
+════════════════════════════════════════ -->
+<section class="bg-white" id="rast">
+  <div class="section-eyebrow">Strategija rasti</div>
+  <h2 class="section-title">Korak za korakom.<br/>Regija za regijo. Zgodba za zgodbo.</h2>
+
+  <div class="section-text">
+    <p>Bojan on Bike ne bo zgrajen čez noč. Gradi se sistematično — z vsako turo, vsakim ambasadorjem, vsako regijo. Rast je organska, utemeljena in trajna.</p>
+  </div>
+
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="phase-num">01</div>
+      <div class="phase-name">Temelji</div>
+      <div class="phase-period">2025–2026</div>
+      <div class="phase-focus">Štajerska regija</div>
+      <div class="phase-goals">10+ tur osebno preizkušenih<br/>5+ ambasadorjev<br/>Vsa infrastruktura postavljena<br/>Admin + ambassador sistem aktiven</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">02</div>
+      <div class="phase-name">Širjenje</div>
+      <div class="phase-period">2026 H2</div>
+      <div class="phase-focus">3 regije Slovenije</div>
+      <div class="phase-goals">50+ tur v bazi<br/>20+ ambasadorjev<br/>Doživetja aktivna<br/>SEO organska rast začne delovati</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">03</div>
+      <div class="phase-name">Slovenija</div>
+      <div class="phase-period">2027</div>
+      <div class="phase-focus">Vsa Slovenija</div>
+      <div class="phase-goals">150+ tur<br/>7 regij pokritih<br/>50+ ambasadorjev<br/>Partnerstva s TIC-ji</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">04</div>
+      <div class="phase-name">Ekosistem</div>
+      <div class="phase-period">2028+</div>
+      <div class="phase-focus">B2B + Mednarodno</div>
+      <div class="phase-goals">Poslovni model aktiven<br/>EU projekti<br/>Mednarodni obiskovalci<br/>Referenčna platforma za SLO</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-style:italic; font-weight:700; color:var(--ink); margin:48px 0 16px;">SEO in organska rast</h3>
+  <div class="section-text" style="margin-top:0;">
+    <p>Vsaka tura, vsako doživetje, vsak ponudnik je edinstvena vsebinska stran, optimizirana za iskanje. Ko bo platforma imela 200+ tur, bo SEO sam po sebi prinašal deset-tisoče obiskovalcev mesečno — brez marketinških stroškov.</p>
+  </div>
+  <ul class="custom-list" style="max-width:680px; margin-top:8px;">
+    <li><div><strong>Dolge ključne besede:</strong> "kolesarjenje Pohorje brezplačno GPX", "kolesarska tura z otroki Štajerska"</div></li>
+    <li><div><strong>Lokalni SEO:</strong> vsaka občina, vsak kraj ima svojo vsebino na platformi</div></li>
+    <li><div><strong>Backlinks:</strong> turistične organizacije, kolesarska združenja, občine</div></li>
+    <li><div><strong>Fresh content:</strong> ambasadorji redno dodajajo novo vsebino — Google to nagradi</div></li>
+  </ul>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     ZAKAJ ZDAJ
+════════════════════════════════════════ -->
+<section class="bg-dark" id="zakaj">
+  <div class="section-eyebrow" style="color:var(--gold);">Timing</div>
+  <h2 class="section-title section-title--white">Zakaj zdaj? Ker je okno odparto.<br/>In se ne bo čakalo.</h2>
+
+  <div class="pull-quote" style="border-color:var(--gold);">
+    <p class="dark">"Obstajajo redki trenutki, ko je priložnost odprta in jo je treba zgrabiti. Ta trenutek je zdaj. Kolesarstvo raste. Digitalizacija turizma je prioriteta. Platforme niso pripravljene. Mi pa smo."</p>
+  </div>
+
+  <ul class="custom-list custom-list--light" style="max-width:720px; margin-top:24px;">
+    <li><div><strong>Boom e-koles:</strong> e-kolo je postalo dostopno in sprejeto. Milijoni novih kolesarjev vstopa v šport, ki ga ne poznajo — in iščejo vodenje, ne tekmovanje.</div></li>
+    <li><div><strong>COVID je spremenil navade za vedno:</strong> outdoor aktivnosti so nova normalnost. Kolesarstvo je eksplodiralo in ne bo upadlo — gre samo navzgor.</div></li>
+    <li><div><strong>Digitalizacija slovenskega turizma:</strong> EU sredstva, občine in TIC-ji aktivno iščejo digitalne rešitve. Bojan on Bike je pripravljena rešitev, ki čaka samo še na partnerje.</div></li>
+    <li><div><strong>Generacija 45–65:</strong> najhitreje rastoča skupina e-kolesarjev ima denar, čas in motivacijo — manjka jim platforma, ki jih razume in jim ne govori o watih in segmentih.</div></li>
+    <li><div><strong>Nihče tega ne dela:</strong> vrzel ni zapolnjena. Vsak dan brez Bojan on Bike je dan, ko kolesarji iščejo informacije na napačnih mestih.</div></li>
+  </ul>
+
+  <div style="margin-top:48px; padding:32px; background:rgba(197,139,70,0.10); border:1px solid rgba(197,139,70,0.25); border-radius:20px; max-width:680px;">
+    <div style="font-size:10px; font-weight:900; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:16px;">Strateška pozicija</div>
+    <p style="font-size:17px; font-style:italic; line-height:1.85; color:rgba(255,255,255,0.75);">Komoot + Lonely Planet + lokalni insajder = Bojan on Bike.<br/>To je naša pozicija. <strong style="color:var(--gold-light);">Nihče drug tega prostora ne zaseda. Še nihče.</strong></p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FOTO PRELOM 2
+════════════════════════════════════════ -->
+<div class="photo-break" style="height:400px;">
+  <img src="https://images.unsplash.com/photo-1476611338391-6f395a0dd82e?w=1600&q=85&fit=crop&crop=center" alt="Kolesarska pot" loading="lazy" />
+  <div class="photo-break-overlay" style="background: linear-gradient(to right, rgba(7,17,11,0.92) 0%, rgba(7,17,11,0.60) 50%, rgba(7,17,11,0.42) 100%);"></div>
+  <div class="photo-break-content">
+    <p style="font-family:'Playfair Display',serif; font-size:clamp(24px,3.5vw,46px); font-style:italic; font-weight:700; color:white; line-height:1.25; max-width:560px;">
+      "Ne gradimo aplikacije.<br/>Gradimo skupnost."
+    </p>
+    <p style="margin-top:22px; font-size:13px; color:rgba(255,255,255,0.4); letter-spacing:0.1em; font-weight:600; text-transform:uppercase;">
+      Bojan Ratej · Bojan on Bike
+    </p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     VIZIJA
+════════════════════════════════════════ -->
+<section class="bg-white" id="vizija">
+  <div class="section-eyebrow">Vizija</div>
+  <h2 class="section-title">Kar gradimo danes —<br/>je le začetek.</h2>
+
+  <div class="section-text">
+    <p>Bojan on Bike je živa platforma. Ko bo vsebine dovolj — ko bo dovolj tur, dovolj ambasadorjev, dovolj zgodb iz vseh kotičkov Slovenije — bo postala referenčna točka za vsakogar, ki želi odkriti Slovenijo na kolesu.</p>
+    <p>Vizija je preprosta: postati tista stran, ki jo odpreš, preden se usediš na kolo. Tista, ki ti ne samo pokaže pot — ampak ti pove, zakaj je ta pot vredna tvojih ur.</p>
+  </div>
+
+  <div class="pull-quote" style="margin-top:56px;">
+    <p>"Ne gradimo aplikacije. Gradimo skupnost. In skupnosti ne zmanjka vsebine, ko ji daš pravo orodje."</p>
+  </div>
+
+  <div class="grid-2" style="margin-top:56px; gap:32px;">
+    <div class="card" style="border-color:var(--gold); border-width:2px;">
+      <div class="card-label">Danes · 2026</div>
+      <div class="card-title">Štajerska in Slovenija v zametku</div>
+      <div class="card-text">Platforma je živa. Ambasadorji oddajajo. Vsebina nastaja. Vsaka objava je opeka v temeljih tega, kar bo Bojan on Bike postalo. Infrastruktura je postavljena za rast.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Jutri · 2027–2028</div>
+      <div class="card-title">Vsa Slovenija. Vsak kolesarj. Vsak dan.</div>
+      <div class="card-text">Ko bo mreža ambasadorjev pokrila vse regije, ko bo vsaka pokrajina imela svojo zgodbo, bo Bojan on Bike postal nepogrešljiv za vsakogar, ki ljubi kolesarjenje in Slovenijo.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ════════════════════════════════════════
+     ANIMIRANI TRAK
+════════════════════════════════════════ -->
+<div class="marquee-row" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-word">Svoboda</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Narava</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Skupnost</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Doživetje</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Lokalno</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Brezplačno</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Slovenija</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Gibanje</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Zgodba</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Kolo</span><span class="marquee-word"><span>·</span></span>
+    <!-- Duplicate za nemoten loop -->
+    <span class="marquee-word">Svoboda</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Narava</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Skupnost</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Doživetje</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Lokalno</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Brezplačno</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Slovenija</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Gibanje</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Zgodba</span><span class="marquee-word"><span>·</span></span>
+    <span class="marquee-word">Kolo</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     POVABILO
+════════════════════════════════════════ -->
+<section class="bg-cream" id="povabilo">
+  <div class="section-eyebrow">Povabilo k sodelovanju</div>
+  <h2 class="section-title">Vsaka velika platforma potrebuje skupnost.<br/>In vsaka skupnost se začne z enim "sem notri".</h2>
+
+  <div class="pull-quote">
+    <p>"To smo si želeli. In to zdaj imamo. Zdaj potrebujemo samo še vas — tiste, ki verjamejo, da Slovenija to zasluži."</p>
+  </div>
+
+  <div class="grid-2" style="margin-top:48px; gap:32px;">
+
+    <div class="card" style="border-top:3px solid var(--gold);">
+      <div class="card-label">🚴 Za kolesarje — ambasadorje</div>
+      <div class="card-title">Si lokalni kolesarj?</div>
+      <div class="card-text" style="margin-bottom:20px;">Si prevozil stotine kilometrov po poteh, ki jih turisti ne najdejo? Poznaš svojo regijo kot dlan? Tvoje znanje ima vrednost. Deli ga — brezplačno, brez obveznosti, z vsem ponosom, ki si ga zaslužiš.</div>
+      <div style="font-size:13px; font-weight:700; color:var(--gold); letter-spacing:0.08em;">Postani ambasador → www.bojanonbike.si</div>
+    </div>
+
+    <div class="card" style="border-top:3px solid #4a9c6f;">
+      <div class="card-label" style="color:#4a9c6f;">🏛️ Za občine in TIC-je</div>
+      <div class="card-title">Digitalizirajte svojo regijo</div>
+      <div class="card-text" style="margin-bottom:20px;">Bojan on Bike je pripravlno orodje za digitalizacijo vaše kolesarske turistične ponudbe. Platforma je zgrajena, infrastruktura dela, vsebina nastaja. Če želite svojo regijo na platformi — smo tukaj.</div>
+      <div style="font-size:13px; font-weight:700; color:#4a9c6f; letter-spacing:0.08em;">Kontaktirajte nas → bojan@bojanonbike.si</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">💼 Za sponzorje in partnerje</div>
+      <div class="card-title">Etično partnerstvo</div>
+      <div class="card-text">Iščete pristop do kolesarske skupnosti, ki je lojalna in aktivna? Bojan on Bike ponuja etično, vsebinsko in smiseln partnerstvo — brez oglaševalske logike, s pristno priporočilno močjo.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">📰 Za medije</div>
+      <div class="card-title">Zgodba, vredna pripovedovanja</div>
+      <div class="card-text">Zgodba o Bojan on Bike je zgodba o tem, kako en kolesarj z vizijo ustvarja spremembo. O skupnosti. O Sloveniji. O prihodnosti kolesarskega turizma, ki ga gradi ljubezen — ne kapital.</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FINAL CTA
+════════════════════════════════════════ -->
+<div class="cta-section">
+
+  <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:640px; height:640px; opacity:0.04; pointer-events:none;" aria-hidden="true">
+    <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+      <circle cx="200" cy="200" r="194" stroke="white" stroke-width="4"/>
+      <circle cx="200" cy="200" r="156" stroke="white" stroke-width="2"/>
+      <circle cx="200" cy="200" r="26" stroke="white" stroke-width="3"/>
+      <g stroke="white" stroke-width="1.5">
+        <line x1="224" y1="200" x2="356" y2="200"/>
+        <line x1="220" y1="213" x2="335" y2="278"/>
+        <line x1="212" y1="221" x2="278" y2="335"/>
+        <line x1="200" y1="224" x2="200" y2="356"/>
+        <line x1="188" y1="221" x2="122" y2="335"/>
+        <line x1="180" y1="213" x2="65" y2="278"/>
+        <line x1="176" y1="200" x2="44" y2="200"/>
+        <line x1="180" y1="187" x2="65" y2="122"/>
+        <line x1="188" y1="179" x2="122" y2="65"/>
+        <line x1="200" y1="176" x2="200" y2="44"/>
+        <line x1="212" y1="179" x2="278" y2="65"/>
+        <line x1="220" y1="187" x2="335" y2="122"/>
+      </g>
+    </svg>
+  </div>
+
+  <div style="position:relative; z-index:1;">
+    <div style="font-size:11px; font-weight:900; letter-spacing:0.42em; text-transform:uppercase; color:var(--gold); margin-bottom:32px;">Povabilo</div>
+
+    <h2 style="font-family:'Playfair Display',Georgia,serif; font-size:clamp(42px,6vw,80px); font-weight:900; font-style:italic; line-height:1; color:white; max-width:720px; margin:0 auto;">
+      To smo<br/>si želeli.<br/><span style="color:var(--gold);">In to zdaj imamo.</span>
+    </h2>
+
+    <p style="font-size:18px; line-height:1.9; color:rgba(255,255,255,0.55); max-width:520px; margin:36px auto 0; font-weight:300;">
+      Bojan on Bike je odprt. Vsak kolesarj, ki ljubi Slovenijo in želi deliti svojo pot, je dobrodošel. Vsak, ki išče svojo naslednjo turo, je doma.
+    </p>
+
+    <a href="https://www.bojanonbike.si" class="cta-url">www.bojanonbike.si</a>
+
+    <div style="margin-top:80px; font-size:12px; color:rgba(255,255,255,0.2); letter-spacing:0.2em;">
+      Bojan on Bike · Bojan Ratej · Slovenija · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ── SCROLL REVEAL ── -->
+<script>
+(function () {
+  if (!window.IntersectionObserver) return;
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+
+  document.querySelectorAll('.card, .card--dark, .pull-quote, .stat-block, .highlight-bar, .callout, .phase-card, .revenue-card').forEach(function (el) {
+    var parent = el.parentElement;
+    if (parent && /grid-[234]|phase-grid|revenue-grid/.test(parent.className)) {
+      var idx = Array.from(parent.children).indexOf(el);
+      if (idx > 0) el.style.transitionDelay = (idx * 0.09) + 's';
+    }
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+
+  document.querySelectorAll('section .grid-2 > div[style]').forEach(function (el, idx) {
+    el.style.transitionDelay = (idx * 0.09) + 's';
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+}());
+</script>
+
+</body>
+</html>
