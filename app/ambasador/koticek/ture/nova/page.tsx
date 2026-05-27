@@ -129,7 +129,7 @@ export default function NovaTuraPage() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { setError("Nisi prijavljen."); setLoading(false); return; }
 
-    const { data: profil } = await supabase.from("ambasadorji").select("id").eq("user_id", session.user.id).single();
+    const { data: profil } = await supabase.from("ambasadorji").select("id, ime, regija").eq("user_id", session.user.id).single();
     if (!profil) { setError("Ambasadorski profil ni najden."); setLoading(false); return; }
 
     // Upload GPX
@@ -181,6 +181,25 @@ export default function NovaTuraPage() {
     });
 
     if (dbError) { setError("Napaka pri shranjevanju. Poskusi znova."); setLoading(false); return; }
+
+    // Obvesti admina — fire & forget, napaka ne blokira
+    fetch("/api/email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "nova_prijava",
+        predlogTip: "tura",
+        predlogIme: ime,
+        predlogRegija: regija,
+        ambasadorIme: (profil as { id: string; ime?: string; regija?: string }).ime ?? null,
+        ambasadorRegija: (profil as { id: string; ime?: string; regija?: string }).regija ?? null,
+        km: km || null,
+        vm: vm || null,
+        tezavnost: tezavnost || null,
+        jeRevizija: false,
+      }),
+    }).catch(() => {}); // tiho ignorira email napake
+
     router.push("/ambasador/koticek/ture");
   }
 
