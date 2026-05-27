@@ -3,8 +3,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import SiteHeader from "@/components/SiteHeader";
+import ElevationChart from "@/components/ElevationChart";
 import { supabase } from "@/lib/supabase";
+import { parseGpx, type ParsedGpx } from "@/lib/parseGpx";
+
+const GpxMap = dynamic(() => import("@/components/GpxMap"), { ssr: false });
 
 function casDisplay(casUr: number | null): string {
   if (!casUr) return "—";
@@ -61,6 +66,7 @@ export default function TuraDetailPage() {
   const [tura, setTura] = useState<Tura | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [gpxData, setGpxData] = useState<ParsedGpx | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -77,6 +83,18 @@ export default function TuraDetailPage() {
       const amb = raw.ambasadorji as { ime: string; regija: string } | null;
       setTura({ ...data, ambasador: amb });
       setLoading(false);
+
+      // Load and parse GPX in background
+      if (data.gpx_url) {
+        try {
+          const res = await fetch(data.gpx_url as string);
+          const xml = await res.text();
+          const parsed = parseGpx(xml);
+          if (parsed.points.length > 0) setGpxData(parsed);
+        } catch {
+          // GPX load failed silently — map just won't show
+        }
+      }
     }
     load();
   }, [id]);
@@ -279,11 +297,27 @@ export default function TuraDetailPage() {
               </div>
             )}
 
-            {/* GPX download */}
+            {/* GPX map + elevation */}
             {tura.gpx_url && (
-              <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
-                <div className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">GPX datoteka</div>
-                <p className="mb-4 text-sm text-zinc-500">Prenesi turo v svojo napravo ali GPS.</p>
+              <div className="space-y-4">
+                {gpxData ? (
+                  <>
+                    <div className="overflow-hidden rounded-[28px] border border-white/10" style={{ height: 320 }}>
+                      <GpxMap points={gpxData.points} height={320} />
+                    </div>
+                    <ElevationChart
+                      profile={gpxData.profile}
+                      km={gpxData.km}
+                      vm={gpxData.vm}
+                      minEle={gpxData.minEle}
+                      maxEle={gpxData.maxEle}
+                    />
+                  </>
+                ) : (
+                  <div className="flex h-40 items-center justify-center rounded-[28px] border border-white/10 bg-[#0b1a10]">
+                    <span className="text-sm text-zinc-600">Nalagam karto...</span>
+                  </div>
+                )}
                 <a href={tura.gpx_url} download
                   className="inline-flex w-full items-center justify-center rounded-full border border-[#c58b46]/40 px-5 py-3 text-sm font-bold text-[#f4d7ad] transition hover:bg-[#c58b46]/10">
                   ↓ Prenesi GPX
