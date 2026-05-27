@@ -121,7 +121,7 @@ export default function ZnamenitostDetailPage() {
             {z.zakaj && (
               <section className="rounded-[28px] border border-[#c58b46]/20 bg-[#c58b46]/5 p-8">
                 <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorjev namig</div>
-                <p className="leading-8 text-zinc-300 before:content-['"'] after:content-['"']">{z.zakaj}</p>
+                <p className="leading-8 text-zinc-300">&ldquo;{z.zakaj}&rdquo;</p>
                 {z.ambasador && (
                   <div className="mt-4 text-sm font-bold text-zinc-500">
                     🚴 {z.ambasador.ime} · Ambasador {z.ambasador.regija}
