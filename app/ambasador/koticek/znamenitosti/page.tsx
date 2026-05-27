@@ -159,6 +159,12 @@ export default function AmbassadorZnamenitostiPage() {
                       <p className="mt-2 text-sm leading-7 text-[#c58b46]">💬 {z.admin_opomba}</p>
                     )}
                   </div>
+                  {(z.status === "pending" || z.status === "revision" || z.status === "rejected") && (
+                    <Link href={`/ambasador/koticek/znamenitosti/${z.id}/uredi`}
+                      className="shrink-0 rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-5 py-2.5 text-sm font-bold text-[#c58b46] transition hover:bg-[#c58b46]/20">
+                      Uredi
+                    </Link>
+                  )}
                 </article>
               ))}
             </div>
