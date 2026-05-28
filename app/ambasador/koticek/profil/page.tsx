@@ -98,13 +98,15 @@ export default function AmbassadorProfilePage() {
 
     const { error: err } = await supabase
       .from("ambasadorji")
-      .update({ ime, regija, kraj, kratek_opis: kratekOpis, foto_url: novaFotoUrl })
-      .eq("user_id", userId);
+      .upsert(
+        { user_id: userId, email, ime, regija, kraj, kratek_opis: kratekOpis, foto_url: novaFotoUrl },
+        { onConflict: "user_id" }
+      );
 
     setSaving(false);
 
     if (err) {
-      setError("Shranjevanje ni uspelo. Poskusi znova.");
+      setError(`Shranjevanje ni uspelo: ${err.message}`);
     } else {
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
