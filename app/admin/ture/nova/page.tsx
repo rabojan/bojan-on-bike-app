@@ -60,13 +60,34 @@ export default function NewTrailPage() {
   const [status, setStatus] = useState("Čaka na objavo");
   const [title, setTitle] = useState("");
   const [druzinskaFriendly, setDruzinskaFriendly] = useState(false);
-  const [selectedFeelings, setSelectedFeelings] = useState<string[]>([]);
+  const [heroImage, setHeroImage] = useState<string | null>(null);
+  const [galleryImages, setGalleryImages] = useState<(string | null)[]>(Array(8).fill(null));
+  const [showPonudnikForm, setShowPonudnikForm] = useState(false);
+  const [ponudnikQuery, setPonudnikQuery] = useState("");
+  const [addedPonudniki, setAddedPonudniki] = useState<string[]>([]);
 
-  function toggleFeeling(feeling: string) {
-    setSelectedFeelings((prev) =>
-      prev.includes(feeling) ? prev.filter((f) => f !== feeling) : [...prev, feeling],
-    );
+  function handleHeroImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => setHeroImage(ev.target?.result as string);
+    reader.readAsDataURL(file);
   }
+
+  function handleGalleryImage(index: number, e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setGalleryImages((prev) => {
+        const next = [...prev];
+        next[index] = ev.target?.result as string;
+        return next;
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
   const [ritmiNaslovi, setRitmiNaslovi] = useState(["", "", "", "", ""]);
   const [ritmiOpisi, setRitmiOpisi] = useState(["", "", "", "", ""]);
   const [gpxUploaded, setGpxUploaded] = useState(false);
@@ -302,36 +323,13 @@ export default function NewTrailPage() {
                   </div>
                 </label>
 
-                {/* Občutki — multi-select pill tags */}
-                <div className="space-y-3 md:col-span-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-zinc-300">Občutki ture</span>
-                    <span className="text-xs text-zinc-600">
-                      {selectedFeelings.length === 0 ? "Izberi vsaj enega" : `${selectedFeelings.length} izbrano`}
-                    </span>
+                {/* Občutki — nastavi ambasador, ne admin */}
+                <div className="md:col-span-2 flex items-start gap-3 rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-zinc-500">
+                  <span className="mt-0.5 text-base">🔒</span>
+                  <div>
+                    <span className="font-semibold text-zinc-400">Občutki ture</span>
+                    <span className="ml-2 text-zinc-600">— nastavi ambasador iz osebne izkušnje poti.</span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {feelingOptions.map((feeling) => {
-                      const active = selectedFeelings.includes(feeling);
-                      return (
-                        <button
-                          key={feeling}
-                          type="button"
-                          onClick={() => toggleFeeling(feeling)}
-                          className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${
-                            active
-                              ? "border-[#c58b46] bg-[#c58b46]/15 text-[#f4d7ad]"
-                              : "border-white/10 bg-black/20 text-zinc-500 hover:border-white/25 hover:text-zinc-300"
-                          }`}
-                        >
-                          {feeling}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <p className="text-xs text-zinc-600">
-                    Oznake se prikažejo na kartici ture in se uporabljajo za filtriranje.
-                  </p>
                 </div>
 
               </div>
@@ -628,34 +626,43 @@ export default function NewTrailPage() {
                 <LockedSection />
               ) : (
                 <>
+                  {/* Hero slika */}
                   <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#07110b]">
-                    <div className="flex min-h-[180px] items-center justify-center bg-black/20 p-6 text-center">
-                      <div>
-                        <div className="text-4xl">🖼️</div>
-                        <div className="mt-3 font-bold">Hero slika ture</div>
-                        <p className="mt-1 text-sm text-zinc-500">
-                          Glavna slika za katalog in vrh strani.
-                        </p>
+                    {heroImage ? (
+                      <img src={heroImage} alt="Hero slika" className="h-[200px] w-full object-cover" />
+                    ) : (
+                      <div className="flex min-h-[180px] items-center justify-center bg-black/20 p-6 text-center">
+                        <div>
+                          <div className="text-4xl">🖼️</div>
+                          <div className="mt-3 font-bold">Hero slika ture</div>
+                          <p className="mt-1 text-sm text-zinc-500">Glavna slika za katalog in vrh strani.</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="flex gap-3 border-t border-white/10 p-4">
                       <label className="flex-1 cursor-pointer rounded-full bg-[#c58b46] px-4 py-2 text-center text-sm font-bold text-black transition hover:opacity-90">
-                        Naloži
-                        <input type="file" accept="image/*" className="hidden" />
+                        {heroImage ? "Zamenjaj" : "Naloži"}
+                        <input type="file" accept="image/*" className="hidden" onChange={handleHeroImage} />
                       </label>
-                      <button className="rounded-full border border-white/10 px-4 py-2 text-sm text-zinc-400 hover:text-zinc-200">
-                        Zamenjaj
-                      </button>
                     </div>
                   </div>
 
+                  {/* Galerija */}
                   <div className="mt-5 grid grid-cols-4 gap-3">
                     {Array.from({ length: 8 }).map((_, i) => (
                       <label key={i} className="group cursor-pointer">
-                        <div className="flex aspect-square items-center justify-center rounded-2xl border border-dashed border-white/20 bg-black/20 transition group-hover:border-[#c58b46]/40">
-                          <span className="text-xl text-zinc-600 group-hover:text-zinc-400">+</span>
-                        </div>
-                        <input type="file" accept="image/*" className="hidden" />
+                        {galleryImages[i] ? (
+                          <img
+                            src={galleryImages[i]!}
+                            alt={`Galerija ${i + 1}`}
+                            className="aspect-square w-full rounded-2xl object-cover ring-1 ring-[#c58b46]/40"
+                          />
+                        ) : (
+                          <div className="flex aspect-square items-center justify-center rounded-2xl border border-dashed border-white/20 bg-black/20 transition group-hover:border-[#c58b46]/40">
+                            <span className="text-xl text-zinc-600 group-hover:text-zinc-400">+</span>
+                          </div>
+                        )}
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleGalleryImage(i, e)} />
                       </label>
                     ))}
                   </div>
@@ -694,7 +701,9 @@ export default function NewTrailPage() {
                     Ura
                   </label>
                   <input
-                    type="time"
+                    type="text"
+                    placeholder="09:30"
+                    maxLength={5}
                     className="mb-4 w-full rounded-xl border border-[#c58b46]/30 bg-black/30 px-3 py-2 text-center text-sm font-black text-[#c58b46] outline-none focus:border-[#c58b46]/60"
                   />
                   <div className="mb-1 flex items-center justify-between">
@@ -760,9 +769,57 @@ export default function NewTrailPage() {
                   ki so ob trasi ali do 1 km od nje. Označi tiste, ki jih želiš
                   prikazati, ali dodaj svojega.
                 </p>
-                <button className="mt-4 rounded-full border border-white/10 px-5 py-2 text-sm font-semibold text-zinc-300 hover:border-[#c58b46]/40">
-                  + Dodaj ponudnika ročno
+                {addedPonudniki.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {addedPonudniki.map((p) => (
+                      <span key={p} className="flex items-center gap-1.5 rounded-full border border-[#c58b46]/30 bg-black/30 px-3 py-1 text-xs font-semibold text-[#f4d7ad]">
+                        {p}
+                        <button type="button" onClick={() => setAddedPonudniki((prev) => prev.filter((x) => x !== p))} className="text-zinc-500 hover:text-red-400">×</button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setShowPonudnikForm((v) => !v)}
+                  className="mt-4 rounded-full border border-white/10 px-5 py-2 text-sm font-semibold text-zinc-300 hover:border-[#c58b46]/40"
+                >
+                  {showPonudnikForm ? "Zapri" : "+ Dodaj ponudnika ročno"}
                 </button>
+                {showPonudnikForm && (
+                  <div className="mt-4 space-y-3">
+                    <input
+                      type="text"
+                      value={ponudnikQuery}
+                      onChange={(e) => setPonudnikQuery(e.target.value)}
+                      placeholder="Išči ponudnika po imenu..."
+                      className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
+                    />
+                    <p className="text-xs text-zinc-600">
+                      Ponudniki so dodani v razdelku <strong className="text-zinc-400">Admin → Ponudniki</strong>. Vtipkaj ime in ga izberi, ali ga najprej dodaj v bazo.
+                    </p>
+                    {ponudnikQuery.length > 1 && (
+                      <div className="rounded-xl border border-white/10 bg-black/30 p-1">
+                        {["Rudijev dom na Pohorju", "Gorska hiša Pohorje", "Vinska klet med griči"]
+                          .filter((p) => p.toLowerCase().includes(ponudnikQuery.toLowerCase()) && !addedPonudniki.includes(p))
+                          .map((p) => (
+                            <button
+                              key={p}
+                              type="button"
+                              onClick={() => { setAddedPonudniki((prev) => [...prev, p]); setPonudnikQuery(""); setShowPonudnikForm(false); }}
+                              className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-left text-sm hover:bg-white/5"
+                            >
+                              <span className="text-[#c58b46]">+</span>
+                              {p}
+                            </button>
+                          ))}
+                        {["Rudijev dom na Pohorju", "Gorska hiša Pohorje", "Vinska klet med griči"].filter((p) => p.toLowerCase().includes(ponudnikQuery.toLowerCase())).length === 0 && (
+                          <p className="px-4 py-3 text-xs text-zinc-600">Ni zadetkov. <a href="/admin/ponudniki/nov" className="text-[#c58b46] underline">Dodaj novega ponudnika →</a></p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </div>

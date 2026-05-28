@@ -331,7 +331,9 @@ export default function NovaTuraPage() {
                 <div className="mb-3 text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Korak {i + 1}</div>
                 <label className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Ura</label>
                 <input
-                  type="time"
+                  type="text"
+                  placeholder="09:30"
+                  maxLength={5}
                   value={korak.time}
                   onChange={(e) => updateRitem(i, "time", e.target.value)}
                   className="mb-4 w-full rounded-xl border border-[#c58b46]/30 bg-black/30 px-3 py-2 text-center text-sm font-black text-[#c58b46] outline-none focus:border-[#c58b46]/60"
