@@ -3,8 +3,13 @@
 import Link from "next/link";
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import AmbassadorShell from "@/components/AmbassadorShell";
+import ElevationChart from "@/components/ElevationChart";
 import { supabase } from "@/lib/supabase";
+import { parseGpx, type ParsedGpx } from "@/lib/parseGpx";
+
+const GpxMap = dynamic(() => import("@/components/GpxMap"), { ssr: false });
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 const trailTypes = ["MTB", "Gravel", "E-bike", "Bikepacking", "Cesta"];
@@ -23,31 +28,6 @@ function casUrToDisplay(casUr: number | null): string {
     if (diff < bestDiff) { bestDiff = diff; best = label; }
   }
   return best;
-}
-
-function haversine(lat1: number, lng1: number, lat2: number, lng2: number): number {
-  const R = 6371000;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
-function parseGPX(xml: string): { km: number; vm: number } {
-  const doc = new DOMParser().parseFromString(xml, "application/xml");
-  const points = doc.querySelectorAll("trkpt");
-  let dist = 0, gain = 0;
-  let prevLat: number | null = null, prevLng: number | null = null, prevEle: number | null = null;
-  points.forEach((pt) => {
-    const lat = parseFloat(pt.getAttribute("lat") ?? "0");
-    const lng = parseFloat(pt.getAttribute("lon") ?? "0");
-    const ele = parseFloat(pt.querySelector("ele")?.textContent ?? "0");
-    if (prevLat !== null && prevLng !== null) dist += haversine(prevLat, prevLng, lat, lng);
-    if (prevEle !== null && ele > prevEle) gain += ele - prevEle;
-    prevLat = lat; prevLng = lng; prevEle = ele;
-  });
-  return { km: Math.round(dist / 100) / 10, vm: Math.round(gain) };
 }
 
 type RitemKorak = { time: string; title: string; text: string };
@@ -86,7 +66,7 @@ export default function UrejiTuroPage() {
   );
 
   const [gpxFile, setGpxFile] = useState<File | null>(null);
-  const [gpxParsed, setGpxParsed] = useState<{ km: number; vm: number } | null>(null);
+  const [gpxParsed, setGpxParsed] = useState<ParsedGpx | null>(null);
   const [gpxError, setGpxError] = useState("");
 
   const [ritemDneva, setRitemDneva] = useState<RitemKorak[]>([
@@ -196,7 +176,7 @@ export default function UrejiTuroPage() {
     if (!file.name.toLowerCase().endsWith(".gpx")) { setGpxError("Prosim naloži .gpx datoteko"); return; }
     try {
       const text = await file.text();
-      const result = parseGPX(text);
+      const result = parseGpx(text);
       if (result.km === 0) { setGpxError("GPX ne vsebuje slednih točk."); return; }
       setGpxFile(file); setGpxParsed(result); setKm(String(result.km)); setVm(String(result.vm));
     } catch { setGpxError("Napaka pri branju GPX."); }
@@ -346,18 +326,44 @@ export default function UrejiTuroPage() {
             </div>
           )}
           {gpxParsed ? (
-            <div className="rounded-[24px] border border-emerald-500/20 bg-emerald-500/5 p-5">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">✅</span>
-                <div>
-                  <div className="font-bold text-emerald-300">Nova GPX: {gpxFile?.name}</div>
-                  <div className="mt-1 text-sm text-zinc-400">Razdalja: <span className="font-bold text-white">{gpxParsed.km} km</span> · Vzpon: <span className="font-bold text-white">{gpxParsed.vm} vm</span></div>
+            <div className="space-y-4">
+              <div className="rounded-[24px] border border-emerald-500/20 bg-emerald-500/5 p-5">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">✅</span>
+                  <div>
+                    <div className="font-bold text-emerald-300">Nova GPX: {gpxFile?.name}</div>
+                    <div className="mt-1 text-sm text-zinc-400">
+                      Razdalja: <span className="font-bold text-white">{gpxParsed.km} km</span>
+                      {" · "}
+                      Vzpon: <span className="font-bold text-white">{gpxParsed.vm} vm</span>
+                      {" · "}
+                      Višina: <span className="font-bold text-white">{gpxParsed.minEle}–{gpxParsed.maxEle} m</span>
+                    </div>
+                  </div>
+                  <label className="ml-auto cursor-pointer rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-400 hover:border-white/20">
+                    Zamenjaj
+                    <input type="file" accept=".gpx" onChange={(e) => { setGpxFile(null); setGpxParsed(null); handleGpxChange(e); }} className="hidden" />
+                  </label>
                 </div>
-                <label className="ml-auto cursor-pointer rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-400 hover:border-white/20">
-                  Zamenjaj
-                  <input type="file" accept=".gpx" onChange={(e) => { setGpxFile(null); setGpxParsed(null); handleGpxChange(e); }} className="hidden" />
-                </label>
               </div>
+
+              {/* Predogled trase */}
+              {gpxParsed.points.length > 0 && (
+                <div className="overflow-hidden rounded-[20px] border border-white/10" style={{ height: 300 }}>
+                  <GpxMap points={gpxParsed.points} height={300} />
+                </div>
+              )}
+
+              {/* Višinski profil */}
+              {gpxParsed.profile.length > 1 && (
+                <ElevationChart
+                  profile={gpxParsed.profile}
+                  km={gpxParsed.km}
+                  vm={gpxParsed.vm}
+                  minEle={gpxParsed.minEle}
+                  maxEle={gpxParsed.maxEle}
+                />
+              )}
             </div>
           ) : (
             <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-[24px] border-2 border-dashed border-white/10 bg-[#07110b] px-6 py-8 text-center transition hover:border-[#c58b46]/30">
