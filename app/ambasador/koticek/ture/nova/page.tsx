@@ -82,6 +82,12 @@ export default function NovaTuraPage() {
     setRitemDneva((prev) => prev.map((k, idx) => idx === i ? { ...k, [field]: value } : k));
   }
 
+  function handleTimeInput(i: number, raw: string) {
+    const digits = raw.replace(/\D/g, "").slice(0, 4);
+    const formatted = digits.length > 2 ? digits.slice(0, 2) + ":" + digits.slice(2) : digits;
+    updateRitem(i, "time", formatted);
+  }
+
   function updatePoudarek(i: number, field: keyof Poudarek, value: string) {
     setPoudarki((prev) => prev.map((p, idx) => idx === i ? { ...p, [field]: value } : p));
   }
@@ -332,10 +338,11 @@ export default function NovaTuraPage() {
                 <label className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Ura</label>
                 <input
                   type="text"
+                  inputMode="numeric"
                   placeholder="09:30"
                   maxLength={5}
                   value={korak.time}
-                  onChange={(e) => updateRitem(i, "time", e.target.value)}
+                  onChange={(e) => handleTimeInput(i, e.target.value)}
                   className="mb-4 w-full rounded-xl border border-[#c58b46]/30 bg-black/30 px-3 py-2 text-center text-sm font-black text-[#c58b46] outline-none focus:border-[#c58b46]/60"
                 />
                 <label className="mb-1 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Naslov</label>
