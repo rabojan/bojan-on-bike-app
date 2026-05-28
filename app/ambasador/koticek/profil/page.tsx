@@ -76,27 +76,23 @@ export default function AmbassadorProfilePage() {
 
     let novaFotoUrl = fotoUrl;
 
-    // Naloži sliko v Supabase Storage če je nova
+    // Naloži sliko prek server API (service role key, brez RLS težav)
     if (fotoFile) {
-      const ext = fotoFile.name.split(".").pop();
-      const path = `${userId}.${ext}`;
+      const form = new FormData();
+      form.append("file", fotoFile);
+      form.append("userId", userId);
 
-      const { error: uploadError } = await supabase.storage
-        .from("avatars")
-        .upload(path, fotoFile, { upsert: true });
+      const res = await fetch("/api/avatar", { method: "POST", body: form });
+      const json = await res.json();
 
-      if (uploadError) {
-        setError(`Napaka pri nalaganju slike: ${uploadError.message}`);
+      if (!res.ok) {
+        setError(`Napaka pri nalaganju slike: ${json.error}`);
         setSaving(false);
         return;
       }
 
-      const { data: { publicUrl } } = supabase.storage
-        .from("avatars")
-        .getPublicUrl(path);
-
-      novaFotoUrl = publicUrl;
-      setFotoUrl(publicUrl);
+      novaFotoUrl = json.url;
+      setFotoUrl(json.url);
       setFotoFile(null);
     }
 
