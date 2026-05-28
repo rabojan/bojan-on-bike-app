@@ -132,13 +132,13 @@ export default function NovaTuraPage() {
     const { data: profil } = await supabase.from("ambasadorji").select("id, ime, regija").eq("user_id", session.user.id).single();
     if (!profil) { setError("Ambasadorski profil ni najden."); setLoading(false); return; }
 
-    // Upload GPX
+    // Upload GPX v slike bucket (gpx-files ne obstaja)
     let gpxUrl: string | null = null;
     if (gpxFile) {
-      const filename = `${profil.id}/${Date.now()}-${gpxFile.name}`;
-      const { error: uploadError } = await supabase.storage.from("gpx-files").upload(filename, gpxFile);
+      const filename = `gpx/${profil.id}/${Date.now()}-${gpxFile.name}`;
+      const { error: uploadError } = await supabase.storage.from("slike").upload(filename, gpxFile, { upsert: true });
       if (!uploadError) {
-        gpxUrl = supabase.storage.from("gpx-files").getPublicUrl(filename).data.publicUrl;
+        gpxUrl = supabase.storage.from("slike").getPublicUrl(filename).data.publicUrl;
       }
     }
 
