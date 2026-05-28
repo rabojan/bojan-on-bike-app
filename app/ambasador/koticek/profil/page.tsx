@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AmbassadorShell from "@/components/AmbassadorShell";
 import { supabase } from "@/lib/supabase";
 
@@ -13,33 +13,45 @@ export default function AmbassadorProfilePage() {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
 
-  // Podatki profila
   const [userId, setUserId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [ime, setIme] = useState("");
   const [regija, setRegija] = useState("");
   const [kraj, setKraj] = useState("");
-  const [opis, setOpis] = useState("");
+  const [kratekOpis, setKratekOpis] = useState("");
+  const [fotoUrl, setFotoUrl] = useState<string | null>(null);
+  const [fotoPreview, setFotoPreview] = useState<string | null>(null);
+  const [fotoFile, setFotoFile] = useState<File | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     async function load() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) { setLoading(false); return; }
 
+      const meta = session.user.user_metadata ?? {};
       setEmail(session.user.email ?? "");
       setUserId(session.user.id);
 
       const { data: profil } = await supabase
         .from("ambasadorji")
-        .select("ime, regija, kraj, opis")
+        .select("ime, regija, kraj, kratek_opis, foto_url")
         .eq("user_id", session.user.id)
         .single();
 
       if (profil) {
-        setIme(profil.ime ?? "");
-        setRegija(profil.regija ?? "");
-        setKraj(profil.kraj ?? "");
-        setOpis(profil.opis ?? "");
+        // Podatki iz baze — če so prazni, vzamemo iz registracijskih metapodatkov
+        setIme(profil.ime || meta.ime || "");
+        setRegija(profil.regija || meta.regija || "");
+        setKraj(profil.kraj || meta.kraj || "");
+        setKratekOpis(profil.kratek_opis || "");
+        setFotoUrl(profil.foto_url || null);
+      } else {
+        // Profil v bazi ne obstaja — predizpolni iz registracijskih podatkov
+        setIme(meta.ime || "");
+        setRegija(meta.regija || "");
+        setKraj(meta.kraj || "");
       }
 
       setLoading(false);
@@ -47,15 +59,50 @@ export default function AmbassadorProfilePage() {
     load();
   }, []);
 
+  function handleFotoSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFotoFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => setFotoPreview(ev.target?.result as string);
+    reader.readAsDataURL(file);
+  }
+
   async function handleSave() {
     if (!userId) return;
     setSaving(true);
     setError("");
     setSaved(false);
 
+    let novaFotoUrl = fotoUrl;
+
+    // Naloži sliko v Supabase Storage če je nova
+    if (fotoFile) {
+      const ext = fotoFile.name.split(".").pop();
+      const path = `${userId}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(path, fotoFile, { upsert: true });
+
+      if (uploadError) {
+        setError("Napaka pri nalaganju slike. Preveri ali obstaja 'avatars' bucket v Supabase Storage.");
+        setSaving(false);
+        return;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from("avatars")
+        .getPublicUrl(path);
+
+      novaFotoUrl = publicUrl;
+      setFotoUrl(publicUrl);
+      setFotoFile(null);
+    }
+
     const { error: err } = await supabase
       .from("ambasadorji")
-      .update({ ime, regija, kraj, opis })
+      .update({ ime, regija, kraj, kratek_opis: kratekOpis, foto_url: novaFotoUrl })
       .eq("user_id", userId);
 
     setSaving(false);
@@ -67,6 +114,8 @@ export default function AmbassadorProfilePage() {
       setTimeout(() => setSaved(false), 3000);
     }
   }
+
+  const prikaznaFoto = fotoPreview || fotoUrl;
 
   return (
     <AmbassadorShell>
@@ -116,22 +165,62 @@ export default function AmbassadorProfilePage() {
           {/* ── Javna podoba ── */}
           <div className="rounded-[32px] border border-white/10 bg-[#07110b] p-6">
             <div className="text-xs uppercase tracking-[0.3em] text-[#c58b46]">Javna podoba</div>
+
             <div className="mt-6 flex flex-col items-center rounded-[28px] border border-white/10 bg-black/20 p-6 text-center">
-              <div className="flex h-28 w-28 items-center justify-center rounded-[32px] border border-white/10 bg-[#0b1a10] text-5xl">
-                🚴
+
+              {/* Profilna slika */}
+              <div className="relative">
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="group relative flex h-28 w-28 cursor-pointer items-center justify-center overflow-hidden rounded-[32px] border-2 border-dashed border-white/20 bg-[#0b1a10] transition hover:border-[#c58b46]/60"
+                >
+                  {prikaznaFoto ? (
+                    <img
+                      src={prikaznaFoto}
+                      alt="Profilna slika"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-5xl">🚴</span>
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center rounded-[30px] bg-black/60 opacity-0 transition group-hover:opacity-100">
+                    <span className="text-xs font-bold text-white">Zamenjaj</span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="mt-3 rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-zinc-200"
+                >
+                  {prikaznaFoto ? "Zamenjaj sliko" : "Naloži sliko"}
+                </button>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleFotoSelect}
+                />
               </div>
+
               <h2 className="mt-5 text-2xl font-black text-white">
                 {loading ? "—" : (ime || "Tvoje ime")}
               </h2>
               <p className="mt-1.5 text-sm font-semibold text-zinc-400">
                 {regija ? `Ambasador ${regija}` : "Ambasador"}
               </p>
-              {opis && (
+              {kraj && (
+                <p className="mt-1 text-xs text-zinc-600">{kraj}</p>
+              )}
+              {kratekOpis && (
                 <p className="mt-4 max-w-xs text-sm leading-7 text-zinc-500">
-                  {opis}
+                  {kratekOpis}
                 </p>
               )}
             </div>
+
             <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
               Sprememba profila ne vpliva na že objavljene ture — posodobi samo tvoj prikaz pri novih objavah.
             </div>
@@ -188,8 +277,8 @@ export default function AmbassadorProfilePage() {
                   <span className="text-sm font-bold text-zinc-300">Kratek opis</span>
                   <textarea
                     rows={4}
-                    value={opis}
-                    onChange={(e) => setOpis(e.target.value)}
+                    value={kratekOpis}
+                    onChange={(e) => setKratekOpis(e.target.value)}
                     placeholder="Povej kaj o sebi kot kolesarju — kaj te žene, katere poti poznaš, kaj rad odkritvaš..."
                     className="w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 py-4 leading-7 text-white outline-none transition focus:border-[#c58b46]/60" />
                 </label>
