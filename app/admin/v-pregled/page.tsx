@@ -259,6 +259,11 @@ export default function AdminReviewPage() {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3 md:justify-end">
+                    <Link
+                      href={`/admin/v-pregled/${item.id}?tip=${item.tip}`}
+                      className="rounded-full border border-[#c58b46]/40 px-5 py-3 text-sm font-bold text-[#c58b46] transition hover:bg-[#c58b46]/10">
+                      Preglej →
+                    </Link>
                     <button
                       onClick={() => handleApprove(item)}
                       disabled={processing === item.id}
