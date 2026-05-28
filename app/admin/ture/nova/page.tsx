@@ -57,7 +57,8 @@ function LockedSection() {
 }
 
 export default function NewTrailPage() {
-  const [status, setStatus] = useState("Čaka na objavo");
+  const [status, setStatus] = useState("Osnutek");
+  const [saved, setSaved] = useState<"idle" | "osnutek" | "objavljeno">("idle");
   const [title, setTitle] = useState("");
   const [druzinskaFriendly, setDruzinskaFriendly] = useState(false);
   const [heroImage, setHeroImage] = useState<string | null>(null);
@@ -208,10 +209,31 @@ export default function NewTrailPage() {
             >
               ← Nazaj na ture
             </Link>
-            <button className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black">
-              Shrani predlog
+            <button
+              type="button"
+              onClick={() => { setStatus("Osnutek"); setSaved("osnutek"); }}
+              className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-zinc-300 hover:border-white/30"
+            >
+              Shrani osnutek
+            </button>
+            <button
+              type="button"
+              onClick={() => { setStatus("Objavljeno"); setSaved("objavljeno"); }}
+              className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-bold text-black hover:opacity-90"
+            >
+              Objavi takoj
             </button>
           </div>
+          {saved === "osnutek" && (
+            <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 px-5 py-3 text-sm text-zinc-400">
+              ✓ Shranjeno kot osnutek. Tura ni vidna na platformi.
+            </div>
+          )}
+          {saved === "objavljeno" && (
+            <div className="mt-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-3 text-sm font-semibold text-emerald-300">
+              ✓ Tura objavljena in vidna na platformi.
+            </div>
+          )}
         </section>
 
         <section className="grid gap-6 xl:grid-cols-2">
@@ -857,17 +879,19 @@ export default function NewTrailPage() {
             </div>
             <select
               value={status}
-              onChange={(e) => setStatus(e.target.value)}
+              onChange={(e) => { setStatus(e.target.value); setSaved("idle"); }}
               className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
             >
-              <option>Čaka na objavo</option>
-              <option>Oddano v pregled</option>
-              <option>Potrebni popravki</option>
+              <option>Osnutek</option>
               <option>Objavljeno</option>
               <option>Arhivirano</option>
             </select>
-            <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm leading-7 text-zinc-400">
-              Nova tura gre po oddaji v pregled pred objavo. Objavo potrdi glavni admin.
+            <div className="mt-4 text-xs text-zinc-600 leading-6">
+              {status === "Objavljeno"
+                ? "Tura je vidna na platformi takoj po shranjevanju."
+                : status === "Arhivirano"
+                ? "Tura je skrita in ne bo vidna na platformi."
+                : "Tura je shranjena kot osnutek in ni vidna na platformi."}
             </div>
           </div>
 
