@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import AdminShell from "@/components/AdminShell";
 
-const providers = [
+const initialProviders = [
   {
     name: "Rudijev dom na Pohorju",
     slug: "rudijev-dom-na-pohorju",
@@ -48,6 +51,14 @@ const providers = [
 ];
 
 export default function AdminProvidersPage() {
+  const [providers, setProviders] = useState(initialProviders);
+  const [confirmSlug, setConfirmSlug] = useState<string | null>(null);
+
+  function deleteProvider(slug: string) {
+    setProviders((prev) => prev.filter((p) => p.slug !== slug));
+    setConfirmSlug(null);
+  }
+
   return (
     <AdminShell active="ponudniki">
       <div className="space-y-8">
@@ -184,7 +195,7 @@ export default function AdminProvidersPage() {
                     ))}
                   </div>
 
-                  <div className="mt-6 flex flex-wrap gap-3">
+                  <div className="mt-6 flex flex-wrap items-center gap-3">
                     <Link
                       href={`/admin/ponudniki/${provider.slug}`}
                       className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black"
@@ -199,6 +210,22 @@ export default function AdminProvidersPage() {
                       >
                         Predogled
                       </Link>
+                    )}
+
+                    {confirmSlug === provider.slug ? (
+                      <div className="flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2">
+                        <span className="text-xs font-semibold text-red-400">Res izbrisati?</span>
+                        <button onClick={() => deleteProvider(provider.slug)} className="text-xs font-black text-red-400 hover:text-red-300">Da</button>
+                        <span className="text-zinc-600">·</span>
+                        <button onClick={() => setConfirmSlug(null)} className="text-xs font-semibold text-zinc-500 hover:text-zinc-300">Ne</button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setConfirmSlug(provider.slug)}
+                        className="rounded-full border border-red-900/30 px-5 py-3 text-sm font-semibold text-red-500/70 hover:border-red-500/40 hover:text-red-400"
+                      >
+                        Izbriši
+                      </button>
                     )}
                   </div>
                 </div>
