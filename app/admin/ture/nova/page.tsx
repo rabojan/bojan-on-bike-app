@@ -57,8 +57,8 @@ function LockedSection() {
 }
 
 export default function NewTrailPage() {
-  const [status, setStatus] = useState("Osnutek");
-  const [saved, setSaved] = useState<"idle" | "osnutek" | "objavljeno">("idle");
+  const [status, setStatus] = useState("Objavljeno");
+  const [saved, setSaved] = useState(false);
   const [title, setTitle] = useState("");
   const [druzinskaFriendly, setDruzinskaFriendly] = useState(false);
   const [heroImage, setHeroImage] = useState<string | null>(null);
@@ -211,25 +211,13 @@ export default function NewTrailPage() {
             </Link>
             <button
               type="button"
-              onClick={() => { setStatus("Osnutek"); setSaved("osnutek"); }}
-              className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-zinc-300 hover:border-white/30"
-            >
-              Shrani osnutek
-            </button>
-            <button
-              type="button"
-              onClick={() => { setStatus("Objavljeno"); setSaved("objavljeno"); }}
+              onClick={() => { setStatus("Objavljeno"); setSaved(true); }}
               className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-bold text-black hover:opacity-90"
             >
-              Objavi takoj
+              Objavi turo
             </button>
           </div>
-          {saved === "osnutek" && (
-            <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 px-5 py-3 text-sm text-zinc-400">
-              ✓ Shranjeno kot osnutek. Tura ni vidna na platformi.
-            </div>
-          )}
-          {saved === "objavljeno" && (
+          {saved && (
             <div className="mt-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-3 text-sm font-semibold text-emerald-300">
               ✓ Tura objavljena in vidna na platformi.
             </div>
@@ -879,7 +867,7 @@ export default function NewTrailPage() {
             </div>
             <select
               value={status}
-              onChange={(e) => { setStatus(e.target.value); setSaved("idle"); }}
+              onChange={(e) => { setStatus(e.target.value); setSaved(false); }}
               className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
             >
               <option>Osnutek</option>
