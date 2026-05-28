@@ -95,6 +95,38 @@ const initialAmbassadors = [
 
 export default function AdminAmbassadorsPage() {
   const [ambassadors, setAmbassadors] = useState(initialAmbassadors);
+  const [warnedSlugs, setWarnedSlugs] = useState<Set<string>>(new Set());
+  const [confirmDeleteSlug, setConfirmDeleteSlug] = useState<string | null>(null);
+  const [loading, setLoading] = useState<string | null>(null);
+
+  async function sendWarning(slug: string, name: string, email: string) {
+    setLoading(slug);
+    try {
+      await fetch("/api/admin/ambasador/opozorilo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email }),
+      });
+      setWarnedSlugs((prev) => new Set([...prev, slug]));
+    } finally {
+      setLoading(null);
+    }
+  }
+
+  async function deleteAmbassador(slug: string, name: string, email: string) {
+    setLoading(slug);
+    try {
+      await fetch("/api/admin/ambasador/izbrisi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email }),
+      });
+      setAmbassadors((prev) => prev.filter((a) => a.slug !== slug));
+      setConfirmDeleteSlug(null);
+    } finally {
+      setLoading(null);
+    }
+  }
 
   const toggleTop = (slug: string) => {
     setAmbassadors((prev) =>
@@ -240,6 +272,54 @@ export default function AdminAmbassadorsPage() {
                       >
                         {a.isTop ? "★ Izklopi TOP" : "Vklopi TOP ★"}
                       </button>
+
+                      {/* Opozorilo */}
+                      {warnedSlugs.has(a.slug) ? (
+                        <span className="flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-xs font-bold text-amber-400">
+                          ⚠ Opozorilo poslano
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => sendWarning(a.slug, a.name, a.email)}
+                          disabled={loading === a.slug}
+                          className="rounded-full border border-amber-800/40 px-4 py-2.5 text-xs font-semibold text-amber-600/80 transition hover:border-amber-500/50 hover:text-amber-400 disabled:opacity-40"
+                        >
+                          {loading === a.slug ? "Pošiljam..." : "Pošlji opozorilo"}
+                        </button>
+                      )}
+
+                      {/* Brisanje */}
+                      {confirmDeleteSlug === a.slug ? (
+                        <div className="flex w-full flex-col gap-2 rounded-2xl border border-red-500/30 bg-red-500/5 p-3 mt-1">
+                          <div className="text-xs font-semibold text-red-400">
+                            Izbrisano bo: {a.content.trails} tur, {a.content.providers} ponudnikov,{" "}
+                            {a.content.znamenitosti} znamenitosti, {a.content.dozivetja} doživetij.
+                            Ambasador prejme e-mail o odstranitvi.
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => deleteAmbassador(a.slug, a.name, a.email)}
+                              disabled={loading === a.slug}
+                              className="rounded-full bg-red-500/20 px-4 py-2 text-xs font-black text-red-300 hover:bg-red-500/30 disabled:opacity-40"
+                            >
+                              {loading === a.slug ? "Brišem..." : "Da, izbriši"}
+                            </button>
+                            <button
+                              onClick={() => setConfirmDeleteSlug(null)}
+                              className="rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-zinc-500 hover:text-zinc-300"
+                            >
+                              Prekliči
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setConfirmDeleteSlug(a.slug)}
+                          className="rounded-full border border-red-900/30 px-4 py-2.5 text-xs font-semibold text-red-500/60 transition hover:border-red-500/40 hover:text-red-400"
+                        >
+                          Izbriši ambasadorja
+                        </button>
+                      )}
                     </div>
                   </div>
 
