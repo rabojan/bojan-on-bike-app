@@ -86,7 +86,7 @@ export default function AmbassadorProfilePage() {
         .upload(path, fotoFile, { upsert: true });
 
       if (uploadError) {
-        setError("Napaka pri nalaganju slike. Preveri ali obstaja 'avatars' bucket v Supabase Storage.");
+        setError(`Napaka pri nalaganju slike: ${uploadError.message}`);
         setSaving(false);
         return;
       }
