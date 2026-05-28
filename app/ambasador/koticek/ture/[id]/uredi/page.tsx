@@ -137,6 +137,18 @@ export default function UrejiTuroPage() {
 
       setExistingGpxUrl(data.gpx_url ?? null);
 
+      // Fetchni in parsiraj obstoječi GPX, da se prikažeta mapa in profil
+      if (data.gpx_url) {
+        try {
+          const res = await fetch(data.gpx_url);
+          const text = await res.text();
+          const parsed = parseGpx(text);
+          if (parsed.km > 0) setGpxParsed(parsed);
+        } catch {
+          // Tiho — mapa se ne prikaže, ni fatalno
+        }
+      }
+
       const galerija = data.galerija ?? [];
       setExistingGalerija(galerija);
       const previews = Array(8).fill("") as string[];
