@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabase";
 
 const regions = ["Vse", "Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
+const vibes = ["Vse", "Družinam prijazno", "e-bike friendly", "Za pare", "Gozdni pobeg", "Lokalni postanek", "Vikend ideja", "Jutranja tura", "Skrita pot"];
 
 const slugify = (value: string) =>
   value.toLowerCase()
@@ -63,12 +64,14 @@ export default function TurePage() {
   const [loading, setLoading] = useState(true);
   const [activeRegion, setActiveRegion] = useState("Vse");
   const [activeDifficulty, setActiveDifficulty] = useState("Vse");
+  const [activeVibe, setActiveVibe] = useState("Vse");
 
   // Beri URL parametre ob prvem nalaganju
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const regionFromUrl = params.get("pokrajina") || params.get("regija");
     const diffFromUrl = params.get("tezavnost");
+    const vibeFromUrl = params.get("obcutek");
     if (regionFromUrl) {
       const matched = regions.find((r) => slugify(r) === regionFromUrl);
       if (matched) setActiveRegion(matched);
@@ -77,25 +80,35 @@ export default function TurePage() {
       const matched = difficulties.find((d) => slugify(d) === diffFromUrl);
       if (matched) setActiveDifficulty(matched);
     }
+    if (vibeFromUrl) {
+      const matched = vibes.find((v) => slugify(v) === vibeFromUrl);
+      if (matched) setActiveVibe(matched);
+    }
   }, []);
 
   // Posodobi URL ko se filter spremeni (za deljenje linkov)
-  function updateUrl(region: string, difficulty: string) {
+  function updateUrl(region: string, difficulty: string, vibe: string) {
     const params = new URLSearchParams();
     if (region !== "Vse") params.set("pokrajina", slugify(region));
     if (difficulty !== "Vse") params.set("tezavnost", slugify(difficulty));
+    if (vibe !== "Vse") params.set("obcutek", slugify(vibe));
     const qs = params.toString();
     router.replace(qs ? `/ture?${qs}` : "/ture", { scroll: false });
   }
 
   function handleRegionChange(value: string) {
     setActiveRegion(value);
-    updateUrl(value, activeDifficulty);
+    updateUrl(value, activeDifficulty, activeVibe);
   }
 
   function handleDifficultyChange(value: string) {
     setActiveDifficulty(value);
-    updateUrl(activeRegion, value);
+    updateUrl(activeRegion, value, activeVibe);
+  }
+
+  function handleVibeChange(value: string) {
+    setActiveVibe(value);
+    updateUrl(activeRegion, activeDifficulty, value);
   }
 
   useEffect(() => {
@@ -114,8 +127,9 @@ export default function TurePage() {
   const filtered = useMemo(() => ture.filter((t) => {
     const regionMatch = activeRegion === "Vse" || t.regija === activeRegion;
     const diffMatch = activeDifficulty === "Vse" || t.tezavnost === activeDifficulty;
-    return regionMatch && diffMatch;
-  }), [ture, activeRegion, activeDifficulty]);
+    const vibeMatch = activeVibe === "Vse" || (t.tipi ?? []).includes(activeVibe);
+    return regionMatch && diffMatch && vibeMatch;
+  }), [ture, activeRegion, activeDifficulty, activeVibe]);
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
@@ -146,7 +160,7 @@ export default function TurePage() {
             </div>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-3">
             <label className="block">
               <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">Pokrajina</span>
               <select value={activeRegion} onChange={(e) => handleRegionChange(e.target.value)}
@@ -159,6 +173,13 @@ export default function TurePage() {
               <select value={activeDifficulty} onChange={(e) => handleDifficultyChange(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60">
                 {difficulties.map((d) => <option key={d}>{d}</option>)}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-2 block text-[11px] uppercase tracking-[0.22em] text-zinc-500">Občutek</span>
+              <select value={activeVibe} onChange={(e) => handleVibeChange(e.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm font-semibold text-white outline-none transition focus:border-[#c58b46]/60">
+                {vibes.map((v) => <option key={v}>{v}</option>)}
               </select>
             </label>
           </div>
