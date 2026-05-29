@@ -9,7 +9,6 @@ import { supabase } from "@/lib/supabase";
 
 const regions = ["Vse", "Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 const difficulties = ["Vse", "Lahka", "Srednja", "Zahtevna"];
-const vibes = ["Vse", "Družinam prijazno", "e-bike friendly", "Za pare", "Gozdni pobeg", "Lokalni postanek", "Vikend ideja", "Jutranja tura", "Skrita pot"];
 
 const slugify = (value: string) =>
   value.toLowerCase()
@@ -51,6 +50,7 @@ type Tura = {
   visinska_razlika: number | null;
   cas_ur: number | null;
   tipi: string[] | null;
+  obcutek: string[] | null;
   tezavnost: string | null;
   podlaga_asfalt: number;
   podlaga_makadam: number;
@@ -65,6 +65,14 @@ export default function TurePage() {
   const [activeRegion, setActiveRegion] = useState("Vse");
   const [activeDifficulty, setActiveDifficulty] = useState("Vse");
   const [activeVibe, setActiveVibe] = useState("Vse");
+  const [vibes, setVibes] = useState<string[]>(["Vse"]);
+
+  // Naloži občutke iz baze
+  useEffect(() => {
+    supabase.from("obcutki").select("naziv").order("vrstni_red").then(({ data }) => {
+      setVibes(["Vse", ...(data ?? []).map((o: { naziv: string }) => o.naziv)]);
+    });
+  }, []);
 
   // Beri URL parametre ob prvem nalaganju
   useEffect(() => {
@@ -115,7 +123,7 @@ export default function TurePage() {
     async function load() {
       const { data } = await supabase
         .from("predlogi_tur")
-        .select("id, ime, regija, obmocje, opis, km, visinska_razlika, cas_ur, tipi, tezavnost, podlaga_asfalt, podlaga_makadam, podlaga_gozd, hero_image")
+        .select("id, ime, regija, obmocje, opis, km, visinska_razlika, cas_ur, tipi, obcutek, tezavnost, podlaga_asfalt, podlaga_makadam, podlaga_gozd, hero_image")
         .eq("status", "approved")
         .order("created_at", { ascending: false });
       setTure(data ?? []);
@@ -127,7 +135,7 @@ export default function TurePage() {
   const filtered = useMemo(() => ture.filter((t) => {
     const regionMatch = activeRegion === "Vse" || t.regija === activeRegion;
     const diffMatch = activeDifficulty === "Vse" || t.tezavnost === activeDifficulty;
-    const vibeMatch = activeVibe === "Vse" || (t.tipi ?? []).includes(activeVibe);
+    const vibeMatch = activeVibe === "Vse" || (t.obcutek ?? []).includes(activeVibe);
     return regionMatch && diffMatch && vibeMatch;
   }), [ture, activeRegion, activeDifficulty, activeVibe]);
 

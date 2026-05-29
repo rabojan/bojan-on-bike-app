@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import AmbassadorShell from "@/components/AmbassadorShell";
@@ -36,6 +36,8 @@ export default function NovaTuraPage() {
   const [cas, setCas] = useState("");
   const [tipi, setTipi] = useState<string[]>(["MTB"]);
   const [tezavnost, setTezavnost] = useState("Srednja");
+  const [obcutek, setObcutek] = useState<string[]>([]);
+  const [obcutki, setObcutki] = useState<string[]>([]);
   const [asfalt, setAsfalt] = useState("");
   const [makadam, setMakadam] = useState("");
   const [gozd, setGozd] = useState("");
@@ -44,6 +46,12 @@ export default function NovaTuraPage() {
     () => (Number(asfalt) || 0) + (Number(makadam) || 0) + (Number(gozd) || 0),
     [asfalt, makadam, gozd],
   );
+
+  useEffect(() => {
+    supabase.from("obcutki").select("naziv").order("vrstni_red").then(({ data }) => {
+      setObcutki((data ?? []).map((o: { naziv: string }) => o.naziv));
+    });
+  }, []);
 
   const [gpxFile, setGpxFile] = useState<File | null>(null);
   const [gpxParsed, setGpxParsed] = useState<ParsedGpx | null>(null);
@@ -208,6 +216,7 @@ export default function NovaTuraPage() {
       visinska_razlika: vm ? parseInt(vm) : null,
       cas_ur: cas ? (casUrMap[cas] ?? null) : null,
       tipi, tezavnost,
+      obcutek: obcutek.length > 0 ? obcutek : null,
       podlaga_asfalt: asfalt ? parseInt(asfalt) : 0,
       podlaga_makadam: makadam ? parseInt(makadam) : 0,
       podlaga_gozd: gozd ? parseInt(gozd) : 0,
@@ -499,6 +508,22 @@ export default function NovaTuraPage() {
                 ))}
               </div>
             </div>
+
+            {obcutki.length > 0 && (
+              <div className="space-y-2">
+                <span className="text-sm font-bold text-zinc-300">Občutek ture</span>
+                <p className="text-xs text-zinc-500">Izberi enega ali več — opisujejo vzdušje in tip doživetja.</p>
+                <div className="flex flex-wrap gap-2">
+                  {obcutki.map((o) => (
+                    <button key={o} type="button"
+                      onClick={() => setObcutek((prev) => prev.includes(o) ? prev.filter(x => x !== o) : [...prev, o])}
+                      className={`rounded-full border px-5 py-2.5 text-sm font-bold transition ${obcutek.includes(o) ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
+                      {o}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="space-y-2">
               <span className="text-sm font-bold text-zinc-300">Težavnost</span>
