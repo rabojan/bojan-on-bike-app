@@ -39,7 +39,7 @@ type PredlogTura = {
   hero_image: string | null;
   galerija: string[] | null;
   ritem_dneva: { time: string; title: string; text: string }[] | null;
-  poudarki: { badge: string; title: string; text: string }[] | null;
+  poudarki: { badge: string; title: string; text: string; image?: string }[] | null;
   status: string;
   admin_opomba: string | null;
   created_at: string;
@@ -333,12 +333,19 @@ export default function PredlogDetailPage() {
             <div className="mb-4 text-xs uppercase tracking-[0.35em] text-[#c58b46]">Poudarki na progi</div>
             <div className="grid gap-4 md:grid-cols-3">
               {data.poudarki.map((p, i) => (
-                <div key={i} className="rounded-[20px] border border-white/10 bg-[#07110b] p-4">
-                  {p.badge && (
-                    <div className="mb-2 inline-block rounded-full border border-[#c58b46]/30 px-3 py-1 text-xs font-bold text-[#f4d7ad]">{p.badge}</div>
+                <div key={i} className="overflow-hidden rounded-[20px] border border-white/10 bg-[#07110b]">
+                  {p.image ? (
+                    <img src={p.image} alt={p.title} className="h-[160px] w-full object-cover" />
+                  ) : (
+                    <div className="flex h-[80px] items-center justify-center bg-black/20 text-zinc-700 text-sm">Brez slike</div>
                   )}
-                  {p.title && <div className="font-bold text-white">{p.title}</div>}
-                  {p.text && <p className="mt-2 text-sm leading-6 text-zinc-400">{p.text}</p>}
+                  <div className="p-4">
+                    {p.badge && (
+                      <div className="mb-2 inline-block rounded-full border border-[#c58b46]/30 px-3 py-1 text-xs font-bold text-[#f4d7ad]">{p.badge}</div>
+                    )}
+                    {p.title && <div className="font-bold text-white">{p.title}</div>}
+                    {p.text && <p className="mt-2 text-sm leading-6 text-zinc-400">{p.text}</p>}
+                  </div>
                 </div>
               ))}
             </div>
