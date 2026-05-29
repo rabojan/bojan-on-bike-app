@@ -69,6 +69,7 @@ export default function UrejiTuroPage() {
   const [gpxFile, setGpxFile] = useState<File | null>(null);
   const [gpxParsed, setGpxParsed] = useState<ParsedGpx | null>(null);
   const [gpxError, setGpxError] = useState("");
+  const [gpxFetchLoading, setGpxFetchLoading] = useState(false);
 
   const [ritemDneva, setRitemDneva] = useState<RitemKorak[]>([
     { time: "", title: "", text: "" },
@@ -146,13 +147,18 @@ export default function UrejiTuroPage() {
 
       // Fetchni in parsiraj obstoječi GPX, da se prikažeta mapa in profil
       if (data.gpx_url) {
+        setGpxFetchLoading(true);
         try {
           const res = await fetch(data.gpx_url);
-          const text = await res.text();
-          const parsed = parseGpx(text);
-          if (parsed.km > 0) setGpxParsed(parsed);
+          if (res.ok) {
+            const text = await res.text();
+            const parsed = parseGpx(text);
+            if (parsed.km > 0) setGpxParsed(parsed);
+          }
         } catch {
-          // Tiho — mapa se ne prikaže, ni fatalno
+          // Tiho — GPX kartica bo prikazana brez predogleda
+        } finally {
+          setGpxFetchLoading(false);
         }
       }
 
@@ -181,6 +187,21 @@ export default function UrejiTuroPage() {
   }
   function updatePoudarek(i: number, field: keyof Poudarek, value: string) {
     setPoudarki((prev) => prev.map((p, idx) => idx === i ? { ...p, [field]: value } : p));
+  }
+
+  async function retryGpxFetch() {
+    if (!existingGpxUrl) return;
+    setGpxFetchLoading(true);
+    try {
+      const res = await fetch(existingGpxUrl);
+      if (res.ok) {
+        const text = await res.text();
+        const parsed = parseGpx(text);
+        if (parsed.km > 0) setGpxParsed(parsed);
+      }
+    } catch { /* tiho */ } finally {
+      setGpxFetchLoading(false);
+    }
   }
 
   function handlePoudarekImageChange(i: number, e: React.ChangeEvent<HTMLInputElement>) {
@@ -373,26 +394,16 @@ export default function UrejiTuroPage() {
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">GPX datoteka</div>
           <p className="mb-5 text-sm text-zinc-500">Naloži novo datoteko samo če hočeš zamenjati obstoječo.</p>
-          {existingGpxUrl && !gpxParsed && (
-            <div className="mb-4 rounded-[24px] border border-white/10 bg-[#07110b] p-5">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">📍</span>
-                <div>
-                  <div className="font-bold text-zinc-300">Obstoječa GPX datoteka</div>
-                  <div className="mt-1 text-sm text-zinc-500">
-                    {km && `${km} km`}{vm && ` · ${vm} vm`}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
           {gpxParsed ? (
+            /* ── STANJE A: GPX uspešno parsiran (nov ali obstoječ) ── */
             <div className="space-y-4">
               <div className="rounded-[24px] border border-emerald-500/20 bg-emerald-500/5 p-5">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">✅</span>
                   <div>
-                    <div className="font-bold text-emerald-300">Nova GPX: {gpxFile?.name}</div>
+                    <div className="font-bold text-emerald-300">
+                      {gpxFile ? `Nova GPX: ${gpxFile.name}` : "GPX datoteka naložena"}
+                    </div>
                     <div className="mt-1 text-sm text-zinc-400">
                       Razdalja: <span className="font-bold text-white">{gpxParsed.km} km</span>
                       {" · "}
@@ -407,15 +418,11 @@ export default function UrejiTuroPage() {
                   </label>
                 </div>
               </div>
-
-              {/* Predogled trase */}
               {gpxParsed.points.length > 0 && (
                 <div className="overflow-hidden rounded-[20px] border border-white/10" style={{ height: 300 }}>
                   <GpxMap points={gpxParsed.points} height={300} />
                 </div>
               )}
-
-              {/* Višinski profil */}
               {gpxParsed.profile.length > 1 && (
                 <ElevationChart
                   profile={gpxParsed.profile}
@@ -426,10 +433,39 @@ export default function UrejiTuroPage() {
                 />
               )}
             </div>
+          ) : existingGpxUrl ? (
+            /* ── STANJE B: URL obstaja v bazi, predogled se ni naložil ── */
+            <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+              <div className="flex flex-wrap items-center gap-4">
+                <span className="text-2xl">{gpxFetchLoading ? "⏳" : "📍"}</span>
+                <div className="flex-1">
+                  <div className="font-bold text-zinc-300">GPX datoteka je shranjena</div>
+                  <div className="mt-1 text-sm text-zinc-500">
+                    {km && `${km} km`}{vm && ` · ${vm} vm`}
+                    {!gpxFetchLoading && (
+                      <span className="ml-2 text-zinc-600">· predogled karte ni na voljo</span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  {!gpxFetchLoading && (
+                    <button type="button" onClick={retryGpxFetch}
+                      className="rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
+                      Ponastavi predogled
+                    </button>
+                  )}
+                  <label className="cursor-pointer rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-400 transition hover:border-white/20">
+                    Zamenjaj GPX
+                    <input type="file" accept=".gpx" onChange={handleGpxChange} className="hidden" />
+                  </label>
+                </div>
+              </div>
+            </div>
           ) : (
+            /* ── STANJE C: Ni GPX — prikaži upload ── */
             <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-[24px] border-2 border-dashed border-white/10 bg-[#07110b] px-6 py-8 text-center transition hover:border-[#c58b46]/30">
               <div className="text-3xl">📍</div>
-              <div className="font-bold text-zinc-400 text-sm">{existingGpxUrl ? "Zamenjaj GPX datoteko" : "Klikni in izberi GPX datoteko"}</div>
+              <div className="font-bold text-zinc-400 text-sm">Klikni in izberi GPX datoteko</div>
               <input type="file" accept=".gpx" onChange={handleGpxChange} className="hidden" />
             </label>
           )}
