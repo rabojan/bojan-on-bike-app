@@ -118,10 +118,10 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
   }
 
   return (
-    <div className="overflow-hidden rounded-[20px] border border-white/10">
+    <div className="rounded-[20px] border border-white/10">
 
       {/* Search */}
-      <div ref={wrapperRef} className="relative border-b border-white/10 bg-[#07110b] p-3">
+      <div ref={wrapperRef} className="relative rounded-t-[20px] border-b border-white/10 bg-[#07110b] p-3">
         <div className="flex gap-2">
           <div className="relative flex-1">
             <input
@@ -171,7 +171,7 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
       <MapContainer
         center={center}
         zoom={zoom}
-        style={{ height: 380, width: "100%" }}
+        style={{ height: 380, width: "100%", overflow: "hidden" }}
         scrollWheelZoom={true}
         zoomControl={true}
       >
@@ -188,7 +188,7 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
       </MapContainer>
 
       {/* Coordinates */}
-      <div className="border-t border-white/10 bg-[#07110b] px-5 py-3">
+      <div className="rounded-b-[20px] border-t border-white/10 bg-[#07110b] px-5 py-3">
         {lat && lng ? (
           <div className="flex items-center gap-3">
             <span className="text-[#c58b46]">📍</span>
