@@ -37,15 +37,11 @@ function InitCenter({ lat, lng }: { lat: number; lng: number }) {
   return null;
 }
 
-type PhotonFeature = {
-  geometry: { coordinates: [number, number] };
-  properties: {
-    name?: string;
-    city?: string;
-    county?: string;
-    state?: string;
-    type?: string;
-  };
+type NominatimResult = {
+  place_id: number;
+  display_name: string;
+  lat: string;
+  lon: string;
 };
 
 type Props = {
@@ -58,7 +54,7 @@ const SLO_CENTER: [number, number] = [46.15, 14.99];
 
 export default function LocationPicker({ lat, lng, onPick }: Props) {
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<PhotonFeature[]>([]);
+  const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const [flyTarget, setFlyTarget] = useState<{ lat: number; lng: number } | null>(null);
@@ -82,12 +78,10 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
     if (q.length < 2) { setSuggestions([]); setShowDropdown(false); return; }
     setLoading(true);
     try {
-      // Server-side proxy — brez CORS težav
       const res = await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      const features: PhotonFeature[] = data.features ?? [];
-      setSuggestions(features);
-      setShowDropdown(features.length > 0);
+      const data: NominatimResult[] = await res.json();
+      setSuggestions(Array.isArray(data) ? data : []);
+      setShowDropdown(Array.isArray(data) && data.length > 0);
     } catch {
       setSuggestions([]);
     }
@@ -100,21 +94,23 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
     debounceRef.current = setTimeout(() => fetchSuggestions(value), 300);
   }
 
-  function handleSelect(feature: PhotonFeature) {
-    const [ln, la] = feature.geometry.coordinates;
-    const name = feature.properties.name ?? query;
-    setQuery(name);
+  function handleSelect(result: NominatimResult) {
+    const la = parseFloat(result.lat);
+    const ln = parseFloat(result.lon);
+    const parts = result.display_name.split(",");
+    setQuery(parts[0].trim());
     setSuggestions([]);
     setShowDropdown(false);
     setFlyTarget({ lat: la, lng: ln });
     onPick(la, ln);
   }
 
-  function formatLabel(f: PhotonFeature): { main: string; sub: string } {
-    const p = f.properties;
-    const main = p.name ?? "—";
-    const parts = [p.city, p.county, p.state].filter(Boolean);
-    return { main, sub: parts.join(", ") };
+  function formatLabel(r: NominatimResult): { main: string; sub: string } {
+    const parts = r.display_name.split(",").map((s) => s.trim());
+    return {
+      main: parts[0],
+      sub: parts.slice(1, 3).join(", "),
+    };
   }
 
   return (
@@ -130,7 +126,7 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
               onChange={(e) => handleInput(e.target.value)}
               onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && suggestions.length > 0) handleSelect(suggestions[0]);
+                if (e.key === "Enter" && suggestions.length > 0) { e.preventDefault(); handleSelect(suggestions[0]); }
                 if (e.key === "Escape") setShowDropdown(false);
               }}
               placeholder="Išči: Dom na Boču, Rudijev dom, Vinska klet..."
@@ -151,7 +147,7 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
               const { main, sub } = formatLabel(s);
               return (
                 <button
-                  key={i}
+                  key={s.place_id ?? i}
                   onMouseDown={() => handleSelect(s)}
                   className="flex w-full items-start gap-3 border-b border-white/5 px-4 py-3 text-left transition last:border-0 hover:bg-[#c58b46]/10"
                 >
