@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&accept-language=sl&addressdetails=1`;
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=8&accept-language=sl&countrycodes=si&addressdetails=1`;
     const res = await fetch(url, {
       headers: {
         "User-Agent": "BojanOnBike/1.0 (bojanonbike.si)",

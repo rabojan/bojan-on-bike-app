@@ -57,6 +57,7 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
   const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [statusMsg, setStatusMsg] = useState("");
   const [flyTarget, setFlyTarget] = useState<{ lat: number; lng: number } | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -75,18 +76,24 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
   }, []);
 
   const fetchSuggestions = useCallback(async (q: string) => {
-    if (q.length < 2) { setSuggestions([]); setShowDropdown(false); return; }
+    if (q.length < 2) { setSuggestions([]); setShowDropdown(false); setStatusMsg(""); return; }
     setLoading(true);
+    setStatusMsg("Iščem...");
     try {
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&accept-language=sl&countrycodes=si`;
-      const res = await fetch(url, { headers: { "Accept": "application/json" } });
+      const res = await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data: NominatimResult[] = await res.json();
-      console.log("[geocode]", q, "→", data.length, "results", data);
       setSuggestions(Array.isArray(data) ? data : []);
       setShowDropdown(Array.isArray(data) && data.length > 0);
+      if (!Array.isArray(data) || data.length === 0) {
+        setStatusMsg(`Ni rezultatov za „${q}" — poskusi z drugačnim imenom`);
+      } else {
+        setStatusMsg("");
+      }
     } catch (err) {
-      console.error("[geocode] error:", err);
       setSuggestions([]);
+      setShowDropdown(false);
+      setStatusMsg("Napaka pri iskanju — poskusi znova");
     }
     setLoading(false);
   }, []);
@@ -165,6 +172,13 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
           </div>
         )}
       </div>
+
+      {/* Status message */}
+      {statusMsg && !showDropdown && (
+        <div className="border-b border-white/10 bg-[#07110b] px-4 py-2 text-xs text-zinc-400">
+          {statusMsg}
+        </div>
+      )}
 
       {/* Map */}
       <MapContainer
