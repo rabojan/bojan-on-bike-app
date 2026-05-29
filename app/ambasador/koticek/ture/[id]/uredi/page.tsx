@@ -251,6 +251,14 @@ export default function UrejiTuroPage() {
       setGpxFile(file); setGpxParsed(result); setKm(String(result.km)); setVm(String(result.vm));
     } catch { setGpxError("Napaka pri branju GPX."); }
   }
+  function sanitizeFilename(name: string): string {
+    return name
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-zA-Z0-9._-]/g, "-")
+      .replace(/-+/g, "-")
+      .toLowerCase();
+  }
+
   async function uploadImage(file: File, path: string): Promise<string | null> {
     const { error: uploadErr } = await supabase.storage.from("slike").upload(path, file, { upsert: true });
     if (uploadErr) return null;
@@ -270,7 +278,7 @@ export default function UrejiTuroPage() {
     // GPX v slike bucket
     let gpxUrl = existingGpxUrl;
     if (gpxFile) {
-      const filename = `${profil.id}/gpx/${Date.now()}-${gpxFile.name}`;
+      const filename = `${profil.id}/gpx/${Date.now()}-${sanitizeFilename(gpxFile.name)}`;
       const { error: uploadError } = await supabase.storage.from("slike").upload(filename, gpxFile, { upsert: true });
       if (uploadError) {
         setError(`Napaka pri nalaganju GPX datoteke: ${uploadError.message}. Poskusi znova ali stopi v stik z administratorjem.`);
