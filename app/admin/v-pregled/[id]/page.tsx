@@ -57,6 +57,7 @@ export default function PredlogDetailPage() {
   const [gpxParsed, setGpxParsed] = useState<ParsedGpx | null>(null);
   const [gpxUrl, setGpxUrl] = useState<string | null>(null);
   const [gpxRetrying, setGpxRetrying] = useState(false);
+  const [gpxFetchError, setGpxFetchError] = useState<string | null>(null);
 
   const [processing, setProcessing] = useState(false);
   const [showReturn, setShowReturn] = useState(false);
@@ -84,9 +85,17 @@ export default function PredlogDetailPage() {
           if (res.ok) {
             const text = await res.text();
             const parsed = parseGpx(text);
-            if (parsed.km > 0) setGpxParsed(parsed);
+            if (parsed.km > 0) {
+              setGpxParsed(parsed);
+            } else {
+              setGpxFetchError("GPX datoteka ne vsebuje slednih točk (km=0).");
+            }
+          } else {
+            setGpxFetchError(`HTTP ${res.status} — datoteka ni dostopna.`);
           }
-        } catch { /* tiho */ }
+        } catch (e) {
+          setGpxFetchError(`Napaka pri nalaganju: ${e instanceof Error ? e.message : "neznana napaka"}`);
+        }
       }
 
       setLoading(false);
@@ -97,14 +106,23 @@ export default function PredlogDetailPage() {
   async function retryGpx() {
     if (!gpxUrl) return;
     setGpxRetrying(true);
+    setGpxFetchError(null);
     try {
       const res = await fetch(gpxUrl);
       if (res.ok) {
         const text = await res.text();
         const parsed = parseGpx(text);
-        if (parsed.km > 0) setGpxParsed(parsed);
+        if (parsed.km > 0) {
+          setGpxParsed(parsed);
+        } else {
+          setGpxFetchError("GPX datoteka ne vsebuje slednih točk (km=0).");
+        }
+      } else {
+        setGpxFetchError(`HTTP ${res.status} — datoteka ni dostopna.`);
       }
-    } catch { /* tiho */ } finally {
+    } catch (e) {
+      setGpxFetchError(`Napaka pri nalaganju: ${e instanceof Error ? e.message : "neznana napaka"}`);
+    } finally {
       setGpxRetrying(false);
     }
   }
@@ -255,21 +273,34 @@ export default function PredlogDetailPage() {
               </>
             ) : (
               /* GPX URL je v bazi, predogled se ni naložil */
-              <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">{gpxRetrying ? "⏳" : "📍"}</span>
-                  <div>
-                    <div className="font-bold text-zinc-300">GPX datoteka je priložena</div>
+              <div className="rounded-[28px] border border-amber-500/20 bg-amber-500/5 p-6">
+                <div className="flex flex-wrap items-start gap-4">
+                  <span className="text-2xl">{gpxRetrying ? "⏳" : "⚠️"}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-amber-300">GPX datoteka je v bazi — karta se ni naložila</div>
                     <div className="mt-1 text-sm text-zinc-500">
                       {data.km && `${data.km} km`}{data.visinska_razlika ? ` · ${data.visinska_razlika} vm` : ""}
-                      <span className="ml-2 text-zinc-600">· karta se ni naložila</span>
                     </div>
+                    {gpxFetchError && (
+                      <div className="mt-2 text-xs text-red-400 font-mono break-all">
+                        Napaka: {gpxFetchError}
+                      </div>
+                    )}
+                    {gpxUrl && (
+                      <a
+                        href={gpxUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-block text-xs text-zinc-500 underline hover:text-zinc-300 break-all">
+                        Odpri GPX datoteko ↗
+                      </a>
+                    )}
                   </div>
                   <button
                     type="button"
                     onClick={retryGpx}
                     disabled={gpxRetrying}
-                    className="ml-auto rounded-full border border-white/10 px-5 py-2.5 text-xs font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46] disabled:opacity-50">
+                    className="shrink-0 rounded-full border border-white/10 px-5 py-2.5 text-xs font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46] disabled:opacity-50">
                     {gpxRetrying ? "Nalagam..." : "Ponastavi predogled"}
                   </button>
                 </div>

@@ -70,6 +70,7 @@ export default function UrejiTuroPage() {
   const [gpxParsed, setGpxParsed] = useState<ParsedGpx | null>(null);
   const [gpxError, setGpxError] = useState("");
   const [gpxFetchLoading, setGpxFetchLoading] = useState(false);
+  const [gpxFetchError, setGpxFetchError] = useState<string | null>(null);
 
   const [ritemDneva, setRitemDneva] = useState<RitemKorak[]>([
     { time: "", title: "", text: "" },
@@ -153,10 +154,16 @@ export default function UrejiTuroPage() {
           if (res.ok) {
             const text = await res.text();
             const parsed = parseGpx(text);
-            if (parsed.km > 0) setGpxParsed(parsed);
+            if (parsed.km > 0) {
+              setGpxParsed(parsed);
+            } else {
+              setGpxFetchError("GPX datoteka ne vsebuje slednih točk.");
+            }
+          } else {
+            setGpxFetchError(`HTTP ${res.status} — datoteka ni dostopna.`);
           }
-        } catch {
-          // Tiho — GPX kartica bo prikazana brez predogleda
+        } catch (e) {
+          setGpxFetchError(`Napaka: ${e instanceof Error ? e.message : "neznana napaka"}`);
         } finally {
           setGpxFetchLoading(false);
         }
@@ -192,14 +199,23 @@ export default function UrejiTuroPage() {
   async function retryGpxFetch() {
     if (!existingGpxUrl) return;
     setGpxFetchLoading(true);
+    setGpxFetchError(null);
     try {
       const res = await fetch(existingGpxUrl);
       if (res.ok) {
         const text = await res.text();
         const parsed = parseGpx(text);
-        if (parsed.km > 0) setGpxParsed(parsed);
+        if (parsed.km > 0) {
+          setGpxParsed(parsed);
+        } else {
+          setGpxFetchError("GPX datoteka ne vsebuje slednih točk.");
+        }
+      } else {
+        setGpxFetchError(`HTTP ${res.status} — datoteka ni dostopna.`);
       }
-    } catch { /* tiho */ } finally {
+    } catch (e) {
+      setGpxFetchError(`Napaka: ${e instanceof Error ? e.message : "neznana napaka"}`);
+    } finally {
       setGpxFetchLoading(false);
     }
   }
@@ -251,12 +267,17 @@ export default function UrejiTuroPage() {
     const { data: profil } = await supabase.from("ambasadorji").select("id, ime, regija").eq("user_id", session.user.id).single();
     if (!profil) { setError("Ambasadorski profil ni najden."); setLoading(false); return; }
 
-    // GPX v slike bucket (gpx-files ne obstaja)
+    // GPX v slike bucket
     let gpxUrl = existingGpxUrl;
     if (gpxFile) {
       const filename = `gpx/${profil.id}/${Date.now()}-${gpxFile.name}`;
       const { error: uploadError } = await supabase.storage.from("slike").upload(filename, gpxFile, { upsert: true });
-      if (!uploadError) gpxUrl = supabase.storage.from("slike").getPublicUrl(filename).data.publicUrl;
+      if (uploadError) {
+        setError(`Napaka pri nalaganju GPX datoteke: ${uploadError.message}. Poskusi znova ali stopi v stik z administratorjem.`);
+        setLoading(false);
+        return;
+      }
+      gpxUrl = supabase.storage.from("slike").getPublicUrl(filename).data.publicUrl;
     }
 
     // Hero slika
@@ -435,23 +456,36 @@ export default function UrejiTuroPage() {
             </div>
           ) : existingGpxUrl ? (
             /* ── STANJE B: URL obstaja v bazi, predogled se ni naložil ── */
-            <div className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+            <div className="rounded-[24px] border border-amber-500/20 bg-amber-500/5 p-5">
               <div className="flex flex-wrap items-center gap-4">
-                <span className="text-2xl">{gpxFetchLoading ? "⏳" : "📍"}</span>
-                <div className="flex-1">
-                  <div className="font-bold text-zinc-300">GPX datoteka je shranjena</div>
+                <span className="text-2xl">{gpxFetchLoading ? "⏳" : "⚠️"}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-amber-300">
+                    {gpxFetchLoading ? "Nalagam GPX..." : "GPX je shranjen — karta se ni naložila"}
+                  </div>
                   <div className="mt-1 text-sm text-zinc-500">
                     {km && `${km} km`}{vm && ` · ${vm} vm`}
-                    {!gpxFetchLoading && (
-                      <span className="ml-2 text-zinc-600">· predogled karte ni na voljo</span>
-                    )}
                   </div>
+                  {!gpxFetchLoading && gpxFetchError && (
+                    <div className="mt-2 text-xs text-red-400 font-mono break-all">
+                      {gpxFetchError}
+                    </div>
+                  )}
+                  {!gpxFetchLoading && (
+                    <a
+                      href={existingGpxUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-block text-xs text-zinc-500 underline hover:text-zinc-300 break-all">
+                      Odpri GPX datoteko ↗
+                    </a>
+                  )}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex shrink-0 gap-2">
                   {!gpxFetchLoading && (
                     <button type="button" onClick={retryGpxFetch}
                       className="rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
-                      Ponastavi predogled
+                      Ponovi nalaganje
                     </button>
                   )}
                   <label className="cursor-pointer rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-400 transition hover:border-white/20">
