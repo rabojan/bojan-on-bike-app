@@ -24,9 +24,7 @@ function ClickHandler({ onPick }: { onPick: (lat: number, lng: number) => void }
 
 function FlyTo({ lat, lng }: { lat: number; lng: number }) {
   const map = useMap();
-  useEffect(() => {
-    map.flyTo([lat, lng], 17, { duration: 1.2 });
-  }, [map, lat, lng]);
+  useEffect(() => { map.flyTo([lat, lng], 17, { duration: 1.2 }); }, [map, lat, lng]);
   return null;
 }
 
@@ -39,11 +37,15 @@ function InitCenter({ lat, lng }: { lat: number; lng: number }) {
   return null;
 }
 
-type NominatimResult = {
-  place_id: number;
-  display_name: string;
-  lat: string;
-  lon: string;
+type PhotonFeature = {
+  geometry: { coordinates: [number, number] };
+  properties: {
+    name?: string;
+    city?: string;
+    county?: string;
+    state?: string;
+    type?: string;
+  };
 };
 
 type Props = {
@@ -53,10 +55,12 @@ type Props = {
 };
 
 const SLO_CENTER: [number, number] = [46.15, 14.99];
+// Bounding box za Slovenijo
+const SLO_BBOX = "13.3,45.4,16.6,46.9";
 
 export default function LocationPicker({ lat, lng, onPick }: Props) {
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
+  const [suggestions, setSuggestions] = useState<PhotonFeature[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const [flyTarget, setFlyTarget] = useState<{ lat: number; lng: number } | null>(null);
@@ -66,7 +70,6 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
   const center: [number, number] = lat && lng ? [lat, lng] : SLO_CENTER;
   const zoom = lat && lng ? 15 : 8;
 
-  // Zapri dropdown ob kliku zunaj
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
@@ -81,13 +84,13 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
     if (q.length < 2) { setSuggestions([]); setShowDropdown(false); return; }
     setLoading(true);
     try {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&countrycodes=si`,
-        { headers: { "Accept-Language": "sl" } }
-      );
-      const data: NominatimResult[] = await res.json();
-      setSuggestions(data);
-      setShowDropdown(data.length > 0);
+      // Photon (Komoot) — specializiran za outdoor lokacije, koče, razglede, naravne točke
+      const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=6&bbox=${SLO_BBOX}&lang=sl`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const features: PhotonFeature[] = data.features ?? [];
+      setSuggestions(features);
+      setShowDropdown(features.length > 0);
     } catch {
       setSuggestions([]);
     }
@@ -97,32 +100,30 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
   function handleInput(value: string) {
     setQuery(value);
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => fetchSuggestions(value), 320);
+    debounceRef.current = setTimeout(() => fetchSuggestions(value), 300);
   }
 
-  function handleSelect(result: NominatimResult) {
-    const la = parseFloat(result.lat);
-    const ln = parseFloat(result.lon);
-    setQuery(result.display_name.split(",")[0]); // samo prvo ime, ne cel naslov
+  function handleSelect(feature: PhotonFeature) {
+    const [ln, la] = feature.geometry.coordinates;
+    const name = feature.properties.name ?? query;
+    setQuery(name);
     setSuggestions([]);
     setShowDropdown(false);
     setFlyTarget({ lat: la, lng: ln });
-    onPick(la, ln); // marker se postavi samodejno
+    onPick(la, ln);
   }
 
-  // Skrajšaj dolg Nominatim display_name za prikaz v dropdownu
-  function formatSuggestion(name: string): { main: string; sub: string } {
-    const parts = name.split(",").map((s) => s.trim());
-    return {
-      main: parts[0],
-      sub: parts.slice(1, 3).join(", "),
-    };
+  function formatLabel(f: PhotonFeature): { main: string; sub: string } {
+    const p = f.properties;
+    const main = p.name ?? "—";
+    const parts = [p.city, p.county, p.state].filter(Boolean);
+    return { main, sub: parts.join(", ") };
   }
 
   return (
     <div className="overflow-hidden rounded-[20px] border border-white/10">
 
-      {/* Search bar z autocomplete */}
+      {/* Search */}
       <div ref={wrapperRef} className="relative border-b border-white/10 bg-[#07110b] p-3">
         <div className="flex gap-2">
           <div className="relative flex-1">
@@ -131,23 +132,29 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
               value={query}
               onChange={(e) => handleInput(e.target.value)}
               onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
-              placeholder="Išči: Dom na Boču, Vinska klet Jeruzalem..."
-              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-2.5 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-[#c58b46]/50"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && suggestions.length > 0) handleSelect(suggestions[0]);
+                if (e.key === "Escape") setShowDropdown(false);
+              }}
+              placeholder="Išči: Dom na Boču, Rudijev dom, Vinska klet..."
+              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-2.5 pr-8 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-[#c58b46]/50"
             />
             {loading && (
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500">...</div>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-600 border-t-[#c58b46]" />
+              </div>
             )}
           </div>
         </div>
 
-        {/* Dropdown z predlogi */}
+        {/* Autocomplete dropdown */}
         {showDropdown && suggestions.length > 0 && (
           <div className="absolute left-3 right-3 top-full z-50 mt-1 overflow-hidden rounded-xl border border-white/10 bg-[#0b1a10] shadow-2xl">
-            {suggestions.map((s) => {
-              const { main, sub } = formatSuggestion(s.display_name);
+            {suggestions.map((s, i) => {
+              const { main, sub } = formatLabel(s);
               return (
                 <button
-                  key={s.place_id}
+                  key={i}
                   onMouseDown={() => handleSelect(s)}
                   className="flex w-full items-start gap-3 border-b border-white/5 px-4 py-3 text-left transition last:border-0 hover:bg-[#c58b46]/10"
                 >
@@ -183,7 +190,7 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
         {lat && lng && <Marker position={[lat, lng]} icon={markerIcon} />}
       </MapContainer>
 
-      {/* Coordinates bar */}
+      {/* Coordinates */}
       <div className="border-t border-white/10 bg-[#07110b] px-5 py-3">
         {lat && lng ? (
           <div className="flex items-center gap-3">
