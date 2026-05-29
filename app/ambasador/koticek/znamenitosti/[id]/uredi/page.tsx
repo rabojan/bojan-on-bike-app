@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import AmbassadorShell from "@/components/AmbassadorShell";
 import { supabase } from "@/lib/supabase";
+
+const LocationPicker = dynamic(() => import("@/components/LocationPicker"), { ssr: false });
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 const attractionTypes = ["Razgled", "Narava", "Kulturna dediščina", "Sakralni objekt", "Geološka posebnost", "Zgodovinska točka", "Foto točka", "Postanek ob poti", "Drugo"];
@@ -25,9 +28,8 @@ export default function UrejiZnamenitostPage() {
   const [opis, setOpis] = useState("");
   const [zakaj, setZakaj] = useState("");
   const [lokacija, setLokacija] = useState("");
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const [razdalja, setRazdalja] = useState("");
+  const [lat, setLat] = useState<number | null>(null);
+  const [lng, setLng] = useState<number | null>(null);
   const [namig, setNamig] = useState("");
   const [wikipedia, setWikipedia] = useState("");
   const [googleMaps, setGoogleMaps] = useState("");
@@ -63,9 +65,8 @@ export default function UrejiZnamenitostPage() {
       setOpis(data.opis ?? "");
       setZakaj(data.zakaj ?? "");
       setLokacija(data.lokacija ?? "");
-      setLatitude(data.latitude ?? "");
-      setLongitude(data.longitude ?? "");
-      setRazdalja(data.razdalja_od_trase ?? "");
+      setLat(data.lat ?? null);
+      setLng(data.lng ?? null);
       setNamig(data.namig_za_obisk ?? "");
       setWikipedia(data.wikipedia_url ?? "");
       setGoogleMaps(data.google_maps_url ?? "");
@@ -112,9 +113,8 @@ export default function UrejiZnamenitostPage() {
         opis,
         zakaj: zakaj || null,
         lokacija: lokacija || null,
-        latitude: latitude || null,
-        longitude: longitude || null,
-        razdalja_od_trase: razdalja || null,
+        lat: lat ?? null,
+        lng: lng ?? null,
         namig_za_obisk: namig || null,
         wikipedia_url: wikipedia || null,
         google_maps_url: googleMaps || null,
@@ -254,30 +254,19 @@ export default function UrejiZnamenitostPage() {
 
         {/* ── 4. LOKACIJA ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Lokacija</div>
-          <div className="grid gap-5 md:grid-cols-2">
-            <label className="col-span-2 block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Opis lokacije</span>
-              <input value={lokacija} onChange={(e) => setLokacija(e.target.value)}
-                placeholder="npr. Razgledna točka leži nad Mariborom..."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
-            </label>
-            <label className="block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Latitude (GPS)</span>
-              <input value={latitude} onChange={(e) => setLatitude(e.target.value)} placeholder="npr. 46.5547"
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
-            </label>
-            <label className="block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Longitude (GPS)</span>
-              <input value={longitude} onChange={(e) => setLongitude(e.target.value)} placeholder="npr. 15.6459"
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
-            </label>
-            <label className="col-span-2 block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Oddaljenost od trase</span>
-              <input value={razdalja} onChange={(e) => setRazdalja(e.target.value)} placeholder="npr. 200 m od trase"
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
-            </label>
-          </div>
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Lokacija na karti</div>
+          <p className="mb-5 text-sm text-zinc-500">Klikni na karti in postavi marker točno na lokacijo znamenitosti. Razdalja od kolesarskih tras se izračuna samodejno.</p>
+          <label className="mb-5 block space-y-2">
+            <span className="text-sm font-bold text-zinc-300">Opis lokacije</span>
+            <input value={lokacija} onChange={(e) => setLokacija(e.target.value)}
+              placeholder="npr. Razgledna točka leži nad Mariborom, nekoliko odmaknjena od glavne trase..."
+              className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+          </label>
+          <LocationPicker
+            lat={lat}
+            lng={lng}
+            onPick={(la, ln) => { setLat(la); setLng(ln); }}
+          />
         </section>
 
         {/* ── 5. NAMIG IN POVEZAVE ── */}

@@ -281,6 +281,15 @@ function BoschCard({ km, vm }: { km: number; vm: number }) {
 
 // ── main page ─────────────────────────────────────────────────────────────────
 
+type NearbyZnamenitost = {
+  id: string;
+  ime: string;
+  tip: string | null;
+  kratek_opis: string | null;
+  hero_image: string | null;
+  distanceM: number;
+};
+
 type NearbyPonudnik = {
   id: string;
   ime: string;
@@ -297,6 +306,7 @@ export default function TuraDetailPage() {
   const [notFound, setNotFound] = useState(false);
   const [gpxData, setGpxData] = useState<ParsedGpx | null>(null);
   const [nearbyPonudniki, setNearbyPonudniki] = useState<NearbyPonudnik[]>([]);
+  const [nearbyZnamenitosti, setNearbyZnamenitosti] = useState<NearbyZnamenitost[]>([]);
 
   useEffect(() => {
     async function load() {
@@ -344,6 +354,29 @@ export default function TuraDetailPage() {
                 .filter((p) => p.distanceM <= MAX_DIST)
                 .sort((a, b) => a.distanceM - b.distanceM);
               setNearbyPonudniki(nearby);
+            }
+
+            // Poišči znamenitosti v radiju 2 km od trase
+            const { data: vseZnamenitosti } = await supabase
+              .from("predlogi_znamenitosti")
+              .select("id, ime, tip, kratek_opis, hero_image, lat, lng")
+              .eq("status", "approved")
+              .not("lat", "is", null)
+              .not("lng", "is", null);
+
+            if (vseZnamenitosti) {
+              const nearbyZ = vseZnamenitosti
+                .map((z) => ({
+                  id: z.id,
+                  ime: z.ime,
+                  tip: z.tip,
+                  kratek_opis: z.kratek_opis,
+                  hero_image: z.hero_image,
+                  distanceM: minDistanceToPolyline(z.lat, z.lng, parsed.points),
+                }))
+                .filter((z) => z.distanceM <= 2000)
+                .sort((a, b) => a.distanceM - b.distanceM);
+              setNearbyZnamenitosti(nearbyZ);
             }
           }
         } catch { /* tiho */ }
@@ -661,17 +694,45 @@ export default function TuraDetailPage() {
             <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">Znamenitosti ob poti</div>
             <h2 className="mt-3 font-serif text-4xl font-bold italic">Razlogi, da se ustaviš.</h2>
             <div className="mt-8">
-              <div className="rounded-[22px] border border-dashed border-white/10 bg-[#0b1a10] py-14 text-center">
-                <div className="text-3xl opacity-30">⛰️</div>
-                <div className="mt-4 font-black text-white">Na tej trasi ni dodanih znamenitosti.</div>
-                <p className="mx-auto mt-2 max-w-sm text-sm leading-7 text-zinc-500">
-                  Ambasador za to turo še ni označil lokalnih razgledov in zanimivosti.
-                </p>
-                <Link href="/znamenitosti"
-                  className="mt-5 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
-                  Oglej si vse znamenitosti
-                </Link>
-              </div>
+              {nearbyZnamenitosti.length > 0 ? (
+                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                  {nearbyZnamenitosti.map((z) => (
+                    <Link key={z.id} href={`/znamenitosti/${z.id}`}
+                      className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#0b1a10] transition hover:border-[#c58b46]/35">
+                      <div className="relative h-36 bg-cover bg-center bg-black/30"
+                        style={z.hero_image ? { backgroundImage: `url(${z.hero_image})` } : {}}>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-transparent to-transparent" />
+                        {!z.hero_image && <div className="flex h-full items-center justify-center text-3xl opacity-20">⛰️</div>}
+                        <div className="absolute right-3 top-3 rounded-full border border-[#c58b46]/30 bg-black/50 px-3 py-1 text-[10px] font-black text-[#c58b46] backdrop-blur">
+                          {formatDistance(z.distanceM)}
+                        </div>
+                        {z.tip && (
+                          <div className="absolute left-3 top-3 rounded-full bg-black/50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-zinc-200 backdrop-blur">
+                            {z.tip}
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-5">
+                        <h3 className="font-serif text-xl font-bold italic text-white">{z.ime}</h3>
+                        {z.kratek_opis && <p className="mt-2 text-xs leading-6 text-zinc-400 line-clamp-2">{z.kratek_opis}</p>}
+                        <div className="mt-3 text-xs font-black text-[#c58b46] transition group-hover:underline">Poglej znamenitost →</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-[22px] border border-dashed border-white/10 bg-[#0b1a10] py-14 text-center">
+                  <div className="text-3xl opacity-30">⛰️</div>
+                  <div className="mt-4 font-black text-white">V radiju 2 km ni dodanih znamenitosti.</div>
+                  <p className="mx-auto mt-2 max-w-sm text-sm leading-7 text-zinc-500">
+                    Ko bo ambasador dodal znamenitost v bližini te trase, se bo samodejno prikazala tukaj.
+                  </p>
+                  <Link href="/znamenitosti"
+                    className="mt-5 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
+                    Oglej si vse znamenitosti
+                  </Link>
+                </div>
+              )}
             </div>
           </section>
 
