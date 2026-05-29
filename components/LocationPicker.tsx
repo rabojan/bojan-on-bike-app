@@ -78,11 +78,14 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
     if (q.length < 2) { setSuggestions([]); setShowDropdown(false); return; }
     setLoading(true);
     try {
-      const res = await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&accept-language=sl&countrycodes=si`;
+      const res = await fetch(url, { headers: { "Accept": "application/json" } });
       const data: NominatimResult[] = await res.json();
+      console.log("[geocode]", q, "→", data.length, "results", data);
       setSuggestions(Array.isArray(data) ? data : []);
       setShowDropdown(Array.isArray(data) && data.length > 0);
-    } catch {
+    } catch (err) {
+      console.error("[geocode] error:", err);
       setSuggestions([]);
     }
     setLoading(false);
