@@ -84,8 +84,8 @@ export default function PonudnikDetailPage() {
         ) : (
           <div className="absolute inset-0 bg-[#0b1a10]" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-[#07110b]/30 to-[#07110b]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-[#07110b]/20 to-[#07110b]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/45 via-transparent to-transparent" />
 
         <div className="relative z-10 mx-auto flex min-h-[480px] max-w-6xl flex-col justify-end px-6 pb-16 pt-32 md:min-h-[560px] md:pb-20">
           <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">

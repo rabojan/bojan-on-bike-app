@@ -123,8 +123,8 @@ export default function DoziveteDetailPage() {
         ) : (
           <div className="absolute inset-0 bg-[#0b1a10]" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-[#07110b]/30 to-[#07110b]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/80 via-[#07110b]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-[#07110b]/20 to-[#07110b]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/45 via-transparent to-transparent" />
 
         <div className="relative mx-auto w-full max-w-6xl px-5 pb-20 md:px-6 md:pb-28">
           <div className="max-w-2xl">
