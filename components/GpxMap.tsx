@@ -33,18 +33,21 @@ export default function GpxMap({ points, height = 360 }: Props) {
   const center: [number, number] = [start.lat, start.lng];
 
   return (
-    <MapContainer
-      center={center}
-      zoom={12}
-      style={{ height, width: "100%", borderRadius: "inherit", background: "#07110b" }}
-      zoomControl={true}
-      scrollWheelZoom={false}
-    >
+    <>
+      <style>{`.map-base-bright img { filter: brightness(2.8) contrast(1.05) saturate(0.6); }`}</style>
+      <MapContainer
+        center={center}
+        zoom={12}
+        style={{ height, width: "100%", borderRadius: "inherit", background: "#07110b" }}
+        zoomControl={true}
+        scrollWheelZoom={false}
+      >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
         subdomains="abcd"
         maxZoom={19}
+        className="map-base-bright"
       />
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png"
@@ -69,5 +72,6 @@ export default function GpxMap({ points, height = 360 }: Props) {
         pathOptions={{ color: "#07110b", fillColor: "#c58b46", fillOpacity: 1, weight: 2 }}
       />
     </MapContainer>
+    </>
   );
 }
