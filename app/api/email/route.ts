@@ -30,6 +30,7 @@ export async function POST(request: Request) {
       vm,
       tezavnost,
       jeRevizija,
+      jeObjavljena,
       // ambasador obvestilo (approved / revision)
       to,
       predlogId,
@@ -56,21 +57,38 @@ export async function POST(request: Request) {
       sendTo = adminEmail;
       const tipLabel = tipLabels[predlogTip] ?? predlogTip;
       const adminUrl = `${siteUrl}/admin/${tipUrls[predlogTip] ?? predlogTip}`;
-      const naslov = jeRevizija
-        ? `Posodobljen${tipLabel === "tura" ? "a" : ""} ${tipLabel} v pregled`
-        : `Nov${tipLabel === "tura" ? "a" : ""} ${tipLabel} v pregled`;
 
-      subject = jeRevizija
-        ? `🔄 Posodobljeno v pregled: ${predlogIme}`
-        : `🚵 Novo v pregled: ${predlogIme}`;
+      // Tri možna stanja
+      const naslov = jeObjavljena
+        ? `Posodobitev objavljene ture`
+        : jeRevizija
+          ? `Posodobljen${tipLabel === "tura" ? "a" : ""} ${tipLabel} v pregled`
+          : `Nov${tipLabel === "tura" ? "a" : ""} ${tipLabel} v pregled`;
+
+      subject = jeObjavljena
+        ? `✏️ Posodobitev objavljene ture: ${predlogIme}`
+        : jeRevizija
+          ? `🔄 Posodobljeno v pregled: ${predlogIme}`
+          : `🚵 Novo v pregled: ${predlogIme}`;
+
+      const opisDogodka = jeObjavljena
+        ? `<strong>${ambasadorIme ?? "Ambasador"}</strong> je posodobil že objavljeno turo. Tura je bila začasno umaknjena z objave in čaka na tvojo potrditev sprememb.`
+        : jeRevizija
+          ? "Ambasador je popravil predlog in ga znova oddal v pregled."
+          : "Ambasador je oddal nov predlog, ki čaka na tvoj pregled.";
+
+      const bannerObjavljena = jeObjavljena ? `
+        <div style="background:#2a1a0a;border:1px solid rgba(197,139,70,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;">
+          <span style="font-size:20px;">⚠️</span>
+          <p style="color:#f4d7ad;font-size:13px;font-weight:700;margin:0;">To ni nova tura — ambasador je posodobil že odobreno in objavljeno vsebino. Tura je trenutno skrita, dokler je ne odobrišt znova.</p>
+        </div>` : "";
 
       html = `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#07110b;color:#fff;padding:40px;border-radius:16px;">
           <p style="color:#c58b46;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 20px;">Bojan on Bike — Admin</p>
           <h1 style="font-size:26px;margin:0 0 8px;color:#f4d7ad;">${naslov}</h1>
-          <p style="color:#71717a;font-size:13px;margin:0 0 28px;">
-            ${jeRevizija ? "Ambasador je popravil predlog in ga znova oddal v pregled." : "Ambasador je oddal nov predlog, ki čaka na tvoj pregled."}
-          </p>
+          <p style="color:#71717a;font-size:13px;margin:0 0 20px;">${opisDogodka}</p>
+          ${bannerObjavljena}
 
           <div style="background:#0b1a10;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;margin:0 0 28px;">
             <table style="width:100%;border-collapse:collapse;">

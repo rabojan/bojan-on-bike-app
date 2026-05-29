@@ -39,6 +39,7 @@ export default function UrejiTuroPage() {
 
   const [loadingData, setLoadingData] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [billaObjavljena, setBilaObjavljena] = useState(false);
 
   // Existing data refs
   const [existingHeroUrl, setExistingHeroUrl] = useState<string | null>(null);
@@ -110,6 +111,8 @@ export default function UrejiTuroPage() {
         .single();
 
       if (fetchErr || !data) { setNotFound(true); setLoadingData(false); return; }
+
+      setBilaObjavljena(data.status === "approved");
 
       // Predizpolni polja
       setIme(data.ime ?? "");
@@ -306,6 +309,7 @@ export default function UrejiTuroPage() {
         vm: vm || null,
         tezavnost: tezavnost || null,
         jeRevizija: true,
+        jeObjavljena: billaObjavljena,
       }),
     }).catch(() => {});
 
@@ -349,6 +353,21 @@ export default function UrejiTuroPage() {
             <Link href="/ambasador/koticek/ture" className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">← Nazaj</Link>
           </div>
         </section>
+
+        {/* ── Opozorilo za objavljeno turo ── */}
+        {billaObjavljena && (
+          <section className="rounded-[28px] border border-[#c58b46]/30 bg-[#c58b46]/8 p-6">
+            <div className="flex items-start gap-4">
+              <div className="text-2xl">⚠️</div>
+              <div>
+                <div className="font-black text-[#c58b46]">Posodabljanje objavljene ture</div>
+                <p className="mt-2 max-w-3xl text-sm leading-7 text-zinc-300">
+                  Ta tura je trenutno objavljena na platformi. Ko shraniš spremembe, bo tura začasno umaknjena z objave in poslana v ponovni uredniški pregled. Administrator bo moral spremembe znova potrditi, preden bo tura spet vidna obiskovalcem.
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ── 1. GPX ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">

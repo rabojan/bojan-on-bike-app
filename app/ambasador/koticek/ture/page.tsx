@@ -164,12 +164,17 @@ export default function AmbassadorTurePage() {
                       <p className="mt-2 text-sm leading-7 text-[#c58b46]">💬 {tura.admin_opomba}</p>
                     )}
                   </div>
-                  {(tura.status === "pending" || tura.status === "revision" || tura.status === "rejected") && (
+                  {tura.status === "approved" ? (
+                    <Link href={`/ambasador/koticek/ture/${tura.id}/uredi`}
+                      className="shrink-0 rounded-full border border-white/15 px-5 py-2.5 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/30 hover:text-[#c58b46]">
+                      Posodobi →
+                    </Link>
+                  ) : (tura.status === "pending" || tura.status === "revision" || tura.status === "rejected") ? (
                     <Link href={`/ambasador/koticek/ture/${tura.id}/uredi`}
                       className="shrink-0 rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 px-5 py-2.5 text-sm font-bold text-[#c58b46] transition hover:bg-[#c58b46]/20">
                       Uredi
                     </Link>
-                  )}
+                  ) : null}
                 </article>
               ))}
             </div>
