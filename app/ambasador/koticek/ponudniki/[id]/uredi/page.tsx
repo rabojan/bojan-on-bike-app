@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import AmbassadorShell from "@/components/AmbassadorShell";
 import { supabase } from "@/lib/supabase";
+
+const LocationPicker = dynamic(() => import("@/components/LocationPicker"), { ssr: false });
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 const providerTypes = ["Planinska koča", "Restavracija", "Vinska klet", "Bike shop", "Hotel / apartma", "Kavarna / bistro", "Drugo"];
@@ -43,6 +46,9 @@ export default function UrejiPonudnikaPage() {
   const [galFiles, setGalFiles] = useState<(File | null)[]>(Array(6).fill(null));
   const [galPreviews, setGalPreviews] = useState<string[]>(Array(6).fill(""));
 
+  const [lat, setLat] = useState<number | null>(null);
+  const [lng, setLng] = useState<number | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -78,6 +84,9 @@ export default function UrejiPonudnikaPage() {
       const initFeatures = [...(data.features ?? [])];
       while (initFeatures.length < 6) initFeatures.push({ title: "", description: "" });
       setFeatures(initFeatures.slice(0, 6));
+
+      setLat(data.lat ?? null);
+      setLng(data.lng ?? null);
 
       setExistingHeroUrl(data.hero_image ?? null);
       if (data.hero_image) setHeroPreview(data.hero_image);
@@ -143,6 +152,8 @@ export default function UrejiPonudnikaPage() {
       .update({
         ime, tip: tip || null, regija,
         lokacija: lokacija || null,
+        lat: lat ?? null,
+        lng: lng ?? null,
         telefon: telefon || null,
         spletna_stran: spletna || null,
         zakaj, opis,
@@ -248,7 +259,20 @@ export default function UrejiPonudnikaPage() {
           </div>
         </section>
 
-        {/* ── 2. ZAKAJ GA PRIPOROČAŠ ── */}
+        {/* ── 2. LOKACIJA NA KARTI ── */}
+        <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Lokacija na karti</div>
+          <p className="mb-5 text-sm text-zinc-500">
+            Klikni na karti in postavi marker točno na lokacijo ponudnika. Koordinate se shranijo samodejno in se upoštevajo pri izračunu razdalje od kolesarskih tras.
+          </p>
+          <LocationPicker
+            lat={lat}
+            lng={lng}
+            onPick={(la, ln) => { setLat(la); setLng(ln); }}
+          />
+        </section>
+
+        {/* ── 3. ZAKAJ GA PRIPOROČAŠ ── */}
         <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Zakaj ga priporočaš</div>
           <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}

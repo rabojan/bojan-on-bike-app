@@ -8,6 +8,7 @@ import SiteHeader from "@/components/SiteHeader";
 import ElevationChart from "@/components/ElevationChart";
 import { supabase } from "@/lib/supabase";
 import { parseGpx, type ParsedGpx } from "@/lib/parseGpx";
+import { minDistanceToPolyline, formatDistance } from "@/lib/distance";
 
 const GpxMap = dynamic(() => import("@/components/GpxMap"), { ssr: false });
 
@@ -280,12 +281,22 @@ function BoschCard({ km, vm }: { km: number; vm: number }) {
 
 // ── main page ─────────────────────────────────────────────────────────────────
 
+type NearbyPonudnik = {
+  id: string;
+  ime: string;
+  tip: string | null;
+  opis: string | null;
+  hero_image: string | null;
+  distanceM: number;
+};
+
 export default function TuraDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [tura, setTura] = useState<Tura | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [gpxData, setGpxData] = useState<ParsedGpx | null>(null);
+  const [nearbyPonudniki, setNearbyPonudniki] = useState<NearbyPonudnik[]>([]);
 
   useEffect(() => {
     async function load() {
@@ -308,7 +319,33 @@ export default function TuraDetailPage() {
           const res = await fetch(data.gpx_url as string);
           const xml = await res.text();
           const parsed = parseGpx(xml);
-          if (parsed.points.length > 0) setGpxData(parsed);
+          if (parsed.points.length > 0) {
+            setGpxData(parsed);
+
+            // Poišči ponudnike v radiju 2 km od trase
+            const { data: vsiPonudniki } = await supabase
+              .from("predlogi_ponudnikov")
+              .select("id, ime, tip, opis, hero_image, lat, lng")
+              .eq("status", "approved")
+              .not("lat", "is", null)
+              .not("lng", "is", null);
+
+            if (vsiPonudniki) {
+              const MAX_DIST = 2000; // 2 km
+              const nearby = vsiPonudniki
+                .map((p) => ({
+                  id: p.id,
+                  ime: p.ime,
+                  tip: p.tip,
+                  opis: p.opis,
+                  hero_image: p.hero_image,
+                  distanceM: minDistanceToPolyline(p.lat, p.lng, parsed.points),
+                }))
+                .filter((p) => p.distanceM <= MAX_DIST)
+                .sort((a, b) => a.distanceM - b.distanceM);
+              setNearbyPonudniki(nearby);
+            }
+          }
         } catch { /* tiho */ }
       }
     }
@@ -500,17 +537,45 @@ export default function TuraDetailPage() {
               Ponudniki niso dodatek na koncu. So razlog, da se tura spremeni v dan, ki ga priporočiš prijatelju.
             </p>
             <div className="mt-8">
-              <div className="rounded-[24px] border border-dashed border-white/10 bg-[#0b1a10] py-14 text-center">
-                <div className="text-3xl opacity-30">🏡</div>
-                <div className="mt-4 font-black text-white">Na tej trasi ni dodanih ponudnikov.</div>
-                <p className="mx-auto mt-2 max-w-sm text-sm leading-7 text-zinc-500">
-                  Ambasador za to turo še ni povezal lokalnih ponudnikov.
-                </p>
-                <Link href="/ponudniki"
-                  className="mt-5 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
-                  Oglej si vse ponudnike
-                </Link>
-              </div>
+              {nearbyPonudniki.length > 0 ? (
+                <div className="grid gap-5 md:grid-cols-2">
+                  {nearbyPonudniki.map((p) => (
+                    <Link key={p.id} href={`/ponudniki/${p.id}`}
+                      className="group flex overflow-hidden rounded-[24px] border border-white/10 bg-[#0b1a10] transition hover:border-[#c58b46]/35">
+                      <div className="relative w-36 shrink-0 bg-black/30 bg-cover bg-center"
+                        style={p.hero_image ? { backgroundImage: `url(${p.hero_image})` } : {}}>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0b1a10]/40" />
+                        {!p.hero_image && <div className="flex h-full items-center justify-center text-3xl opacity-20">🏡</div>}
+                      </div>
+                      <div className="flex flex-1 flex-col justify-between p-5">
+                        <div>
+                          <div className="flex items-center justify-between gap-2">
+                            {p.tip && <span className="text-[10px] font-black uppercase tracking-[0.16em] text-[#c58b46]">{p.tip}</span>}
+                            <span className="ml-auto rounded-full border border-[#c58b46]/30 px-3 py-1 text-[10px] font-black text-[#c58b46]">
+                              {formatDistance(p.distanceM)}
+                            </span>
+                          </div>
+                          <h3 className="mt-2 font-serif text-xl font-bold italic text-white">{p.ime}</h3>
+                          {p.opis && <p className="mt-2 text-xs leading-6 text-zinc-400 line-clamp-2">{p.opis}</p>}
+                        </div>
+                        <div className="mt-3 text-xs font-black text-[#c58b46] transition group-hover:underline">Poglej ponudnika →</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-[24px] border border-dashed border-white/10 bg-[#0b1a10] py-14 text-center">
+                  <div className="text-3xl opacity-30">🏡</div>
+                  <div className="mt-4 font-black text-white">V radiju 2 km ni dodanih ponudnikov.</div>
+                  <p className="mx-auto mt-2 max-w-sm text-sm leading-7 text-zinc-500">
+                    Ko bo ambasador dodal ponudnika v bližini te trase, se bo samodejno prikazal tukaj.
+                  </p>
+                  <Link href="/ponudniki"
+                    className="mt-5 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
+                    Oglej si vse ponudnike
+                  </Link>
+                </div>
+              )}
             </div>
           </section>
 
