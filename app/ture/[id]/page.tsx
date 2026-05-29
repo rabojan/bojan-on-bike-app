@@ -459,6 +459,23 @@ export default function TuraDetailPage() {
             </section>
           )}
 
+          {/* Ritem dneva */}
+          {tura.ritem_dneva && tura.ritem_dneva.length > 0 && (
+            <section className="border-b border-white/10 px-6 py-16">
+              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">Ritem dneva</div>
+              <h2 className="mt-3 font-serif text-4xl font-bold italic">Od jutra do mirnega zaključka.</h2>
+              <div className="mt-10 grid gap-4" style={{ gridTemplateColumns: `repeat(${Math.min(tura.ritem_dneva.length, 5)}, 1fr)` }}>
+                {tura.ritem_dneva.map((korak, i) => (
+                  <div key={i} className="border-l border-[#c58b46]/30 pl-5">
+                    <div className="text-xs font-black uppercase tracking-[0.2em] text-[#c58b46]">{korak.time || `${i + 1}.`}</div>
+                    <h3 className="mt-3 font-serif text-xl font-bold italic">{korak.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-zinc-500">{korak.text}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* Poudarki */}
           {tura.poudarki && tura.poudarki.length > 0 && (
             <section className="border-b border-white/10 px-6 py-16">
@@ -474,6 +491,28 @@ export default function TuraDetailPage() {
               </div>
             </section>
           )}
+
+          {/* Ponudniki */}
+          <section className="border-b border-white/10 px-6 py-16">
+            <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">Postanek, ki dopolni dan</div>
+            <h2 className="mt-3 font-serif text-4xl font-bold italic">Postanki, ki naredijo kolesarski dan.</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
+              Ponudniki niso dodatek na koncu. So razlog, da se tura spremeni v dan, ki ga priporočiš prijatelju.
+            </p>
+            <div className="mt-8">
+              <div className="rounded-[24px] border border-dashed border-white/10 bg-[#0b1a10] py-14 text-center">
+                <div className="text-3xl opacity-30">🏡</div>
+                <div className="mt-4 font-black text-white">Na tej trasi ni dodanih ponudnikov.</div>
+                <p className="mx-auto mt-2 max-w-sm text-sm leading-7 text-zinc-500">
+                  Ambasador za to turo še ni povezal lokalnih ponudnikov.
+                </p>
+                <Link href="/ponudniki"
+                  className="mt-5 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
+                  Oglej si vse ponudnike
+                </Link>
+              </div>
+            </div>
+          </section>
 
           {/* Technical: Kakšna je vožnja */}
           {(hasSurface || gpxData) && (
@@ -551,45 +590,6 @@ export default function TuraDetailPage() {
               )}
             </section>
           )}
-
-          {/* Ritem dneva */}
-          {tura.ritem_dneva && tura.ritem_dneva.length > 0 && (
-            <section className="border-b border-white/10 px-6 py-16">
-              <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">Ritem dneva</div>
-              <h2 className="mt-3 font-serif text-4xl font-bold italic">Od jutra do mirnega zaključka.</h2>
-              <div className="mt-10 grid gap-4" style={{ gridTemplateColumns: `repeat(${Math.min(tura.ritem_dneva.length, 5)}, 1fr)` }}>
-                {tura.ritem_dneva.map((korak, i) => (
-                  <div key={i} className="border-l border-[#c58b46]/30 pl-5">
-                    <div className="text-xs font-black uppercase tracking-[0.2em] text-[#c58b46]">{korak.time || `${i + 1}.`}</div>
-                    <h3 className="mt-3 font-serif text-xl font-bold italic">{korak.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-zinc-500">{korak.text}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Ponudniki */}
-          <section className="border-b border-white/10 px-6 py-16">
-            <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">Postanek, ki dopolni dan</div>
-            <h2 className="mt-3 font-serif text-4xl font-bold italic">Postanki, ki naredijo kolesarski dan.</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
-              Ponudniki niso dodatek na koncu. So razlog, da se tura spremeni v dan, ki ga priporočiš prijatelju.
-            </p>
-            <div className="mt-8">
-              <div className="rounded-[24px] border border-dashed border-white/10 bg-[#0b1a10] py-14 text-center">
-                <div className="text-3xl opacity-30">🏡</div>
-                <div className="mt-4 font-black text-white">Na tej trasi ni dodanih ponudnikov.</div>
-                <p className="mx-auto mt-2 max-w-sm text-sm leading-7 text-zinc-500">
-                  Ambasador za to turo še ni povezal lokalnih ponudnikov.
-                </p>
-                <Link href="/ponudniki"
-                  className="mt-5 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
-                  Oglej si vse ponudnike
-                </Link>
-              </div>
-            </div>
-          </section>
 
           {/* Znamenitosti */}
           <section className="border-b border-white/10 px-6 py-16">
