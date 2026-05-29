@@ -150,7 +150,7 @@ export default function NovaTuraPage() {
     // Upload GPX v slike bucket
     let gpxUrl: string | null = null;
     if (gpxFile) {
-      const filename = `gpx/${profil.id}/${Date.now()}-${gpxFile.name}`;
+      const filename = `${profil.id}/gpx/${Date.now()}-${gpxFile.name}`;
       const { error: uploadError } = await supabase.storage.from("slike").upload(filename, gpxFile, { upsert: true });
       if (uploadError) {
         setError(`Napaka pri nalaganju GPX datoteke: ${uploadError.message}. Poskusi znova ali stopi v stik z administratorjem.`);
