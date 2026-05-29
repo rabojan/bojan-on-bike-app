@@ -15,6 +15,7 @@ type PageHeroProps = {
   secondaryLabel?: string;
   imagePosition?: string;
   mobileImagePosition?: string;
+  brightnessClass?: string;
 };
 
 export default function PageHero({
@@ -31,6 +32,7 @@ export default function PageHero({
   secondaryLabel,
   imagePosition = "center",
   mobileImagePosition,
+  brightnessClass = "brightness-110",
 }: PageHeroProps) {
   return (
     <section className="relative min-h-[680px] overflow-hidden border-b border-white/10 md:min-h-[720px]">
@@ -41,7 +43,7 @@ export default function PageHero({
         <img
           src={image}
           alt={imageAlt}
-          className="hero-img absolute inset-0 h-full w-full object-cover brightness-110"
+          className={`hero-img absolute inset-0 h-full w-full object-cover ${brightnessClass}`}
           style={{
             "--img-pos-desktop": imagePosition,
             "--img-pos-mobile": mobileImagePosition ?? imagePosition,
