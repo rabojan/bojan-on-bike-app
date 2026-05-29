@@ -359,8 +359,8 @@ export default function TuraDetailPage() {
         {tura.hero_image && (
           <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${tura.hero_image})` }} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#080f0b]/20 via-[#080f0b]/10 to-[#080f0b]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080f0b]/45 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-[#07110b]/20 to-[#07110b]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/45 via-transparent to-transparent" />
 
         <div className="relative z-10 mx-auto flex min-h-[calc(92vh-80px)] max-w-6xl flex-col justify-end px-6 pb-16 pt-36">
           <div className="max-w-4xl">
