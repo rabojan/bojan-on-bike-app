@@ -55,8 +55,6 @@ type Props = {
 };
 
 const SLO_CENTER: [number, number] = [46.15, 14.99];
-// Bounding box za Slovenijo
-const SLO_BBOX = "13.3,45.4,16.6,46.9";
 
 export default function LocationPicker({ lat, lng, onPick }: Props) {
   const [query, setQuery] = useState("");
@@ -84,9 +82,8 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
     if (q.length < 2) { setSuggestions([]); setShowDropdown(false); return; }
     setLoading(true);
     try {
-      // Photon (Komoot) — specializiran za outdoor lokacije, koče, razglede, naravne točke
-      const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=6&bbox=${SLO_BBOX}&lang=sl`;
-      const res = await fetch(url);
+      // Server-side proxy — brez CORS težav
+      const res = await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
       const data = await res.json();
       const features: PhotonFeature[] = data.features ?? [];
       setSuggestions(features);
@@ -149,7 +146,7 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
 
         {/* Autocomplete dropdown */}
         {showDropdown && suggestions.length > 0 && (
-          <div className="absolute left-3 right-3 top-full z-50 mt-1 overflow-hidden rounded-xl border border-white/10 bg-[#0b1a10] shadow-2xl">
+          <div className="absolute left-3 right-3 top-full z-[9999] mt-1 overflow-hidden rounded-xl border border-white/10 bg-[#0b1a10] shadow-2xl">
             {suggestions.map((s, i) => {
               const { main, sub } = formatLabel(s);
               return (
