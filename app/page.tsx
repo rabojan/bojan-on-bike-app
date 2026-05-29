@@ -132,7 +132,7 @@ export default function Home() {
         eyebrow="Slovenija · kolesarski dnevi · narava · lokalni postanki"
         title={
           <>
-            Odkrij Slovenijo
+            Doživi Slovenijo
             <br className="hidden md:block" />
             <span className="md:hidden"> </span>
             skozi kolo.
