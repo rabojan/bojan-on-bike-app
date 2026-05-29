@@ -374,7 +374,7 @@ export default function TuraDetailPage() {
 
             {tura.opis && (
               <p className="mt-7 max-w-2xl text-lg leading-8 text-zinc-300">
-                {tura.opis}
+                {tura.opis.length > 160 ? `${tura.opis.slice(0, 160).trimEnd()}…` : tura.opis}
               </p>
             )}
 
@@ -579,9 +579,9 @@ export default function TuraDetailPage() {
             <div className="mt-8">
               <div className="rounded-[24px] border border-dashed border-white/10 bg-[#0b1a10] py-14 text-center">
                 <div className="text-3xl opacity-30">🏡</div>
-                <div className="mt-4 font-black text-white">Ponudniki prihajajo kmalu.</div>
+                <div className="mt-4 font-black text-white">Na tej trasi ni dodanih ponudnikov.</div>
                 <p className="mx-auto mt-2 max-w-sm text-sm leading-7 text-zinc-500">
-                  Lokalne koče, restavracije in vinske kleti ob tej trasi bodo dodane v kratkem.
+                  Ambasador za to turo še ni povezal lokalnih ponudnikov.
                 </p>
                 <Link href="/ponudniki"
                   className="mt-5 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
@@ -598,9 +598,9 @@ export default function TuraDetailPage() {
             <div className="mt-8">
               <div className="rounded-[22px] border border-dashed border-white/10 bg-[#0b1a10] py-14 text-center">
                 <div className="text-3xl opacity-30">⛰️</div>
-                <div className="mt-4 font-black text-white">Znamenitosti prihajajo kmalu.</div>
+                <div className="mt-4 font-black text-white">Na tej trasi ni dodanih znamenitosti.</div>
                 <p className="mx-auto mt-2 max-w-sm text-sm leading-7 text-zinc-500">
-                  Razgledi, naravne točke in kulturne znamenitosti ob tej trasi bodo dodane v kratkem.
+                  Ambasador za to turo še ni označil lokalnih razgledov in zanimivosti.
                 </p>
                 <Link href="/znamenitosti"
                   className="mt-5 inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">

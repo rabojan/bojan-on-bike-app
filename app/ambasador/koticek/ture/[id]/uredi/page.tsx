@@ -31,7 +31,7 @@ function casUrToDisplay(casUr: number | null): string {
 }
 
 type RitemKorak = { time: string; title: string; text: string };
-type Poudarek = { badge: string; title: string; text: string };
+type Poudarek = { badge: string; title: string; text: string; image?: string };
 
 export default function UrejiTuroPage() {
   const { id } = useParams<{ id: string }>();
@@ -81,6 +81,8 @@ export default function UrejiTuroPage() {
     { badge: "", title: "", text: "" },
     { badge: "", title: "", text: "" },
   ]);
+  const [poudarekFiles, setPoudarekFiles] = useState<(File | null)[]>([null, null, null]);
+  const [poudarekPreviews, setPoudarekPreviews] = useState<string[]>(["", "", ""]);
 
   const [heroFile, setHeroFile] = useState<File | null>(null);
   const [heroPreview, setHeroPreview] = useState("");
@@ -128,9 +130,11 @@ export default function UrejiTuroPage() {
       while (initRitem.length < 5) initRitem.push({ time: "", title: "", text: "" });
       setRitemDneva(initRitem.slice(0, 5));
 
-      const initPoudarki = [...(data.poudarki ?? [])];
+      const initPoudarki: Poudarek[] = [...(data.poudarki ?? [])];
       while (initPoudarki.length < 3) initPoudarki.push({ badge: "", title: "", text: "" });
-      setPoudarki(initPoudarki.slice(0, 3));
+      const slicedPoudarki = initPoudarki.slice(0, 3);
+      setPoudarki(slicedPoudarki);
+      setPoudarekPreviews(slicedPoudarki.map((p) => p.image ?? ""));
 
       setExistingHeroUrl(data.hero_image ?? null);
       if (data.hero_image) setHeroPreview(data.hero_image);
@@ -175,6 +179,14 @@ export default function UrejiTuroPage() {
   function updatePoudarek(i: number, field: keyof Poudarek, value: string) {
     setPoudarki((prev) => prev.map((p, idx) => idx === i ? { ...p, [field]: value } : p));
   }
+
+  function handlePoudarekImageChange(i: number, e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPoudarekFiles((prev) => prev.map((f, idx) => idx === i ? file : f));
+    setPoudarekPreviews((prev) => prev.map((p, idx) => idx === i ? URL.createObjectURL(file) : p));
+  }
+
   function handleHeroChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -239,7 +251,19 @@ export default function UrejiTuroPage() {
     }
 
     const ritemClean = ritemDneva.filter(k => k.title.trim());
-    const poudarkyClean = poudarki.filter(p => p.title.trim());
+
+    // Upload poudarek images and build final array (preserve existing URLs)
+    const poudarkyFinal: Poudarek[] = [];
+    for (let i = 0; i < poudarki.length; i++) {
+      const p = poudarki[i];
+      if (!p.title.trim()) continue;
+      let image: string | undefined = p.image; // keep existing
+      if (poudarekFiles[i]) {
+        const url = await uploadImage(poudarekFiles[i]!, `${profil.id}/poudarki/${Date.now()}-p${i}-${poudarekFiles[i]!.name}`);
+        if (url) image = url;
+      }
+      poudarkyFinal.push({ ...p, ...(image ? { image } : { image: undefined }) });
+    }
 
     const { error: dbError } = await supabase
       .from("predlogi_tur")
@@ -257,7 +281,7 @@ export default function UrejiTuroPage() {
         gpx_url: gpxUrl,
         hero_image: heroUrl,
         ritem_dneva: ritemClean.length > 0 ? ritemClean : null,
-        poudarki: poudarkyClean.length > 0 ? poudarkyClean : null,
+        poudarki: poudarkyFinal.length > 0 ? poudarkyFinal : null,
         galerija: galUrls.length > 0 ? galUrls : null,
         status: "pending",
         admin_opomba: null,
@@ -423,6 +447,12 @@ export default function UrejiTuroPage() {
           <textarea rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
             placeholder="Tura se začne pri..."
             className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+          <div className="mt-2 flex items-center justify-between text-xs">
+            <span className="text-zinc-600">Prvih 160 znakov se prikaže pod naslovom ture.</span>
+            <span className={opis.length > 160 ? "font-bold text-[#c58b46]" : "text-zinc-600"}>
+              {opis.length} / 160+
+            </span>
+          </div>
         </section>
 
         {/* ── 4. AMBASADORJEV NAMIG ── */}
@@ -484,6 +514,33 @@ export default function UrejiTuroPage() {
                     placeholder="Tura se začne z občutkom pobega iz mesta..."
                     className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-sm leading-6 outline-none focus:border-[#c58b46]/60" />
                 </label>
+                {/* Slika poudareka */}
+                <div className="mt-4 flex items-center gap-4 border-t border-white/10 pt-4">
+                  {poudarekPreviews[i] ? (
+                    <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl border border-white/10">
+                      <img src={poudarekPreviews[i]} alt="Predogled" className="h-full w-full object-cover" />
+                    </div>
+                  ) : (
+                    <div className="flex h-16 w-24 shrink-0 items-center justify-center rounded-xl border border-dashed border-white/15 bg-black/20 text-lg text-zinc-600">🖼</div>
+                  )}
+                  <div className="flex flex-wrap gap-2">
+                    <label className="cursor-pointer rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46]">
+                      {poudarekPreviews[i] ? "Zamenjaj sliko" : "Dodaj sliko"}
+                      <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden"
+                        onChange={(e) => handlePoudarekImageChange(i, e)} />
+                    </label>
+                    {poudarekPreviews[i] && (
+                      <button type="button" onClick={() => {
+                        setPoudarekFiles((prev) => prev.map((f, idx) => idx === i ? null : f));
+                        setPoudarekPreviews((prev) => prev.map((pr, idx) => idx === i ? "" : pr));
+                        updatePoudarek(i, "image", "");
+                      }} className="rounded-full border border-red-500/20 px-4 py-2 text-xs font-bold text-red-400 transition hover:bg-red-500/10">
+                        Odstrani
+                      </button>
+                    )}
+                  </div>
+                  <span className="ml-auto text-[10px] text-zinc-600">Slika je neobvezna.</span>
+                </div>
               </div>
             ))}
           </div>
