@@ -55,6 +55,8 @@ export default function PredlogDetailPage() {
   const [data, setData] = useState<PredlogTura | null>(null);
   const [loading, setLoading] = useState(true);
   const [gpxParsed, setGpxParsed] = useState<ParsedGpx | null>(null);
+  const [gpxUrl, setGpxUrl] = useState<string | null>(null);
+  const [gpxRetrying, setGpxRetrying] = useState(false);
 
   const [processing, setProcessing] = useState(false);
   const [showReturn, setShowReturn] = useState(false);
@@ -76,11 +78,14 @@ export default function PredlogDetailPage() {
       setData(row as PredlogTura);
 
       if (row.gpx_url) {
+        setGpxUrl(row.gpx_url);
         try {
           const res = await fetch(row.gpx_url);
-          const text = await res.text();
-          const parsed = parseGpx(text);
-          if (parsed.km > 0) setGpxParsed(parsed);
+          if (res.ok) {
+            const text = await res.text();
+            const parsed = parseGpx(text);
+            if (parsed.km > 0) setGpxParsed(parsed);
+          }
         } catch { /* tiho */ }
       }
 
@@ -88,6 +93,21 @@ export default function PredlogDetailPage() {
     }
     load();
   }, [id, tip]);
+
+  async function retryGpx() {
+    if (!gpxUrl) return;
+    setGpxRetrying(true);
+    try {
+      const res = await fetch(gpxUrl);
+      if (res.ok) {
+        const text = await res.text();
+        const parsed = parseGpx(text);
+        if (parsed.km > 0) setGpxParsed(parsed);
+      }
+    } catch { /* tiho */ } finally {
+      setGpxRetrying(false);
+    }
+  }
 
   async function sendEmail(type: "approved" | "revision", opomba?: string) {
     if (!data?.ambasadorji?.email) return;
@@ -189,46 +209,71 @@ export default function PredlogDetailPage() {
         </section>
 
         {/* ── GPX mapa + profil ── */}
-        {gpxParsed && (
+        {(gpxParsed || gpxUrl) && (
           <section className="space-y-4">
-            <div className="rounded-[32px] border border-white/10 bg-black/20 px-6 pt-6">
-              <div className="mb-4 text-xs uppercase tracking-[0.35em] text-[#c58b46]">Trasa</div>
-              <div className="grid grid-cols-5 gap-3 pb-6">
-                {[
-                  { label: "Dolžina", value: gpxParsed.km, unit: "km" },
-                  { label: "Vzpon", value: gpxParsed.vm, unit: "vm" },
-                  { label: "Višina max", value: gpxParsed.maxEle, unit: "m" },
-                  { label: "Višina min", value: gpxParsed.minEle, unit: "m" },
-                ].map((s) => (
-                  <div key={s.label} className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4">
-                    <div className="text-xs text-emerald-400">iz GPX</div>
-                    <div className="mt-1 text-xl font-black text-[#f4d7ad]">{s.value} <span className="text-sm font-normal text-zinc-400">{s.unit}</span></div>
-                    <div className="text-xs text-zinc-500">{s.label}</div>
+            {gpxParsed ? (
+              <>
+                <div className="rounded-[32px] border border-white/10 bg-black/20 px-6 pt-6">
+                  <div className="mb-4 text-xs uppercase tracking-[0.35em] text-[#c58b46]">Trasa iz GPX</div>
+                  <div className="grid grid-cols-5 gap-3 pb-6">
+                    {[
+                      { label: "Dolžina", value: gpxParsed.km, unit: "km" },
+                      { label: "Vzpon", value: gpxParsed.vm, unit: "vm" },
+                      { label: "Višina max", value: gpxParsed.maxEle, unit: "m" },
+                      { label: "Višina min", value: gpxParsed.minEle, unit: "m" },
+                    ].map((s) => (
+                      <div key={s.label} className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4">
+                        <div className="text-xs text-emerald-400">iz GPX</div>
+                        <div className="mt-1 text-xl font-black text-[#f4d7ad]">{s.value} <span className="text-sm font-normal text-zinc-400">{s.unit}</span></div>
+                        <div className="text-xs text-zinc-500">{s.label}</div>
+                      </div>
+                    ))}
+                    {data.tezavnost && (
+                      <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                        <div className="text-xs text-zinc-500">Težavnost</div>
+                        <div className="mt-1 text-xl font-black text-white">{data.tezavnost}</div>
+                      </div>
+                    )}
                   </div>
-                ))}
-                {data.tezavnost && (
-                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <div className="text-xs text-zinc-500">Težavnost</div>
-                    <div className="mt-1 text-xl font-black text-white">{data.tezavnost}</div>
+                </div>
+
+                {gpxParsed.points.length > 0 && (
+                  <div className="overflow-hidden rounded-[28px] border border-white/10" style={{ height: 360 }}>
+                    <GpxMap points={gpxParsed.points} height={360} />
                   </div>
                 )}
-              </div>
-            </div>
 
-            {gpxParsed.points.length > 0 && (
-              <div className="overflow-hidden rounded-[28px] border border-white/10" style={{ height: 360 }}>
-                <GpxMap points={gpxParsed.points} height={360} />
+                {gpxParsed.profile.length > 1 && (
+                  <ElevationChart
+                    profile={gpxParsed.profile}
+                    km={gpxParsed.km}
+                    vm={gpxParsed.vm}
+                    minEle={gpxParsed.minEle}
+                    maxEle={gpxParsed.maxEle}
+                  />
+                )}
+              </>
+            ) : (
+              /* GPX URL je v bazi, predogled se ni naložil */
+              <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl">{gpxRetrying ? "⏳" : "📍"}</span>
+                  <div>
+                    <div className="font-bold text-zinc-300">GPX datoteka je priložena</div>
+                    <div className="mt-1 text-sm text-zinc-500">
+                      {data.km && `${data.km} km`}{data.visinska_razlika ? ` · ${data.visinska_razlika} vm` : ""}
+                      <span className="ml-2 text-zinc-600">· karta se ni naložila</span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={retryGpx}
+                    disabled={gpxRetrying}
+                    className="ml-auto rounded-full border border-white/10 px-5 py-2.5 text-xs font-bold text-zinc-400 transition hover:border-[#c58b46]/40 hover:text-[#c58b46] disabled:opacity-50">
+                    {gpxRetrying ? "Nalagam..." : "Ponastavi predogled"}
+                  </button>
+                </div>
               </div>
-            )}
-
-            {gpxParsed.profile.length > 1 && (
-              <ElevationChart
-                profile={gpxParsed.profile}
-                km={gpxParsed.km}
-                vm={gpxParsed.vm}
-                minEle={gpxParsed.minEle}
-                maxEle={gpxParsed.maxEle}
-              />
             )}
           </section>
         )}
