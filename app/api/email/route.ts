@@ -130,7 +130,7 @@ export async function POST(request: Request) {
       }
       sendTo = to;
       const javnaStran = predlogId ? `${siteUrl}/${tipUrls[predlogTip]}/${predlogId}` : null;
-      subject = `✅ Tvoj ${tipLabels[predlogTip] ?? "predlog"} je objavljen — Bojan on Bike`;
+      subject = `✅ ${predlogIme} je objavljen${tipLabels[predlogTip] === "tura" ? "a" : ""} — Bojan on Bike`;
       html = `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#07110b;color:#fff;padding:40px;border-radius:16px;">
           <p style="color:#c58b46;font-size:12px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 16px;">Bojan on Bike</p>
@@ -149,7 +149,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Manjkajo podatki." }, { status: 400 });
       }
       sendTo = to;
-      subject = `↩️ Tvoj predlog potrebuje dopolnitev — Bojan on Bike`;
+      subject = `↩️ ${predlogIme} — potrebuje dopolnitev — Bojan on Bike`;
       html = `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#07110b;color:#fff;padding:40px;border-radius:16px;">
           <p style="color:#c58b46;font-size:12px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 16px;">Bojan on Bike</p>
