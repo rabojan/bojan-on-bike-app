@@ -269,6 +269,8 @@ export default function UrejiPonudnikaPage() {
             lat={lat}
             lng={lng}
             onPick={(la, ln) => { setLat(la); setLng(ln); }}
+            searchPlaceholder="Išči: Dom na Boču, Rudijev dom, Vinska klet..."
+            hint="Vpiši ime ponudnika ali bližnji kraj, nato klikni na karti za natančno lokacijo."
           />
         </section>
 

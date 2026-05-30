@@ -48,11 +48,19 @@ type Props = {
   lat: number | null;
   lng: number | null;
   onPick: (lat: number, lng: number) => void;
+  searchPlaceholder?: string;
+  hint?: string;
 };
 
 const SLO_CENTER: [number, number] = [46.15, 14.99];
 
-export default function LocationPicker({ lat, lng, onPick }: Props) {
+export default function LocationPicker({
+  lat,
+  lng,
+  onPick,
+  searchPlaceholder = "Išči kraj, ulico ali ime...",
+  hint = "Vpiši bližnji kraj ali ulico, nato klikni na karti za natančno lokacijo.",
+}: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -139,7 +147,8 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
                 if (e.key === "Enter" && suggestions.length > 0) { e.preventDefault(); handleSelect(suggestions[0]); }
                 if (e.key === "Escape") setShowDropdown(false);
               }}
-              placeholder="Išči: Dom na Boču, Rudijev dom, Vinska klet..."
+              placeholder={searchPlaceholder}
+              autoComplete="off"
               className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-2.5 pr-8 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-[#c58b46]/50"
             />
             {loading && (
@@ -209,9 +218,9 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
             <span className="ml-auto text-xs text-zinc-500">Klikni na karti za natančnejšo postavitev</span>
           </div>
         ) : (
-          <div className="flex items-center gap-3 text-sm text-zinc-500">
-            <span>👆</span>
-            <span>Začni tipkati ime lokacije ali klikni direktno na karti</span>
+          <div className="flex items-center gap-2 text-xs text-zinc-500">
+            <span className="shrink-0">💡</span>
+            <span>{hint}</span>
           </div>
         )}
       </div>
