@@ -135,13 +135,11 @@ export default function Home() {
       line1: "slovenskih",
       line2: "pokrajin",
       icon: (
-        <svg viewBox="0 0 180 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
-          {/* Slovenia outline — wider than tall, Prekmurje bump top-right */}
-          <path d="M8,60 L12,38 L22,22 L38,12 L58,8 L80,12 L100,7 L118,12 L136,8 L150,10 L162,7 L172,18 L170,38 L158,60 L140,76 L115,82 L88,80 L65,84 L44,78 L28,70 L15,65 Z"/>
-          {/* Region dividers */}
-          <path d="M136,8 L158,60" strokeWidth="1.2" strokeDasharray="4 3"/>
-          <path d="M80,12 L88,80" strokeWidth="1.2" strokeDasharray="4 3"/>
-          <path d="M38,12 L44,78" strokeWidth="1.2" strokeDasharray="4 3"/>
+        <svg viewBox="0 0 200 129.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
+          <path d="M20.8,31.2 L43.2,34.5 L48.2,38.9 L72.1,41.9 L88.6,32.7 L92.3,23.3 L106.8,19.6 L125.5,20.0 L154.1,13.7 L161.6,11.2 L161.6,3.8 L176.7,0.0 L183.8,2.7 L182.4,10.7 L195.1,32.7 L200.0,35.7 L186.1,30.4 L180.4,30.9 L177.9,33.7 L178.8,40.8 L167.0,43.9 L167.5,48.4 L163.4,51.6 L140.9,58.7 L137.5,65.5 L139.3,70.5 L144.8,74.0 L143.6,92.2 L141.0,94.0 L138.1,91.8 L131.3,92.9 L119.5,100.4 L118.2,106.0 L123.1,104.8 L119.3,111.3 L117.5,126.2 L111.1,129.5 L99.0,122.8 L89.0,125.9 L76.4,112.4 L75.6,107.2 L73.1,108.4 L68.4,120.2 L63.5,123.8 L19.9,127.9 L13.9,125.7 L12.8,121.4 L22.7,118.7 L20.7,114.3 L29.0,115.3 L33.2,110.6 L25.6,100.5 L13.3,95.1 L12.1,91.3 L15.5,79.0 L9.9,81.2 L6.0,77.3 L17.5,61.9 L6.4,57.5 L2.3,59.4 L0.0,51.7 L8.0,43.9 L18.8,38.5 L20.8,31.2 Z"/>
+          <path d="M154.1,13.7 L143.6,92.2" strokeWidth="1.2" strokeDasharray="5 3"/>
+          <path d="M88.6,32.7 L89.0,125.9" strokeWidth="1.2" strokeDasharray="5 3"/>
+          <path d="M48.2,38.9 L63.5,123.8" strokeWidth="1.2" strokeDasharray="5 3"/>
         </svg>
       ),
     },
