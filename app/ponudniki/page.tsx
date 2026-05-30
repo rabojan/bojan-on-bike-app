@@ -10,7 +10,7 @@ export default async function PonudnikiPage() {
 
   const { data } = await supabase
     .from("predlogi_ponudnikov")
-    .select("id, ime, tip, regija, lokacija, opis, hero_image")
+    .select("id, ime, tip, regija, lokacija, opis, hero_image, bike_friendly_opis")
     .eq("status", "approved")
     .order("created_at", { ascending: false });
 

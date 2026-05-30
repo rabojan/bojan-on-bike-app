@@ -11,6 +11,7 @@ const LocationPicker = dynamic(() => import("@/components/LocationPicker"), { ss
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 const providerTypes = ["Planinska koča", "Restavracija", "Vinska klet", "Bike shop", "Hotel / apartma", "Kavarna / bistro", "Drugo"];
+const ebikStoritve = ["e-bike polnilnica", "Kolesarnica", "Bike wash", "Osnovna orodja", "Prenočišče za kolesarje"];
 
 type Feature = { title: string; description: string };
 
@@ -25,7 +26,7 @@ export default function NovPonudnikPage() {
   const [spletna, setSpletna] = useState("");
   const [zakaj, setZakaj] = useState("");
   const [opis, setOpis] = useState("");
-  const [bikeFriendly, setBikeFriendly] = useState("");
+  const [ebikSelected, setEbikSelected] = useState<string[]>([]);
   const [citat, setCitat] = useState("");
 
   const [features, setFeatures] = useState<Feature[]>([
@@ -112,7 +113,7 @@ export default function NovPonudnikPage() {
       telefon: telefon || null,
       spletna_stran: spletna || null,
       zakaj, opis,
-      bike_friendly_opis: bikeFriendly || null,
+      bike_friendly_opis: ebikSelected.length > 0 ? JSON.stringify(ebikSelected) : null,
       citat: citat || null,
       hero_image: heroUrl,
       features: featuresClean.length > 0 ? featuresClean : null,
@@ -195,6 +196,22 @@ export default function NovPonudnikPage() {
               <input type="url" value={spletna} onChange={(e) => setSpletna(e.target.value)} placeholder="https://"
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
             </label>
+            <div className="col-span-2 space-y-3">
+              <span className="text-sm font-bold text-zinc-300">E-bike storitve</span>
+              <p className="text-xs text-zinc-500">Označi storitve ki jih ponudnik nudi kolesarjem.</p>
+              <div className="flex flex-wrap gap-2">
+                {ebikStoritve.map((s) => {
+                  const active = ebikSelected.includes(s);
+                  return (
+                    <button key={s} type="button"
+                      onClick={() => setEbikSelected((prev) => active ? prev.filter((x) => x !== s) : [...prev, s])}
+                      className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition ${active ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
+                      🔋 {s}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -233,13 +250,7 @@ export default function NovPonudnikPage() {
                 placeholder="Rudijev dom stoji na... Tu se kolesarji ustavljajo ker..."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
             </label>
-            <label className="block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Zakaj je bike-friendly?</span>
-              <p className="text-xs text-zinc-500">Polnilnica, kolesarnica, bike wash, prijazen personel...</p>
-              <textarea rows={3} value={bikeFriendly} onChange={(e) => setBikeFriendly(e.target.value)}
-                placeholder="Imajo polnilnico za e-kolesa, zunanjo kolesarnico in..."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
-            </label>
+
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Citat</span>
               <p className="text-xs text-zinc-500">Kratka izjava v poudarjenem razdelku.</p>

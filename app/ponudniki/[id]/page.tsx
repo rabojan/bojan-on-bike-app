@@ -162,6 +162,11 @@ export default function PonudnikDetailPage() {
                   {f.title}
                 </span>
               ))}
+              {(() => { try { const arr = JSON.parse(ponudnik.bike_friendly_opis ?? "[]"); return Array.isArray(arr) ? arr : []; } catch { return []; } })().map((s: string) => (
+                <span key={s} className="flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-5 py-2 text-xs font-black uppercase tracking-[0.14em] text-emerald-300">
+                  🔋 {s}
+                </span>
+              ))}
             </div>
           </div>
         </div>

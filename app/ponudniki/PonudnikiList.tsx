@@ -14,7 +14,14 @@ type Ponudnik = {
   lokacija: string | null;
   opis: string | null;
   hero_image: string | null;
+  bike_friendly_opis: string | null;
 };
+
+function parseEbik(raw: string | null): string[] {
+  if (!raw) return [];
+  try { const arr = JSON.parse(raw); return Array.isArray(arr) ? arr : []; }
+  catch { return []; }
+}
 
 export default function PonudnikiList({ ponudniki }: { ponudniki: Ponudnik[] }) {
   const [activeRegion, setActiveRegion] = useState("Vse");
@@ -90,6 +97,15 @@ export default function PonudnikiList({ ponudniki }: { ponudniki: Ponudnik[] }) 
                       {p.tip && <span className="rounded-full border border-white/10 px-3 py-1 text-xs">{p.tip}</span>}
                     </div>
                     <h2 className="font-serif text-2xl font-black italic leading-tight text-white">{p.ime}</h2>
+                    {parseEbik(p.bike_friendly_opis).length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {parseEbik(p.bike_friendly_opis).map((s) => (
+                          <span key={s} className="flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-300">
+                            🔋 {s}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     {p.opis && (
                       <p className="mt-3 text-sm leading-7 text-zinc-400 line-clamp-3">{p.opis}</p>
                     )}
