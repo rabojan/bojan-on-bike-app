@@ -602,15 +602,15 @@ export default function Home() {
       <footer className="border-t border-white/10 px-5 py-10 text-sm text-zinc-500">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-base font-semibold text-zinc-300">Vsaka dobra tura se začne s pogovorom.</p>
-              <p className="mt-1 text-sm text-zinc-600">Vprašanje, ideja, predlog — napiši.</p>
-            </div>
+            <p className="text-sm text-zinc-500">
+              Vsaka dobra tura se začne s pogovorom.{" "}
+              <span className="text-zinc-600">Vprašanje, ideja, predlog — napiši.</span>
+            </p>
             <button
               onClick={() => setKontaktOpen(true)}
               className="shrink-0 rounded-full border border-[#c58b46]/40 px-6 py-3 text-sm font-bold text-[#f4d7ad] transition hover:bg-[#c58b46]/10"
             >
-              Pogovorimo se
+              Javi se
             </button>
           </div>
           <div className="flex flex-col gap-2 border-t border-white/10 pt-6 md:flex-row md:items-center md:justify-between">
