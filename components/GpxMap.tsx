@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, CircleMarker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { GpxPoint } from "@/lib/parseGpx";
 
@@ -45,19 +45,25 @@ export default function GpxMap({ points, height = 360, ponudniki = [] }: Props) 
     <>
       <style>{`
         .map-base-bright img { filter: brightness(2.8) contrast(1.05) saturate(0.6); }
-        .ponudnik-tooltip {
+        .ponudnik-popup .leaflet-popup-content-wrapper {
           background: #0b1a10;
-          border: 1px solid rgba(197,139,70,0.45);
-          border-radius: 10px;
-          color: #f4d7ad;
-          font-family: sans-serif;
-          font-size: 12px;
-          font-weight: 700;
-          padding: 6px 10px;
-          white-space: nowrap;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+          border: 1px solid rgba(197,139,70,0.4);
+          border-radius: 14px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+          padding: 0;
         }
-        .ponudnik-tooltip::before { display: none; }
+        .ponudnik-popup .leaflet-popup-content {
+          margin: 0;
+          min-width: 160px;
+        }
+        .ponudnik-popup .leaflet-popup-tip-container { display: none; }
+        .ponudnik-popup .leaflet-popup-close-button {
+          color: #71717a;
+          font-size: 18px;
+          top: 8px;
+          right: 10px;
+        }
+        .ponudnik-popup .leaflet-popup-close-button:hover { color: #f4d7ad; }
       `}</style>
       <MapContainer
         center={center}
@@ -100,18 +106,27 @@ export default function GpxMap({ points, height = 360, ponudniki = [] }: Props) 
         <CircleMarker
           key={p.id}
           center={[p.lat, p.lng]}
-          radius={8}
-          pathOptions={{ color: "#07110b", fillColor: "#ffffff", fillOpacity: 0.92, weight: 2 }}
+          radius={9}
+          pathOptions={{ color: "#07110b", fillColor: "#ffffff", fillOpacity: 0.92, weight: 2.5 }}
         >
-          <Tooltip
-            direction="top"
-            offset={[0, -10]}
-            opacity={1}
-            className="ponudnik-tooltip"
-          >
-            <span>{p.ime}</span>
-            {p.tip && <span style={{ color: "#c58b46", fontWeight: 400, marginLeft: 6 }}>{p.tip}</span>}
-          </Tooltip>
+          <Popup className="ponudnik-popup" closeButton={true} minWidth={160}>
+            <div style={{ padding: "14px 16px 4px" }}>
+              {p.tip && (
+                <div style={{ fontSize: 9, fontWeight: 900, letterSpacing: "0.28em", textTransform: "uppercase", color: "#c58b46", marginBottom: 5 }}>
+                  {p.tip}
+                </div>
+              )}
+              <div style={{ fontSize: 15, fontWeight: 800, color: "#f4d7ad", lineHeight: 1.2, marginBottom: 12 }}>
+                {p.ime}
+              </div>
+              <a
+                href={`/ponudniki/${p.id}`}
+                style={{ display: "block", textAlign: "center", background: "#c58b46", color: "#000", borderRadius: 100, padding: "8px 14px", fontSize: 11, fontWeight: 900, textDecoration: "none", marginBottom: 12 }}
+              >
+                Ogled ponudnika →
+              </a>
+            </div>
+          </Popup>
         </CircleMarker>
       ))}
     </MapContainer>
