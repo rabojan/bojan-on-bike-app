@@ -34,7 +34,6 @@ export default function UrejiPonudnikaPage() {
   const [zakaj, setZakaj] = useState("");
   const [opis, setOpis] = useState("");
   const [ebikSelected, setEbikSelected] = useState<string[]>([]);
-  const [citat, setCitat] = useState("");
 
   const [features, setFeatures] = useState<Feature[]>([
     { title: "", description: "" }, { title: "", description: "" },
@@ -80,7 +79,6 @@ export default function UrejiPonudnikaPage() {
       setZakaj(data.zakaj ?? "");
       setOpis(data.opis ?? "");
       try { setEbikSelected(JSON.parse(data.bike_friendly_opis ?? "[]")); } catch { setEbikSelected([]); }
-      setCitat(data.citat ?? "");
 
       const initFeatures = [...(data.features ?? [])];
       while (initFeatures.length < 6) initFeatures.push({ title: "", description: "" });
@@ -159,7 +157,6 @@ export default function UrejiPonudnikaPage() {
         spletna_stran: spletna || null,
         zakaj, opis,
         bike_friendly_opis: ebikSelected.length > 0 ? JSON.stringify(ebikSelected) : null,
-        citat: citat || null,
         hero_image: heroUrl,
         features: featuresClean.length > 0 ? featuresClean : null,
         galerija: galUrls.length > 0 ? galUrls : null,
@@ -310,12 +307,6 @@ export default function UrejiPonudnikaPage() {
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
             </label>
 
-            <label className="block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Citat</span>
-              <input value={citat} onChange={(e) => setCitat(e.target.value)}
-                placeholder="npr. Domača juha po vzponu..."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
-            </label>
           </div>
         </section>
 

@@ -188,22 +188,21 @@ export default function PonudnikDetailPage() {
               {ponudnik.opis && (
                 <p className="mt-7 text-lg leading-9 text-zinc-400">{ponudnik.opis}</p>
               )}
-              {ponudnik.bike_friendly_opis && (
-                <p className="mt-6 text-lg leading-9 text-zinc-400">{ponudnik.bike_friendly_opis}</p>
-              )}
             </div>
 
-            {ponudnik.citat && (
+            {ponudnik.zakaj && (
               <div className="rounded-[28px] border border-[#c58b46]/20 bg-[#0b1a10] p-7">
                 <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c58b46]">
                   Zakaj se ustaviti
                 </div>
                 <p className="mt-5 font-serif text-2xl font-black italic leading-tight text-[#f4d7ad]">
-                  &ldquo;{ponudnik.citat}&rdquo;
+                  &ldquo;{ponudnik.zakaj}&rdquo;
                 </p>
-                <div className="mt-5 text-sm font-semibold text-zinc-400">
-                  Bojan on Bike izbor
-                </div>
+                {ponudnik.ambasador && (
+                  <div className="mt-5 text-sm font-semibold text-zinc-400">
+                    🚴 {ponudnik.ambasador.ime} · Ambasador {ponudnik.ambasador.regija}
+                  </div>
+                )}
               </div>
             )}
           </section>

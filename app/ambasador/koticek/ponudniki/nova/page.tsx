@@ -27,7 +27,6 @@ export default function NovPonudnikPage() {
   const [zakaj, setZakaj] = useState("");
   const [opis, setOpis] = useState("");
   const [ebikSelected, setEbikSelected] = useState<string[]>([]);
-  const [citat, setCitat] = useState("");
 
   const [features, setFeatures] = useState<Feature[]>([
     { title: "", description: "" },
@@ -114,7 +113,6 @@ export default function NovPonudnikPage() {
       spletna_stran: spletna || null,
       zakaj, opis,
       bike_friendly_opis: ebikSelected.length > 0 ? JSON.stringify(ebikSelected) : null,
-      citat: citat || null,
       hero_image: heroUrl,
       features: featuresClean.length > 0 ? featuresClean : null,
       galerija: galUrls.length > 0 ? galUrls : null,
@@ -251,13 +249,6 @@ export default function NovPonudnikPage() {
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
             </label>
 
-            <label className="block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Citat</span>
-              <p className="text-xs text-zinc-500">Kratka izjava v poudarjenem razdelku.</p>
-              <input value={citat} onChange={(e) => setCitat(e.target.value)}
-                placeholder="npr. Domača juha po vzponu: to je razlog za naslednji krog."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
-            </label>
           </div>
         </section>
 
