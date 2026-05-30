@@ -266,8 +266,8 @@ export default function UrejiZnamenitostPage() {
             lat={lat}
             lng={lng}
             onPick={(la, ln) => { setLat(la); setLng(ln); }}
-            searchPlaceholder="Išči bližnji kraj, npr. Maribor, Pohorje, Šentilj..."
-            hint="Razgledne točke in naravne lokacije poišči z iskanjem bližnjega kraja ali gore, nato klikni točno na karti."
+            searchPlaceholder="Npr. 'Žička kartuzija', 'Šentilj', 'Pohorje'..."
+            hint="Vpiši polno ime znamenitosti ali bližnje naselje. Nato klikni točno na karti za natančno lokacijo pineka."
           />
         </section>
 
