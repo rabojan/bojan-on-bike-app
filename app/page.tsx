@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import PageHero from "@/components/PageHero";
+import KontaktModal from "@/components/KontaktModal";
 import { supabase } from "@/lib/supabase";
 
 type TuraCard = {
@@ -74,6 +75,7 @@ export default function Home() {
   const [tureCount, setTureCount] = useState<number | null>(null);
   const [ponudnikiCount, setPonudnikiCount] = useState<number | null>(null);
   const [znamenitostiCount, setZnamenitostiCount] = useState<number | null>(null);
+  const [kontaktOpen, setKontaktOpen] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -598,11 +600,27 @@ export default function Home() {
 
       {/* ── FOOTER ── */}
       <footer className="border-t border-white/10 px-5 py-10 text-sm text-zinc-500">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p>© 2026 Bojan on Bike</p>
-          <p>Mobile-first kolesarska platforma za Slovenijo.</p>
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-base font-semibold text-zinc-300">Vsaka dobra tura se začne s pogovorom.</p>
+              <p className="mt-1 text-sm text-zinc-600">Vprašanje, ideja, predlog — napiši.</p>
+            </div>
+            <button
+              onClick={() => setKontaktOpen(true)}
+              className="shrink-0 rounded-full border border-[#c58b46]/40 px-6 py-3 text-sm font-bold text-[#f4d7ad] transition hover:bg-[#c58b46]/10"
+            >
+              Pogovorimo se
+            </button>
+          </div>
+          <div className="flex flex-col gap-2 border-t border-white/10 pt-6 md:flex-row md:items-center md:justify-between">
+            <p>© 2026 Bojan on Bike</p>
+            <p>Mobile-first kolesarska platforma za Slovenijo.</p>
+          </div>
         </div>
       </footer>
+
+      <KontaktModal open={kontaktOpen} onClose={() => setKontaktOpen(false)} />
     </main>
   );
 }

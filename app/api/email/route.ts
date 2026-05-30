@@ -35,6 +35,10 @@ export async function POST(request: Request) {
       to,
       predlogId,
       opomba,
+      // kontaktni obrazec
+      ime,
+      email,
+      sporocilo,
     } = body;
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -164,6 +168,48 @@ export async function POST(request: Request) {
           </div>` : ""}
           <a href="${siteUrl}/ambasador/koticek" style="display:inline-block;background:#c58b46;color:#000;padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:900;font-size:14px;">Odpri kotiček →</a>
           <p style="color:#52525b;font-size:12px;margin:32px 0 0;line-height:1.6;">Po dopolnitvi bo predlog znova šel v uredniški pregled.</p>
+        </div>
+      `;
+
+    // ── KONTAKTNI OBRAZEC ──
+    } else if (type === "kontakt") {
+      const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+      if (!adminEmail) {
+        return NextResponse.json({ error: "Admin email ni nastavljen." }, { status: 500 });
+      }
+      if (!ime || !email || !sporocilo) {
+        return NextResponse.json({ error: "Manjkajo podatki." }, { status: 400 });
+      }
+      sendTo = adminEmail;
+      subject = `💬 Novo sporočilo od ${ime} — Bojan on Bike`;
+      html = `
+        <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#07110b;color:#fff;padding:40px;border-radius:16px;">
+          <p style="color:#c58b46;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 20px;">Bojan on Bike — Kontakt</p>
+          <h1 style="font-size:24px;margin:0 0 24px;color:#f4d7ad;">Novo sporočilo s spletne strani</h1>
+
+          <div style="background:#0b1a10;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;margin:0 0 28px;">
+            <table style="width:100%;border-collapse:collapse;">
+              <tr>
+                <td style="color:#52525b;font-size:11px;text-transform:uppercase;letter-spacing:.2em;padding:8px 0;width:80px;">Ime</td>
+                <td style="color:#f4d7ad;font-size:15px;font-weight:700;padding:8px 0;">${ime}</td>
+              </tr>
+              <tr>
+                <td style="color:#52525b;font-size:11px;text-transform:uppercase;letter-spacing:.2em;padding:8px 0;">Email</td>
+                <td style="padding:8px 0;"><a href="mailto:${email}" style="color:#c58b46;text-decoration:none;">${email}</a></td>
+              </tr>
+            </table>
+          </div>
+
+          <div style="background:#0b1a10;border:1px solid rgba(197,139,70,0.2);border-radius:12px;padding:20px 24px;margin:0 0 28px;">
+            <p style="color:#c58b46;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin:0 0 12px;">Sporočilo</p>
+            <p style="color:#d4d4d8;font-size:15px;line-height:1.8;margin:0;white-space:pre-line;">${sporocilo}</p>
+          </div>
+
+          <a href="mailto:${email}?subject=Re: Bojan on Bike" style="display:inline-block;background:#c58b46;color:#000;padding:14px 28px;border-radius:100px;text-decoration:none;font-weight:900;font-size:14px;">
+            Odgovori →
+          </a>
+
+          <p style="color:#3f3f46;font-size:11px;margin:32px 0 0;">Bojan on Bike · kontaktni obrazec</p>
         </div>
       `;
 
