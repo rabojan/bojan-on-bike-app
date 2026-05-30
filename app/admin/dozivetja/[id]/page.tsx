@@ -24,7 +24,7 @@ const experienceTypes = [
   "Razgledna pot", "Vikend pobeg", "Zgodbe krajev", "E-bike dan",
 ];
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
-const trailTypes = ["MTB", "Gravel", "E-bike", "Bikepacking", "Cesta"];
+const trailTypes = ["MTB", "Gravel", "E-bike friendly", "Bikepacking", "Cesta", "Family friendly"];
 const difficulties = ["Lahka", "Srednja", "Zahtevna"];
 
 function StepCard({ step, index, total, onChange, onRemove, onMoveUp, onMoveDown }: {

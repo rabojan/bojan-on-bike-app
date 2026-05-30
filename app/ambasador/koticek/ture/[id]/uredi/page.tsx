@@ -12,7 +12,7 @@ import { parseGpx, type ParsedGpx } from "@/lib/parseGpx";
 const GpxMap = dynamic(() => import("@/components/GpxMap"), { ssr: false });
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
-const trailTypes = ["MTB", "Gravel", "E-bike", "Bikepacking", "Cesta"];
+const trailTypes = ["MTB", "Gravel", "E-bike friendly", "Bikepacking", "Cesta", "Family friendly"];
 const difficulties = ["Lahka", "Srednja", "Zahtevna"];
 const casOptions = ["1–2 uri", "2–3 ure", "3–5 ur", "5–7 ur", "Cel dan", "Več dni"];
 const casUrMap: Record<string, number> = {
