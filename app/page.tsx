@@ -116,13 +116,40 @@ export default function Home() {
   const top3 = ture.slice(0, 3);
 
   const stats = [
-    { value: tureCount !== null ? `${tureCount}` : "—", label: "kolesarskih tur" },
-    { value: "7", label: "slovenskih pokrajin" },
+    {
+      value: tureCount !== null ? `${tureCount}` : "—",
+      label: "kolesarskih tur",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
+          <circle cx="5.5" cy="17.5" r="3.5"/>
+          <circle cx="18.5" cy="17.5" r="3.5"/>
+          <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5L8.5 9H5"/>
+          <path d="M15 6l2 5.5H9l2.5-3.5"/>
+          <path d="M18.5 17.5L15 6"/>
+        </svg>
+      ),
+    },
+    {
+      value: "7",
+      label: "slovenskih pokrajin",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
+          <path d="M3 7l4-2 4 2 4-2 4 2v13l-4-2-4 2-4-2-4 2V7z"/>
+          <path d="M7 5v13M11 7v13M15 5v13"/>
+        </svg>
+      ),
+    },
     {
       value: ponudnikiCount !== null && znamenitostiCount !== null
         ? `${ponudnikiCount + znamenitostiCount}`
         : "—",
       label: "postankov in točk",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
+          <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+      ),
     },
   ];
 
@@ -153,9 +180,14 @@ export default function Home() {
       <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-8">
         <div className="mx-auto grid max-w-7xl grid-cols-3 gap-2 sm:gap-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-white/10 bg-[#07110b] px-3 py-4 sm:px-6 sm:py-5">
-              <div className="text-xl font-black text-[#f4d7ad] sm:text-2xl">{stat.value}</div>
-              <div className="mt-1 text-[11px] leading-snug text-zinc-500 sm:text-sm">{stat.label}</div>
+            <div key={stat.label} className="flex items-center gap-2 rounded-2xl border border-white/10 bg-[#07110b] px-3 py-4 sm:gap-4 sm:px-6 sm:py-5">
+              <div className="hidden shrink-0 text-[#c58b46]/40 sm:block">
+                {stat.icon}
+              </div>
+              <div>
+                <div className="text-xl font-black text-[#f4d7ad] sm:text-2xl">{stat.value}</div>
+                <div className="mt-0.5 text-[11px] leading-snug text-zinc-500 sm:text-sm">{stat.label}</div>
+              </div>
             </div>
           ))}
         </div>
