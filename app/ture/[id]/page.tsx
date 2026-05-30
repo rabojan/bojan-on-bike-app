@@ -296,6 +296,8 @@ type NearbyPonudnik = {
   tip: string | null;
   opis: string | null;
   hero_image: string | null;
+  lat: number;
+  lng: number;
   distanceM: number;
 };
 
@@ -349,6 +351,8 @@ export default function TuraDetailPage() {
                   tip: p.tip,
                   opis: p.opis,
                   hero_image: p.hero_image,
+                  lat: p.lat as number,
+                  lng: p.lng as number,
                   distanceM: minDistanceToPolyline(p.lat, p.lng, parsed.points),
                 }))
                 .filter((p) => p.distanceM <= MAX_DIST)
@@ -676,7 +680,17 @@ export default function TuraDetailPage() {
                 Zemljevid in GPX sta osnova. Najprej vidiš občutek dneva, potem pa točno pot, ki jo lahko preneseš na svojo napravo.
               </p>
               <div className="mt-8 overflow-hidden rounded-[28px] border border-white/10" style={{ height: 480 }}>
-                <GpxMap points={gpxData.points} height={480} />
+                <GpxMap
+                  points={gpxData.points}
+                  height={480}
+                  ponudniki={nearbyPonudniki.map((p) => ({
+                    id: p.id,
+                    ime: p.ime,
+                    tip: p.tip,
+                    lat: p.lat,
+                    lng: p.lng,
+                  }))}
+                />
               </div>
               {tura.gpx_url && (
                 <div className="mt-5 flex gap-3">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { MapContainer, TileLayer, Polyline, CircleMarker, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { GpxPoint } from "@/lib/parseGpx";
 
@@ -19,12 +19,21 @@ function FitBounds({ points }: { points: GpxPoint[] }) {
   return null;
 }
 
+export type MapPonudnik = {
+  id: string;
+  ime: string;
+  tip: string | null;
+  lat: number;
+  lng: number;
+};
+
 type Props = {
   points: GpxPoint[];
   height?: number;
+  ponudniki?: MapPonudnik[];
 };
 
-export default function GpxMap({ points, height = 360 }: Props) {
+export default function GpxMap({ points, height = 360, ponudniki = [] }: Props) {
   if (points.length === 0) return null;
 
   const start = points[0];
@@ -34,7 +43,22 @@ export default function GpxMap({ points, height = 360 }: Props) {
 
   return (
     <>
-      <style>{`.map-base-bright img { filter: brightness(2.8) contrast(1.05) saturate(0.6); }`}</style>
+      <style>{`
+        .map-base-bright img { filter: brightness(2.8) contrast(1.05) saturate(0.6); }
+        .ponudnik-tooltip {
+          background: #0b1a10;
+          border: 1px solid rgba(197,139,70,0.45);
+          border-radius: 10px;
+          color: #f4d7ad;
+          font-family: sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          padding: 6px 10px;
+          white-space: nowrap;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+        }
+        .ponudnik-tooltip::before { display: none; }
+      `}</style>
       <MapContainer
         center={center}
         zoom={12}
@@ -71,6 +95,25 @@ export default function GpxMap({ points, height = 360 }: Props) {
         radius={7}
         pathOptions={{ color: "#07110b", fillColor: "#c58b46", fillOpacity: 1, weight: 2 }}
       />
+      {/* ponudniki ob trasi */}
+      {ponudniki.map((p) => (
+        <CircleMarker
+          key={p.id}
+          center={[p.lat, p.lng]}
+          radius={8}
+          pathOptions={{ color: "#07110b", fillColor: "#ffffff", fillOpacity: 0.92, weight: 2 }}
+        >
+          <Tooltip
+            direction="top"
+            offset={[0, -10]}
+            opacity={1}
+            className="ponudnik-tooltip"
+          >
+            <span>{p.ime}</span>
+            {p.tip && <span style={{ color: "#c58b46", fontWeight: 400, marginLeft: 6 }}>{p.tip}</span>}
+          </Tooltip>
+        </CircleMarker>
+      ))}
     </MapContainer>
     </>
   );
