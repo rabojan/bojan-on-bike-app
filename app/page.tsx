@@ -136,7 +136,7 @@ export default function Home() {
       line2: "pokrajin",
       icon: (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src="/si-icon.svg" alt="" aria-hidden="true" className="h-6 w-6 sm:h-7 sm:w-7 opacity-40" />
+        <img src="/si-icon.svg" alt="" aria-hidden="true" className="h-6 w-auto sm:h-7 opacity-40" />
       ),
     },
     {
