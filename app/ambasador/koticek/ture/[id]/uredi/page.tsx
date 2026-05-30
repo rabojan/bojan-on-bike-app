@@ -57,7 +57,7 @@ export default function UrejiTuroPage() {
   const [cas, setCas] = useState("");
   const [tipi, setTipi] = useState<string[]>(["MTB"]);
   const [tezavnost, setTezavnost] = useState("Srednja");
-  const [obcutek, setObcutek] = useState<string[]>([]);
+  const [obcutek, setObcutek] = useState("");
   const [obcutki, setObcutki] = useState<string[]>([]);
   const [asfalt, setAsfalt] = useState("");
   const [makadam, setMakadam] = useState("");
@@ -136,7 +136,7 @@ export default function UrejiTuroPage() {
       setCas(casUrToDisplay(data.cas_ur));
       setTipi(data.tipi ?? ["MTB"]);
       setTezavnost(data.tezavnost ?? "Srednja");
-      setObcutek(data.obcutek ?? []);
+      setObcutek(data.obcutek?.[0] ?? "");
       setAsfalt(data.podlaga_asfalt > 0 ? String(data.podlaga_asfalt) : "");
       setMakadam(data.podlaga_makadam > 0 ? String(data.podlaga_makadam) : "");
       setGozd(data.podlaga_gozd > 0 ? String(data.podlaga_gozd) : "");
@@ -338,7 +338,7 @@ export default function UrejiTuroPage() {
         visinska_razlika: vm ? parseInt(vm) : null,
         cas_ur: cas ? (casUrMap[cas] ?? null) : null,
         tipi, tezavnost,
-        obcutek: obcutek.length > 0 ? obcutek : null,
+        obcutek: obcutek ? [obcutek] : null,
         podlaga_asfalt: asfalt ? parseInt(asfalt) : 0,
         podlaga_makadam: makadam ? parseInt(makadam) : 0,
         podlaga_gozd: gozd ? parseInt(gozd) : 0,
@@ -692,19 +692,15 @@ export default function UrejiTuroPage() {
             </div>
 
             {obcutki.length > 0 && (
-              <div className="space-y-2">
+              <label className="block space-y-2">
                 <span className="text-sm font-bold text-zinc-300">Občutek ture</span>
-                <p className="text-xs text-zinc-500">Izberi enega ali več — opisujejo vzdušje in tip doživetja.</p>
-                <div className="flex flex-wrap gap-2">
-                  {obcutki.map((o) => (
-                    <button key={o} type="button"
-                      onClick={() => setObcutek((prev) => prev.includes(o) ? prev.filter(x => x !== o) : [...prev, o])}
-                      className={`rounded-full border px-5 py-2.5 text-sm font-bold transition ${obcutek.includes(o) ? "border-[#c58b46]/60 bg-[#c58b46]/10 text-[#f4d7ad]" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
-                      {o}
-                    </button>
-                  ))}
-                </div>
-              </div>
+                <p className="text-xs text-zinc-500">Izberi vzdušje, ki najbolje opisuje to turo.</p>
+                <select value={obcutek} onChange={(e) => setObcutek(e.target.value)}
+                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none focus:border-[#c58b46]/60">
+                  <option value="">— izberi občutek —</option>
+                  {obcutki.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </label>
             )}
 
             <div className="space-y-2">
