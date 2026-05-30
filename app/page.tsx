@@ -118,7 +118,8 @@ export default function Home() {
   const stats = [
     {
       value: tureCount !== null ? `${tureCount}` : "—",
-      label: "kolesarskih tur",
+      line1: "kolesarskih",
+      line2: "tur",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
           <circle cx="5.5" cy="17.5" r="3.5"/>
@@ -131,11 +132,14 @@ export default function Home() {
     },
     {
       value: "7",
-      label: "slovenskih pokrajin",
+      line1: "slovenskih",
+      line2: "pokrajin",
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
-          <path d="M3 7l4-2 4 2 4-2 4 2v13l-4-2-4 2-4-2-4 2V7z"/>
-          <path d="M7 5v13M11 7v13M15 5v13"/>
+        <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
+          <path d="M8,38 L12,22 L22,12 L38,8 L52,10 L62,6 L78,8 L92,6 L108,16 L114,28 L110,40 L106,52 L98,62 L84,70 L68,72 L52,68 L38,72 L26,66 L16,58 L8,46 Z"/>
+          <path d="M8,38 L26,66" strokeWidth="1.5" strokeDasharray="4 3"/>
+          <path d="M62,6 L52,68" strokeWidth="1.5" strokeDasharray="4 3"/>
+          <path d="M92,6 L98,62" strokeWidth="1.5" strokeDasharray="4 3"/>
         </svg>
       ),
     },
@@ -143,7 +147,8 @@ export default function Home() {
       value: ponudnikiCount !== null && znamenitostiCount !== null
         ? `${ponudnikiCount + znamenitostiCount}`
         : "—",
-      label: "postankov in točk",
+      line1: "postankov",
+      line2: "in točk",
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
           <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z"/>
@@ -180,13 +185,16 @@ export default function Home() {
       <section className="border-y border-white/10 bg-[#0b1a10] px-5 py-8">
         <div className="mx-auto grid max-w-7xl grid-cols-3 gap-2 sm:gap-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="flex items-center gap-2 rounded-2xl border border-white/10 bg-[#07110b] px-3 py-4 sm:gap-4 sm:px-6 sm:py-5">
+            <div key={stat.line1} className="flex items-center gap-2 rounded-2xl border border-white/10 bg-[#07110b] px-3 py-4 sm:gap-4 sm:px-6 sm:py-5">
               <div className="hidden shrink-0 text-[#c58b46]/40 sm:block">
                 {stat.icon}
               </div>
-              <div>
-                <div className="text-xl font-black text-[#f4d7ad] sm:text-2xl">{stat.value}</div>
-                <div className="mt-0.5 text-[11px] leading-snug text-zinc-500 sm:text-sm">{stat.label}</div>
+              <div className="text-3xl font-black leading-none text-[#f4d7ad] sm:text-4xl">
+                {stat.value}
+              </div>
+              <div className="flex flex-col text-[10px] leading-tight text-zinc-500 sm:text-xs">
+                <span>{stat.line1}</span>
+                <span>{stat.line2}</span>
               </div>
             </div>
           ))}
