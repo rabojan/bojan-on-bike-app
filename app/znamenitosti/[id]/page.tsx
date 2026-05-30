@@ -1,211 +1,224 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
-import { supabase } from "@/lib/supabase";
+import { createServiceClient } from "@/lib/supabase";
 
-type Znamenitost = {
-  id: string;
-  ime: string;
-  tip: string | null;
-  regija: string;
-  obmocje: string | null;
-  lokacija: string | null;
-  kratek_opis: string | null;
-  opis: string | null;
-  zakaj: string | null;
-  namig_za_obisk: string | null;
-  latitude: string | null;
-  longitude: string | null;
-  razdalja_od_trase: string | null;
-  wikipedia_url: string | null;
-  google_maps_url: string | null;
-  hero_image: string | null;
-  ambasador: { ime: string; regija: string } | null;
-};
+export const dynamic = "force-dynamic";
 
-export default function ZnamenitostDetailPage() {
-  const { id } = useParams<{ id: string }>();
-  const [z, setZ] = useState<Znamenitost | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+export default async function ZnamenitostDetailPage({ params }: { params: { id: string } }) {
+  const supabase = createServiceClient();
 
-  useEffect(() => {
-    async function load() {
-      const { data, error } = await supabase
-        .from("predlogi_znamenitosti")
-        .select("*, ambasadorji(ime, regija)")
-        .eq("id", id)
-        .eq("status", "approved")
-        .single();
+  const { data, error } = await supabase
+    .from("predlogi_znamenitosti")
+    .select("*, ambasadorji(ime, regija, foto_url)")
+    .eq("id", params.id)
+    .eq("status", "approved")
+    .single();
 
-      if (error || !data) { setNotFound(true); setLoading(false); return; }
-      const raw = data as Record<string, unknown>;
-      const amb = raw.ambasadorji as { ime: string; regija: string } | null;
-      setZ({ ...data, ambasador: amb });
-      setLoading(false);
-    }
-    load();
-  }, [id]);
+  if (error || !data) notFound();
 
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-[#07110b] text-white">
-        <SiteHeader backHref="/znamenitosti" active="znamenitosti" />
-        <div className="flex min-h-screen items-center justify-center text-zinc-500">Nalagam...</div>
-      </main>
-    );
-  }
-
-  if (notFound || !z) {
-    return (
-      <main className="min-h-screen bg-[#07110b] text-white">
-        <SiteHeader backHref="/znamenitosti" active="znamenitosti" />
-        <div className="flex min-h-screen flex-col items-center justify-center gap-6 text-center">
-          <div className="text-6xl">🗺️</div>
-          <h1 className="font-serif text-3xl font-black italic">Znamenitost ni najdena.</h1>
-          <Link href="/znamenitosti" className="rounded-full bg-[#c58b46] px-8 py-4 text-sm font-black text-black">← Vse znamenitosti</Link>
-        </div>
-      </main>
-    );
-  }
+  const z = data;
+  const amb = z.ambasadorji as { ime: string; regija: string; foto_url: string | null } | null;
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/znamenitosti" active="znamenitosti" />
 
       {/* ── HERO ── */}
-      <section className="relative min-h-[480px] overflow-hidden border-b border-white/10 md:min-h-[560px]">
+      <section className="relative min-h-[680px] overflow-hidden border-b border-white/10">
         {z.hero_image ? (
           <img src={z.hero_image} alt={z.ime}
-            className="absolute inset-0 h-full w-full object-cover opacity-75" />
+            className="absolute inset-0 h-full w-full object-cover opacity-70" />
         ) : (
           <div className="absolute inset-0 bg-[#0b1a10]" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-[#07110b]/20 to-[#07110b]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/45 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b] via-[#07110b]/55 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07110b] via-transparent to-black/40" />
 
-        <div className="relative z-10 mx-auto flex min-h-[480px] max-w-6xl flex-col justify-end px-6 pb-16 pt-32 md:min-h-[560px] md:pb-20">
-          <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-            {z.regija}{z.obmocje ? ` · ${z.obmocje}` : ""}
+        <div className="relative z-10 mx-auto flex min-h-[680px] max-w-7xl flex-col justify-end px-6 pb-20 pt-28">
+          <div className="max-w-4xl">
+            <div className="text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
+              {z.regija}{z.lokacija ? ` · ${z.lokacija}` : ""}
+            </div>
+
+            <h1 className="mt-6 max-w-4xl font-serif text-6xl font-black italic leading-[0.92] tracking-[-0.045em] text-white md:text-8xl">
+              {z.ime}
+            </h1>
+
+            {z.kratek_opis && (
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-zinc-200 md:text-xl md:leading-9">
+                {z.kratek_opis}
+              </p>
+            )}
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              {z.tip && (
+                <span className="rounded-full border border-[#c58b46]/35 bg-black/25 px-5 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#f4d7ad]">
+                  {z.tip}
+                </span>
+              )}
+              {z.razdalja_od_trase && (
+                <span className="rounded-full border border-white/20 bg-black/25 px-5 py-2 text-xs font-black uppercase tracking-[0.16em] text-zinc-300">
+                  {z.razdalja_od_trase}
+                </span>
+              )}
+            </div>
           </div>
-          <h1 className="mt-4 font-serif text-5xl font-black italic leading-tight md:text-6xl">{z.ime}</h1>
-          {z.tip && (
-            <span className="mt-4 inline-flex rounded-full border border-white/20 bg-black/40 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-zinc-200 backdrop-blur">
-              {z.tip}
-            </span>
-          )}
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid gap-16 lg:grid-cols-[1fr_320px]">
-          <div className="space-y-12">
+      {/* ── VSEBINA ── */}
+      <section className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1fr_360px]">
+        <div className="space-y-16">
 
-            {/* Kratek opis */}
-            {z.kratek_opis && (
-              <p className="text-xl leading-9 text-zinc-300">{z.kratek_opis}</p>
-            )}
+          {/* Opis */}
+          {z.opis && (
+            <section className="grid gap-8 md:grid-cols-[1fr_0.8fr] md:items-start">
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
+                  O tej znamenitosti
+                </div>
+                <h2 className="mt-4 font-serif text-4xl font-black italic leading-tight md:text-5xl">
+                  Točka, ki te ustavi.
+                </h2>
+                <p className="mt-7 text-lg leading-9 text-zinc-400">{z.opis}</p>
+              </div>
 
-            {/* Zakaj se ustaviti */}
-            {z.opis && (
-              <section>
-                <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Zakaj se ustaviti</div>
-                <p className="leading-9 text-zinc-300">{z.opis}</p>
-              </section>
-            )}
-
-            {/* Ambasadorjev namig */}
-            {z.zakaj && (
-              <section className="rounded-[28px] border border-[#c58b46]/20 bg-[#c58b46]/5 p-8">
-                <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorjev namig</div>
-                <p className="leading-8 text-zinc-300">&ldquo;{z.zakaj}&rdquo;</p>
-                {z.ambasador && (
-                  <div className="mt-4 text-sm font-bold text-zinc-500">
-                    🚴 {z.ambasador.ime} · Ambasador {z.ambasador.regija}
+              {z.zakaj && (
+                <div className="rounded-[28px] border border-[#c58b46]/20 bg-[#0b1a10] p-7">
+                  <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c58b46]">
+                    Zakaj se ustaviti
                   </div>
-                )}
-              </section>
-            )}
+                  <p className="mt-5 font-serif text-2xl font-black italic leading-tight text-[#f4d7ad]">
+                    &ldquo;{z.zakaj}&rdquo;
+                  </p>
+                  {amb && (
+                    <div className="mt-5 text-sm font-semibold text-zinc-400">
+                      🚴 {amb.ime} · Ambasador {amb.regija}
+                    </div>
+                  )}
+                </div>
+              )}
+            </section>
+          )}
 
-            {/* Namig za obisk */}
-            {z.namig_za_obisk && (
-              <section>
-                <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Namig za obisk</div>
-                <p className="leading-8 text-zinc-300">{z.namig_za_obisk}</p>
-              </section>
-            )}
+          {/* Samo zakaj — brez opisa */}
+          {!z.opis && z.zakaj && (
+            <section className="rounded-[28px] border border-[#c58b46]/20 bg-[#c58b46]/5 p-8">
+              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Zakaj se ustaviti</div>
+              <p className="mt-5 font-serif text-2xl font-black italic leading-tight text-[#f4d7ad]">
+                &ldquo;{z.zakaj}&rdquo;
+              </p>
+              {amb && (
+                <div className="mt-4 text-sm font-bold text-zinc-500">
+                  🚴 {amb.ime} · Ambasador {amb.regija}
+                </div>
+              )}
+            </section>
+          )}
 
+          {/* Namig za obisk */}
+          {z.namig_za_obisk && (
+            <section>
+              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Namig za obisk</div>
+              <h2 className="mt-4 font-serif text-4xl font-black italic leading-tight md:text-5xl">
+                Ko prideš tja.
+              </h2>
+              <p className="mt-7 text-lg leading-9 text-zinc-400">{z.namig_za_obisk}</p>
+            </section>
+          )}
+
+          {/* Foto */}
+          {z.foto_url && (
+            <section>
+              <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Fotografija</div>
+              <div className="mt-6">
+                <img src={z.foto_url} alt={z.ime}
+                  className="w-full rounded-[28px] object-cover" style={{ maxHeight: 480 }} />
+              </div>
+            </section>
+          )}
+
+        </div>
+
+        {/* ── SIDEBAR ── */}
+        <aside className="lg:sticky lg:top-24 lg:self-start space-y-5">
+
+          {/* Info kartica */}
+          <div className="rounded-[28px] border border-[#c58b46]/25 bg-[#0b1a10] p-7">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
+              Informacije
+            </div>
+
+            <div className="mt-6 space-y-0 text-sm">
+              {(
+                [
+                  z.tip ? ["Tip", z.tip] : null,
+                  ["Regija", z.regija],
+                  z.lokacija ? ["Lokacija", z.lokacija] : null,
+                  z.razdalja_od_trase ? ["Od trase", z.razdalja_od_trase] : null,
+                ].filter((x): x is [string, string] => x !== null)
+              ).map(([label, value]) => (
+                <div key={label}
+                  className="flex justify-between gap-5 border-b border-white/10 py-4">
+                  <span className="text-zinc-500">{label}</span>
+                  <span className="text-right font-semibold text-[#f4d7ad]">{value}</span>
+                </div>
+              ))}
+
+              {z.lat && z.lng && (
+                <div className="flex justify-between gap-5 border-b border-white/10 py-4">
+                  <span className="text-zinc-500">GPS</span>
+                  <span className="font-mono text-xs text-zinc-400">{Number(z.lat).toFixed(5)}, {Number(z.lng).toFixed(5)}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-7 flex flex-col gap-3">
+              {z.google_maps_url && (
+                <a href={z.google_maps_url} target="_blank" rel="noopener noreferrer"
+                  className="rounded-full bg-[#c58b46] px-6 py-4 text-center text-sm font-black text-black transition hover:bg-[#f4d7ad]">
+                  Odpri v Google Maps
+                </a>
+              )}
+              {z.wikipedia_url && (
+                <a href={z.wikipedia_url} target="_blank" rel="noreferrer"
+                  className="rounded-full border border-[#c58b46]/35 px-6 py-4 text-center text-sm font-bold text-[#f4d7ad] transition hover:border-[#c58b46]">
+                  Preberi na Wikipediji
+                </a>
+              )}
+              <Link href="/znamenitosti"
+                className="rounded-full border border-white/10 px-6 py-4 text-center text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">
+                ← Vse znamenitosti
+              </Link>
+            </div>
           </div>
 
-          {/* ── SIDEBAR ── */}
-          <aside className="space-y-5">
-
-            {/* Lokacija */}
+          {/* Ambassador kartica */}
+          {amb && (
             <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6">
-              <div className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Lokacija</div>
-              <div className="space-y-3 text-sm text-zinc-400">
-                {z.lokacija && <p>{z.lokacija}</p>}
-                {z.razdalja_od_trase && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-zinc-600">📍</span>
-                    <span>{z.razdalja_od_trase}</span>
+              <div className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
+                Predlagal ambasador
+              </div>
+              <div className="flex items-center gap-3">
+                {amb.foto_url ? (
+                  <img src={amb.foto_url} alt={amb.ime}
+                    className="h-10 w-10 rounded-full object-cover" />
+                ) : (
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#c58b46]/20 text-xs font-black text-[#c58b46]">
+                    {amb.ime.charAt(0)}
                   </div>
                 )}
-                {z.latitude && z.longitude && (
-                  <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-mono text-xs">
-                    {z.latitude}, {z.longitude}
-                  </div>
-                )}
-              </div>
-              <div className="mt-5 flex flex-col gap-3">
-                {z.google_maps_url && (
-                  <a href={z.google_maps_url} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-[#c58b46] px-5 py-2.5 text-sm font-bold text-black transition hover:opacity-90">
-                    Odpri v Google Maps
-                  </a>
-                )}
-                {z.wikipedia_url && (
-                  <a href={z.wikipedia_url} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full border border-white/10 px-5 py-2.5 text-sm font-bold text-zinc-300 transition hover:border-white/20">
-                    Preberi na Wikipediji
-                  </a>
-                )}
-              </div>
-            </div>
-
-            {/* Meta */}
-            <div className="rounded-[28px] border border-white/10 bg-[#0b1a10] p-6 text-sm">
-              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600">Regija</div>
-                  <div className="mt-1 font-bold text-zinc-300">{z.regija}</div>
+                  <div className="font-bold text-white">{amb.ime}</div>
+                  <div className="text-xs text-zinc-500">Ambasador {amb.regija}</div>
                 </div>
-                {z.obmocje && (
-                  <div>
-                    <div className="text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600">Območje</div>
-                    <div className="mt-1 font-bold text-zinc-300">{z.obmocje}</div>
-                  </div>
-                )}
-                {z.tip && (
-                  <div className="col-span-2">
-                    <div className="text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600">Tip</div>
-                    <div className="mt-1 font-bold text-zinc-300">{z.tip}</div>
-                  </div>
-                )}
               </div>
             </div>
+          )}
 
-            <Link href="/znamenitosti"
-              className="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-400 transition hover:border-white/20">
-              ← Vse znamenitosti
-            </Link>
-
-          </aside>
-        </div>
-      </div>
+        </aside>
+      </section>
     </main>
   );
 }
