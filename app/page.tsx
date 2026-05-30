@@ -135,11 +135,13 @@ export default function Home() {
       line1: "slovenskih",
       line2: "pokrajin",
       icon: (
-        <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
-          <path d="M8,38 L12,22 L22,12 L38,8 L52,10 L62,6 L78,8 L92,6 L108,16 L114,28 L110,40 L106,52 L98,62 L84,70 L68,72 L52,68 L38,72 L26,66 L16,58 L8,46 Z"/>
-          <path d="M8,38 L26,66" strokeWidth="1.5" strokeDasharray="4 3"/>
-          <path d="M62,6 L52,68" strokeWidth="1.5" strokeDasharray="4 3"/>
-          <path d="M92,6 L98,62" strokeWidth="1.5" strokeDasharray="4 3"/>
+        <svg viewBox="0 0 180 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 sm:h-7 sm:w-7">
+          {/* Slovenia outline — wider than tall, Prekmurje bump top-right */}
+          <path d="M8,60 L12,38 L22,22 L38,12 L58,8 L80,12 L100,7 L118,12 L136,8 L150,10 L162,7 L172,18 L170,38 L158,60 L140,76 L115,82 L88,80 L65,84 L44,78 L28,70 L15,65 Z"/>
+          {/* Region dividers */}
+          <path d="M136,8 L158,60" strokeWidth="1.2" strokeDasharray="4 3"/>
+          <path d="M80,12 L88,80" strokeWidth="1.2" strokeDasharray="4 3"/>
+          <path d="M38,12 L44,78" strokeWidth="1.2" strokeDasharray="4 3"/>
         </svg>
       ),
     },
