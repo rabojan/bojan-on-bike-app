@@ -3,7 +3,7 @@ import PageHero from "@/components/PageHero";
 import { createServiceClient } from "@/lib/supabase";
 import PonudnikiList from "./PonudnikiList";
 
-export const revalidate = 60; // osvezi vsakih 60 sekund
+export const dynamic = "force-dynamic";
 
 export default async function PonudnikiPage() {
   const supabase = createServiceClient();
