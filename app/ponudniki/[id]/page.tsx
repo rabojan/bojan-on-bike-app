@@ -315,7 +315,7 @@ export default function PonudnikDetailPage() {
               {ponudnik.spletna_stran && (
                 <a href={ponudnik.spletna_stran} target="_blank" rel="noreferrer"
                   className="rounded-full border border-[#c58b46]/35 px-6 py-4 text-center text-sm font-bold text-[#f4d7ad] transition hover:border-[#c58b46]">
-                  WWW
+                  Spletna stran
                 </a>
               )}
               <Link href="/ponudniki"
