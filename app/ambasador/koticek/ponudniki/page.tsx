@@ -84,7 +84,7 @@ export default function AmbassadorPonudnikiPage() {
                 Tvoji predlagani ponudniki.
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-                Predlagaj lokalne ponudnike, ki jih priporočaš ob tvojih trasah — koče, kleti,
+                Predlagaj lokalne ponudnike, ki jih priporočaš ob tvojih trasah: koče, kleti,
                 bifeji, bike shopsi. Vsak potrjen ponudnik dobi svojo stran na platformi.
               </p>
             </div>

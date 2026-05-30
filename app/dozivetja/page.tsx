@@ -64,7 +64,7 @@ export default function DozivetjaPage() {
       <PageHero
         eyebrow="Doživetja ob poti"
         title="Tura je šele začetek lepega dne."
-        description="Skrbno izbrane kombinacije ture, postanka in doživetja. Ne samo km — cel dan, ki si ga zapomniš."
+        description="Skrbno izbrane kombinacije ture, postanka in doživetja. Ne samo kilometry, cel dan, ki si ga zapomniš."
         image="/hero-dozivetja.png"
         imageAlt="Kolesarsko doživetje v naravi"
         imagePosition="center"

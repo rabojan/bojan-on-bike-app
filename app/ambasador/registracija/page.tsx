@@ -132,7 +132,7 @@ export default function AmbassadorRegistrationPage() {
                     onChange={(e) => setRegija(e.target.value)}
                     className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none transition focus:border-[#c58b46]/60"
                   >
-                    <option value="">— izberi regijo —</option>
+                    <option value="">Izberi regijo...</option>
                     {regions.map((r) => (
                       <option key={r} value={r}>{r}</option>
                     ))}

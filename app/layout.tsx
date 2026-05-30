@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bojan on Bike — kolesarski vodnik po Sloveniji",
+  title: "Bojan on Bike | kolesarski vodnik po Sloveniji",
   description: "Odkrijte najboljše kolesarske ture po Sloveniji. Lokalni vodnik z izbranimi potmi, ponudniki in doživetji.",
 };
 

@@ -269,7 +269,7 @@ export default function NewProviderPage() {
                   maxLength={100}
                   value={quote}
                   onChange={(e) => setQuote(e.target.value)}
-                  placeholder="npr. Tukaj tura dobi svoj postanek — toplo, mirno in z razlogom."
+                  placeholder="npr. Tukaj tura dobi svoj postanek: toplo, mirno in z razlogom."
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
                 />
                 <p className="text-xs text-zinc-600">
@@ -284,7 +284,7 @@ export default function NewProviderPage() {
                 Poudarki ponudnika
               </div>
               <p className="mb-6 text-sm leading-7 text-zinc-500">
-                Do 6 kratkih kartic, ki pokažejo kaj ponudnik nudi — domača kuhinja, e-bike polnilnica, prenočišče, kava...
+                Do 6 kratkih kartic, ki pokažejo kaj ponudnik nudi: domača kuhinja, e-bike polnilnica, prenočišče, kava...
               </p>
 
               <div className="grid gap-4 md:grid-cols-2">
@@ -354,7 +354,7 @@ export default function NewProviderPage() {
                       Hero slika ponudnika
                     </div>
                     <p className="mt-3 max-w-sm text-sm leading-7 text-zinc-400">
-                      Glavna slika — prikaže se v heroju in katalogu. Horizontalna,
+                      Glavna slika, prikaže se v heroju in katalogu. Horizontalna,
                       ambiente, terasa ali razgled.
                     </p>
                   </div>

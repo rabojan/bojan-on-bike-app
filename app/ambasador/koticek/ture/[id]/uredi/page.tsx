@@ -679,7 +679,7 @@ export default function UrejiTuroPage() {
                 <span className="text-sm font-bold text-zinc-300">Ocenjeni čas</span>
                 <select value={cas} onChange={(e) => setCas(e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60">
-                  <option value="">— izberi —</option>
+                  <option value="">Izberi...</option>
                   {casOptions.map((o) => <option key={o}>{o}</option>)}
                 </select>
               </label>
@@ -703,7 +703,7 @@ export default function UrejiTuroPage() {
                 <p className="text-xs text-zinc-500">Izberi vzdušje, ki najbolje opisuje to turo.</p>
                 <select value={obcutek} onChange={(e) => setObcutek(e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none focus:border-[#c58b46]/60">
-                  <option value="">— izberi občutek —</option>
+                  <option value="">Izberi občutek...</option>
                   {obcutki.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
               </label>
@@ -737,7 +737,7 @@ export default function UrejiTuroPage() {
                 : surfaceSum === 0 ? "border-white/10 bg-black/20 text-zinc-500"
                 : "border-red-500/30 bg-red-500/10 text-red-400"
               }`}>
-                {surfaceSum === 100 ? "✓ Skupaj 100 %." : surfaceSum === 0 ? "Vnesi deleže podlag." : `Skupaj: ${surfaceSum} % — mora biti 100 %.`}
+                {surfaceSum === 100 ? "✓ Skupaj 100 %." : surfaceSum === 0 ? "Vnesi deleže podlag." : `Skupaj: ${surfaceSum} %, mora biti 100 %.`}
               </div>
             </div>
           </div>

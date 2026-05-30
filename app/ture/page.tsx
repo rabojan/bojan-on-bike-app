@@ -160,7 +160,7 @@ export default function TurePage() {
             <div>
               <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Poišči turo zase</div>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
-                Izberi pokrajino ali zahtevnost. Filtri so tu kot pomoč — glavna zgodba ostaja tura.
+                Izberi pokrajino ali zahtevnost. Filtri so tu kot pomoč, glavna zgodba ostaja tura.
               </p>
             </div>
             <div className="text-sm text-zinc-500">

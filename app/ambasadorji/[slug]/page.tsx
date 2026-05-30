@@ -19,7 +19,7 @@ const ambassadors: Record<string, {
     region: "Štajerska",
     place: "Maribor",
     bio: "Lokalni poznavalec Pohorja, Štajerske, gozdnih poti, razgledov in doživetij ob trasi.",
-    story: "Bojan pozna vsak zavoj Pohorja. Ne samo kje so poti — ampak kdaj so mokre, kdaj je razgled najboljši in katera koča pripravi juho, ki jo po vzponu resnično zaslužiš. Vsaka vsebina na tej platformi iz Štajerske je bila filtrirana skozi lokalnega kolesarja z letnicami na nogah in zgodbo za vsakim predlogom.",
+    story: "Bojan pozna vsak zavoj Pohorja. Ne samo kje so poti, ampak kdaj so mokre, kdaj je razgled najboljši in katera koča pripravi juho, ki jo po vzponu resnično zaslužiš. Vsaka vsebina na tej platformi iz Štajerske je bila filtrirana skozi lokalnega kolesarja z letnicami na nogah in zgodbo za vsakim predlogom.",
     isTop: false,
     trails: [
       { title: "Gozdni flow nad Mariborom", href: "/ture/gozdni-flow-nad-mariborom", meta: "32 km · 890 vm" },
@@ -39,7 +39,7 @@ const ambassadors: Record<string, {
     region: "Gorenjska",
     place: "Bled",
     bio: "Ambasador za alpske razglede, jezera, družinske e-bike izlete in poti ob vodi.",
-    story: "Tomaž pokriva gorenjske ture ob vodi, razglede in družinske kolesarske dneve. Vsaka njegova tura ima v sebi zrcalno jezero ali goro na horizontu — ali oboje.",
+    story: "Tomaž pokriva gorenjske ture ob vodi, razglede in družinske kolesarske dneve. Vsaka njegova tura ima v sebi zrcalno jezero ali goro na horizontu, ali oboje.",
     isTop: true,
     trails: [],
     providers: [],

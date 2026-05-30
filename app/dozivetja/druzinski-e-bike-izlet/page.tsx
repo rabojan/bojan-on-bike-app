@@ -30,7 +30,7 @@ const experience = {
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop",
   mood: "Gozd, ki počaka. Tempo, ki ga narekujete vi. Dan za celo družino.",
   story:
-    "Pohorje ni samo za tekmovalce. Ta dan je zasnovan za družine — odseki, ki so obvladljivi za otroke, postanki, kjer se vsi nasmejijo, in tempo, ki dovoli, da dan res dihate skupaj. E-bike poskrbi, da ne zmanjka energije pred koncem.",
+    "Pohorje ni samo za tekmovalce. Ta dan je zasnovan za družine: odseki, ki so obvladljivi za otroke, postanki, kjer se vsi nasmejijo, in tempo, ki dovoli, da dan res dihate skupaj. E-bike poskrbi, da ne zmanjka energije pred koncem.",
 
   timeline: [
     {

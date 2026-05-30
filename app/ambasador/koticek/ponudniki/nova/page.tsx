@@ -148,7 +148,7 @@ export default function NovPonudnikPage() {
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorski kotiček / Ponudniki / Nov</div>
               <h1 className="mt-4 font-serif text-4xl font-black italic leading-tight text-white">Predlagaj ponudnika.</h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-                Izpolni vse razdelke — bolj popoln kot je predlog, hitreje bo objavljen.
+                Izpolni vse razdelke: bolj popoln kot je predlog, hitreje bo objavljen.
               </p>
             </div>
             <Link href="/ambasador/koticek/ponudniki" className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">← Nazaj</Link>
@@ -169,7 +169,7 @@ export default function NovPonudnikPage() {
               <span className="text-sm font-bold text-zinc-300">Tip ponudnika</span>
               <select value={tip} onChange={(e) => setTip(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60">
-                <option value="">— izberi tip —</option>
+                <option value="">Izberi tip...</option>
                 {providerTypes.map((t) => <option key={t}>{t}</option>)}
               </select>
             </label>
@@ -214,7 +214,7 @@ export default function NovPonudnikPage() {
         {/* ── 3. ZAKAJ GA PRIPOROČAŠ ── */}
         <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Zakaj ga priporočaš</div>
-          <p className="mb-5 text-sm text-zinc-500">Tvoje mnenje — prikaže se v razdelku "Zakaj se ustaviti".</p>
+          <p className="mb-5 text-sm text-zinc-500">Tvoje mnenje, prikaže se v razdelku "Zakaj se ustaviti".</p>
           <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
             placeholder="Zakaj bi kolesarji postali ravno tukaj? Kaj je posebnega?"
             className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
@@ -223,7 +223,7 @@ export default function NovPonudnikPage() {
         {/* ── 3. OPIS ZA PLATFORMO ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Opis za platformo</div>
-          <p className="mb-5 text-sm text-zinc-500">Javni opisi — prikazani na strani ponudnika.</p>
+          <p className="mb-5 text-sm text-zinc-500">Javni opisi, prikazani na strani ponudnika.</p>
           <div className="space-y-5">
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Zgodba / opis ponudnika *</span>
@@ -242,7 +242,7 @@ export default function NovPonudnikPage() {
               <span className="text-sm font-bold text-zinc-300">Citat</span>
               <p className="text-xs text-zinc-500">Kratka izjava v poudarjenem razdelku.</p>
               <input value={citat} onChange={(e) => setCitat(e.target.value)}
-                placeholder="npr. Domača juha po vzponu — to je razlog za naslednji krog."
+                placeholder="npr. Domača juha po vzponu: to je razlog za naslednji krog."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
             </label>
           </div>
@@ -251,7 +251,7 @@ export default function NovPonudnikPage() {
         {/* ── 4. POUDARKI PONUDNIKA (6) ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Poudarki ponudnika</div>
-          <p className="mb-5 text-sm text-zinc-500">Do 6 kratkih kartic, ki pokažejo kaj ponudnik nudi — domača kuhinja, polnilnica, prenočišče, kava...</p>
+          <p className="mb-5 text-sm text-zinc-500">Do 6 kratkih kartic, ki pokažejo kaj ponudnik nudi: domača kuhinja, polnilnica, prenočišče, kava...</p>
           <div className="grid gap-4 md:grid-cols-2">
             {features.map((f, i) => (
               <div key={i} className="rounded-[20px] border border-white/10 bg-[#07110b] p-4">
@@ -290,7 +290,7 @@ export default function NovPonudnikPage() {
                   <div className="text-5xl">📷</div>
                   <div className="mt-4 text-xl font-black text-zinc-300">Hero slika ponudnika</div>
                   <p className="mt-3 max-w-sm text-sm leading-7 text-zinc-400">
-                    Glavna slika — prikaže se v heroju in katalogu.
+                    Glavna slika, prikaže se v heroju in katalogu.
                   </p>
                 </div>
               )}

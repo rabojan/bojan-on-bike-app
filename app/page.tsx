@@ -209,7 +209,7 @@ export default function Home() {
                 Cel kolesarski dan, ne samo tura.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-                Tura je začetek. Doživetje je vse skupaj — pot, razgled, postanek in občutek pokrajine.
+                Tura je začetek. Doživetje je vse skupaj: pot, razgled, postanek in občutek pokrajine.
               </p>
             </div>
             <Link
@@ -274,10 +274,10 @@ export default function Home() {
             <div className="overflow-hidden rounded-[2rem] border border-[#c58b46]/20 bg-[#c58b46]/5 p-10 md:p-14">
               <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Prihaja kmalu</p>
               <h3 className="mb-5 font-serif text-3xl font-black italic leading-tight md:text-4xl">
-                Doživetja — kurirana kolesarska doživetja.
+                Kurirana kolesarska doživetja.
               </h3>
               <p className="mb-8 max-w-2xl text-base leading-8 text-zinc-400">
-                Vsako doživetje bo vključevalo turo, postanke pri lokalnih ponudnikih in znamenitosti ob poti — vse v enem.
+                Vsako doživetje bo vključevalo turo, postanke pri lokalnih ponudnikih in znamenitosti ob poti, vse v enem.
               </p>
               <Link
                 href="/ture"
@@ -612,7 +612,7 @@ export default function Home() {
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-8 text-zinc-400">
                 Poznaš lokalno pot, ki si zasluži več pozornosti? Pridruži se
-                mreži ambasadorjev — predlagaj ture, poveži ponudnike in
+                mreži ambasadorjev: predlagaj ture, poveži ponudnike in
                 znamenitosti. Vsaka objava nosi tvoj podpis.
               </p>
             </div>
@@ -640,7 +640,7 @@ export default function Home() {
           <div className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-zinc-500">
               Vsaka dobra tura se začne s pogovorom.{" "}
-              <span className="text-zinc-600">Vprašanje, ideja, predlog — napiši.</span>
+              <span className="text-zinc-600">Vprašanje, ideja ali predlog? Napiši.</span>
             </p>
             <button
               onClick={() => setKontaktOpen(true)}

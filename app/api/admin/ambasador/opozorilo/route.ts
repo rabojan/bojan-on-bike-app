@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     const { error } = await resend.emails.send({
       from: "Bojan on Bike <noreply@bojanonbike.si>",
       to: email,
-      subject: "Opozorilo glede vsebine — Bojan on Bike",
+      subject: "Opozorilo glede vsebine | Bojan on Bike",
       html: `
         <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#222;">
           <p style="font-size:15px;line-height:1.7;">Pozdravljeni ${name},</p>

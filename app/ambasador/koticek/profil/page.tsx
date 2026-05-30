@@ -220,7 +220,7 @@ export default function AmbassadorProfilePage() {
             </div>
 
             <div className="mt-5 rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/10 p-4 text-sm leading-7 text-zinc-300">
-              Sprememba profila ne vpliva na že objavljene ture — posodobi samo tvoj prikaz pri novih objavah.
+              Sprememba profila ne vpliva na že objavljene ture, posodobi samo tvoj prikaz pri novih objavah.
             </div>
           </div>
 
@@ -257,7 +257,7 @@ export default function AmbassadorProfilePage() {
                     value={regija}
                     onChange={(e) => setRegija(e.target.value)}
                     className="h-14 w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 text-white outline-none transition focus:border-[#c58b46]/60">
-                    <option value="">— izberi regijo —</option>
+                    <option value="">Izberi regijo...</option>
                     {regions.map((r) => <option key={r}>{r}</option>)}
                   </select>
                 </label>
@@ -277,7 +277,7 @@ export default function AmbassadorProfilePage() {
                     rows={4}
                     value={kratekOpis}
                     onChange={(e) => setKratekOpis(e.target.value)}
-                    placeholder="Povej kaj o sebi kot kolesarju — kaj te žene, katere poti poznaš, kaj rad odkritvaš..."
+                    placeholder="Povej kaj o sebi kot kolesarju: kaj te žene, katere poti poznaš, kaj rad odkritvaš..."
                     className="w-full rounded-2xl border border-white/10 bg-[#0b1a10] px-4 py-4 leading-7 text-white outline-none transition focus:border-[#c58b46]/60" />
                 </label>
 

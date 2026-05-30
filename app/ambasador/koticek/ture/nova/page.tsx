@@ -262,7 +262,7 @@ export default function NovaTuraPage() {
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorski kotiček / Ture / Nova</div>
               <h1 className="mt-4 font-serif text-4xl font-black italic leading-tight text-white">Predlagaj novo turo.</h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-                Izpolni vse razdelke — bolj kot je predlog popoln, hitreje bo objavljen.
+                Izpolni vse razdelke: bolj kot je predlog popoln, hitreje bo objavljen.
               </p>
             </div>
             <Link href="/ambasador/koticek/ture" className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">← Nazaj</Link>
@@ -359,7 +359,7 @@ export default function NovaTuraPage() {
         {/* ── 3. OPIS TURE ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Opis ture</div>
-          <p className="mb-5 text-sm text-zinc-500">Glavna zgodba — prikaže se pod naslovom na javni strani.</p>
+          <p className="mb-5 text-sm text-zinc-500">Glavna zgodba, prikaže se pod naslovom na javni strani.</p>
           <textarea rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
             placeholder="Tura se začne pri... Gozd te popelje... Na vrhu se odpre razgled..."
             className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
@@ -374,7 +374,7 @@ export default function NovaTuraPage() {
         {/* ── 4. AMBASADORJEV NAMIG ── */}
         <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorjev namig</div>
-          <p className="mb-5 text-sm text-zinc-500">Tvoj osebni citat — prikaže se v razdelku z tvojim imenom in fotografijo.</p>
+          <p className="mb-5 text-sm text-zinc-500">Tvoj osebni citat, prikaže se v razdelku z tvojim imenom in fotografijo.</p>
           <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
             placeholder="Najlepše je, ko se megla še dviga med drevesi..."
             className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
@@ -383,7 +383,7 @@ export default function NovaTuraPage() {
         {/* ── 5. RITEM DNEVA ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ritem dneva</div>
-          <p className="mb-5 text-sm text-zinc-500">5 korakov ki opišejo potek dneva — ura, naslov in kratek opis. Prikaže se kot časovnica na strani ture.</p>
+          <p className="mb-5 text-sm text-zinc-500">5 korakov ki opišejo potek dneva: ura, naslov in kratek opis. Prikaže se kot časovnica na strani ture.</p>
           <div className="grid gap-4 md:grid-cols-5">
             {ritemDneva.map((korak, i) => (
               <div key={i} className="rounded-[20px] border border-white/10 bg-[#07110b] p-4">
@@ -480,7 +480,7 @@ export default function NovaTuraPage() {
         {/* ── 7. TEHNIČNI PODATKI ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Tehnični podatki</div>
-          <p className="mb-5 text-sm text-zinc-500">Razdalja in vzpon se izpolnita iz GPX — ročno popravi samo če je treba.</p>
+          <p className="mb-5 text-sm text-zinc-500">Razdalja in vzpon se izpolnita iz GPX, ročno popravi samo če je treba.</p>
           <div className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-3">
               <label className="space-y-2">
@@ -497,7 +497,7 @@ export default function NovaTuraPage() {
                 <span className="text-sm font-bold text-zinc-300">Ocenjeni čas</span>
                 <select value={cas} onChange={(e) => setCas(e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60">
-                  <option value="">— izberi —</option>
+                  <option value="">Izberi...</option>
                   {casOptions.map((o) => <option key={o}>{o}</option>)}
                 </select>
               </label>
@@ -521,7 +521,7 @@ export default function NovaTuraPage() {
                 <p className="text-xs text-zinc-500">Izberi vzdušje, ki najbolje opisuje to turo.</p>
                 <select value={obcutek} onChange={(e) => setObcutek(e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none focus:border-[#c58b46]/60">
-                  <option value="">— izberi občutek —</option>
+                  <option value="">Izberi občutek...</option>
                   {obcutki.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
               </label>
@@ -557,10 +557,10 @@ export default function NovaTuraPage() {
                 : "border-red-500/30 bg-red-500/10 text-red-400"
               }`}>
                 {surfaceSum === 100
-                  ? "✓ Skupaj 100 % — podlaga je pravilno vnesena."
+                  ? "✓ Skupaj 100 %, podlaga je pravilno vnesena."
                   : surfaceSum === 0
                     ? "Vnesi deleže podlag (skupaj mora biti 100 %)."
-                    : `Skupaj: ${surfaceSum} % — vsota mora biti točno 100 %.`}
+                    : `Skupaj: ${surfaceSum} %, vsota mora biti točno 100 %.`}
               </div>
             </div>
           </div>

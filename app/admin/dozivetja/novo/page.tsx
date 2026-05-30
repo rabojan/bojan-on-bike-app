@@ -72,7 +72,7 @@ function StepCard({ step, index, total, onChange, onRemove, onMoveUp, onMoveDown
             className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50" />
         </label>
         <label className="block space-y-1.5">
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Opis — ena vrstica</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Opis (ena vrstica)</span>
           <input value={step.description} onChange={(e) => onChange(step.id, "description", e.target.value)}
             placeholder="npr. Terasa, juha in zaslužena tišina."
             className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50" />
@@ -275,7 +275,7 @@ export default function NovoDoziveljePage() {
                   <input value={tagline} onChange={(e) => setTagline(e.target.value)}
                     placeholder="npr. Mehki vzponi, vinski razgledi, pogovor ob kozarcu."
                     className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
-                  <p className="text-xs text-zinc-600">Kratka atmosferska vrstica — prikaže se pod naslovom v heroju.</p>
+                  <p className="text-xs text-zinc-600">Kratka atmosferska vrstica, prikaže se pod naslovom v heroju.</p>
                 </label>
                 <label className="space-y-1.5">
                   <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Regija *</span>
@@ -292,7 +292,7 @@ export default function NovoDoziveljePage() {
                 <label className="col-span-2 space-y-1.5">
                   <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Zakaj ta dan?</span>
                   <textarea value={zakaj} onChange={(e) => setZakaj(e.target.value)}
-                    placeholder="Kratka zgodba — zakaj je ta dan poseben, kemu je namenjen..."
+                    placeholder="Kratka zgodba: zakaj je ta dan poseben, kemu je namenjen..."
                     rows={4} className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60" />
                 </label>
               </div>

@@ -115,7 +115,7 @@ export default function NovaZnamenitostPage() {
               <div className="text-xs uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorski kotiček / Znamenitosti / Nova</div>
               <h1 className="mt-4 font-serif text-4xl font-black italic leading-tight text-white">Predlagaj znamenitost.</h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-                Označi točko ob tvojih trasah — razgled, naravna posebnost, kulturni objekt. Po potrditvi dobi svojo stran na platformi.
+                Označi točko ob tvojih trasah: razgled, naravna posebnost, kulturni objekt. Po potrditvi dobi svojo stran na platformi.
               </p>
             </div>
             <Link href="/ambasador/koticek/znamenitosti" className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">← Nazaj</Link>
@@ -138,7 +138,7 @@ export default function NovaZnamenitostPage() {
               <span className="text-sm font-bold text-zinc-300">Tip</span>
               <select value={tip} onChange={(e) => setTip(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60">
-                <option value="">— izberi tip —</option>
+                <option value="">Izberi tip...</option>
                 {attractionTypes.map((t) => <option key={t}>{t}</option>)}
               </select>
             </label>
@@ -168,7 +168,7 @@ export default function NovaZnamenitostPage() {
 
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Kratek opis *</span>
-              <p className="text-xs text-zinc-500">Ena ali dve povedi — prikaže se pod naslovom kot uvod.</p>
+              <p className="text-xs text-zinc-500">Ena ali dve povedi, prikaže se pod naslovom kot uvod.</p>
               <textarea rows={2} value={kratekOpis} onChange={(e) => setKratekOpis(e.target.value)}
                 placeholder="Kratek postanek nad mestom, kjer se odpre pogled proti Mariboru..."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
@@ -176,7 +176,7 @@ export default function NovaZnamenitostPage() {
 
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Zgodba / opis *</span>
-              <p className="text-xs text-zinc-500">Daljši opis — prikaže se v razdelku "Zakaj se ustaviti" na strani.</p>
+              <p className="text-xs text-zinc-500">Daljši opis, prikaže se v razdelku "Zakaj se ustaviti" na strani.</p>
               <textarea rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
                 placeholder="To je ena tistih točk, kjer se tura za trenutek ustavi. Pod tabo ostane mesto..."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
@@ -184,7 +184,7 @@ export default function NovaZnamenitostPage() {
 
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Ambasadorjev namig</span>
-              <p className="text-xs text-zinc-500">Tvoje osebno priporočilo — zakaj točno ta točka, kdaj jo obiskati.</p>
+              <p className="text-xs text-zinc-500">Tvoje osebno priporočilo: zakaj točno ta točka, kdaj jo obiskati.</p>
               <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
                 placeholder="Tukaj se vedno ustavim. Mesto pod tabo, gozd za hrbtom..."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />

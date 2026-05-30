@@ -620,7 +620,7 @@ export default function TuraDetailPage() {
                   <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">Tehnične podrobnosti</div>
                   <h2 className="mt-3 font-serif text-4xl font-bold italic">Kakšna je vožnja?</h2>
                   <p className="mt-4 text-sm leading-7 text-zinc-400">
-                    Gozdna, razgibana in igriva. Dovolj podatkov, da veš, kaj te čaka — in dovolj občutka, da razumeš, zakaj je tura vredna dneva.
+                    Gozdna, razgibana in igriva. Dovolj podatkov, da veš, kaj te čaka, in dovolj občutka, da razumeš, zakaj je tura vredna dneva.
                   </p>
                   <div className="mt-7 grid grid-cols-2 gap-3">
                     {([

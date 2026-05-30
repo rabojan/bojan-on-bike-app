@@ -30,7 +30,7 @@ const experience = {
     "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=1600&auto=format&fit=crop",
   mood: "Mehki vzponi, vinski razgledi, pogovor ob kozarcu. Dan brez ciljev.",
   story:
-    "To ni tura za rekorde. Med vinskimi griči se dan odvija počasneje — asfalt se izmenjuje z makadamom, med vzponi se odpirajo pogledi na vinograde in doline, pri postanku pa te pričaka lokalni pridelek in pogovor, ki ga ne dobiš nikjer drugje. Dan, ki se ga zapomniš.",
+    "To ni tura za rekorde. Med vinskimi griči se dan odvija počasneje, asfalt se izmenjuje z makadamom, med vzponi se odpirajo pogledi na vinograde in doline, pri postanku pa te pričaka lokalni pridelek in pogovor, ki ga ne dobiš nikjer drugje. Dan, ki se ga zapomniš.",
 
   timeline: [
     {
@@ -43,7 +43,7 @@ const experience = {
       time: "09:30",
       icon: "🚵",
       title: "Mehki vzponi",
-      description: "Gravel pot med terasami. Ni strmih klancev — samo ritem, ki ga izbereš sam.",
+      description: "Gravel pot med terasami. Ni strmih klancev, samo ritem, ki ga izbereš sam.",
     },
     {
       time: "11:00",

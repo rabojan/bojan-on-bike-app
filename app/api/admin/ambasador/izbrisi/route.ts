@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     const { error } = await resend.emails.send({
       from: "Bojan on Bike <noreply@bojanonbike.si>",
       to: email,
-      subject: "Vaš ambasadorski račun je bil odstranjen — Bojan on Bike",
+      subject: "Vaš ambasadorski račun je bil odstranjen | Bojan on Bike",
       html: `
         <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#222;">
           <p style="font-size:15px;line-height:1.7;">Pozdravljeni ${name},</p>
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
             ambasadorski račun deaktivirati.
           </p>
           <p style="font-size:15px;line-height:1.7;">
-            Vsa vaša vsebina — ture, ponudniki in znamenitosti — je bila odstranjena s platforme.
+            Vsa vaša vsebina (ture, ponudniki in znamenitosti) je bila odstranjena s platforme.
           </p>
           <p style="font-size:15px;line-height:1.7;">
             Če menite, da je prišlo do napake, nam pišite na

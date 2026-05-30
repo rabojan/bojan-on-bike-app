@@ -91,7 +91,7 @@ function StepCard({
         </label>
 
         <label className="block space-y-1.5">
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Opis — ena vrstica</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Opis (ena vrstica)</span>
           <input value={step.description} onChange={(e) => onChange(step.id, "description", e.target.value)}
             className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50" />
         </label>
@@ -101,7 +101,7 @@ function StepCard({
             <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#c58b46]">Ponudnik</span>
             <select value={step.provider} onChange={(e) => onChange(step.id, "provider", e.target.value)}
               className="w-full rounded-xl border border-[#c58b46]/20 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50">
-              <option value="">— brez ponudnika —</option>
+              <option value="">Brez ponudnika</option>
               {providerOptions.map((p) => <option key={p} value={p}>{p}</option>)}
             </select>
           </label>
@@ -110,7 +110,7 @@ function StepCard({
             <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Znamenitost</span>
             <select value={step.attraction} onChange={(e) => onChange(step.id, "attraction", e.target.value)}
               className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50">
-              <option value="">— brez znamenitosti —</option>
+              <option value="">Brez znamenitosti</option>
               {attractionOptions.map((a) => <option key={a} value={a}>{a}</option>)}
             </select>
           </label>
@@ -155,9 +155,9 @@ export default function EditPohorskiFlowPage() {
   const [steps, setSteps] = useState<Step[]>([
     { id: 1, time: "07:30", icon: "☕", title: "Jutro na sedlu", description: "Parkiraš, zatesteš pedala, narediš en globok vdih. Pohorje je jutro.", provider: "", attraction: "", posebnosti: [] },
     { id: 2, time: "08:00", icon: "⛰️", title: "Vzpon skozi gozd", description: "Prvih 400 vm vzpona med smrekami. Ritem se ustali, dihanje se poglablja.", provider: "", attraction: "", posebnosti: ["🔧 Bike servis 2 km pred vzponom"] },
-    { id: 3, time: "10:00", icon: "🌅", title: "Razgled nad Mariborom", description: "Odpre se mesto. Kratek postanek — ne za GPS, ampak za pogled.", provider: "", attraction: "Razgled nad Mariborom", posebnosti: [] },
+    { id: 3, time: "10:00", icon: "🌅", title: "Razgled nad Mariborom", description: "Odpre se mesto. Kratek postanek, ne za GPS, ampak za pogled.", provider: "", attraction: "Razgled nad Mariborom", posebnosti: [] },
     { id: 4, time: "11:00", icon: "🌲", title: "Flow odseki", description: "Tisto, za kar si prišel. Enosledniki med drevesi, ki tečejo sami.", provider: "", attraction: "Pohorski gozdni odsek", posebnosti: [] },
-    { id: 5, time: "12:30", icon: "🥾", title: "Stara planinska pot", description: "Kratek odmik od trase. Kos živega arhiva — pot, ki je tu že sto let.", provider: "", attraction: "Stara planinska pot", posebnosti: [] },
+    { id: 5, time: "12:30", icon: "🥾", title: "Stara planinska pot", description: "Kratek odmik od trase. Kos živega arhiva, pot, ki je tu že sto let.", provider: "", attraction: "Stara planinska pot", posebnosti: [] },
     { id: 6, time: "13:00", icon: "🍲", title: "Kosilo pri Rudijevem domu", description: "Terasa, juha in zaslužena tišina. Tura se počasi zaključuje.", provider: "Rudijev dom na Pohorju", attraction: "", posebnosti: ["🔋 E-bike polnilnica", "🚿 Tuš za kolesarje"] },
     { id: 7, time: "15:00", icon: "🏁", title: "Spust in konec", description: "Nazaj v dolino. Noge so težke, glava pa lahka.", provider: "", attraction: "", posebnosti: [] },
   ]);
@@ -284,7 +284,7 @@ export default function EditPohorskiFlowPage() {
             {/* ── Trasa v podatkih ── */}
             <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
               <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-zinc-500">Trasa v podatkih</div>
-              <p className="mb-6 text-sm leading-7 text-zinc-500">Podatki o trasi so del doživetja — neodvisni od tur.</p>
+              <p className="mb-6 text-sm leading-7 text-zinc-500">Podatki o trasi so del doživetja, neodvisni od tur.</p>
 
               <div className="space-y-5">
                 <label className="block space-y-1.5">

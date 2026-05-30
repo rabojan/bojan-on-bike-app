@@ -184,7 +184,7 @@ export default function NearbyPOIPreview({ points }: { points: GpxPoint[] }) {
       {/* Opomba */}
       <div className="mt-6 rounded-2xl border border-white/8 bg-black/20 px-5 py-4 text-sm leading-7 text-zinc-500">
         <span className="font-bold text-zinc-400">Manjka kak ponudnik ali znamenitost?</span>{" "}
-        Dodaj ga v Ponudnike ali Znamenitosti <em>po tem, ko bo tura objavljena</em> —
+        Dodaj ga v Ponudnike ali Znamenitosti <em>po tem, ko bo tura objavljena</em>,
         sistem ga bo samodejno prikazal ob tej turi takoj, ko bo vnesen v bazo.
       </div>
     </div>

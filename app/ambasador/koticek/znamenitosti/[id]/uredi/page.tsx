@@ -187,7 +187,7 @@ export default function UrejiZnamenitostPage() {
               <span className="text-sm font-bold text-zinc-300">Tip</span>
               <select value={tip} onChange={(e) => setTip(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60">
-                <option value="">— izberi tip —</option>
+                <option value="">Izberi tip...</option>
                 {attractionTypes.map((t) => <option key={t}>{t}</option>)}
               </select>
             </label>

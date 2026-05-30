@@ -21,7 +21,7 @@ export default function PredlagajTuroPage() {
             <p className="mt-6 max-w-2xl text-lg leading-9 text-zinc-400">
               Poznaš poti, ki si jih zaslužijo boljšo vidnost? Pridruži se mreži
               lokalnih ambasadorjev Bojan on Bike. Predlagaj ture, ki si jih
-              prevozil, poveži lokalne ponudnike in znamenitosti — vsaka objava
+              prevozil, poveži lokalne ponudnike in znamenitosti, vsaka objava
               nosi tvoj podpis in gradi tvoj ambasadorski profil.
             </p>
 

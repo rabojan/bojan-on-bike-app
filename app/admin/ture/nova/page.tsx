@@ -333,7 +333,7 @@ export default function AdminNovaTuraPage() {
         {/* ── 3. OPIS TURE ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Opis ture</div>
-          <p className="mb-5 text-sm text-zinc-500">Glavna zgodba — prikaže se pod naslovom na javni strani.</p>
+          <p className="mb-5 text-sm text-zinc-500">Glavna zgodba, prikaže se pod naslovom na javni strani.</p>
           <textarea rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
             placeholder="Tura se začne pri... Gozd te popelje... Na vrhu se odpre razgled..."
             className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
@@ -348,7 +348,7 @@ export default function AdminNovaTuraPage() {
         {/* ── 4. UREDNIŠKI NAMIG ── */}
         <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Uredniški namig</div>
-          <p className="mb-5 text-sm text-zinc-500">Osebni citat — prikaže se na strani ture kot izpostavljeni namig.</p>
+          <p className="mb-5 text-sm text-zinc-500">Osebni citat, prikaže se na strani ture kot izpostavljeni namig.</p>
           <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
             placeholder="Najlepše je, ko se megla še dviga med drevesi..."
             className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
@@ -357,7 +357,7 @@ export default function AdminNovaTuraPage() {
         {/* ── 5. RITEM DNEVA ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ritem dneva</div>
-          <p className="mb-5 text-sm text-zinc-500">5 korakov ki opišejo potek dneva — ura, naslov in kratek opis. Prikaže se kot časovnica na strani ture.</p>
+          <p className="mb-5 text-sm text-zinc-500">5 korakov ki opišejo potek dneva: ura, naslov in kratek opis. Prikaže se kot časovnica na strani ture.</p>
           <div className="grid gap-4 md:grid-cols-5">
             {ritemDneva.map((korak, i) => (
               <div key={i} className="rounded-[20px] border border-white/10 bg-[#07110b] p-4">
@@ -453,7 +453,7 @@ export default function AdminNovaTuraPage() {
         {/* ── 7. TEHNIČNI PODATKI ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Tehnični podatki</div>
-          <p className="mb-5 text-sm text-zinc-500">Razdalja in vzpon se izpolnita iz GPX — ročno popravi samo če je treba.</p>
+          <p className="mb-5 text-sm text-zinc-500">Razdalja in vzpon se izpolnita iz GPX, ročno popravi samo če je treba.</p>
           <div className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-3">
               <label className="space-y-2">
@@ -470,7 +470,7 @@ export default function AdminNovaTuraPage() {
                 <span className="text-sm font-bold text-zinc-300">Ocenjeni čas</span>
                 <select value={cas} onChange={(e) => setCas(e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60">
-                  <option value="">— izberi —</option>
+                  <option value="">Izberi...</option>
                   {casOptions.map((o) => <option key={o}>{o}</option>)}
                 </select>
               </label>
@@ -494,7 +494,7 @@ export default function AdminNovaTuraPage() {
                 <p className="text-xs text-zinc-500">Izberi vzdušje, ki najbolje opisuje to turo.</p>
                 <select value={obcutek} onChange={(e) => setObcutek(e.target.value)}
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 text-sm outline-none focus:border-[#c58b46]/60">
-                  <option value="">— izberi občutek —</option>
+                  <option value="">Izberi občutek...</option>
                   {obcutki.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
               </label>
@@ -530,10 +530,10 @@ export default function AdminNovaTuraPage() {
                 : "border-red-500/30 bg-red-500/10 text-red-400"
               }`}>
                 {surfaceSum === 100
-                  ? "✓ Skupaj 100 % — podlaga je pravilno vnesena."
+                  ? "✓ Skupaj 100 %, podlaga je pravilno vnesena."
                   : surfaceSum === 0
                     ? "Vnesi deleže podlag (skupaj mora biti 100 %)."
-                    : `Skupaj: ${surfaceSum} % — vsota mora biti točno 100 %.`}
+                    : `Skupaj: ${surfaceSum} %, vsota mora biti točno 100 %.`}
               </div>
             </div>
           </div>

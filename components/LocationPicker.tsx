@@ -86,14 +86,14 @@ export default function LocationPicker({ lat, lng, onPick }: Props) {
       setSuggestions(Array.isArray(data) ? data : []);
       setShowDropdown(Array.isArray(data) && data.length > 0);
       if (!Array.isArray(data) || data.length === 0) {
-        setStatusMsg(`Ni rezultatov za „${q}" — poskusi z drugačnim imenom`);
+        setStatusMsg(`Ni rezultatov za „${q}". Poskusi z drugačnim imenom.`);
       } else {
         setStatusMsg("");
       }
     } catch (err) {
       setSuggestions([]);
       setShowDropdown(false);
-      setStatusMsg("Napaka pri iskanju — poskusi znova");
+      setStatusMsg("Napaka pri iskanju. Poskusi znova.");
     }
     setLoading(false);
   }, []);

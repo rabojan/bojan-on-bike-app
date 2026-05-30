@@ -139,7 +139,7 @@ export default function AmbassadorDashboardPage() {
                     <textarea
                       value={bio}
                       onChange={(e) => setBio(e.target.value)}
-                      placeholder="Kratek opis — kdo si, kako kolesariš, kaj te navdušuje na poteh..."
+                      placeholder="Kratek opis: kdo si, kako kolesariš, kaj te navdušuje na poteh..."
                       rows={3}
                       className="w-full rounded-2xl border border-[#c58b46]/30 bg-black/30 px-4 py-3 text-sm leading-7 outline-none focus:border-[#c58b46]/60"
                     />
@@ -161,7 +161,7 @@ export default function AmbassadorDashboardPage() {
                 ) : (
                   <div className="flex items-start gap-3">
                     <p className="max-w-2xl text-sm leading-7 text-zinc-400">
-                      {bio || "Dodaj kratek opis — kdo si, kako kolesariš, kaj te navdušuje na poteh."}
+                      {bio || "Dodaj kratek opis: kdo si, kako kolesariš, kaj te navdušuje na poteh."}
                     </p>
                     <button
                       onClick={() => setEditingBio(true)}

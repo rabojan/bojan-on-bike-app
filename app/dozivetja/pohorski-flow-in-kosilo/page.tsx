@@ -51,7 +51,7 @@ const experience = {
       time: "10:00",
       icon: "🌅",
       title: "Razgled nad Mariborom",
-      description: "Odpre se mesto. Kratek postanek — ne za GPS, ampak za pogled.",
+      description: "Odpre se mesto. Kratek postanek, ne za GPS, ampak za pogled.",
       attraction: {
         name: "Razgled nad Mariborom",
         href: "/znamenitosti/razgled-nad-mariborom",
@@ -77,7 +77,7 @@ const experience = {
       time: "12:30",
       icon: "🥾",
       title: "Stara planinska pot",
-      description: "Kratek odmik od trase. Kos živega arhiva — pot, ki je tu že sto let.",
+      description: "Kratek odmik od trase. Kos živega arhiva, pot, ki je tu že sto let.",
       attraction: {
         name: "Stara planinska pot",
         href: "/znamenitosti/stara-planinska-pot",

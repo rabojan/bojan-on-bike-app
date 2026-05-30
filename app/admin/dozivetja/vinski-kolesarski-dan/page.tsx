@@ -58,7 +58,7 @@ function StepCard({ step, index, total, onChange, onRemove, onMoveUp, onMoveDown
             className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50" />
         </label>
         <label className="block space-y-1.5">
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Opis — ena vrstica</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Opis (ena vrstica)</span>
           <input value={step.description} onChange={(e) => onChange(step.id, "description", e.target.value)}
             className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50" />
         </label>
@@ -67,7 +67,7 @@ function StepCard({ step, index, total, onChange, onRemove, onMoveUp, onMoveDown
             <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#c58b46]">Ponudnik</span>
             <select value={step.provider} onChange={(e) => onChange(step.id, "provider", e.target.value)}
               className="w-full rounded-xl border border-[#c58b46]/20 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50">
-              <option value="">— brez ponudnika —</option>
+              <option value="">Brez ponudnika</option>
               {providerOptions.map((p) => <option key={p} value={p}>{p}</option>)}
             </select>
           </label>
@@ -75,7 +75,7 @@ function StepCard({ step, index, total, onChange, onRemove, onMoveUp, onMoveDown
             <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Znamenitost</span>
             <select value={step.attraction} onChange={(e) => onChange(step.id, "attraction", e.target.value)}
               className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm outline-none focus:border-[#c58b46]/50">
-              <option value="">— brez znamenitosti —</option>
+              <option value="">Brez znamenitosti</option>
               {attractionOptions.map((a) => <option key={a} value={a}>{a}</option>)}
             </select>
           </label>
@@ -114,7 +114,7 @@ export default function EditVinskoDozivetjePage() {
 
   const [steps, setSteps] = useState<Step[]>([
     { id: 11, time: "08:00", icon: "🌅", title: "Start med griči", description: "Zjutraj, ko vinograde oblije prva svetloba.", provider: "", attraction: "", posebnosti: [] },
-    { id: 12, time: "09:30", icon: "🚵", title: "Mehki vzponi", description: "Gravel pot med terasami. Ni strmih klancev — samo ritem.", provider: "", attraction: "", posebnosti: [] },
+    { id: 12, time: "09:30", icon: "🚵", title: "Mehki vzponi", description: "Gravel pot med terasami. Ni strmih klancev, samo ritem.", provider: "", attraction: "", posebnosti: [] },
     { id: 13, time: "11:00", icon: "🌄", title: "Vinogradniška terasa", description: "Razgled na dolino in vinograde.", provider: "", attraction: "Razgled nad Mariborom", posebnosti: [] },
     { id: 14, time: "12:30", icon: "🍷", title: "Postanek pri vinski kleti", description: "Degustacija, pogovor z vinarjem in odmor v senci.", provider: "Vinska klet Jurančič", attraction: "", posebnosti: ["🧀 Lokalni prigrizki ob degustaciji", "🚲 Kolo pustiš v dvorišču"] },
     { id: 15, time: "14:00", icon: "🏘️", title: "Vasi in lokalne poti", description: "Nazaj skozi vaške ulice, ki jih ni na nobenem zemljevidu.", provider: "", attraction: "", posebnosti: [] },
@@ -161,7 +161,7 @@ export default function EditVinskoDozivetjePage() {
                 <label className="space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Območje</span>
                   <input defaultValue="Slovenske gorice" className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" /></label>
                 <label className="col-span-2 space-y-1.5"><span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">Zakaj ta dan?</span>
-                  <textarea defaultValue="To ni tura za rekorde. Med vinskimi griči se dan odvija počasneje — asfalt se izmenjuje z makadamom, med vzponi se odpirajo pogledi na vinograde in doline, pri postanku pa te pričaka lokalni pridelek in pogovor, ki ga ne dobiš nikjer drugje." rows={4}
+                  <textarea defaultValue="To ni tura za rekorde. Med vinskimi griči se dan odvija počasneje, asfalt se izmenjuje z makadamom, med vzponi se odpirajo pogledi na vinograde in doline, pri postanku pa te pričaka lokalni pridelek in pogovor, ki ga ne dobiš nikjer drugje." rows={4}
                     className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60" /></label>
               </div>
             </section>
@@ -184,7 +184,7 @@ export default function EditVinskoDozivetjePage() {
             {/* ── Trasa v podatkih ── */}
             <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
               <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-zinc-500">Trasa v podatkih</div>
-              <p className="mb-6 text-sm leading-7 text-zinc-500">Podatki o trasi so del doživetja — neodvisni od tur.</p>
+              <p className="mb-6 text-sm leading-7 text-zinc-500">Podatki o trasi so del doživetja, neodvisni od tur.</p>
 
               <div className="space-y-5">
                 <label className="block space-y-1.5">

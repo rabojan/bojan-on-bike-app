@@ -86,7 +86,7 @@ export default function AmbassadorTurePage() {
                 Tvoje ture in predlogi.
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-                Tukaj vidiš vse predloge — od osnutkov do objavljenih tur. Vsaka objavljena tura je
+                Tukaj vidiš vse predloge, od osnutkov do objavljenih tur. Vsaka objavljena tura je
                 vezana na tvoj ambasadorski profil.
               </p>
             </div>

@@ -84,7 +84,7 @@ export default function AmbassadorZnamenitostiPage() {
                 Tvoje predlagane znamenitosti.
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-zinc-400">
-                Predlagaj točke ob tvojih trasah, ki jih je vredno obiskati — razgledi, naravne
+                Predlagaj točke ob tvojih trasah, ki jih je vredno obiskati: razgledi, naravne
                 posebnosti, kulturna dediščina, zanimivosti. Vsaka potrjena točka dobi svojo stran.
               </p>
             </div>

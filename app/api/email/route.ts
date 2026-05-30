@@ -84,12 +84,12 @@ export async function POST(request: Request) {
       const bannerObjavljena = jeObjavljena ? `
         <div style="background:#2a1a0a;border:1px solid rgba(197,139,70,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;">
           <span style="font-size:20px;">⚠️</span>
-          <p style="color:#f4d7ad;font-size:13px;font-weight:700;margin:0;">To ni nova tura — ambasador je posodobil že odobreno in objavljeno vsebino. Tura je trenutno skrita, dokler je ne odobrišt znova.</p>
+          <p style="color:#f4d7ad;font-size:13px;font-weight:700;margin:0;">To ni nova tura: ambasador je posodobil že odobreno in objavljeno vsebino. Tura je trenutno skrita, dokler je ne odobrišt znova.</p>
         </div>` : "";
 
       html = `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#07110b;color:#fff;padding:40px;border-radius:16px;">
-          <p style="color:#c58b46;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 20px;">Bojan on Bike — Admin</p>
+          <p style="color:#c58b46;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 20px;">Bojan on Bike | Admin</p>
           <h1 style="font-size:26px;margin:0 0 8px;color:#f4d7ad;">${naslov}</h1>
           <p style="color:#71717a;font-size:13px;margin:0 0 20px;">${opisDogodka}</p>
           ${bannerObjavljena}
@@ -134,7 +134,7 @@ export async function POST(request: Request) {
       }
       sendTo = to;
       const javnaStran = predlogId ? `${siteUrl}/${tipUrls[predlogTip]}/${predlogId}` : null;
-      subject = `✅ ${predlogIme} je objavljen${tipLabels[predlogTip] === "tura" ? "a" : ""} — Bojan on Bike`;
+      subject = `✅ ${predlogIme} je objavljen${tipLabels[predlogTip] === "tura" ? "a" : ""} | Bojan on Bike`;
       html = `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#07110b;color:#fff;padding:40px;border-radius:16px;">
           <p style="color:#c58b46;font-size:12px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 16px;">Bojan on Bike</p>
@@ -153,7 +153,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Manjkajo podatki." }, { status: 400 });
       }
       sendTo = to;
-      subject = `↩️ ${predlogIme} — potrebuje dopolnitev — Bojan on Bike`;
+      subject = `↩️ ${predlogIme}: potrebuje dopolnitev | Bojan on Bike`;
       html = `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#07110b;color:#fff;padding:40px;border-radius:16px;">
           <p style="color:#c58b46;font-size:12px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 16px;">Bojan on Bike</p>
@@ -181,10 +181,10 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Manjkajo podatki." }, { status: 400 });
       }
       sendTo = adminEmail;
-      subject = `💬 Novo sporočilo od ${ime} — Bojan on Bike`;
+      subject = `💬 Novo sporočilo od ${ime} | Bojan on Bike`;
       html = `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#07110b;color:#fff;padding:40px;border-radius:16px;">
-          <p style="color:#c58b46;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 20px;">Bojan on Bike — Kontakt</p>
+          <p style="color:#c58b46;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 20px;">Bojan on Bike | Kontakt</p>
           <h1 style="font-size:24px;margin:0 0 24px;color:#f4d7ad;">Novo sporočilo s spletne strani</h1>
 
           <div style="background:#0b1a10;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;margin:0 0 28px;">
