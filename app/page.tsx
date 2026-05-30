@@ -144,8 +144,6 @@ export default function Home() {
         imageAlt="Kolesarsko doživetje v naravi"
         ctaHref="/ture"
         ctaLabel="Poišči svojo turo"
-        secondaryHref="/dozivetja"
-        secondaryLabel="Razišči po občutku"
         imagePosition="center 12%"
       />
 
