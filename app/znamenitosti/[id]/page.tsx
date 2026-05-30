@@ -5,13 +5,14 @@ import { createServiceClient } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-export default async function ZnamenitostDetailPage({ params }: { params: { id: string } }) {
+export default async function ZnamenitostDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = createServiceClient();
 
   const { data, error } = await supabase
     .from("predlogi_znamenitosti")
     .select("*, ambasadorji(ime, regija, foto_url)")
-    .eq("id", params.id)
+    .eq("id", id)
     .eq("status", "approved")
     .single();
 
