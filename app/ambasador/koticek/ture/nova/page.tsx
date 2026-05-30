@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import AmbassadorShell from "@/components/AmbassadorShell";
 import ElevationChart from "@/components/ElevationChart";
+import NearbyPOIPreview from "@/components/NearbyPOIPreview";
 import { supabase } from "@/lib/supabase";
 import { parseGpx, type ParsedGpx } from "@/lib/parseGpx";
 
@@ -324,6 +325,11 @@ export default function NovaTuraPage() {
           )}
           {gpxError && <p className="mt-3 text-sm text-red-400">{gpxError}</p>}
         </section>
+
+        {/* ── 1b. PONUDNIKI IN ZNAMENITOSTI OB TRASI ── */}
+        {gpxParsed && gpxParsed.points.length > 0 && (
+          <NearbyPOIPreview points={gpxParsed.points} />
+        )}
 
         {/* ── 2. OSNOVNA INFORMACIJA ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">

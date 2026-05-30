@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useMemo } from "react";
 
 import AdminShell from "@/components/AdminShell";
+import NearbyPOIPreview from "@/components/NearbyPOIPreview";
 
 const regions = [
   "Štajerska",
@@ -88,6 +89,9 @@ export default function NewTrailPage() {
   const [heroImage, setHeroImage] = useState<string | null>(null);
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
   const [galleryImages, setGalleryImages] = useState<(string | null)[]>(Array(8).fill(null));
+
+  // ── GPX točke za proximity izračun ──────────────────────────────────────
+  const [gpxPoints, setGpxPoints] = useState<{ lat: number; lng: number }[]>([]);
 
   // ── Ponudniki ────────────────────────────────────────────────────────────
   const [showPonudnikForm, setShowPonudnikForm] = useState(false);
@@ -201,6 +205,18 @@ export default function NewTrailPage() {
         setGpxSpust("–");
         setGpxMinVisina("–");
       }
+      // Ekstrahiraj točke za proximity izračun ponudnikov/znamenitosti
+      try {
+        const doc = new DOMParser().parseFromString(text, "application/xml");
+        const pts = Array.from(doc.querySelectorAll("trkpt"));
+        const points = pts
+          .map((p) => ({
+            lat: parseFloat(p.getAttribute("lat") ?? "0"),
+            lng: parseFloat(p.getAttribute("lon") ?? "0"),
+          }))
+          .filter((p) => p.lat !== 0 && p.lng !== 0);
+        setGpxPoints(points);
+      } catch { /* preskoči */ }
       setGpxUploaded(true);
     };
     reader.readAsText(file);
@@ -942,119 +958,17 @@ export default function NewTrailPage() {
         {/* SPODNJA VRSTICA */}
         <section className="grid gap-6 lg:grid-cols-[1fr_1fr_320px]">
 
-          {/* PONUDNIKI OB TRASI */}
-          <div className={`rounded-[32px] border border-white/10 bg-[#0b1a10] p-7 transition ${locked ? "pointer-events-none select-none opacity-40" : ""}`}>
-            <div className="mb-1 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-              Ponudniki ob trasi
-            </div>
-            <p className="mb-5 text-sm text-zinc-500">
-              Na osnovi GPX se iz baze prikažejo vsi ponudniki v 1 km od trase.
-            </p>
-
+          {/* PONUDNIKI IN ZNAMENITOSTI OB TRASI */}
+          <div className={`col-span-2 transition ${locked ? "pointer-events-none select-none opacity-40" : ""}`}>
             {locked ? (
-              <LockedSection />
-            ) : (
-              <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/5 p-5">
-                <div className="text-sm font-bold text-[#f4d7ad]">Predlog na osnovi GPX</div>
-                <p className="mt-2 text-sm leading-7 text-zinc-400">
-                  Ko shraniš turo, sistem avtomatsko predlaga ponudnike iz baze,
-                  ki so ob trasi ali do 1 km od nje. Označi tiste, ki jih želiš
-                  prikazati, ali dodaj svojega.
-                </p>
-                {addedPonudniki.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {addedPonudniki.map((p) => (
-                      <span key={p} className="flex items-center gap-1.5 rounded-full border border-[#c58b46]/30 bg-black/30 px-3 py-1 text-xs font-semibold text-[#f4d7ad]">
-                        {p}
-                        <button
-                          type="button"
-                          onClick={() => setAddedPonudniki((prev) => prev.filter((x) => x !== p))}
-                          className="text-zinc-500 hover:text-red-400"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setShowPonudnikForm((v) => !v)}
-                  className="mt-4 rounded-full border border-white/10 px-5 py-2 text-sm font-semibold text-zinc-300 hover:border-[#c58b46]/40"
-                >
-                  {showPonudnikForm ? "Zapri" : "+ Dodaj ponudnika ročno"}
-                </button>
-                {showPonudnikForm && (
-                  <div className="mt-4 space-y-3">
-                    <input
-                      type="text"
-                      value={ponudnikQuery}
-                      onChange={(e) => setPonudnikQuery(e.target.value)}
-                      placeholder="Išči ponudnika po imenu..."
-                      className="w-full rounded-xl border border-white/10 bg-[#07110b] px-4 py-3 text-sm outline-none focus:border-[#c58b46]/60"
-                    />
-                    <p className="text-xs text-zinc-600">
-                      Ponudniki so dodani v razdelku <strong className="text-zinc-400">Admin → Ponudniki</strong>. Vtipkaj ime in ga izberi, ali ga najprej dodaj v bazo.
-                    </p>
-                    {ponudnikQuery.length > 1 && (
-                      <div className="rounded-xl border border-white/10 bg-black/30 p-1">
-                        {["Rudijev dom na Pohorju", "Gorska hiša Pohorje", "Vinska klet med griči"]
-                          .filter((p) => p.toLowerCase().includes(ponudnikQuery.toLowerCase()) && !addedPonudniki.includes(p))
-                          .map((p) => (
-                            <button
-                              key={p}
-                              type="button"
-                              onClick={() => {
-                                setAddedPonudniki((prev) => [...prev, p]);
-                                setPonudnikQuery("");
-                                setShowPonudnikForm(false);
-                              }}
-                              className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-left text-sm hover:bg-white/5"
-                            >
-                              <span className="text-[#c58b46]">+</span>
-                              {p}
-                            </button>
-                          ))}
-                        {["Rudijev dom na Pohorju", "Gorska hiša Pohorje", "Vinska klet med griči"]
-                          .filter((p) => p.toLowerCase().includes(ponudnikQuery.toLowerCase())).length === 0 && (
-                          <p className="px-4 py-3 text-xs text-zinc-600">
-                            Ni zadetkov.{" "}
-                            <a href="/admin/ponudniki/nov" className="text-[#c58b46] underline">
-                              Dodaj novega ponudnika →
-                            </a>
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
+              <div className="rounded-[32px] border border-white/10 bg-[#0b1a10] p-7">
+                <div className="mb-1 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
+                  Ponudniki in znamenitosti ob trasi
+                </div>
+                <LockedSection />
               </div>
-            )}
-          </div>
-
-          {/* ZNAMENITOSTI OB TRASI */}
-          <div className={`rounded-[32px] border border-white/10 bg-[#0b1a10] p-7 transition ${locked ? "pointer-events-none select-none opacity-40" : ""}`}>
-            <div className="mb-1 text-xs uppercase tracking-[0.35em] text-[#c58b46]">
-              Znamenitosti ob trasi
-            </div>
-            <p className="mb-5 text-sm text-zinc-500">
-              Na osnovi GPX se iz baze prikažejo vse znamenitosti v 1 km od trase.
-            </p>
-
-            {locked ? (
-              <LockedSection />
             ) : (
-              <div className="rounded-2xl border border-[#c58b46]/20 bg-[#c58b46]/5 p-5">
-                <div className="text-sm font-bold text-[#f4d7ad]">Predlog na osnovi GPX</div>
-                <p className="mt-2 text-sm leading-7 text-zinc-400">
-                  Ko shraniš turo, sistem avtomatsko predlaga znamenitosti iz baze,
-                  ki so v 1 km od trase. Označi tiste, ki jih želiš prikazati,
-                  ali dodaj svojo.
-                </p>
-                <button className="mt-4 rounded-full border border-white/10 px-5 py-2 text-sm font-semibold text-zinc-300 hover:border-[#c58b46]/40">
-                  + Dodaj znamenitost ročno
-                </button>
-              </div>
+              <NearbyPOIPreview points={gpxPoints} />
             )}
           </div>
 
