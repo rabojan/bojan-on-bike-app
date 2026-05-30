@@ -10,7 +10,7 @@ export default async function ZnamenitostiPage() {
 
   const { data } = await supabase
     .from("predlogi_znamenitosti")
-    .select("id, ime, tip, regija, obmocje, kratek_opis, hero_image")
+    .select("id, ime, tip, regija, lokacija, kratek_opis, hero_image")
     .eq("status", "approved")
     .order("created_at", { ascending: false });
 

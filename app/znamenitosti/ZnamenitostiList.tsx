@@ -11,7 +11,7 @@ type Znamenitost = {
   ime: string;
   tip: string | null;
   regija: string;
-  obmocje: string | null;
+  lokacija: string | null;
   kratek_opis: string | null;
   hero_image: string | null;
 };
@@ -93,7 +93,7 @@ export default function ZnamenitostiList({ znamenitosti }: { znamenitosti: Zname
 
                   <div className="flex flex-1 flex-col p-6">
                     <div className="mb-3 text-sm text-zinc-500">
-                      {z.regija}{z.obmocje ? ` · ${z.obmocje}` : ""}
+                      {z.regija}{z.lokacija ? ` · ${z.lokacija}` : ""}
                     </div>
                     <h2 className="font-serif text-2xl font-black italic leading-tight text-white">{z.ime}</h2>
                     {z.kratek_opis && (
