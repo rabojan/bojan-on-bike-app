@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import { createServiceClient } from "@/lib/supabase";
+import ZnamenitostNearbyTure from "./ZnamenitostNearbyTure";
 
 export const dynamic = "force-dynamic";
 
@@ -127,6 +128,11 @@ export default async function ZnamenitostDetailPage({ params }: { params: Promis
               </h2>
               <p className="mt-7 text-lg leading-9 text-zinc-400">{z.namig_za_obisk}</p>
             </section>
+          )}
+
+          {/* Ture ob znamenitosti */}
+          {z.lat && z.lng && (
+            <ZnamenitostNearbyTure lat={Number(z.lat)} lng={Number(z.lng)} />
           )}
 
           {/* Foto */}
