@@ -58,7 +58,11 @@ export default function AdminTrailsPage() {
   async function handleDelete() {
     if (!deleteId) return;
     setDeleting(true);
-    await supabase.from("predlogi_tur").delete().eq("id", deleteId);
+    await fetch("/api/admin/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ table: "predlogi_tur", id: deleteId }),
+    });
     setDeleteId(null);
     setDeleting(false);
     await load();

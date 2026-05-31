@@ -161,7 +161,11 @@ export default function AdminReviewPage() {
     if (!deleteItem) return;
     setProcessing(deleteItem.id);
     const table = deleteItem.tip === "tura" ? "predlogi_tur" : deleteItem.tip === "ponudnik" ? "predlogi_ponudnikov" : "predlogi_znamenitosti";
-    await supabase.from(table).delete().eq("id", deleteItem.id);
+    await fetch("/api/admin/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ table, id: deleteItem.id }),
+    });
     setDeleteItem(null);
     await load();
     setProcessing(null);

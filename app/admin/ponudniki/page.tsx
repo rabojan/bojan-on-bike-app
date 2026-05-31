@@ -60,7 +60,11 @@ export default function AdminProvidersPage() {
   async function handleDelete() {
     if (!deleteId) return;
     setDeleting(true);
-    await supabase.from("predlogi_ponudnikov").delete().eq("id", deleteId);
+    await fetch("/api/admin/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ table: "predlogi_ponudnikov", id: deleteId }),
+    });
     setDeleteId(null);
     setDeleting(false);
     await load();
