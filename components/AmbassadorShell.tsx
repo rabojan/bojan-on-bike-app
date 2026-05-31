@@ -23,6 +23,7 @@ export default function AmbassadorShell({ children }: AmbassadorShellProps) {
   const [isReady, setIsReady] = useState(false);
   const [userName, setUserName] = useState("");
   const [userRegija, setUserRegija] = useState("");
+  const [userFoto, setUserFoto] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -35,13 +36,14 @@ export default function AmbassadorShell({ children }: AmbassadorShellProps) {
       // Naloži profil ambasadorja
       const { data: profil } = await supabase
         .from("ambasadorji")
-        .select("ime, regija")
+        .select("ime, regija, foto_url")
         .eq("user_id", session.user.id)
         .single();
 
       if (profil) {
         setUserName(profil.ime);
         setUserRegija(profil.regija ?? "");
+        setUserFoto(profil.foto_url ?? null);
       } else {
         // Ambasador nima profila še — email kot ime
         setUserName(session.user.email ?? "");
@@ -151,8 +153,12 @@ export default function AmbassadorShell({ children }: AmbassadorShellProps) {
 
             <div className="mt-6 border-t border-white/10 pt-5">
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0b1a10] text-xl">
-                  🚴
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#0b1a10]">
+                  {userFoto ? (
+                    <img src={userFoto} alt={userName} className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="text-lg">🚴</span>
+                  )}
                 </div>
                 <div className="min-w-0">
                   <div className="truncate text-sm font-black text-white">
