@@ -283,8 +283,8 @@ export default function UrejiZnamenitostPage() {
             </label>
             <div className="grid gap-5 md:grid-cols-2">
               <label className="block space-y-2">
-                <span className="text-sm font-bold text-zinc-300">Wikipedia URL</span>
-                <input type="url" value={wikipedia} onChange={(e) => setWikipedia(e.target.value)} placeholder="https://sl.wikipedia.org/wiki/..."
+                <span className="text-sm font-bold text-zinc-300">Spletna stran</span>
+                <input type="url" value={wikipedia} onChange={(e) => setWikipedia(e.target.value)} placeholder="https://..."
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
               </label>
               <label className="block space-y-2">

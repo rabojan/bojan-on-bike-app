@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
 import SiteHeader from "@/components/SiteHeader";
 import LightboxGallery from "@/components/LightboxGallery";
 import { createServiceClient } from "@/lib/supabase";
 import ZnamenitostNearbyTure from "./ZnamenitostNearbyTure";
+
+const MiniMap = dynamic(() => import("@/components/MiniMap"), { ssr: false });
 
 export const dynamic = "force-dynamic";
 
@@ -189,7 +192,7 @@ export default async function ZnamenitostDetailPage({ params }: { params: Promis
               {z.wikipedia_url && (
                 <a href={z.wikipedia_url} target="_blank" rel="noreferrer"
                   className="rounded-full border border-[#c58b46]/35 px-6 py-4 text-center text-sm font-bold text-[#f4d7ad] transition hover:border-[#c58b46]">
-                  Preberi na Wikipediji
+                  Spletna stran
                 </a>
               )}
               <Link href="/znamenitosti"
@@ -198,6 +201,13 @@ export default async function ZnamenitostDetailPage({ params }: { params: Promis
               </Link>
             </div>
           </div>
+
+          {/* Mini mapa */}
+          {z.lat && z.lng && (
+            <div className="rounded-[28px] overflow-hidden border border-white/10" style={{ height: 220 }}>
+              <MiniMap lat={Number(z.lat)} lng={Number(z.lng)} label={z.ime} />
+            </div>
+          )}
 
           {/* Ambassador kartica */}
           {amb && (

@@ -559,7 +559,7 @@ export default function PredlogDetailPage() {
                 )}
                 {data.wikipedia_url && (
                   <div className="flex justify-between border-b border-white/5 py-2">
-                    <span className="text-zinc-500">Wikipedia</span>
+                    <span className="text-zinc-500">Spletna stran</span>
                     <a href={data.wikipedia_url} target="_blank" rel="noopener noreferrer"
                       className="font-bold text-[#c58b46] hover:underline">Odpri ↗</a>
                   </div>
