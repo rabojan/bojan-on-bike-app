@@ -195,7 +195,7 @@ function WeatherCard() {
 
 function BoschCard({ km, vm }: { km: number; vm: number }) {
   const [weight, setWeight] = useState(88);
-  const [battery, setBattery] = useState(625);
+  const [battery, setBattery] = useState(750);
   const [mode, setMode] = useState("Tour");
 
   const batteryResult = useMemo(() => {
