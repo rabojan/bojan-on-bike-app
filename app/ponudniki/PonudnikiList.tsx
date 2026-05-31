@@ -88,7 +88,7 @@ export default function PonudnikiList({ ponudniki }: { ponudniki: Ponudnik[] }) 
                         <span className="text-5xl opacity-20">🏡</span>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/80 via-[#07110b]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-[#0b1a10]/40 to-transparent" />
                   </div>
 
                   <div className="flex flex-1 flex-col p-6">

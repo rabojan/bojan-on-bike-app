@@ -81,7 +81,7 @@ export default function ZnamenitostiList({ znamenitosti }: { znamenitosti: Zname
                         <span className="text-5xl opacity-20">🗺️</span>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/80 via-[#07110b]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-[#0b1a10]/40 to-transparent" />
                     {z.tip && (
                       <div className="absolute left-4 top-4">
                         <span className="rounded-full border border-white/20 bg-black/50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-zinc-200 backdrop-blur">
