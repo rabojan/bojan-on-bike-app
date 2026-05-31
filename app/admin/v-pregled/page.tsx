@@ -50,6 +50,7 @@ export default function AdminReviewPage() {
   const [returnItem, setReturnItem] = useState<PredlogItem | null>(null);
   const [returnMessage, setReturnMessage] = useState("");
   const [processing, setProcessing] = useState<string | null>(null);
+  const [deleteItem, setDeleteItem] = useState<PredlogItem | null>(null);
 
   async function load() {
     setLoading(true);
@@ -57,15 +58,12 @@ export default function AdminReviewPage() {
     const [{ data: ture }, { data: ponudniki }, { data: znamenitosti }] = await Promise.all([
       supabase.from("predlogi_tur")
         .select("id, ime, regija, status, zakaj, created_at, ambasadorji(ime, email)")
-        .eq("status", "pending")
         .order("created_at", { ascending: false }),
       supabase.from("predlogi_ponudnikov")
         .select("id, ime, regija, status, zakaj, created_at, ambasadorji(ime, email)")
-        .eq("status", "pending")
         .order("created_at", { ascending: false }),
       supabase.from("predlogi_znamenitosti")
         .select("id, ime, regija, status, zakaj, created_at, ambasadorji(ime, email)")
-        .eq("status", "pending")
         .order("created_at", { ascending: false }),
     ]);
 
@@ -159,12 +157,23 @@ export default function AdminReviewPage() {
     setProcessing(null);
   }
 
+  async function handleDelete() {
+    if (!deleteItem) return;
+    setProcessing(deleteItem.id);
+    const table = deleteItem.tip === "tura" ? "predlogi_tur" : deleteItem.tip === "ponudnik" ? "predlogi_ponudnikov" : "predlogi_znamenitosti";
+    await supabase.from(table).delete().eq("id", deleteItem.id);
+    setDeleteItem(null);
+    await load();
+    setProcessing(null);
+  }
+
   const filtered = items.filter((item) => {
+    if (activeFilter === "Objavljeni") return item.status === "approved";
     if (activeFilter === "Vse") return true;
-    if (activeFilter === "Ture") return item.tip === "tura";
-    if (activeFilter === "Ponudniki") return item.tip === "ponudnik";
-    if (activeFilter === "Znamenitosti") return item.tip === "znamenitost";
-    return true;
+    if (activeFilter === "Ture") return item.tip === "tura" && item.status !== "approved";
+    if (activeFilter === "Ponudniki") return item.tip === "ponudnik" && item.status !== "approved";
+    if (activeFilter === "Znamenitosti") return item.tip === "znamenitost" && item.status !== "approved";
+    return item.status !== "approved";
   });
 
   const counts = {
@@ -221,7 +230,7 @@ export default function AdminReviewPage() {
               <h2 className="mt-3 text-3xl font-black text-white">Predlogi, ki čakajo na pregled.</h2>
             </div>
             <div className="flex flex-wrap gap-2">
-              {["Vse", "Ture", "Ponudniki", "Znamenitosti"].map((f) => (
+              {["Vse", "Objavljeni", "Ture", "Ponudniki", "Znamenitosti"].map((f) => (
                 <button key={f} onClick={() => setActiveFilter(f)}
                   className={`rounded-full border px-4 py-2 text-xs font-bold transition ${activeFilter === f ? "border-[#c58b46]/20 bg-[#c58b46] text-black" : "border-white/10 text-zinc-400 hover:border-white/20"}`}>
                   {f}
@@ -264,16 +273,26 @@ export default function AdminReviewPage() {
                       className="rounded-full border border-[#c58b46]/40 px-5 py-3 text-sm font-bold text-[#c58b46] transition hover:bg-[#c58b46]/10">
                       Preglej →
                     </Link>
+                    {item.status !== "approved" && (
+                      <button
+                        onClick={() => handleApprove(item)}
+                        disabled={processing === item.id}
+                        className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:brightness-110 disabled:opacity-50">
+                        {processing === item.id ? "..." : "Objavi"}
+                      </button>
+                    )}
+                    {item.status !== "approved" && (
+                      <button
+                        onClick={() => { setReturnItem(item); setReturnMessage(""); }}
+                        className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-400 transition hover:border-white/20">
+                        Vrni v dopolnitev
+                      </button>
+                    )}
                     <button
-                      onClick={() => handleApprove(item)}
+                      onClick={() => setDeleteItem(item)}
                       disabled={processing === item.id}
-                      className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:brightness-110 disabled:opacity-50">
-                      {processing === item.id ? "..." : "Objavi"}
-                    </button>
-                    <button
-                      onClick={() => { setReturnItem(item); setReturnMessage(""); }}
-                      className="rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-zinc-400 transition hover:border-white/20">
-                      Vrni v dopolnitev
+                      className="rounded-full border border-red-500/30 px-5 py-3 text-sm font-bold text-red-400 transition hover:bg-red-500/10 disabled:opacity-50">
+                      Izbriši
                     </button>
                   </div>
                 </article>
@@ -333,6 +352,29 @@ export default function AdminReviewPage() {
               <button onClick={handleReturn} disabled={!!processing}
                 className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:brightness-110 disabled:opacity-50">
                 Pošlji ambasadorju
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: brisanje */}
+      {deleteItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-5 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-[32px] border border-red-500/20 bg-[#07110b] p-6 shadow-2xl">
+            <div className="text-xs uppercase tracking-[0.35em] text-red-400">Brisanje</div>
+            <h2 className="mt-4 text-2xl font-black text-white">Res izbrisati?</h2>
+            <p className="mt-3 text-sm leading-7 text-zinc-400">
+              <span className="font-bold text-white">{deleteItem.ime}</span> bo trajno izbrisan iz baze. Tega ni mogoče razveljaviti.
+            </p>
+            <div className="mt-6 flex justify-end gap-3">
+              <button onClick={() => setDeleteItem(null)}
+                className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-white/20">
+                Prekliči
+              </button>
+              <button onClick={handleDelete} disabled={!!processing}
+                className="rounded-full bg-red-500 px-6 py-3 text-sm font-black text-white transition hover:bg-red-400 disabled:opacity-50">
+                {processing ? "Brišem..." : "Da, izbriši"}
               </button>
             </div>
           </div>
