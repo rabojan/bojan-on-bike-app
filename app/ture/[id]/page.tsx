@@ -442,12 +442,12 @@ export default function TuraDetailPage() {
               {tura.tipi?.join(" · ")}{tura.regija ? ` · ${tura.regija}` : ""}{tura.obmocje ? ` · ${tura.obmocje}` : ""}
             </div>
 
-            <h1 className="mt-6 font-serif text-6xl font-black italic leading-[0.9] tracking-tight text-white md:text-8xl [text-shadow:_0_2px_8px_rgba(0,0,0,0.9),_0_4px_24px_rgba(0,0,0,0.7)]">
+            <h1 className="mt-6 font-serif text-6xl font-black italic leading-[0.9] tracking-tight text-white md:text-8xl [text-shadow:_1px_1px_0_rgba(0,0,0,0.9),_-1px_-1px_0_rgba(0,0,0,0.5)]">
               {tura.ime}
             </h1>
 
             {tura.opis && (
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-zinc-300 [text-shadow:_0_1px_6px_rgba(0,0,0,1),_0_2px_12px_rgba(0,0,0,0.8)]">
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-white [text-shadow:_1px_1px_0_rgba(0,0,0,1),_-1px_-1px_0_rgba(0,0,0,0.6)]">
                 {tura.opis.length > 160 ? `${tura.opis.slice(0, 160).trimEnd()}…` : tura.opis}
               </p>
             )}
