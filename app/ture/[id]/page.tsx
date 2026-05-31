@@ -455,7 +455,6 @@ export default function TuraDetailPage() {
             {tura.tipi && tura.tipi.length > 0 && (
               <div className="mt-8 flex flex-wrap gap-3">
                 {tura.tipi.map((t) => <Pill key={t}>{t}</Pill>)}
-                {tura.gpx_url && <Pill>GPX pripravljen</Pill>}
               </div>
             )}
 
