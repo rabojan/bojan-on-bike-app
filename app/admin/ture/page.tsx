@@ -42,6 +42,7 @@ export default function AdminTrailsPage() {
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   async function load() {
     setLoading(true);
@@ -58,14 +59,26 @@ export default function AdminTrailsPage() {
   async function handleDelete() {
     if (!deleteId) return;
     setDeleting(true);
-    await fetch("/api/admin/delete", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ table: "predlogi_tur", id: deleteId }),
-    });
-    setDeleteId(null);
-    setDeleting(false);
-    await load();
+    setDeleteError(null);
+    try {
+      const res = await fetch("/api/admin/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ table: "predlogi_tur", id: deleteId }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.error) {
+        setDeleteError(json.error ?? "Napaka pri brisanju.");
+        setDeleting(false);
+        return;
+      }
+      setDeleteId(null);
+      setDeleting(false);
+      await load();
+    } catch {
+      setDeleteError("Napaka pri povezavi s strežnikom.");
+      setDeleting(false);
+    }
   }
 
   const total = ture.length;
@@ -195,8 +208,11 @@ export default function AdminTrailsPage() {
             <p className="mt-3 text-sm leading-7 text-zinc-400">
               <span className="font-bold text-white">{ture.find(t => t.id === deleteId)?.ime}</span> bo trajno izbrisana iz baze.
             </p>
+            {deleteError && (
+              <div className="mb-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">{deleteError}</div>
+            )}
             <div className="mt-6 flex justify-end gap-3">
-              <button onClick={() => setDeleteId(null)}
+              <button onClick={() => { setDeleteId(null); setDeleteError(null); }}
                 className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-white/20">
                 Prekliči
               </button>

@@ -37,6 +37,7 @@ export default function AdminProvidersPage() {
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   async function load() {
     setLoading(true);
@@ -60,14 +61,26 @@ export default function AdminProvidersPage() {
   async function handleDelete() {
     if (!deleteId) return;
     setDeleting(true);
-    await fetch("/api/admin/delete", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ table: "predlogi_ponudnikov", id: deleteId }),
-    });
-    setDeleteId(null);
-    setDeleting(false);
-    await load();
+    setDeleteError(null);
+    try {
+      const res = await fetch("/api/admin/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ table: "predlogi_ponudnikov", id: deleteId }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.error) {
+        setDeleteError(json.error ?? "Napaka pri brisanju.");
+        setDeleting(false);
+        return;
+      }
+      setDeleteId(null);
+      setDeleting(false);
+      await load();
+    } catch (e) {
+      setDeleteError("Napaka pri povezavi s strežnikom.");
+      setDeleting(false);
+    }
   }
 
   const total = ponudniki.length;
@@ -183,7 +196,10 @@ export default function AdminProvidersPage() {
               <span className="font-bold text-white">{ponudniki.find(p => p.id === deleteId)?.ime}</span> bo trajno izbrisan iz baze.
             </p>
             <div className="mt-6 flex justify-end gap-3">
-              <button onClick={() => setDeleteId(null)}
+              {deleteError && (
+            <div className="mb-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">{deleteError}</div>
+          )}
+      <button onClick={() => { setDeleteId(null); setDeleteError(null); }}
                 className="rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-white/20">
                 Prekliči
               </button>
