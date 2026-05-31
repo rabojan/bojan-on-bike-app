@@ -523,13 +523,6 @@ export default function TuraDetailPage() {
                 </div>
               </div>
 
-              {tura.ambasador?.kratek_opis && (
-                <div className="mt-6 rounded-[24px] border border-white/10 bg-[#0b1a10] p-6">
-                  <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c58b46]">Ambasadorjev namig</div>
-                  <h3 className="mt-2 font-serif text-2xl font-bold italic">Tura z najlepšimi trenutki.</h3>
-                  <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400">{tura.ambasador.kratek_opis}</p>
-                </div>
-              )}
             </section>
           )}
 
