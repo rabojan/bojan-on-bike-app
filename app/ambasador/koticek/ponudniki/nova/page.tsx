@@ -25,6 +25,7 @@ export default function NovPonudnikPage() {
   const [telefon, setTelefon] = useState("");
   const [spletna, setSpletna] = useState("");
   const [zakaj, setZakaj] = useState("");
+  const [citat, setCitat] = useState("");
   const [opis, setOpis] = useState("");
   const [ebikSelected, setEbikSelected] = useState<string[]>([]);
 
@@ -111,7 +112,7 @@ export default function NovPonudnikPage() {
       lng: lng ?? null,
       telefon: telefon || null,
       spletna_stran: spletna || null,
-      zakaj, opis,
+      zakaj, citat: citat || null, opis,
       bike_friendly_opis: ebikSelected.length > 0 ? JSON.stringify(ebikSelected) : null,
       hero_image: heroUrl,
       features: featuresClean.length > 0 ? featuresClean : null,
@@ -231,10 +232,17 @@ export default function NovPonudnikPage() {
         {/* ── 3. ZAKAJ GA PRIPOROČAŠ ── */}
         <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Zakaj ga priporočaš</div>
-          <p className="mb-5 text-sm text-zinc-500">Tvoje mnenje, prikaže se v razdelku "Zakaj se ustaviti".</p>
+          <p className="mb-5 text-sm text-zinc-500">Tvoje mnenje — prikaže se kot subtitle v naslovu strani.</p>
           <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
             placeholder="Zakaj bi kolesarji postali ravno tukaj? Kaj je posebnega?"
             className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+          <div className="mt-5 space-y-2">
+            <span className="text-sm font-bold text-zinc-300">Kratki citat</span>
+            <p className="text-xs text-zinc-500">Prikaže se v zlatem boxu "Zakaj se ustaviti" — kratek, udaren stavek.</p>
+            <input value={citat} onChange={(e) => setCitat(e.target.value)}
+              placeholder='npr. "Najboljša goveja juha pod Bočem."'
+              className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+          </div>
         </section>
 
         {/* ── 3. OPIS ZA PLATFORMO ── */}

@@ -662,16 +662,16 @@ export default function UrejiTuroPage() {
 
         {/* ── 7. TEHNIČNI PODATKI ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Tehnični podatki</div>
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Tehnične podrobnosti</div>
           <div className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-3">
               <label className="space-y-2">
-                <span className="text-sm font-bold text-zinc-300">Razdalja (km)</span>
+                <span className="text-sm font-bold text-zinc-300">Dolžina trase (km)</span>
                 <input type="number" value={km} onChange={(e) => setKm(e.target.value)} placeholder="45"
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60" />
               </label>
               <label className="space-y-2">
-                <span className="text-sm font-bold text-zinc-300">Vzpon (vm)</span>
+                <span className="text-sm font-bold text-zinc-300">Skupni vzpon (vm)</span>
                 <input type="number" value={vm} onChange={(e) => setVm(e.target.value)} placeholder="1200"
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 py-3.5 text-sm outline-none focus:border-[#c58b46]/60" />
               </label>
@@ -710,7 +710,7 @@ export default function UrejiTuroPage() {
             )}
 
             <div className="space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Težavnost</span>
+              <span className="text-sm font-bold text-zinc-300">Zahtevnost</span>
               <div className="flex gap-3">
                 {difficulties.map((d) => (
                   <button key={d} type="button" onClick={() => setTezavnost(d)}
@@ -724,7 +724,7 @@ export default function UrejiTuroPage() {
             <div className="space-y-3">
               <span className="text-sm font-bold text-zinc-300">Sestava podlage (%)</span>
               <div className="grid gap-3 sm:grid-cols-3">
-                {([["Asfalt", asfalt, setAsfalt], ["Makadam / gravel", makadam, setMakadam], ["Gozdna pot", gozd, setGozd]] as [string, string, (v: string) => void][]).map(([label, val, setter]) => (
+                {([["Asfalt", asfalt, setAsfalt], ["Makadam", makadam, setMakadam], ["Gozdna pot", gozd, setGozd]] as [string, string, (v: string) => void][]).map(([label, val, setter]) => (
                   <label key={label} className="space-y-1.5">
                     <span className="text-xs text-zinc-500">{label}</span>
                     <input type="number" min="0" max="100" value={val} onChange={(e) => setter(e.target.value)} placeholder="0"
@@ -745,7 +745,7 @@ export default function UrejiTuroPage() {
 
         {/* ── 8. SLIKE ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Slike ture</div>
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Galerija z utrinki</div>
           <p className="mb-5 text-sm text-zinc-500">Naloži novo sliko samo če hočeš zamenjati obstoječo.</p>
 
           <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#07110b]">

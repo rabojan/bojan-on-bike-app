@@ -190,13 +190,13 @@ export default function PonudnikDetailPage() {
               )}
             </div>
 
-            {ponudnik.zakaj && (
+            {ponudnik.citat && (
               <div className="rounded-[28px] border border-[#c58b46]/20 bg-[#0b1a10] p-7">
                 <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c58b46]">
                   Zakaj se ustaviti
                 </div>
                 <p className="mt-5 font-serif text-2xl font-black italic leading-tight text-[#f4d7ad]">
-                  &ldquo;{ponudnik.zakaj}&rdquo;
+                  &ldquo;{ponudnik.citat}&rdquo;
                 </p>
                 {ponudnik.ambasador && (
                   <div className="mt-5 text-sm font-semibold text-zinc-400">
@@ -349,9 +349,9 @@ export default function PonudnikDetailPage() {
                   <div className="text-xs text-zinc-500">Ambasador {ponudnik.ambasador.regija}</div>
                 </div>
               </div>
-              {ponudnik.zakaj && (
+              {ponudnik.citat && (
                 <p className="mt-4 text-sm leading-7 text-zinc-400 italic">
-                  &ldquo;{ponudnik.zakaj}&rdquo;
+                  &ldquo;{ponudnik.citat}&rdquo;
                 </p>
               )}
             </div>

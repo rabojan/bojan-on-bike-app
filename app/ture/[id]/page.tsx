@@ -628,12 +628,12 @@ export default function TuraDetailPage() {
                   </p>
                   <div className="mt-7 grid grid-cols-2 gap-3">
                     {([
-                      tura.km != null ? ["Dolžina", `${tura.km} km`] : null,
+                      tura.km != null ? ["Dolžina trase", `${tura.km} km`] : null,
                       tura.visinska_razlika != null ? ["Skupni vzpon", `${tura.visinska_razlika} vm`] : null,
                       gpxData && gpxData.maxEle > 0 ? ["Najvišja točka", `${Math.round(gpxData.maxEle)} m`] : null,
                       gpxData && gpxData.minEle > 0 ? ["Najnižja točka", `${Math.round(gpxData.minEle)} m`] : null,
                       tura.tezavnost ? ["Zahtevnost", tura.tezavnost] : null,
-                      tura.tipi && tura.tipi.length > 0 ? ["Tip kolesa", tura.tipi.join(" / ")] : null,
+                      tura.tipi && tura.tipi.length > 0 ? ["Tip trase", tura.tipi.join(" / ")] : null,
                     ] as ([string, string] | null)[]).filter((x): x is [string, string] => x !== null).map(([label, value]) => (
                       <div key={label as string} className="rounded-2xl border border-white/10 bg-black/15 p-4">
                         <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c58b46]">{label}</div>
@@ -780,11 +780,11 @@ export default function TuraDetailPage() {
               <div className="text-[10px] font-black uppercase tracking-[0.24em] text-zinc-500">Hitri povzetek</div>
               <div className="mt-4 space-y-3 text-sm">
                 {([
-                  tura.tipi && tura.tipi.length > 0 ? ["Za koga", tura.tipi.join(" / ")] : null,
+                  tura.tipi && tura.tipi.length > 0 ? ["Tip trase", tura.tipi.join(" / ")] : null,
                   tura.tezavnost ? ["Zahtevnost", tura.tezavnost] : null,
                   tura.regija ? ["Regija", tura.regija] : null,
                   tura.obmocje ? ["Območje", tura.obmocje] : null,
-                  tura.cas_ur != null ? ["Čas", casDisplay(tura.cas_ur)] : null,
+                  tura.cas_ur != null ? ["Ocenjeni čas", casDisplay(tura.cas_ur)] : null,
                 ] as ([string, string] | null)[]).filter((x): x is [string, string] => x !== null).map(([label, value]) => (
                   <div key={label as string} className="flex justify-between border-b border-white/10 pb-3 last:border-0">
                     <span className="text-zinc-500">{label}</span>
