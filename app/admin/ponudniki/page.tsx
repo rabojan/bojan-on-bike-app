@@ -62,25 +62,18 @@ export default function AdminProvidersPage() {
     if (!deleteId) return;
     setDeleting(true);
     setDeleteError(null);
-    try {
-      const res = await fetch("/api/admin/delete", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ table: "predlogi_ponudnikov", id: deleteId }),
-      });
-      const json = await res.json();
-      if (!res.ok || json.error) {
-        setDeleteError(json.error ?? "Napaka pri brisanju.");
-        setDeleting(false);
-        return;
-      }
-      setDeleteId(null);
+    const { error } = await supabase
+      .from("predlogi_ponudnikov")
+      .delete()
+      .eq("id", deleteId);
+    if (error) {
+      setDeleteError(error.message);
       setDeleting(false);
-      await load();
-    } catch (e) {
-      setDeleteError("Napaka pri povezavi s strežnikom.");
-      setDeleting(false);
+      return;
     }
+    setDeleteId(null);
+    setDeleting(false);
+    await load();
   }
 
   const total = ponudniki.length;
