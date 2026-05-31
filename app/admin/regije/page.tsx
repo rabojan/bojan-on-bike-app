@@ -127,13 +127,11 @@ const slugToRegija: Record<string, string> = {
   prekmurje: "Prekmurje",
 };
 
-const totalTrails = regions.reduce((sum, region) => sum + region.trails.length, 0);
-const totalProviders = regions.reduce((sum, region) => sum + region.providers.length, 0);
-const totalExperiences = regions.reduce(
-  (sum, region) => sum + region.experiences.length,
-  0
-);
-const totalPoints = regions.reduce((sum, region) => sum + region.points.length, 0);
+type RegijaData = {
+  ture: string[];
+  ponudniki: string[];
+  znamenitosti: string[];
+};
 
 function ContentList({ title, items }: { title: string; items: string[] }) {
   return (
@@ -194,18 +192,42 @@ function AmbassadorList({ ambassadors }: { ambassadors: RealAmbasador[] }) {
 
 export default function AdminRegionsPage() {
   const [ambasadorjiByRegija, setAmbasadorjiByRegija] = useState<Record<string, RealAmbasador[]>>({});
+  const [dataByRegija, setDataByRegija] = useState<Record<string, RegijaData>>({});
+  const [totals, setTotals] = useState({ ture: 0, ponudniki: 0, znamenitosti: 0 });
 
   useEffect(() => {
-    supabase.from("ambasadorji").select("id, ime, foto_url, email, regija")
-      .then(({ data }) => {
-        const grouped: Record<string, RealAmbasador[]> = {};
-        for (const a of data ?? []) {
-          const regija = a.regija ?? "";
-          if (!grouped[regija]) grouped[regija] = [];
-          grouped[regija].push({ id: a.id, ime: a.ime, foto_url: a.foto_url, email: a.email });
-        }
-        setAmbasadorjiByRegija(grouped);
+    async function load() {
+      const [{ data: amb }, { data: ture }, { data: ponudniki }, { data: znamenitosti }] = await Promise.all([
+        supabase.from("ambasadorji").select("id, ime, foto_url, email, regija"),
+        supabase.from("predlogi_tur").select("ime, regija").eq("status", "approved"),
+        supabase.from("predlogi_ponudnikov").select("ime, regija").eq("status", "approved"),
+        supabase.from("predlogi_znamenitosti").select("ime, regija").eq("status", "approved"),
+      ]);
+
+      const groupAmb: Record<string, RealAmbasador[]> = {};
+      for (const a of amb ?? []) {
+        const r = a.regija ?? "";
+        if (!groupAmb[r]) groupAmb[r] = [];
+        groupAmb[r].push({ id: a.id, ime: a.ime, foto_url: a.foto_url, email: a.email });
+      }
+      setAmbasadorjiByRegija(groupAmb);
+
+      const groupData: Record<string, RegijaData> = {};
+      const allRegije = Object.values(slugToRegija);
+      for (const r of allRegije) groupData[r] = { ture: [], ponudniki: [], znamenitosti: [] };
+
+      for (const t of ture ?? []) if (t.regija && groupData[t.regija]) groupData[t.regija].ture.push(t.ime);
+      for (const p of ponudniki ?? []) if (p.regija && groupData[p.regija]) groupData[p.regija].ponudniki.push(p.ime);
+      for (const z of znamenitosti ?? []) if (z.regija && groupData[z.regija]) groupData[z.regija].znamenitosti.push(z.ime);
+
+      setDataByRegija(groupData);
+      setTotals({
+        ture: (ture ?? []).length,
+        ponudniki: (ponudniki ?? []).length,
+        znamenitosti: (znamenitosti ?? []).length,
       });
+    }
+    load();
   }, []);
 
   return (
@@ -244,32 +266,28 @@ export default function AdminRegionsPage() {
           </div>
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="text-3xl font-black sm:text-4xl">{totalTrails}</div>
+            <div className="text-3xl font-black sm:text-4xl">{totals.ture}</div>
             <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
               vse ture
             </div>
           </div>
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="text-3xl font-black sm:text-4xl">
-              {totalProviders}
-            </div>
+            <div className="text-3xl font-black sm:text-4xl">{totals.ponudniki}</div>
             <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
               vsi ponudniki
             </div>
           </div>
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="text-3xl font-black sm:text-4xl">
-              {totalExperiences}
-            </div>
+            <div className="text-3xl font-black sm:text-4xl">—</div>
             <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
-              vsa doživetja
+              doživetja
             </div>
           </div>
 
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="text-3xl font-black sm:text-4xl">{totalPoints}</div>
+            <div className="text-3xl font-black sm:text-4xl">{totals.znamenitosti}</div>
             <div className="mt-1 text-[11px] leading-tight text-zinc-400 sm:text-sm">
               vse znamenitosti
             </div>
@@ -279,6 +297,7 @@ export default function AdminRegionsPage() {
         <section className="grid gap-5">
           {regions.map((region) => {
             const ambassadors = ambasadorjiByRegija[slugToRegija[region.slug]] ?? [];
+            const regData = dataByRegija[slugToRegija[region.slug]] ?? { ture: [], ponudniki: [], znamenitosti: [] };
 
             return (
               <article
@@ -322,37 +341,20 @@ export default function AdminRegionsPage() {
 
                     <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
                       <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                        <div className="text-xl font-black sm:text-2xl">
-                          {region.trails.length}
-                        </div>
+                        <div className="text-xl font-black sm:text-2xl">{regData.ture.length}</div>
                         <div className="mt-1 text-xs text-zinc-500">ture</div>
                       </div>
-
                       <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                        <div className="text-xl font-black sm:text-2xl">
-                          {region.providers.length}
-                        </div>
-                        <div className="mt-1 text-xs text-zinc-500">
-                          ponudniki
-                        </div>
+                        <div className="text-xl font-black sm:text-2xl">{regData.ponudniki.length}</div>
+                        <div className="mt-1 text-xs text-zinc-500">ponudniki</div>
                       </div>
-
                       <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                        <div className="text-xl font-black sm:text-2xl">
-                          {region.experiences.length}
-                        </div>
-                        <div className="mt-1 text-xs text-zinc-500">
-                          doživetja
-                        </div>
+                        <div className="text-xl font-black sm:text-2xl">—</div>
+                        <div className="mt-1 text-xs text-zinc-500">doživetja</div>
                       </div>
-
                       <div className="rounded-2xl border border-white/10 bg-[#07110b] p-3 sm:p-4">
-                        <div className="text-xl font-black sm:text-2xl">
-                          {region.points.length}
-                        </div>
-                        <div className="mt-1 text-xs text-zinc-500">
-                          znamenitosti
-                        </div>
+                        <div className="text-xl font-black sm:text-2xl">{regData.znamenitosti.length}</div>
+                        <div className="mt-1 text-xs text-zinc-500">znamenitosti</div>
                       </div>
                     </div>
                   </div>
@@ -391,11 +393,10 @@ export default function AdminRegionsPage() {
                   </div>
                 </div>
 
-                <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                  <ContentList title="Ture v regiji" items={region.trails} />
-                  <ContentList title="Ponudniki" items={region.providers} />
-                  <ContentList title="Doživetja" items={region.experiences} />
-                  <ContentList title="Znamenitosti" items={region.points} />
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  <ContentList title="Ture v regiji" items={regData.ture} />
+                  <ContentList title="Ponudniki" items={regData.ponudniki} />
+                  <ContentList title="Znamenitosti" items={regData.znamenitosti} />
                 </div>
               </article>
             );
