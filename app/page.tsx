@@ -316,7 +316,8 @@ export default function Home() {
                     <span className="text-7xl opacity-10">🚵</span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#07110b]/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10] via-[#0b1a10]/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0b1a10] hidden md:block" />
               </div>
 
               <div className="flex flex-col justify-center p-8 md:p-12">
