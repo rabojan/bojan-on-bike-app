@@ -429,14 +429,14 @@ export default function TuraDetailPage() {
       <SiteHeader backHref="/ture" active="ture" />
 
       {/* ── HERO ── */}
-      <section className="relative min-h-[92vh] overflow-hidden">
+      <section className="relative min-h-[720px] overflow-hidden border-b border-white/10">
         {tura.hero_image && (
           <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${tura.hero_image})` }} />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-[#07110b]/20 to-[#07110b]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/50 via-transparent to-transparent" />
 
-        <div className="relative z-10 mx-auto flex min-h-[calc(92vh-80px)] max-w-6xl flex-col justify-end px-6 pb-16 pt-36">
+        <div className="relative z-10 mx-auto flex min-h-[720px] max-w-6xl flex-col justify-end px-6 pb-20 pt-28">
           <div className="max-w-4xl">
             <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">
               {tura.tipi?.join(" · ")}{tura.regija ? ` · ${tura.regija}` : ""}{tura.obmocje ? ` · ${tura.obmocje}` : ""}
@@ -464,13 +464,6 @@ export default function TuraDetailPage() {
                   className="rounded-full bg-[#c58b46] px-7 py-3 text-sm font-black text-black transition hover:brightness-110">
                   Naloži GPX
                 </a>
-              )}
-              {gpxData && (
-                <button
-                  onClick={() => document.getElementById("gpx-karta")?.scrollIntoView({ behavior: "smooth" })}
-                  className="rounded-full border border-[#c58b46]/40 px-7 py-3 text-sm font-black text-[#f4d7ad] transition hover:bg-[#c58b46]/10">
-                  Preglej GPX
-                </button>
               )}
             </div>
           </div>
