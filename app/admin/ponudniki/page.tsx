@@ -44,7 +44,14 @@ export default function AdminProvidersPage() {
       .from("predlogi_ponudnikov")
       .select("id, ime, tip, regija, lokacija, telefon, spletna_stran, status, created_at, ambasadorji(ime)")
       .order("created_at", { ascending: false });
-    setPonudniki((data ?? []) as Ponudnik[]);
+    setPonudniki((data ?? []).map((row) => {
+      const r = row as Record<string, unknown>;
+      const amb = r.ambasadorji;
+      return {
+        ...r,
+        ambasadorji: Array.isArray(amb) ? (amb[0] ?? null) : (amb ?? null),
+      } as Ponudnik;
+    }));
     setLoading(false);
   }
 
