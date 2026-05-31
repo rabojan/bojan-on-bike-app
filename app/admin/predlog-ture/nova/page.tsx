@@ -407,10 +407,10 @@ export default function NewTrailProposalPage() {
                 />
 
                 <label className="block text-sm font-bold text-zinc-200">
-                  <span>Težavnost</span>
+                  <span>Zahtevnost</span>
 
                   <select className="mt-2 h-[56px] w-full rounded-2xl border border-white/10 bg-[#07110b] px-4 text-white outline-none">
-                    <option>Izberi težavnost</option>
+                    <option>Izberi zahtevnost</option>
                     <option>Lahka</option>
                     <option>Srednja</option>
                     <option>Zahtevna</option>

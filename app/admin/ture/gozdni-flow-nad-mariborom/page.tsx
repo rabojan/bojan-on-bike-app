@@ -182,7 +182,7 @@ export default function EditTrailPage() {
 
                 <label className="space-y-2">
                   <span className="text-sm font-semibold text-zinc-300">
-                    Težavnost
+                    Zahtevnost
                   </span>
                   <select
                     defaultValue="Srednja"
