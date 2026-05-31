@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import dynamic from "next/dynamic";
 import SiteHeader from "@/components/SiteHeader";
 import LightboxGallery from "@/components/LightboxGallery";
+import MiniMapWrapper from "@/components/MiniMapWrapper";
 import { createServiceClient } from "@/lib/supabase";
 import ZnamenitostNearbyTure from "./ZnamenitostNearbyTure";
-
-const MiniMap = dynamic(() => import("@/components/MiniMap"), { ssr: false });
 
 export const dynamic = "force-dynamic";
 
@@ -205,7 +203,7 @@ export default async function ZnamenitostDetailPage({ params }: { params: Promis
           {/* Mini mapa */}
           {z.lat && z.lng && (
             <div className="rounded-[28px] overflow-hidden border border-white/10" style={{ height: 220 }}>
-              <MiniMap lat={Number(z.lat)} lng={Number(z.lng)} label={z.ime} />
+              <MiniMapWrapper lat={Number(z.lat)} lng={Number(z.lng)} label={z.ime} />
             </div>
           )}
 
