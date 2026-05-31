@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
+import LightboxGallery from "@/components/LightboxGallery";
 import { supabase } from "@/lib/supabase";
 import { minDistanceToPolyline, formatDistance } from "@/lib/distance";
 import { parseGpx } from "@/lib/parseGpx";
@@ -267,20 +268,12 @@ export default function PonudnikDetailPage() {
           {ponudnik.galerija && ponudnik.galerija.length > 0 && (
             <section>
               <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">
-                Galerija
+                Galerija z utrinki
               </div>
               <h2 className="mt-4 font-serif text-4xl font-black italic leading-tight md:text-5xl">
                 {ponudnik.ime} v slikah.
               </h2>
-
-              <div className="mt-8 grid gap-4 md:grid-cols-4">
-                {ponudnik.galerija.map((url, index) => (
-                  <div key={url} className={index === 0 ? "md:col-span-2 md:row-span-2" : ""}>
-                    <img src={url} alt={`${ponudnik.ime} ${index + 1}`}
-                      className="h-full min-h-[180px] w-full rounded-[24px] object-cover" />
-                  </div>
-                ))}
-              </div>
+              <LightboxGallery images={ponudnik.galerija} altPrefix={ponudnik.ime} />
             </section>
           )}
 

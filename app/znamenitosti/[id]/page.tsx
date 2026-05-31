@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
+import LightboxGallery from "@/components/LightboxGallery";
 import { createServiceClient } from "@/lib/supabase";
 import ZnamenitostNearbyTure from "./ZnamenitostNearbyTure";
 
@@ -139,10 +140,7 @@ export default async function ZnamenitostDetailPage({ params }: { params: Promis
           {z.foto_url && (
             <section>
               <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Fotografija</div>
-              <div className="mt-6">
-                <img src={z.foto_url} alt={z.ime}
-                  className="w-full rounded-[28px] object-cover" style={{ maxHeight: 480 }} />
-              </div>
+              <LightboxGallery images={[z.foto_url]} altPrefix={z.ime} />
             </section>
           )}
 

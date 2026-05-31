@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import SiteHeader from "@/components/SiteHeader";
 import ElevationChart from "@/components/ElevationChart";
+import LightboxGallery from "@/components/LightboxGallery";
 import { supabase } from "@/lib/supabase";
 import { parseGpx, type ParsedGpx } from "@/lib/parseGpx";
 import { minDistanceToPolyline, formatDistance } from "@/lib/distance";
@@ -740,13 +741,7 @@ export default function TuraDetailPage() {
             <section className="px-6 py-16">
               <div className="text-xs font-black uppercase tracking-[0.34em] text-[#c58b46]">Galerija z utrinki</div>
               <h2 className="mt-3 font-serif text-4xl font-bold italic">Tura v slikah.</h2>
-              <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-                {tura.galerija.map((url, i) => (
-                  <div key={i}
-                    className={`rounded-[24px] bg-cover bg-center ${i === 0 ? "col-span-2 row-span-2 h-[420px]" : "h-[204px]"}`}
-                    style={{ backgroundImage: `url(${url})` }} />
-                ))}
-              </div>
+              <LightboxGallery images={tura.galerija} altPrefix={tura.ime} />
             </section>
           )}
 
