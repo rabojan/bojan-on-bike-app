@@ -1,6 +1,9 @@
-import Link from "next/link";
+"use client";
 
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import AdminShell from "@/components/AdminShell";
+import { supabase } from "@/lib/supabase";
 
 type Region = {
   name: string;
@@ -15,11 +18,6 @@ type Region = {
   points: string[];
 };
 
-type RegionAmbassador = {
-  name: string;
-  role: "Ambasador regije" | "TOP ambasador regije";
-  image?: string;
-};
 
 const regions: Region[] = [
   {
@@ -123,14 +121,10 @@ const regions: Region[] = [
   },
 ];
 
-const regionAmbassadors: Record<string, RegionAmbassador[]> = {
-  stajerska: [{ name: "Bojan Ratej", role: "Ambasador regije" }],
-  koroska: [{ name: "Maja Kovač", role: "Ambasador regije" }],
-  gorenjska: [{ name: "Tomaž Zupan", role: "TOP ambasador regije" }],
-  primorska: [{ name: "Nina Furlan", role: "Ambasador regije" }],
-  notranjska: [{ name: "Rok Mlakar", role: "Ambasador regije" }],
-  dolenjska: [{ name: "Petra Novak", role: "Ambasador regije" }],
-  prekmurje: [{ name: "Matej Horvat", role: "Ambasador regije" }],
+const slugToRegija: Record<string, string> = {
+  stajerska: "Štajerska", koroska: "Koroška", gorenjska: "Gorenjska",
+  primorska: "Primorska", notranjska: "Notranjska", dolenjska: "Dolenjska",
+  prekmurje: "Prekmurje",
 };
 
 const totalTrails = regions.reduce((sum, region) => sum + region.trails.length, 0);
@@ -166,43 +160,31 @@ function ContentList({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-function AmbassadorList({ ambassadors }: { ambassadors: RegionAmbassador[] }) {
+type RealAmbasador = { id: string; ime: string; foto_url: string | null; email: string | null };
+
+function AmbassadorList({ ambassadors }: { ambassadors: RealAmbasador[] }) {
   if (ambassadors.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-white/10 bg-black/20 p-4 text-sm text-zinc-500">
-        Ambasadorji še niso povezani. Dodaš jih v modulu Ambasadorji.
+        Ni ambasadorjev za to regijo.
       </div>
     );
   }
 
   return (
     <div className="space-y-3">
-      {ambassadors.map((ambassador) => (
-        <div
-          key={ambassador.name}
-          className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-3"
-        >
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#07110b] text-xl">
-            {ambassador.image ? (
-              <img
-                src={ambassador.image}
-                alt={ambassador.name}
-                className="h-full w-full object-cover"
-              />
+      {ambassadors.map((a) => (
+        <div key={a.id} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-3">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#c58b46]/20 text-lg font-black text-[#c58b46]">
+            {a.foto_url ? (
+              <img src={a.foto_url} alt={a.ime} className="h-full w-full object-cover" />
             ) : (
-              "👤"
+              a.ime.charAt(0)
             )}
           </div>
-
           <div className="min-w-0">
-            <div className="truncate text-sm font-black text-white">
-              {ambassador.name}
-            </div>
-            <div className="mt-1 text-xs font-semibold text-zinc-400">
-              {ambassador.role === "TOP ambasador regije"
-                ? "⭐ TOP ambasador regije"
-                : "Ambasador regije"}
-            </div>
+            <div className="truncate text-sm font-black text-white">{a.ime}</div>
+            {a.email && <div className="mt-0.5 text-xs text-zinc-500">{a.email}</div>}
           </div>
         </div>
       ))}
@@ -211,6 +193,21 @@ function AmbassadorList({ ambassadors }: { ambassadors: RegionAmbassador[] }) {
 }
 
 export default function AdminRegionsPage() {
+  const [ambasadorjiByRegija, setAmbasadorjiByRegija] = useState<Record<string, RealAmbasador[]>>({});
+
+  useEffect(() => {
+    supabase.from("ambasadorji").select("id, ime, foto_url, email, regija")
+      .then(({ data }) => {
+        const grouped: Record<string, RealAmbasador[]> = {};
+        for (const a of data ?? []) {
+          const regija = a.regija ?? "";
+          if (!grouped[regija]) grouped[regija] = [];
+          grouped[regija].push({ id: a.id, ime: a.ime, foto_url: a.foto_url, email: a.email });
+        }
+        setAmbasadorjiByRegija(grouped);
+      });
+  }, []);
+
   return (
     <AdminShell active="regije">
       <div className="space-y-8">
@@ -281,7 +278,7 @@ export default function AdminRegionsPage() {
 
         <section className="grid gap-5">
           {regions.map((region) => {
-            const ambassadors = regionAmbassadors[region.slug] ?? [];
+            const ambassadors = ambasadorjiByRegija[slugToRegija[region.slug]] ?? [];
 
             return (
               <article
