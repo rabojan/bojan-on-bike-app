@@ -37,6 +37,7 @@ export default function NewProviderPage() {
   const [status, setStatus] = useState("Čaka na objavo");
   const [hasCharging, setHasCharging] = useState(false);
   const [isPartner, setIsPartner] = useState(false);
+  const [zakaj, setZakaj] = useState("");
   const [quote, setQuote] = useState("");
   const [featureTitles, setFeatureTitles] = useState(["", "", "", "", "", ""]);
   const [featureDescs, setFeatureDescs] = useState(["", "", "", "", "", ""]);
@@ -220,16 +221,22 @@ export default function NewProviderPage() {
               </div>
 
               <label className="space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">
-                  Kratek opis
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-zinc-300">Prvi vtis o ponudniku</span>
+                  <span className={`text-xs font-bold ${zakaj.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>
+                    {180 - zakaj.length} znakov preostane
+                  </span>
+                </div>
                 <textarea
-                  placeholder="Kratek opis ponudbe, vzdušja in zakaj je zanimiv za kolesarje..."
-                  rows={4}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
+                  maxLength={180}
+                  rows={2}
+                  value={zakaj}
+                  onChange={(e) => setZakaj(e.target.value)}
+                  placeholder="Kratek, udaren vtis — kaj kolesarj najprej začuti, ko pride sem."
+                  className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60"
                 />
                 <p className="text-xs text-zinc-600">
-                  Prikaže se na kartici v katalogu ponudnikov (kratko, do 2 vrstici).
+                  Prikaže se kot subtitle pod naslovom na detail strani.
                 </p>
               </label>
 
