@@ -307,18 +307,19 @@ export default function UrejiPonudnikaPage() {
           </div>
         </section>
 
-        {/* ── 3. OPIS ── */}
+        {/* ── 3. OPIS PONUDNIKA ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
-          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Opis za platformo</div>
-          <div className="space-y-5">
-            <label className="block space-y-2">
-              <span className="text-sm font-bold text-zinc-300">Zgodba / opis ponudnika *</span>
-              <textarea rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
-                placeholder="Rudijev dom stoji na..."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
-            </label>
-
-          </div>
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Opis ponudnika</div>
+          <p className="mb-5 text-sm text-zinc-500">Prikaže se na strani ponudnika — opiši prostor, vzdušje in zakaj je vreden postanka. Največ 440 znakov.</p>
+          <label className="block space-y-2">
+            <span className="text-sm font-bold text-zinc-300">Opis *</span>
+            <textarea rows={5} maxLength={440} value={opis} onChange={(e) => setOpis(e.target.value)}
+              placeholder="Rudijev dom stoji na... Tu se kolesarji ustavljajo ker..."
+              className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+            <div className={`text-right text-xs font-bold ${opis.length > 400 ? "text-amber-400" : "text-zinc-600"}`}>
+              {440 - opis.length} znakov preostane
+            </div>
+          </label>
         </section>
 
         {/* ── 4. POUDARKI ── */}
