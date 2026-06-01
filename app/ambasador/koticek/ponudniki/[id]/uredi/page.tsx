@@ -83,8 +83,8 @@ export default function UrejiPonudnikaPage() {
       try { const arr = JSON.parse(data.bike_friendly_opis ?? "[]"); setHasPolnilnica(arr.includes("e-bike polnilnica")); } catch { setHasPolnilnica(false); }
 
       const initFeatures = [...(data.features ?? [])];
-      while (initFeatures.length < 6) initFeatures.push({ title: "", description: "" });
-      setFeatures(initFeatures.slice(0, 6));
+      while (initFeatures.length < 3) initFeatures.push({ title: "", description: "" });
+      setFeatures(initFeatures.slice(0, 3));
 
       setLat(data.lat ?? null);
       setLng(data.lng ?? null);
