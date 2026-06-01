@@ -229,27 +229,26 @@ export default function NovPonudnikPage() {
           />
         </section>
 
-        {/* ── 3. PRVI VTIS ── */}
+        {/* ── 3. PRVI VTIS + ZAKAJ SE USTAVITI ── */}
         <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Prvi vtis o ponudniku</div>
-          <p className="mb-5 text-sm text-zinc-500">Prikaže se kot subtitle pod naslovom strani. Največ 180 znakov.</p>
+          <p className="mb-4 text-sm text-zinc-500">Prikaže se kot subtitle pod naslovom strani. Največ 180 znakov.</p>
           <textarea rows={2} maxLength={180} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
             placeholder="Kratek, udaren vtis — kaj kolesarj najprej začuti, ko pride sem."
-            className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60 resize-none" />
-          <div className={`mt-1.5 text-right text-xs font-bold ${zakaj.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>
+            className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+          <div className={`mb-5 text-right text-xs font-bold ${zakaj.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>
             {180 - zakaj.length} znakov preostane
           </div>
-          <div className="mt-5 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-zinc-300">Zakaj se ustaviti</span>
-              <span className={`text-xs font-bold ${citat.length > 90 ? "text-amber-400" : "text-zinc-600"}`}>
-                {100 - citat.length} znakov preostane
-              </span>
-            </div>
-            <p className="text-xs text-zinc-500">Stavek, ki ga ambasador sporoča o ponudniku — prikaže se v zlatem boxu na strani.</p>
-            <input maxLength={100} value={citat} onChange={(e) => setCitat(e.target.value)}
+
+          <div className="border-t border-[#c58b46]/15 pt-5">
+            <span className="text-sm font-bold text-zinc-300">Zakaj se ustaviti</span>
+            <p className="mb-4 mt-1 text-xs text-zinc-500">Stavek, ki ga ambasador sporoča o ponudniku — prikaže se v zlatem boxu na strani.</p>
+            <input maxLength={110} value={citat} onChange={(e) => setCitat(e.target.value)}
               placeholder='npr. "Najboljša goveja juha pod Bočem."'
               className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+            <div className={`mt-1.5 text-right text-xs font-bold ${citat.length > 95 ? "text-amber-400" : "text-zinc-600"}`}>
+              {110 - citat.length} znakov preostane
+            </div>
           </div>
         </section>
 

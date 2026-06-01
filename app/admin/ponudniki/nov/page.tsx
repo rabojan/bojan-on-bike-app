@@ -221,12 +221,8 @@ export default function NewProviderPage() {
               </div>
 
               <label className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-zinc-300">Prvi vtis o ponudniku</span>
-                  <span className={`text-xs font-bold ${zakaj.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>
-                    {180 - zakaj.length} znakov preostane
-                  </span>
-                </div>
+                <span className="text-sm font-semibold text-zinc-300">Prvi vtis o ponudniku</span>
+                <p className="text-xs text-zinc-600">Prikaže se kot subtitle pod naslovom na detail strani. Največ 180 znakov.</p>
                 <textarea
                   maxLength={180}
                   rows={2}
@@ -235,9 +231,9 @@ export default function NewProviderPage() {
                   placeholder="Kratek, udaren vtis — kaj kolesarj najprej začuti, ko pride sem."
                   className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60"
                 />
-                <p className="text-xs text-zinc-600">
-                  Prikaže se kot subtitle pod naslovom na detail strani.
-                </p>
+                <div className={`text-right text-xs font-bold ${zakaj.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>
+                  {180 - zakaj.length} znakov preostane
+                </div>
               </label>
 
               <label className="mt-5 block space-y-2">
@@ -274,15 +270,15 @@ export default function NewProviderPage() {
                 </div>
                 <p className="text-xs text-zinc-500">Stavek, ki ga ambasador sporoča o ponudniku — prikaže se v zlatem boxu na strani.</p>
                 <input
-                  maxLength={100}
+                  maxLength={110}
                   value={quote}
                   onChange={(e) => setQuote(e.target.value)}
                   placeholder='npr. "Najboljša goveja juha pod Bočem."'
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
                 />
-                <p className="text-xs text-zinc-600">
-                  Prikaže se na detail strani kot izpostavljen citat v zlati barvi.
-                </p>
+                <div className={`text-right text-xs font-bold ${quote.length > 95 ? "text-amber-400" : "text-zinc-600"}`}>
+                  {110 - quote.length} znakov preostane
+                </div>
               </label>
             </div>
 
