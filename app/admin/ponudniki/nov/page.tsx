@@ -256,14 +256,20 @@ export default function AdminNovPonudnikPage() {
                 <div className="mb-3 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">{label}</div>
                 <div className="space-y-3">
                   <label className="block space-y-1.5">
-                    <span className="text-xs font-semibold text-zinc-400">Naslov</span>
-                    <input value={features[i]?.title ?? ""} onChange={(e) => updateFeature(i, "title", e.target.value)}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-zinc-400">Naslov</span>
+                      <span className={`text-[10px] font-bold ${(features[i]?.title?.length ?? 0) > 44 ? "text-amber-400" : "text-zinc-600"}`}>{50 - (features[i]?.title?.length ?? 0)}</span>
+                    </div>
+                    <input maxLength={50} value={features[i]?.title ?? ""} onChange={(e) => updateFeature(i, "title", e.target.value)}
                       placeholder={titlePh}
                       className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-[#c58b46]/60" />
                   </label>
                   <label className="block space-y-1.5">
-                    <span className="text-xs font-semibold text-zinc-400">Opis</span>
-                    <input value={features[i]?.description ?? ""} onChange={(e) => updateFeature(i, "description", e.target.value)}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-zinc-400">Opis</span>
+                      <span className={`text-[10px] font-bold ${(features[i]?.description?.length ?? 0) > 160 ? "text-amber-400" : "text-zinc-600"}`}>{180 - (features[i]?.description?.length ?? 0)}</span>
+                    </div>
+                    <input maxLength={180} value={features[i]?.description ?? ""} onChange={(e) => updateFeature(i, "description", e.target.value)}
                       placeholder={descPh}
                       className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-[#c58b46]/60" />
                   </label>
