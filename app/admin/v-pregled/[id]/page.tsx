@@ -396,27 +396,27 @@ export default function PredlogDetailPage() {
               <div className="mb-4 text-xs uppercase tracking-[0.35em] text-[#c58b46]">Osnovni podatki</div>
               <div className="grid gap-3 text-sm md:grid-cols-2">
                 {data.lokacija && (
-                  <div className="flex justify-between border-b border-white/5 py-2 md:col-span-2">
-                    <span className="text-zinc-500">Kraj / lokacija</span>
-                    <span className="font-bold text-white">{data.lokacija}</span>
+                  <div className="border-b border-white/5 py-2 md:col-span-2">
+                    <div className="text-xs text-zinc-500 mb-1">Kraj / lokacija</div>
+                    <div className="font-bold text-white">{data.lokacija}</div>
                   </div>
                 )}
                 {data.telefon && (
-                  <div className="flex justify-between border-b border-white/5 py-2">
-                    <span className="text-zinc-500">Telefon</span>
+                  <div className="border-b border-white/5 py-2">
+                    <div className="text-xs text-zinc-500 mb-1">Telefon</div>
                     <a href={`tel:${data.telefon}`} className="font-bold text-[#c58b46] hover:underline">{data.telefon}</a>
                   </div>
                 )}
                 {data.spletna_stran && (
-                  <div className="flex justify-between border-b border-white/5 py-2">
-                    <span className="text-zinc-500">Spletna stran</span>
+                  <div className="border-b border-white/5 py-2">
+                    <div className="text-xs text-zinc-500 mb-1">Spletna stran</div>
                     <a href={data.spletna_stran} target="_blank" rel="noopener noreferrer"
-                      className="max-w-[220px] truncate font-bold text-[#c58b46] hover:underline">{data.spletna_stran}</a>
+                      className="font-bold text-[#c58b46] hover:underline break-all">{data.spletna_stran}</a>
                   </div>
                 )}
                 {data.lat && data.lng && (
-                  <div className="flex justify-between border-b border-white/5 py-2 md:col-span-2">
-                    <span className="text-zinc-500">GPS lokacija</span>
+                  <div className="border-b border-white/5 py-2 md:col-span-2">
+                    <div className="text-xs text-zinc-500 mb-1">GPS lokacija</div>
                     <div className="flex items-center gap-3">
                       <span className="font-mono text-xs text-zinc-300">{data.lat.toFixed(5)}, {data.lng.toFixed(5)}</span>
                       {googleMapsLink && (
