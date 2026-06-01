@@ -33,9 +33,6 @@ export default function AdminNovPonudnikPage() {
     { title: "", description: "" },
     { title: "", description: "" },
     { title: "", description: "" },
-    { title: "", description: "" },
-    { title: "", description: "" },
-    { title: "", description: "" },
   ]);
 
   const [heroFile, setHeroFile] = useState<File | null>(null);
@@ -245,25 +242,29 @@ export default function AdminNovPonudnikPage() {
           </label>
         </section>
 
-        {/* ── 5. POUDARKI (6) ── */}
+        {/* ── 5. POUDARKI (3) ── */}
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Poudarki ponudnika</div>
-          <p className="mb-5 text-sm text-zinc-500">Do 6 kratkih kartic: domača kuhinja, polnilnica, prenočišče...</p>
-          <div className="grid gap-4 md:grid-cols-2">
-            {features.map((f, i) => (
+          <p className="mb-5 text-sm text-zinc-500">3 kratke kartice ki obiskovalcu pokažejo bistvo ponudnika. Napiši kar je za tega ponudnika resnično značilno.</p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              { label: "Hrana in pijača", titlePh: "npr. Domača kuhinja", descPh: "npr. Topel obrok po turi, domači okusi in lokalne specialitete." },
+              { label: "Ambient in vzdušje", titlePh: "npr. Domačen ambient", descPh: "npr. Toplo, umirjeno vzdušje — idealno za počitek po zahtevni turi." },
+              { label: "Okolica in lega", titlePh: "npr. Razgled na dolino", descPh: "npr. Terasa z pogledom na Pohorje, tih kotiček sredi narave." },
+            ].map(({ label, titlePh, descPh }, i) => (
               <div key={i} className="rounded-[20px] border border-white/10 bg-[#07110b] p-4">
-                <div className="mb-3 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-600">Poudarek {i + 1}</div>
+                <div className="mb-3 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">{label}</div>
                 <div className="space-y-3">
                   <label className="block space-y-1.5">
                     <span className="text-xs font-semibold text-zinc-400">Naslov</span>
-                    <input value={f.title} onChange={(e) => updateFeature(i, "title", e.target.value)}
-                      placeholder="npr. Domača kuhinja"
+                    <input value={features[i]?.title ?? ""} onChange={(e) => updateFeature(i, "title", e.target.value)}
+                      placeholder={titlePh}
                       className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-[#c58b46]/60" />
                   </label>
                   <label className="block space-y-1.5">
                     <span className="text-xs font-semibold text-zinc-400">Opis</span>
-                    <input value={f.description} onChange={(e) => updateFeature(i, "description", e.target.value)}
-                      placeholder="npr. Topel obrok po turi, domači okusi."
+                    <input value={features[i]?.description ?? ""} onChange={(e) => updateFeature(i, "description", e.target.value)}
+                      placeholder={descPh}
                       className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-[#c58b46]/60" />
                   </label>
                 </div>
