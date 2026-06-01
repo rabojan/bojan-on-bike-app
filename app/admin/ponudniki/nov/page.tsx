@@ -10,7 +10,7 @@ import { supabase } from "@/lib/supabase";
 const LocationPicker = dynamic(() => import("@/components/LocationPicker"), { ssr: false });
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
-const providerTypes = ["Planinski dom", "Restavracija", "Vinska klet", "Bike shop", "Hotel / apartma", "Kavarna / bistro", "Drugo"];
+const providerTypes = ["Planinski dom", "Vinotoč", "Gostilna", "Hotel", "Hostel", "Kavarna / bistro", "Drugo"];
 
 
 type Feature = { title: string; description: string };
