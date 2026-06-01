@@ -240,9 +240,14 @@ export default function NovPonudnikPage() {
             {180 - zakaj.length} znakov preostane
           </div>
           <div className="mt-5 space-y-2">
-            <span className="text-sm font-bold text-zinc-300">Kratki citat</span>
-            <p className="text-xs text-zinc-500">Prikaže se v zlatem boxu "Zakaj se ustaviti" — kratek, udaren stavek.</p>
-            <input value={citat} onChange={(e) => setCitat(e.target.value)}
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-bold text-zinc-300">Zakaj se ustaviti</span>
+              <span className={`text-xs font-bold ${citat.length > 90 ? "text-amber-400" : "text-zinc-600"}`}>
+                {100 - citat.length} znakov preostane
+              </span>
+            </div>
+            <p className="text-xs text-zinc-500">Stavek, ki ga ambasador sporoča o ponudniku — prikaže se v zlatem boxu na strani.</p>
+            <input maxLength={100} value={citat} onChange={(e) => setCitat(e.target.value)}
               placeholder='npr. "Najboljša goveja juha pod Bočem."'
               className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
           </div>

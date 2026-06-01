@@ -267,16 +267,17 @@ export default function NewProviderPage() {
 
               <label className="mt-5 block space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-zinc-300">Zakaj se ustaviti <span className="text-zinc-600">(citat)</span></span>
-                  <span className={`text-xs font-bold ${quote.length > 90 ? "text-red-400" : "text-zinc-600"}`}>
-                    {quote.length}/100
+                  <span className="text-sm font-semibold text-zinc-300">Zakaj se ustaviti</span>
+                  <span className={`text-xs font-bold ${quote.length > 90 ? "text-amber-400" : "text-zinc-600"}`}>
+                    {100 - quote.length} znakov preostane
                   </span>
                 </div>
+                <p className="text-xs text-zinc-500">Stavek, ki ga ambasador sporoča o ponudniku — prikaže se v zlatem boxu na strani.</p>
                 <input
                   maxLength={100}
                   value={quote}
                   onChange={(e) => setQuote(e.target.value)}
-                  placeholder="npr. Tukaj tura dobi svoj postanek: toplo, mirno in z razlogom."
+                  placeholder='npr. "Najboljša goveja juha pod Bočem."'
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60"
                 />
                 <p className="text-xs text-zinc-600">
