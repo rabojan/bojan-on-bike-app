@@ -431,29 +431,29 @@ export default function PredlogDetailPage() {
               </div>
             </section>
 
-            {/* Zakaj priporoča + Opis */}
-            <div className="grid gap-6 lg:grid-cols-2">
-              {data.zakaj && (
-                <div className="rounded-[28px] border border-[#c58b46]/20 bg-[#c58b46]/5 p-6">
-                  <div className="mb-3 text-xs uppercase tracking-[0.35em] text-[#c58b46]">Zakaj ga priporoča</div>
-                  <p className="text-sm leading-8 text-zinc-300 italic">&ldquo;{data.zakaj}&rdquo;</p>
-                  {data.ambasadorji && (
-                    <div className="mt-4 flex items-center gap-3">
-                      {data.ambasadorji.foto_url && (
-                        <img src={data.ambasadorji.foto_url} alt="" className="h-8 w-8 rounded-full object-cover" />
-                      )}
-                      <span className="text-sm font-bold text-zinc-400">{data.ambasadorji.ime}</span>
-                    </div>
-                  )}
-                </div>
-              )}
-              {data.opis && (
-                <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-                  <div className="mb-3 text-xs uppercase tracking-[0.35em] text-[#c58b46]">Opis ponudnika</div>
-                  <p className="text-sm leading-8 text-zinc-300">{data.opis}</p>
-                </div>
-              )}
-            </div>
+            {/* Zakaj priporoča */}
+            {data.zakaj && (
+              <div className="rounded-[28px] border border-[#c58b46]/20 bg-[#c58b46]/5 p-6">
+                <div className="mb-3 text-xs uppercase tracking-[0.35em] text-[#c58b46]">Zakaj ga priporoča</div>
+                <p className="text-sm leading-8 text-zinc-300 italic">&ldquo;{data.zakaj}&rdquo;</p>
+                {data.ambasadorji && (
+                  <div className="mt-4 flex items-center gap-3">
+                    {data.ambasadorji.foto_url && (
+                      <img src={data.ambasadorji.foto_url} alt="" className="h-8 w-8 rounded-full object-cover" />
+                    )}
+                    <span className="text-sm font-bold text-zinc-400">{data.ambasadorji.ime}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Opis — polna širina */}
+            {data.opis && (
+              <div className="rounded-[28px] border border-white/10 bg-black/20 p-6">
+                <div className="mb-3 text-xs uppercase tracking-[0.35em] text-[#c58b46]">Opis ponudnika</div>
+                <p className="text-sm leading-8 text-zinc-300">{data.opis}</p>
+              </div>
+            )}
 
             {/* Bike-friendly + Citat */}
             {(data.bike_friendly_opis || data.citat) && (
