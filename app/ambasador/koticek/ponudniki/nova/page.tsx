@@ -11,7 +11,7 @@ const LocationPicker = dynamic(() => import("@/components/LocationPicker"), { ss
 
 const regions = ["Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
 const providerTypes = ["Planinski dom", "Restavracija", "Vinska klet", "Bike shop", "Hotel / apartma", "Kavarna / bistro", "Drugo"];
-const ebikStoritve = ["e-bike polnilnica", "Kolesarnica", "Bike wash", "Osnovna orodja", "Prenočišče za kolesarje"];
+
 
 type Feature = { title: string; description: string };
 
@@ -27,7 +27,7 @@ export default function NovPonudnikPage() {
   const [zakaj, setZakaj] = useState("");
   const [citat, setCitat] = useState("");
   const [opis, setOpis] = useState("");
-  const [ebikSelected, setEbikSelected] = useState<string[]>([]);
+  const [hasPolnilnica, setHasPolnilnica] = useState(false);
 
   const [features, setFeatures] = useState<Feature[]>([
     { title: "", description: "" },
@@ -113,7 +113,7 @@ export default function NovPonudnikPage() {
       telefon: telefon || null,
       spletna_stran: spletna || null,
       zakaj, citat: citat || null, opis,
-      bike_friendly_opis: ebikSelected.length > 0 ? JSON.stringify(ebikSelected) : null,
+      bike_friendly_opis: hasPolnilnica ? JSON.stringify(["e-bike polnilnica"]) : null,
       hero_image: heroUrl,
       features: featuresClean.length > 0 ? featuresClean : null,
       galerija: galUrls.length > 0 ? galUrls : null,
@@ -195,21 +195,15 @@ export default function NovPonudnikPage() {
               <input type="url" value={spletna} onChange={(e) => setSpletna(e.target.value)} placeholder="https://"
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
             </label>
-            <div className="col-span-2 space-y-3">
-              <span className="text-sm font-bold text-zinc-300">E-bike storitve</span>
-              <p className="text-xs text-zinc-500">Označi storitve ki jih ponudnik nudi kolesarjem.</p>
-              <div className="flex flex-wrap gap-2">
-                {ebikStoritve.map((s) => {
-                  const active = ebikSelected.includes(s);
-                  return (
-                    <button key={s} type="button"
-                      onClick={() => setEbikSelected((prev) => active ? prev.filter((x) => x !== s) : [...prev, s])}
-                      className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition ${active ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
-                      🔋 {s}
-                    </button>
-                  );
-                })}
-              </div>
+            <div className="col-span-2">
+              <button type="button" onClick={() => setHasPolnilnica((v) => !v)}
+                className={`flex items-center gap-3 rounded-2xl border px-5 py-4 text-sm font-bold transition ${hasPolnilnica ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300" : "border-white/10 bg-[#07110b] text-zinc-400 hover:border-white/20"}`}>
+                <span className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${hasPolnilnica ? "border-emerald-400 bg-emerald-400" : "border-zinc-600"}`}>
+                  {hasPolnilnica && <span className="text-[10px] font-black text-black">✓</span>}
+                </span>
+                🔋 Ima e-bike polnilnico
+              </button>
+              <p className="mt-2 text-xs text-zinc-600">Označi, če ponudnik nudi polnilnico za e-kolesarje.</p>
             </div>
           </div>
         </section>
