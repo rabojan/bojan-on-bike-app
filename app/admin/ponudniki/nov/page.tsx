@@ -124,7 +124,7 @@ export default function AdminNovPonudnikPage() {
   }
 
   return (
-    <AdminShell>
+    <AdminShell active="ponudniki">
       <div className="space-y-8">
 
         <section className="rounded-[36px] border border-white/10 bg-[#0b1a10] p-6 md:p-8">
