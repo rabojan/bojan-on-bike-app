@@ -269,9 +269,9 @@ export default function AdminNovPonudnikPage() {
                       <span className="text-xs font-semibold text-zinc-400">Opis</span>
                       <span className={`text-[10px] font-bold ${(features[i]?.description?.length ?? 0) > 160 ? "text-amber-400" : "text-zinc-600"}`}>{180 - (features[i]?.description?.length ?? 0)}</span>
                     </div>
-                    <input maxLength={180} value={features[i]?.description ?? ""} onChange={(e) => updateFeature(i, "description", e.target.value)}
+                    <textarea maxLength={180} rows={3} value={features[i]?.description ?? ""} onChange={(e) => updateFeature(i, "description", e.target.value)}
                       placeholder={descPh}
-                      className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm outline-none focus:border-[#c58b46]/60" />
+                      className="w-full resize-none rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-sm leading-6 outline-none focus:border-[#c58b46]/60" />
                   </label>
                 </div>
               </div>
