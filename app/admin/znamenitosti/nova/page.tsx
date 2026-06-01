@@ -37,6 +37,9 @@ const connectedTrails = [
 
 export default function NewPoiPage() {
   const [status, setStatus] = useState("Čaka na objavo");
+  const [kratekOpis, setKratekOpis] = useState("");
+  const [opis, setOpis] = useState("");
+  const [namig, setNamig] = useState("");
 
   return (
     <AdminShell active="znamenitosti">
@@ -143,39 +146,33 @@ export default function NewPoiPage() {
               </div>
 
               <label className="space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">
-                  Kratek opis *
-                </span>
-                <textarea
-                  placeholder="Kratek opis *, zakaj je ta točka vredna postanka..."
-                  rows={5}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
+                <span className="text-sm font-semibold text-zinc-300">Kratek opis *</span>
+                <p className="text-xs text-zinc-500">Ena ali dve povedi, prikaže se pod naslovom. Največ 180 znakov.</p>
+                <textarea maxLength={180} rows={2} value={kratekOpis} onChange={(e) => setKratekOpis(e.target.value)}
+                  placeholder="Kratek postanek nad mestom, kjer se odpre pogled..."
+                  className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60"
                 />
+                <div className={`text-right text-xs font-bold ${kratekOpis.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>{180 - kratekOpis.length} znakov preostane</div>
               </label>
 
               <label className="mt-5 block space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">
-                  Daljša zgodba / kontekst
-                </span>
-                <textarea
-                  placeholder="Zgodovina, lokalna zgodba, posebnost kraja, naravni pomen..."
-                  rows={6}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
+                <span className="text-sm font-semibold text-zinc-300">Zgodba / opis *</span>
+                <p className="text-xs text-zinc-500">Daljši opis, prikaže se na strani. Največ 440 znakov.</p>
+                <textarea maxLength={440} rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
+                  placeholder="To je ena tistih točk, kjer se tura za trenutek ustavi..."
+                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60"
                 />
+                <div className={`text-right text-xs font-bold ${opis.length > 400 ? "text-amber-400" : "text-zinc-600"}`}>{440 - opis.length} znakov preostane</div>
               </label>
 
               <label className="mt-5 block space-y-2">
-                <span className="text-sm font-semibold text-zinc-300">
-                  Namig za obisk
-                </span>
-                <textarea
-                  placeholder="npr. Najlepši razgled je ob jasnem vremenu ali pozno popoldne. Do točke vodi kratek odcep..."
-                  rows={4}
-                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-8 outline-none focus:border-[#c58b46]/60"
+                <span className="text-sm font-semibold text-zinc-300">Namig za obisk</span>
+                <p className="text-xs text-zinc-500">Kdaj obiskati, kako priti tja. Največ 440 znakov.</p>
+                <textarea maxLength={440} rows={3} value={namig} onChange={(e) => setNamig(e.target.value)}
+                  placeholder="Najlepši razgled je ob jasnem vremenu ali pozno popoldne..."
+                  className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60"
                 />
-                <p className="text-xs text-zinc-600">
-                  Praktičen nasvet za kolesarja: kdaj obiskati, na kaj paziti, kako dostopati. Prikaže se v sekciji "Namig za obisk" na strani znamenitosti.
-                </p>
+                <div className={`text-right text-xs font-bold ${namig.length > 400 ? "text-amber-400" : "text-zinc-600"}`}>{440 - namig.length} znakov preostane</div>
               </label>
 
               <label className="mt-5 block space-y-2">

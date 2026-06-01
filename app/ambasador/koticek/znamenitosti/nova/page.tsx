@@ -168,26 +168,29 @@ export default function NovaZnamenitostPage() {
 
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Kratek opis *</span>
-              <p className="text-xs text-zinc-500">Ena ali dve povedi, prikaže se pod naslovom kot uvod.</p>
-              <textarea rows={2} value={kratekOpis} onChange={(e) => setKratekOpis(e.target.value)}
+              <p className="text-xs text-zinc-500">Ena ali dve povedi, prikaže se pod naslovom kot uvod. Največ 180 znakov.</p>
+              <textarea rows={2} maxLength={180} value={kratekOpis} onChange={(e) => setKratekOpis(e.target.value)}
                 placeholder="Kratek postanek nad mestom, kjer se odpre pogled proti Mariboru..."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+                className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+              <div className={`text-right text-xs font-bold ${kratekOpis.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>{180 - kratekOpis.length} znakov preostane</div>
             </label>
 
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Zgodba / opis *</span>
-              <p className="text-xs text-zinc-500">Daljši opis, prikaže se v razdelku "Zakaj se ustaviti" na strani.</p>
-              <textarea rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
+              <p className="text-xs text-zinc-500">Daljši opis, prikaže se na strani. Največ 440 znakov.</p>
+              <textarea rows={5} maxLength={440} value={opis} onChange={(e) => setOpis(e.target.value)}
                 placeholder="To je ena tistih točk, kjer se tura za trenutek ustavi. Pod tabo ostane mesto..."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+              <div className={`text-right text-xs font-bold ${opis.length > 400 ? "text-amber-400" : "text-zinc-600"}`}>{440 - opis.length} znakov preostane</div>
             </label>
 
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Ambasadorjev namig</span>
-              <p className="text-xs text-zinc-500">Tvoje osebno priporočilo: zakaj točno ta točka, kdaj jo obiskati.</p>
-              <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
+              <p className="text-xs text-zinc-500">Tvoje osebno priporočilo: zakaj točno ta točka, kdaj jo obiskati. Največ 180 znakov.</p>
+              <textarea rows={2} maxLength={180} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
                 placeholder="Tukaj se vedno ustavim. Mesto pod tabo, gozd za hrbtom..."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+                className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+              <div className={`text-right text-xs font-bold ${zakaj.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>{180 - zakaj.length} znakov preostane</div>
             </label>
 
           </div>
@@ -248,10 +251,11 @@ export default function NovaZnamenitostPage() {
 
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Namig za obisk</span>
-              <p className="text-xs text-zinc-500">Kdaj je najboljši obisk, kako priti tja, kaj vzeti s seboj...</p>
-              <textarea rows={3} value={namig} onChange={(e) => setNamig(e.target.value)}
+              <p className="text-xs text-zinc-500">Kdaj je najboljši obisk, kako priti tja, kaj vzeti s seboj... Največ 440 znakov.</p>
+              <textarea rows={3} maxLength={440} value={namig} onChange={(e) => setNamig(e.target.value)}
                 placeholder="Najlepši občutek je ob jasnem vremenu ali pozno popoldne, ko se svetloba spusti nad mesto..."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+              <div className={`text-right text-xs font-bold ${namig.length > 400 ? "text-amber-400" : "text-zinc-600"}`}>{440 - namig.length} znakov preostane</div>
             </label>
 
             <div className="grid gap-5 md:grid-cols-2">

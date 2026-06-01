@@ -212,21 +212,27 @@ export default function UrejiZnamenitostPage() {
           <div className="space-y-5">
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Kratek opis *</span>
-              <textarea rows={2} value={kratekOpis} onChange={(e) => setKratekOpis(e.target.value)}
+              <p className="text-xs text-zinc-500">Ena ali dve povedi, prikaže se pod naslovom. Največ 180 znakov.</p>
+              <textarea rows={2} maxLength={180} value={kratekOpis} onChange={(e) => setKratekOpis(e.target.value)}
                 placeholder="Ena ali dve povedi..."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+                className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+              <div className={`text-right text-xs font-bold ${kratekOpis.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>{180 - kratekOpis.length} znakov preostane</div>
             </label>
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Zgodba / opis *</span>
-              <textarea rows={5} value={opis} onChange={(e) => setOpis(e.target.value)}
+              <p className="text-xs text-zinc-500">Daljši opis, prikaže se na strani. Največ 440 znakov.</p>
+              <textarea rows={5} maxLength={440} value={opis} onChange={(e) => setOpis(e.target.value)}
                 placeholder="To je ena tistih točk..."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+              <div className={`text-right text-xs font-bold ${opis.length > 400 ? "text-amber-400" : "text-zinc-600"}`}>{440 - opis.length} znakov preostane</div>
             </label>
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Ambasadorjev namig</span>
-              <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
+              <p className="text-xs text-zinc-500">Tvoje osebno priporočilo. Največ 180 znakov.</p>
+              <textarea rows={2} maxLength={180} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
                 placeholder="Tukaj se vedno ustavim..."
-                className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+                className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+              <div className={`text-right text-xs font-bold ${zakaj.length > 160 ? "text-amber-400" : "text-zinc-600"}`}>{180 - zakaj.length} znakov preostane</div>
             </label>
           </div>
         </section>
@@ -277,9 +283,11 @@ export default function UrejiZnamenitostPage() {
           <div className="space-y-5">
             <label className="block space-y-2">
               <span className="text-sm font-bold text-zinc-300">Namig za obisk</span>
-              <textarea rows={3} value={namig} onChange={(e) => setNamig(e.target.value)}
+              <p className="text-xs text-zinc-500">Kdaj obiskati, kako priti tja. Največ 440 znakov.</p>
+              <textarea rows={3} maxLength={440} value={namig} onChange={(e) => setNamig(e.target.value)}
                 placeholder="Najlepši občutek je ob jasnem vremenu..."
                 className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+              <div className={`text-right text-xs font-bold ${namig.length > 400 ? "text-amber-400" : "text-zinc-600"}`}>{440 - namig.length} znakov preostane</div>
             </label>
             <div className="grid gap-5 md:grid-cols-2">
               <label className="block space-y-2">
