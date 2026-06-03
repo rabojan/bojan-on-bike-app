@@ -135,6 +135,7 @@ create table predlogi_tur (
   regija              text,
   obmocje             text,
   zakaj               text,
+  prvi_vtis           text,
   km                  numeric(6,1),
   visinska_razlika    int,
   cas_ur              numeric(4,1),

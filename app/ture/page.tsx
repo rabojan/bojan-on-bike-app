@@ -46,6 +46,7 @@ type Tura = {
   regija: string;
   obmocje: string | null;
   opis: string | null;
+  prvi_vtis: string | null;
   km: number | null;
   visinska_razlika: number | null;
   cas_ur: number | null;
@@ -123,7 +124,7 @@ export default function TurePage() {
     async function load() {
       const { data } = await supabase
         .from("predlogi_tur")
-        .select("id, ime, regija, obmocje, opis, km, visinska_razlika, cas_ur, tipi, obcutek, tezavnost, podlaga_asfalt, podlaga_makadam, podlaga_gozd, hero_image")
+        .select("id, ime, regija, obmocje, opis, prvi_vtis, km, visinska_razlika, cas_ur, tipi, obcutek, tezavnost, podlaga_asfalt, podlaga_makadam, podlaga_gozd, hero_image")
         .eq("status", "approved")
         .order("created_at", { ascending: false });
       setTure(data ?? []);
@@ -231,8 +232,8 @@ export default function TurePage() {
 
                     <h2 className="font-serif text-3xl font-black italic leading-tight">{tura.ime}</h2>
 
-                    {tura.opis && (
-                      <p className="mt-5 leading-7 text-zinc-400 line-clamp-3">{tura.opis}</p>
+                    {tura.prvi_vtis && (
+                      <p className="mt-3 text-sm leading-7 text-zinc-400 line-clamp-3">{tura.prvi_vtis}</p>
                     )}
 
                     <div className="mt-6 flex flex-wrap gap-3 text-sm">

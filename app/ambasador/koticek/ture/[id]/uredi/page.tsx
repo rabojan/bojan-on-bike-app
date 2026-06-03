@@ -52,6 +52,7 @@ export default function UrejiTuroPage() {
   const [regija, setRegija] = useState("Štajerska");
   const [obmocje, setObmocje] = useState("");
   const [opis, setOpis] = useState("");
+  const [prviVtis, setPrviVtis] = useState("");
   const [zakaj, setZakaj] = useState("");
   const [km, setKm] = useState("");
   const [vm, setVm] = useState("");
@@ -131,6 +132,7 @@ export default function UrejiTuroPage() {
       setRegija(data.regija ?? "Štajerska");
       setObmocje(data.obmocje ?? "");
       setOpis(data.opis ?? "");
+      setPrviVtis(data.prvi_vtis ?? "");
       setZakaj(data.zakaj ?? "");
       setKm(data.km != null ? String(data.km) : "");
       setVm(data.visinska_razlika != null ? String(data.visinska_razlika) : "");
@@ -335,6 +337,7 @@ export default function UrejiTuroPage() {
         ime, regija,
         obmocje: obmocje || null,
         opis, zakaj,
+        prvi_vtis: prviVtis || null,
         km: km ? parseFloat(km) : null,
         visinska_razlika: vm ? parseInt(vm) : null,
         cas_ur: cas ? (casUrMap[cas] ?? null) : null,
@@ -569,7 +572,19 @@ export default function UrejiTuroPage() {
           </div>
         </section>
 
-        {/* ── 4. AMBASADORJEV NAMIG ── */}
+        {/* ── 4. PRVI VTIS ── */}
+        <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Prvi vtis o turi</div>
+          <p className="mb-4 text-sm text-zinc-500">Prikaže se kot subtitle pod imenom ture v katalogu. Največ 90 znakov.</p>
+          <textarea rows={2} maxLength={90} value={prviVtis} onChange={(e) => setPrviVtis(e.target.value)}
+            placeholder="Kratek, udaren vtis — kaj kolesarj najprej začuti na tej turi."
+            className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+          <div className={`mb-0 text-right text-xs font-bold ${prviVtis.length > 75 ? "text-amber-400" : "text-zinc-600"}`}>
+            {90 - prviVtis.length} znakov preostane
+          </div>
+        </section>
+
+        {/* ── 5. AMBASADORJEV NAMIG ── */}
         <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorjev namig</div>
           <textarea rows={3} value={zakaj} onChange={(e) => setZakaj(e.target.value)}
