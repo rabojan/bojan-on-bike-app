@@ -13,6 +13,7 @@ type Ponudnik = {
   regija: string;
   lokacija: string | null;
   opis: string | null;
+  zakaj: string | null;
   hero_image: string | null;
   bike_friendly_opis: string | null;
 };
@@ -106,8 +107,8 @@ export default function PonudnikiList({ ponudniki }: { ponudniki: Ponudnik[] }) 
                         ))}
                       </div>
                     )}
-                    {p.opis && (
-                      <p className="mt-3 text-sm leading-7 text-zinc-400 line-clamp-3">{p.opis}</p>
+                    {p.zakaj && (
+                      <p className="mt-3 text-sm leading-7 text-zinc-400 line-clamp-3">{p.zakaj}</p>
                     )}
                     <Link href={`/ponudniki/${p.id}`}
                       className="mt-auto pt-6 inline-flex w-full justify-center rounded-full bg-[#c58b46] px-6 py-3.5 text-sm font-black text-black transition hover:opacity-90">
