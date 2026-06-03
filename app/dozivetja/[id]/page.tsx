@@ -281,7 +281,11 @@ export default function DozivetjeDetailPage() {
 
   let naslovCasovnice = "Potek dneva";
   if (_besedilo.includes("pustolov") || _besedilo.includes("improvizacij") || _besedilo.includes("nepredvidlj")) {
-    naslovCasovnice = "Pustolovska pot brez predvidljivosti";
+    if (_besedilo.includes("konjišk") || _besedilo.includes("konjiš")) {
+      naslovCasovnice = "Pustolovski dan\npo konjiškem pogorju";
+    } else {
+      naslovCasovnice = "Pustolovski dan brez predvidljivosti";
+    }
   } else if (_besedilo.includes("vino") || _besedilo.includes("vinograd") || _besedilo.includes("klet")) {
     naslovCasovnice = "Dan med vinogradi in okusi";
   } else if (_besedilo.includes("razgled") && (_besedilo.includes("vrh") || _besedilo.includes("gora") || _besedilo.includes("boč") || _besedilo.includes("pohor"))) {
@@ -343,35 +347,6 @@ export default function DozivetjeDetailPage() {
             </p>
           )}
 
-          {/* Metriki */}
-          {(d.km || d.visinska_razlika || d.cas_ur || d.tezavnost) && (
-            <div className="mt-10 inline-flex divide-x divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-black/50 backdrop-blur">
-              {d.km && (
-                <div className="px-5 py-3 text-center">
-                  <div className="text-lg font-black text-[#f4d7ad]">{d.km} km</div>
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">dolžina</div>
-                </div>
-              )}
-              {d.visinska_razlika && (
-                <div className="px-5 py-3 text-center">
-                  <div className="text-lg font-black text-[#f4d7ad]">{d.visinska_razlika} vm</div>
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">vzpon</div>
-                </div>
-              )}
-              {d.cas_ur && (
-                <div className="px-5 py-3 text-center">
-                  <div className="text-lg font-black text-[#f4d7ad]">{casDisplay(d.cas_ur)}</div>
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">čas</div>
-                </div>
-              )}
-              {d.tezavnost && (
-                <div className="px-5 py-3 text-center">
-                  <div className="text-lg font-black text-[#f4d7ad]">{d.tezavnost}</div>
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">zahtevnost</div>
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </section>
 
@@ -427,7 +402,7 @@ export default function DozivetjeDetailPage() {
             <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:items-start">
               <div className="lg:sticky lg:top-28">
                 <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Kako izgleda ta dan</div>
-                <h2 className="mt-4 font-serif text-5xl font-black italic leading-tight text-white md:text-6xl">
+                <h2 className="mt-4 whitespace-pre-line font-serif text-5xl font-black italic leading-tight text-white md:text-6xl">
                   {naslovCasovnice}
                 </h2>
                 <p className="mt-6 text-base leading-8 text-zinc-400">
