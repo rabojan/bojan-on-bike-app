@@ -404,7 +404,7 @@ export default function DozivetjeDetailPage() {
             <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:items-start">
               <div className="lg:sticky lg:top-28">
                 <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Kako izgleda ta dan</div>
-                <h2 className="mt-4 whitespace-pre-line font-serif text-5xl font-black italic leading-tight text-white md:text-6xl">
+                <h2 className="mt-4 whitespace-pre-line break-keep font-serif text-5xl font-black italic leading-tight text-white md:text-6xl" style={{ wordBreak: "keep-all" }}>
                   {naslovCasovnice}
                 </h2>
                 <p className="mt-6 text-base leading-8 text-zinc-400">
