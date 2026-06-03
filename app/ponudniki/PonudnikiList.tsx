@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 const regions = ["Vse", "Štajerska", "Koroška", "Gorenjska", "Primorska", "Notranjska", "Dolenjska", "Prekmurje"];
-const types = ["Vse", "Planinska koča", "Restavracija", "Vinska klet", "Bike shop", "Hotel / apartma", "Kavarna / bistro", "Drugo"];
+const types = ["Vse", "Planinski dom", "Vinotoč", "Gostilna", "Hotel", "Hostel", "Kavarna/Bistro", "Drugo"];
 
 type Ponudnik = {
   id: string;
