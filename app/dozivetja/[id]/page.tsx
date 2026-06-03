@@ -411,9 +411,9 @@ export default function DozivetjeDetailPage() {
 
       {/* ══ 2b. UREDNIŠKI UVOD ═══════════════════════════════════════════════ */}
       {d.doziveto_uvod && (
-        <section className="px-6 py-16">
-          <div className="mx-auto max-w-4xl">
-            <p className="text-xl leading-10 text-zinc-300 md:text-2xl md:leading-[3rem]">
+        <section className="px-6 py-14">
+          <div className="mx-auto max-w-6xl">
+            <p className="max-w-3xl text-base leading-8 text-zinc-400">
               {d.doziveto_uvod}
             </p>
           </div>
