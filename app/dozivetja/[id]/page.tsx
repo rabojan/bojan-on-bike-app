@@ -443,7 +443,7 @@ export default function DozivetjeDetailPage() {
                 <GpxMap
                   points={gpxData.points}
                   height={520}
-                  ponudniki={nearbyPonudniki.map(p => ({ id: p.id, ime: p.ime, tip: p.tip, lat: p.lat, lng: p.lng }))}
+                  ponudniki={nearbyPonudniki.filter(p => p.lat != null && p.lng != null).map(p => ({ id: p.id, ime: p.ime, tip: p.tip, lat: p.lat!, lng: p.lng! }))}
                 />
               ) : (
                 <div className="flex h-full items-center justify-center bg-[#0b1a10] text-zinc-600">
