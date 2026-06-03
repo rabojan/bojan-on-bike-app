@@ -36,6 +36,7 @@ type Tura = {
   regija: string;
   obmocje: string | null;
   opis: string | null;
+  prvi_vtis: string | null;
   zakaj: string | null;
   km: number | null;
   visinska_razlika: number | null;
@@ -470,9 +471,9 @@ export default function TuraDetailPage() {
               {tura.ime}
             </h1>
 
-            {tura.opis && (
+            {tura.prvi_vtis && (
               <p className="mt-7 max-w-2xl text-lg leading-8 text-white [text-shadow:_1px_1px_0_rgba(0,0,0,1),_-1px_-1px_0_rgba(0,0,0,0.6)]">
-                {tura.opis.length > 160 ? `${tura.opis.slice(0, 160).trimEnd()}…` : tura.opis}
+                {tura.prvi_vtis}
               </p>
             )}
 
