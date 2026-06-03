@@ -102,9 +102,13 @@ export default function UrejiZnamenitostPage() {
     let heroUrl = existingHeroUrl;
     if (heroFile) heroUrl = await uploadImage(heroFile, `${profil.id}/${Date.now()}-hero-${heroFile.name}`);
 
-    const { error: dbError } = await supabase
-      .from("predlogi_znamenitosti")
-      .update({
+    // Uporabimo API endpoint ki obvozi RLS (deluje tudi za approved zapise)
+    const res = await fetch("/api/ambasador/update-znamenitost", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id,
+        ambasador_id: profil.id,
         ime,
         tip: tip || null,
         regija,
@@ -119,13 +123,10 @@ export default function UrejiZnamenitostPage() {
         wikipedia_url: wikipedia || null,
         google_maps_url: googleMaps || null,
         hero_image: heroUrl,
-        status: "pending",
-        admin_opomba: null,
-      })
-      .eq("id", id)
-      .eq("ambasador_id", profil.id);
+      }),
+    });
 
-    if (dbError) { setError("Napaka pri shranjevanju."); setLoading(false); return; }
+    if (!res.ok) { setError("Napaka pri shranjevanju."); setLoading(false); return; }
 
     fetch("/api/email", {
       method: "POST",

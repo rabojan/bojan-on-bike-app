@@ -148,9 +148,12 @@ export default function UrejiPonudnikaPage() {
 
     const featuresClean = features.filter(f => f.title.trim());
 
-    const { error: dbError } = await supabase
-      .from("predlogi_ponudnikov")
-      .update({
+    const res = await fetch("/api/ambasador/update-ponudnik", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id,
+        ambasador_id: profil.id,
         ime, tip: tip || null, regija,
         lokacija: lokacija || null,
         lat: lat ?? null,
@@ -162,13 +165,10 @@ export default function UrejiPonudnikaPage() {
         hero_image: heroUrl,
         features: featuresClean.length > 0 ? featuresClean : null,
         galerija: galUrls.length > 0 ? galUrls : null,
-        status: "pending",
-        admin_opomba: null,
-      })
-      .eq("id", id)
-      .eq("ambasador_id", profil.id);
+      }),
+    });
 
-    if (dbError) { setError("Napaka pri shranjevanju."); setLoading(false); return; }
+    if (!res.ok) { setError("Napaka pri shranjevanju."); setLoading(false); return; }
 
     fetch("/api/email", {
       method: "POST",
