@@ -349,8 +349,8 @@ export default function AdminNovaTuraPage() {
 
         {/* ── 4. PRVI VTIS ── */}
         <section className="rounded-[32px] border border-[#c58b46]/15 bg-[#c58b46]/5 p-7">
-          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Prvi vtis o turi</div>
-          <p className="mb-4 text-sm text-zinc-500">Prikaže se kot subtitle pod imenom ture v katalogu. Največ 90 znakov.</p>
+          <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Kratek opis ture</div>
+          <p className="mb-4 text-sm text-zinc-500">Prikaže se pod naslovom na javni strani. Največ 90 znakov.</p>
           <textarea rows={2} maxLength={90} value={prviVtis} onChange={(e) => setPrviVtis(e.target.value)}
             placeholder="Kratek, udaren vtis — kaj kolesarj najprej začuti na tej turi."
             className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
