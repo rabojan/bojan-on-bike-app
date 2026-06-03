@@ -23,7 +23,7 @@ export default async function PonudnikiPage() {
       <PageHero
         eyebrow="Lokalni ponudniki"
         title={<>Dobri postanki<br />ob poti.</>}
-        description="Koče, kleti, bifeji in bike shopi, ki jih priporočajo naši ambasadorji. Vsak potrjen ponudnik pozna kolesarje in ve, kaj potrebuješ ob trasi."
+        description="Planinski domovi, vinotočи, gostilne, hoteli in vse vmes — vsak ponudnik pozna kolesarje in ve, kaj potrebuješ ob trasi."
         image="/hero-ponudniki.png"
         imageAlt="Lokalni ponudnik ob kolesarski poti"
         imagePosition="center"
