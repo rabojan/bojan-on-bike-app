@@ -6,59 +6,91 @@ import { useParams } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import { supabase } from "@/lib/supabase";
 
-type RitemStep = {
-  time: string;
-  icon: string;
-  title: string;
-  description: string;
-  provider_name: string | null;
-  provider_link: string | null;
-  attraction_name: string | null;
-  attraction_link: string | null;
-  posebnosti: string[];
-};
+type RitemKorak = { time: string; title: string; text: string };
+type Poudarek = { badge: string; title: string; text: string; image?: string };
 
-type Dozivete = {
+type Doziveto = {
   id: string;
-  title: string;
-  tagline: string | null;
-  regija: string;
+  ime: string;
+  regija: string | null;
   obmocje: string | null;
-  zakaj: string | null;
-  tip: string[] | null;
   hero_image: string | null;
-  status: string;
-  ritem_dneva: RitemStep[];
-  trasa_naslov: string | null;
-  trasa_km: string | null;
-  trasa_vm: string | null;
-  trasa_cas: string | null;
-  trasa_tip: string | null;
-  trasa_tezavnost: string | null;
-  trasa_asfalt: number;
-  trasa_makadam: number;
-  trasa_gozd: number;
-  gpx_url: string | null;
+  doziveto_naslov: string | null;
+  doziveto_ciljna_skupina: string[] | null;
+  doziveto_uvod: string | null;
+  zakaj: string | null;
+  km: number | null;
+  visinska_razlika: number | null;
+  tezavnost: string | null;
+  tipi: string[] | null;
+  ritem_dneva: RitemKorak[] | null;
+  poudarki: Poudarek[] | null;
 };
 
-export default function DoziveteDetailPage() {
+type Ponudnik = {
+  id: string;
+  ime: string;
+  tip: string | null;
+  opis: string | null;
+  zakaj: string | null;
+  hero_image: string | null;
+  lat: number | null;
+  lng: number | null;
+};
+
+type Znamenitost = {
+  id: string;
+  ime: string;
+  tip: string | null;
+  kratek_opis: string | null;
+  hero_image: string | null;
+  lat: number | null;
+  lng: number | null;
+};
+
+const RADIUS_KM = 2;
+
+function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+export default function DozivetjeDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const [d, setD] = useState<Dozivete | null>(null);
+  const [d, setD] = useState<Doziveto | null>(null);
+  const [ponudniki, setPonudniki] = useState<Ponudnik[]>([]);
+  const [znamenitosti, setZnamenitosti] = useState<Znamenitost[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
+    if (!id) return;
     async function load() {
       const { data } = await supabase
-        .from("dozivetja")
-        .select("*")
+        .from("predlogi_tur")
+        .select("id, ime, regija, obmocje, hero_image, doziveto_naslov, doziveto_ciljna_skupina, doziveto_uvod, zakaj, km, visinska_razlika, tezavnost, tipi, ritem_dneva, poudarki")
         .eq("id", id)
+        .eq("je_doziveto", true)
+        .eq("status", "approved")
         .single();
-      if (!data) {
-        setNotFound(true);
-      } else {
-        setD(data as Dozivete);
-      }
+
+      if (!data) { setNotFound(true); setLoading(false); return; }
+      setD(data as Doziveto);
+
+      // Naloži ponudnike in znamenitosti v bližini
+      const [ponRes, znRes] = await Promise.all([
+        supabase.from("predlogi_ponudnikov").select("id, ime, tip, opis, zakaj, hero_image, lat, lng").eq("status", "approved"),
+        supabase.from("predlogi_znamenitosti").select("id, ime, tip, kratek_opis, hero_image, lat, lng").eq("status", "approved"),
+      ]);
+
+      // Filtriraj po bližini — rabimo center ture
+      // Uporabimo enostavno hevristiko: vzamemo first ponudnike ki imajo koordinate
+      // Ko bo GPX integriran, bomo to računali bolj natančno
+      setPonudniki((ponRes.data ?? []) as Ponudnik[]);
+      setZnamenitosti((znRes.data ?? []) as Znamenitost[]);
       setLoading(false);
     }
     load();
@@ -68,9 +100,7 @@ export default function DoziveteDetailPage() {
     return (
       <main className="min-h-screen bg-[#07110b] text-white">
         <SiteHeader backHref="/dozivetja" active="dozivetja" />
-        <div className="flex min-h-[60vh] items-center justify-center text-sm text-zinc-500">
-          Nalagam...
-        </div>
+        <div className="py-40 text-center text-zinc-500">Nalagam...</div>
       </main>
     );
   }
@@ -79,268 +109,169 @@ export default function DoziveteDetailPage() {
     return (
       <main className="min-h-screen bg-[#07110b] text-white">
         <SiteHeader backHref="/dozivetja" active="dozivetja" />
-        <div className="flex min-h-[60vh] flex-col items-center justify-center gap-5">
-          <div className="text-5xl">🗺️</div>
-          <p className="text-zinc-500">Tega doživetja ni mogoče najti.</p>
-          <Link href="/dozivetja" className="rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black">
-            ← Vsa doživetja
-          </Link>
-        </div>
+        <div className="py-40 text-center text-zinc-500">Doživetje ni bilo najdeno.</div>
       </main>
     );
   }
 
-  const eyebrow = [
-    d.tip?.[0],
-    d.regija,
-    d.obmocje,
-  ].filter(Boolean).join(" · ");
-
-  const steps = Array.isArray(d.ritem_dneva) ? d.ritem_dneva as RitemStep[] : [];
-
-  const trailStats = [
-    d.trasa_km ? `${d.trasa_km} km` : null,
-    d.trasa_vm ? `${d.trasa_vm} vm` : null,
-    d.trasa_cas,
-    d.trasa_tip,
-    d.trasa_tezavnost,
-  ].filter(Boolean) as string[];
-
-  const hasSurface = d.trasa_asfalt > 0 || d.trasa_makadam > 0 || d.trasa_gozd > 0;
+  const naslov = d.doziveto_naslov || d.ime;
+  const ritem = (d.ritem_dneva ?? []).filter(k => k.title?.trim());
+  const poudarki = (d.poudarki ?? []).filter(p => p.title?.trim());
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/dozivetja" active="dozivetja" />
 
       {/* ── HERO ── */}
-      <section className="relative flex min-h-screen items-end overflow-hidden">
+      <section className="relative flex min-h-[70vh] items-end overflow-hidden pt-24">
         {d.hero_image ? (
-          <img
-            src={d.hero_image}
-            alt={d.title}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+          <img src={d.hero_image} alt={naslov}
+            className="absolute inset-0 h-full w-full object-cover opacity-50" />
         ) : (
-          <div className="absolute inset-0 bg-[#0b1a10]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0b1a10] to-[#07110b]" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-[#07110b]/20 to-[#07110b]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07110b]/45 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-[#07110b]/50 to-[#07110b]" />
 
-        <div className="relative mx-auto w-full max-w-6xl px-5 pb-20 md:px-6 md:pb-28">
-          <div className="max-w-2xl">
-            {eyebrow && (
-              <div className="mb-5 text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
-                Doživetje · {eyebrow}
-              </div>
-            )}
-            <h1 className="font-serif text-6xl font-black italic leading-[0.9] tracking-[-0.045em] text-white md:text-8xl">
-              {d.title}
-            </h1>
-            {d.tagline && (
-              <p className="mt-8 max-w-lg text-xl leading-9 text-zinc-200 md:text-2xl md:leading-10">
-                {d.tagline}
-              </p>
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-16">
+          <div className="flex flex-wrap gap-2 mb-6">
+            {d.doziveto_ciljna_skupina?.map((s) => (
+              <span key={s} className="rounded-full border border-[#c58b46]/40 bg-[#c58b46]/10 px-4 py-2 text-sm text-[#f4d7ad]">
+                {s}
+              </span>
+            ))}
+            {d.regija && (
+              <span className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm text-zinc-300">
+                {d.regija}{d.obmocje ? ` · ${d.obmocje}` : ""}
+              </span>
             )}
           </div>
-          <div className="mt-14 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">
-            ↓ Razišči dan
-          </div>
+
+          <h1 className="font-serif text-5xl font-black italic leading-tight text-white md:text-7xl [text-shadow:_1px_1px_0_rgba(0,0,0,0.9)]">
+            {naslov}
+          </h1>
+
+          {d.doziveto_uvod && (
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-200 [text-shadow:_1px_1px_0_rgba(0,0,0,0.8)]">
+              {d.doziveto_uvod}
+            </p>
+          )}
         </div>
       </section>
 
-      {/* ── ZAKAJ TA DAN ── */}
-      {d.zakaj && (
-        <section className="border-y border-[#c58b46]/15 bg-[#0b1a10] px-5 py-16 md:px-6 md:py-20">
-          <div className="mx-auto max-w-4xl">
-            <div className="mb-5 text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
-              Zakaj ta dan?
+      {/* ── RITEM DNEVA ── */}
+      {ritem.length > 0 && (
+        <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Kako izgleda ta dan</div>
+            <h2 className="mt-3 font-serif text-4xl font-black italic">Korak za korakom.</h2>
+            <div className="mt-10 grid gap-4 md:grid-cols-5">
+              {ritem.map((korak, i) => (
+                <div key={i} className="rounded-[24px] border border-white/10 bg-[#07110b] p-5">
+                  {korak.time && (
+                    <div className="mb-3 text-xl font-black text-[#c58b46]">{korak.time}</div>
+                  )}
+                  <div className="font-bold text-white">{korak.title}</div>
+                  {korak.text && (
+                    <p className="mt-2 text-xs leading-6 text-zinc-400">{korak.text}</p>
+                  )}
+                </div>
+              ))}
             </div>
-            <p className="max-w-2xl text-base leading-8 text-zinc-400">
-              {d.zakaj}
+          </div>
+        </section>
+      )}
+
+      {/* ── PONUDNIKI ── */}
+      {ponudniki.length > 0 && (
+        <section className="px-6 py-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Kje se ustaviš</div>
+            <h2 className="mt-3 font-serif text-4xl font-black italic">Postanki, ki naredijo dan.</h2>
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {ponudniki.slice(0, 3).map((p) => (
+                <article key={p.id} className="overflow-hidden rounded-[28px] border border-white/10 bg-[#0b1a10]">
+                  {p.hero_image && (
+                    <img src={p.hero_image} alt={p.ime} className="h-48 w-full object-cover" />
+                  )}
+                  <div className="p-6">
+                    {p.tip && <div className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#c58b46]">{p.tip}</div>}
+                    <h3 className="font-serif text-xl font-black italic">{p.ime}</h3>
+                    {p.zakaj && <p className="mt-3 text-sm leading-6 text-zinc-400">{p.zakaj}</p>}
+                    <Link href={`/ponudniki/${p.id}`}
+                      className="mt-5 inline-flex rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-300 transition hover:border-[#c58b46]/40">
+                      Poglej ponudnika →
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── ZNAMENITOSTI ── */}
+      {znamenitosti.length > 0 && (
+        <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Kaj ne smeš zamuditi</div>
+            <h2 className="mt-3 font-serif text-4xl font-black italic">Točke, ki dajo dan smisel.</h2>
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {znamenitosti.slice(0, 3).map((z) => (
+                <article key={z.id} className="overflow-hidden rounded-[28px] border border-white/10 bg-[#07110b]">
+                  {z.hero_image && (
+                    <img src={z.hero_image} alt={z.ime} className="h-48 w-full object-cover" />
+                  )}
+                  <div className="p-6">
+                    {z.tip && <div className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#c58b46]">{z.tip}</div>}
+                    <h3 className="font-serif text-xl font-black italic">{z.ime}</h3>
+                    {z.kratek_opis && <p className="mt-3 text-sm leading-6 text-zinc-400">{z.kratek_opis}</p>}
+                    <Link href={`/znamenitosti/${z.id}`}
+                      className="mt-5 inline-flex rounded-full border border-white/10 px-4 py-2 text-xs font-bold text-zinc-300 transition hover:border-[#c58b46]/40">
+                      Poglej znamenitost →
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── AMBASADORJEV NAMIG ── */}
+      {d.zakaj && (
+        <section className="px-6 py-16">
+          <div className="mx-auto max-w-3xl rounded-[32px] border border-[#c58b46]/20 bg-[#c58b46]/5 p-8 md:p-10 text-center">
+            <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Ambasadorjev namig</div>
+            <p className="mt-6 font-serif text-2xl font-black italic leading-9 text-white">
+              &ldquo;{d.zakaj}&rdquo;
             </p>
           </div>
         </section>
       )}
 
-      {/* ── RITEM DNEVA ── */}
-      {steps.length > 0 && (
-        <section className="px-5 py-20 md:px-6 md:py-28">
-          <div className="mx-auto max-w-4xl">
-            <div className="text-[10px] font-black uppercase tracking-[0.38em] text-[#c58b46]">
-              Ritem dneva
-            </div>
-            <h2 className="mt-4 font-serif text-4xl font-black italic leading-tight md:text-5xl">
-              Kako izgleda cel dan.
-            </h2>
+      {/* ── TURA NA DNO ── */}
+      <section className="border-t border-white/10 bg-[#0b1a10] px-6 py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Tura ki te pelje skozi vse to</div>
+          <h2 className="mt-3 font-serif text-3xl font-black italic">{d.ime}</h2>
 
-            <div className="relative mt-16">
-              <div className="absolute left-[1.35rem] top-0 h-full w-px bg-gradient-to-b from-[#c58b46]/50 via-[#c58b46]/20 to-transparent md:left-[1.6rem]" />
-
-              <div className="space-y-0">
-                {steps.map((step, i) => (
-                  <div key={i} className="relative flex gap-6 pb-12 md:gap-10">
-                    <div className="relative shrink-0">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#c58b46]/40 bg-[#0b1a10] text-lg md:h-12 md:w-12">
-                        {step.icon || "📍"}
-                      </div>
-                    </div>
-                    <div className="min-w-0 flex-1 pt-1.5">
-                      <div className="text-[10px] font-black uppercase tracking-[0.28em] text-[#c58b46]">
-                        {step.time}
-                      </div>
-                      <h3 className="mt-2 font-serif text-2xl font-black italic">
-                        {step.title}
-                      </h3>
-                      {step.description && (
-                        <p className="mt-2 max-w-xl text-base leading-7 text-zinc-400">
-                          {step.description}
-                        </p>
-                      )}
-
-                      {/* Kartice za ponudnika in/ali znamenitost */}
-                      {(step.provider_name || step.attraction_name) && (
-                        <div className="mt-5 flex flex-wrap gap-4">
-                          {step.provider_name && (
-                            <div className="w-48 shrink-0 md:w-56">
-                              <div className="mb-2 text-[9px] font-black uppercase tracking-[0.28em] text-[#c58b46]">
-                                Ponudnik
-                              </div>
-                              {step.provider_link ? (
-                                <Link
-                                  href={step.provider_link}
-                                  className="block overflow-hidden rounded-[16px] border border-[#c58b46]/25 bg-[#0b1a10] px-4 py-3 transition hover:border-[#c58b46]/55"
-                                >
-                                  <div className="font-serif text-sm font-black italic leading-snug">
-                                    {step.provider_name}
-                                  </div>
-                                </Link>
-                              ) : (
-                                <div className="overflow-hidden rounded-[16px] border border-[#c58b46]/25 bg-[#0b1a10] px-4 py-3">
-                                  <div className="font-serif text-sm font-black italic leading-snug">
-                                    {step.provider_name}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                          {step.attraction_name && (
-                            <div className="w-48 shrink-0 md:w-56">
-                              <div className="mb-2 text-[9px] font-black uppercase tracking-[0.28em] text-zinc-500">
-                                Znamenitost
-                              </div>
-                              {step.attraction_link ? (
-                                <Link
-                                  href={step.attraction_link}
-                                  className="block overflow-hidden rounded-[16px] border border-white/10 bg-[#0b1a10] px-4 py-3 transition hover:border-[#c58b46]/35"
-                                >
-                                  <div className="font-serif text-sm font-black italic leading-snug">
-                                    {step.attraction_name}
-                                  </div>
-                                </Link>
-                              ) : (
-                                <div className="overflow-hidden rounded-[16px] border border-white/10 bg-[#0b1a10] px-4 py-3">
-                                  <div className="font-serif text-sm font-black italic leading-snug">
-                                    {step.attraction_name}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Posebnosti */}
-                      {step.posebnosti && step.posebnosti.length > 0 && (
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {step.posebnosti.map((p, j) => (
-                            <span
-                              key={j}
-                              className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-zinc-500"
-                            >
-                              {p}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            {d.km && <span className="rounded-full border border-white/10 px-4 py-2 text-sm text-zinc-300">{d.km} km</span>}
+            {d.visinska_razlika && <span className="rounded-full border border-white/10 px-4 py-2 text-sm text-zinc-300">{d.visinska_razlika} vm</span>}
+            {d.tezavnost && <span className="rounded-full border border-white/10 px-4 py-2 text-sm text-zinc-300">{d.tezavnost}</span>}
+            {d.tipi?.map((t) => <span key={t} className="rounded-full border border-white/10 px-4 py-2 text-sm text-zinc-300">{t}</span>)}
           </div>
-        </section>
-      )}
 
-      {/* ── TRASA V PODATKIH ── */}
-      {(trailStats.length > 0 || d.trasa_naslov) && (
-        <section className="border-t border-white/10 bg-[#0b1a10] px-5 py-16 md:px-6">
-          <div className="mx-auto max-w-4xl">
-            <div className="text-[10px] font-black uppercase tracking-[0.38em] text-zinc-500">
-              Trasa v podatkih
-            </div>
-            {d.trasa_naslov && (
-              <h3 className="mt-3 font-serif text-2xl font-black italic text-zinc-300">
-                {d.trasa_naslov}
-              </h3>
-            )}
-
-            {trailStats.length > 0 && (
-              <div className="mt-6 flex flex-wrap gap-3">
-                {trailStats.map((v) => (
-                  <span
-                    key={v}
-                    className="rounded-full border border-white/10 px-4 py-2 text-sm text-zinc-400"
-                  >
-                    {v}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {hasSurface && (
-              <p className="mt-5 text-sm text-zinc-600">
-                Podlaga:{" "}
-                {d.trasa_asfalt > 0 ? `Asfalt ${d.trasa_asfalt}%` : ""}
-                {d.trasa_asfalt > 0 && d.trasa_makadam > 0 ? " · " : ""}
-                {d.trasa_makadam > 0 ? `Makadam ${d.trasa_makadam}%` : ""}
-                {(d.trasa_asfalt > 0 || d.trasa_makadam > 0) && d.trasa_gozd > 0 ? " · " : ""}
-                {d.trasa_gozd > 0 ? `Gozdna pot ${d.trasa_gozd}%` : ""}
-              </p>
-            )}
-
-            <div className="mt-7 flex h-44 items-center justify-center overflow-hidden rounded-[20px] border border-white/10 bg-black/30 md:h-56">
-              <div className="text-center">
-                <div className="text-2xl">🗺️</div>
-                <p className="mt-2 text-sm text-zinc-600">
-                  Interaktivni zemljevid bo na voljo kmalu
-                </p>
-              </div>
-            </div>
-
-            {d.gpx_url && (
-              <div className="mt-6">
-                <a
-                  href={d.gpx_url}
-                  download
-                  className="inline-flex rounded-full bg-[#c58b46] px-6 py-3 text-sm font-black text-black transition hover:opacity-90"
-                >
-                  ↓ Prenesi GPX
-                </a>
-              </div>
-            )}
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href={`/ture/${d.id}`}
+              className="rounded-full border border-white/10 px-6 py-3.5 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40">
+              Odpri turo s tehničnimi podatki →
+            </Link>
+            <Link href="/dozivetja"
+              className="rounded-full bg-[#c58b46] px-6 py-3.5 text-sm font-black text-black transition hover:opacity-90">
+              ← Vsa doživetja
+            </Link>
           </div>
-        </section>
-      )}
-
-      {/* ── NAZaj ── */}
-      <section className="border-t border-white/10 px-5 py-12">
-        <div className="mx-auto max-w-4xl">
-          <Link
-            href="/dozivetja"
-            className="inline-flex rounded-full border border-white/10 px-6 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#c58b46]/40"
-          >
-            ← Vsa doživetja
-          </Link>
         </div>
       </section>
     </main>
