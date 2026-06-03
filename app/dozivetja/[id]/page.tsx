@@ -337,7 +337,9 @@ export default function DozivetjeDetailPage() {
 
           {/* Naslov */}
           <h1 className="font-serif text-6xl font-black italic leading-[0.9] tracking-tight text-white md:text-8xl [text-shadow:_2px_2px_0_rgba(0,0,0,0.9),_-1px_-1px_0_rgba(0,0,0,0.5)]">
-            {naslov}
+            {naslov.includes(" po ") ? (
+              <>{naslov.split(" po ")[0]}<br />po {naslov.split(" po ").slice(1).join(" po ")}</>
+            ) : naslov}
           </h1>
 
           {/* Podnaslov */}
