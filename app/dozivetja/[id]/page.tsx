@@ -377,28 +377,33 @@ export default function DozivetjeDetailPage() {
 
       {/* ══ 2. AMBASADOR ════════════════════════════════════════════════════ */}
       {(d.ambasador || d.zakaj) && (
-        <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-12">
+        <section className="border-b border-white/10 px-6 py-14">
           <div className="mx-auto max-w-6xl">
-            <div className="overflow-hidden rounded-[32px] border border-white/10 bg-[#07110b] p-7">
-              <div className="flex items-center gap-5">
-                <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+            <div className="rounded-[28px] border border-[#c58b46]/25 bg-[#0b1a10] p-7">
+              <div className="grid gap-6 md:grid-cols-[260px_1fr] md:items-center">
+                <div className="flex items-center gap-4">
                   {d.ambasador?.foto_url ? (
-                    <img src={d.ambasador.foto_url} alt={d.ambasador.ime} className="h-full w-full object-cover" />
+                    <img src={d.ambasador.foto_url} alt={d.ambasador.ime}
+                      className="h-16 w-16 rounded-full border-2 border-[#c58b46]/35 object-cover" />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-2xl">👤</div>
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#c58b46]/35 bg-[#c58b46]/10 text-2xl">
+                      🚴
+                    </div>
                   )}
+                  <div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.24em] text-[#c58b46]">Izbral lokalni ambasador</div>
+                    <div className="mt-1 text-2xl font-bold">{d.ambasador?.ime ?? "Ambasador"}</div>
+                    <div className="text-xs font-bold text-zinc-500">
+                      Ambasador {d.ambasador?.regija ?? d.regija}
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c58b46]">Izbral ambasador</div>
-                  <div className="mt-1 font-serif text-xl font-black italic text-white">{d.ambasador?.ime}</div>
-                  {d.ambasador?.regija && <div className="text-sm text-zinc-500">{d.ambasador.regija}</div>}
-                </div>
+                {d.zakaj && (
+                  <blockquote className="border-l border-[#c58b46]/35 pl-6 text-lg font-semibold leading-8 text-zinc-300">
+                    &ldquo;{d.zakaj}&rdquo;
+                  </blockquote>
+                )}
               </div>
-              {d.zakaj && (
-                <blockquote className="mt-6 border-t border-white/10 pt-6 font-serif text-lg italic leading-8 text-zinc-300">
-                  &ldquo;{d.zakaj}&rdquo;
-                </blockquote>
-              )}
             </div>
           </div>
         </section>
