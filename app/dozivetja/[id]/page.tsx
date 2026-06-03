@@ -342,7 +342,7 @@ export default function DozivetjeDetailPage() {
 
           {/* Podnaslov */}
           {d.doziveto_podnaslov && (
-            <p className="mt-6 max-w-2xl text-lg font-semibold leading-8 text-zinc-200 [text-shadow:_1px_1px_0_rgba(0,0,0,1)]">
+            <p className="mt-6 max-w-lg text-balance text-lg font-semibold leading-8 text-zinc-200 [text-shadow:_1px_1px_0_rgba(0,0,0,1)]">
               {d.doziveto_podnaslov}
             </p>
           )}
