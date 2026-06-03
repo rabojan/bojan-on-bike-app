@@ -140,6 +140,7 @@ create table predlogi_tur (
   doziveto_naslov     text,
   doziveto_ciljna_skupina text[],
   doziveto_uvod       text,
+  doziveto_podnaslov  text,
   km                  numeric(6,1),
   visinska_razlika    int,
   cas_ur              numeric(4,1),

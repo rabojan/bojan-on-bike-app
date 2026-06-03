@@ -81,6 +81,7 @@ export default function AdminUrediTuroPage() {
   const [dozivetNaslov, setDozivetNaslov] = useState("");
   const [dozivetCiljna, setDozivetCiljna] = useState<string[]>([]);
   const [dozivetUvod, setDozivetUvod] = useState("");
+  const [dozivetPodnaslov, setDozivetPodnaslov] = useState("");
 
   const surfaceSum = useMemo(
     () => (Number(asfalt) || 0) + (Number(makadam) || 0) + (Number(gozd) || 0),
@@ -127,6 +128,7 @@ export default function AdminUrediTuroPage() {
       setDozivetNaslov(data.doziveto_naslov ?? "");
       setDozivetCiljna(data.doziveto_ciljna_skupina ?? []);
       setDozivetUvod(data.doziveto_uvod ?? "");
+      setDozivetPodnaslov(data.doziveto_podnaslov ?? "");
       setLoading(false);
     });
   }, [id]);
@@ -181,6 +183,7 @@ export default function AdminUrediTuroPage() {
       doziveto_naslov: jeDoziveto ? (dozivetNaslov || null) : null,
       doziveto_ciljna_skupina: jeDoziveto ? (dozivetCiljna.length > 0 ? dozivetCiljna : null) : null,
       doziveto_uvod: jeDoziveto ? (dozivetUvod || null) : null,
+      doziveto_podnaslov: jeDoziveto ? (dozivetPodnaslov || null) : null,
     }).eq("id", id);
 
     setSaving(false);
@@ -448,6 +451,17 @@ export default function AdminUrediTuroPage() {
                 <input value={dozivetNaslov} onChange={(e) => setDozivetNaslov(e.target.value)}
                   placeholder="npr. Družinski dan na Pohorju"
                   className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 outline-none focus:border-[#c58b46]/60" />
+              </label>
+
+              <label className="block space-y-2">
+                <span className="text-sm font-bold text-zinc-300">Podnaslov doživetja</span>
+                <p className="text-xs text-zinc-500">Kratek opis vzdušja dneva. Prikaže se pod naslovom. Največ 90 znakov.</p>
+                <textarea rows={2} maxLength={90} value={dozivetPodnaslov} onChange={(e) => setDozivetPodnaslov(e.target.value)}
+                  placeholder="npr. Gozd, razgled, kosilo — cel dan brez hitenja."
+                  className="w-full resize-none rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
+                <div className={`text-right text-xs font-bold ${dozivetPodnaslov.length > 75 ? "text-amber-400" : "text-zinc-600"}`}>
+                  {90 - dozivetPodnaslov.length} znakov preostane
+                </div>
               </label>
 
               <div className="space-y-3">

@@ -26,6 +26,7 @@ type Doziveto = {
   doziveto_naslov: string | null;
   doziveto_ciljna_skupina: string[] | null;
   doziveto_uvod: string | null;
+  doziveto_podnaslov: string | null;
   zakaj: string | null;
   km: number | null;
   visinska_razlika: number | null;
@@ -192,7 +193,7 @@ export default function DozivetjeDetailPage() {
     async function load() {
       const { data, error } = await supabase
         .from("predlogi_tur")
-        .select("*, ambasadorji(ime, regija, foto_url)")
+        .select("id, ime, regija, obmocje, hero_image, galerija, doziveto_naslov, doziveto_podnaslov, doziveto_ciljna_skupina, doziveto_uvod, zakaj, km, visinska_razlika, cas_ur, tezavnost, tipi, ritem_dneva, poudarki, gpx_url, ambasadorji(ime, regija, foto_url)")
         .eq("id", id)
         .eq("je_doziveto", true)
         .eq("status", "approved")
@@ -269,6 +270,44 @@ export default function DozivetjeDetailPage() {
   const ritem = (d.ritem_dneva ?? []).filter(k => k.title?.trim());
   const poudarki = (d.poudarki ?? []).filter(p => p.title?.trim());
 
+  // Dinamičen naslov časovnice
+  function generirajNaslovCasovnice(): string {
+    const casovnica = ritem.filter(k => k.time?.trim());
+    const prviCas = casovnica[0]?.time ?? null;
+    const zadnjiCas = casovnica[casovnica.length - 1]?.time ?? null;
+    const uvod = (d.doziveto_uvod ?? "").toLowerCase();
+    const podnaslov = (d.doziveto_podnaslov ?? "").toLowerCase();
+    const besedilo = uvod + " " + podnaslov;
+
+    // Ključne besede → tematski naslov
+    if (besedilo.includes("vino") || besedilo.includes("vinograd") || besedilo.includes("klet")) {
+      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Od ${prviCas} do ${zadnjiCas} med vinogradi`;
+      return "Dan med vinogradi";
+    }
+    if (besedilo.includes("gozd") || besedilo.includes("gozdni")) {
+      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Od ${prviCas} do ${zadnjiCas} skozi gozd`;
+      return "Dan v gozdu";
+    }
+    if (besedilo.includes("razgled") || besedilo.includes("vrh") || besedilo.includes("gora")) {
+      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Od ${prviCas} do ${zadnjiCas} proti vrhu`;
+      return "Dan z razgledom";
+    }
+    if (besedilo.includes("družin") || besedilo.includes("otrok")) {
+      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Družinski dan od ${prviCas} do ${zadnjiCas}`;
+      return "Družinski kolesarski dan";
+    }
+    if (besedilo.includes("par") || besedilo.includes("romantič")) {
+      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Dan za dva od ${prviCas} do ${zadnjiCas}`;
+      return "Dan za dva na kolesu";
+    }
+    // Splošni naslov iz časov
+    if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Od ${prviCas} do ${zadnjiCas}`;
+    if (prviCas) return `Začetek ob ${prviCas}`;
+    return "Potek dneva";
+  }
+
+  const naslovCasovnice = generirajNaslovCasovnice();
+
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
       <SiteHeader backHref="/dozivetja" active="dozivetja" />
@@ -303,10 +342,10 @@ export default function DozivetjeDetailPage() {
             {naslov}
           </h1>
 
-          {/* Uredniški uvod */}
-          {d.doziveto_uvod && (
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-200 [text-shadow:_1px_1px_0_rgba(0,0,0,1)]">
-              {d.doziveto_uvod}
+          {/* Podnaslov */}
+          {d.doziveto_podnaslov && (
+            <p className="mt-6 max-w-2xl text-lg font-semibold leading-8 text-zinc-200 [text-shadow:_1px_1px_0_rgba(0,0,0,1)]">
+              {d.doziveto_podnaslov}
             </p>
           )}
 
@@ -342,13 +381,14 @@ export default function DozivetjeDetailPage() {
         </div>
       </section>
 
-      {/* ══ 2. AMBASADOR ═════════════════════════════════════════════════════ */}
-      {(d.ambasador || d.zakaj) && (
-        <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-12">
+      {/* ══ 2. AMBASADOR + UREDNIŠKI UVOD ════════════════════════════════════ */}
+      {(d.ambasador || d.zakaj || d.doziveto_uvod) && (
+        <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-14">
           <div className="mx-auto max-w-6xl">
-            <div className="grid gap-8 md:grid-cols-[auto_1fr] md:items-center">
+            <div className="grid gap-10 lg:grid-cols-[auto_1fr] lg:items-start">
+              {/* Ambasador */}
               {d.ambasador && (
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
                   <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-[#07110b]">
                     {d.ambasador.foto_url ? (
                       <img src={d.ambasador.foto_url} alt={d.ambasador.ime} className="h-full w-full object-cover" />
@@ -358,16 +398,22 @@ export default function DozivetjeDetailPage() {
                   </div>
                   <div>
                     <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c58b46]">Izbral ambasador</div>
-                    <div className="mt-1 font-serif text-xl font-black italic text-white">{d.ambasador.ime}</div>
-                    {d.ambasador.regija && <div className="text-sm text-zinc-500">{d.ambasador.regija}</div>}
+                    <div className="mt-1 font-serif text-lg font-black italic text-white">{d.ambasador.ime}</div>
+                    {d.ambasador.regija && <div className="text-xs text-zinc-500">{d.ambasador.regija}</div>}
                   </div>
                 </div>
               )}
-              {d.zakaj && (
-                <blockquote className="border-l-2 border-[#c58b46]/40 pl-6 font-serif text-xl italic leading-8 text-zinc-300 md:text-2xl">
-                  &ldquo;{d.zakaj}&rdquo;
-                </blockquote>
-              )}
+              {/* Uredniški uvod + citat */}
+              <div className="space-y-6">
+                {d.doziveto_uvod && (
+                  <p className="text-lg leading-9 text-zinc-300">{d.doziveto_uvod}</p>
+                )}
+                {d.zakaj && (
+                  <blockquote className="border-l-2 border-[#c58b46]/40 pl-6 font-serif text-xl italic leading-8 text-zinc-400">
+                    &ldquo;{d.zakaj}&rdquo;
+                  </blockquote>
+                )}
+              </div>
             </div>
           </div>
         </section>
@@ -381,7 +427,7 @@ export default function DozivetjeDetailPage() {
               <div className="lg:sticky lg:top-28">
                 <div className="text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Kako izgleda ta dan</div>
                 <h2 className="mt-4 font-serif text-5xl font-black italic leading-tight text-white md:text-6xl">
-                  Od jutra<br />do večera.
+                  {naslovCasovnice}
                 </h2>
                 <p className="mt-6 text-base leading-8 text-zinc-400">
                   Vsak dan ima svoj ritem. Tukaj je prikazan potek dneva — kdaj kje si in kaj te čaka na poti.
