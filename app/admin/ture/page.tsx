@@ -173,6 +173,10 @@ export default function AdminTrailsPage() {
                       </div>
 
                       <div className="mt-6 flex flex-wrap items-center gap-3">
+                        <Link href={`/admin/ture/${t.id}`}
+                          className="rounded-full bg-[#c58b46] px-5 py-3 text-sm font-bold text-black transition hover:opacity-90">
+                          Uredi
+                        </Link>
                         {t.status === "approved" && (
                           <Link href={`/ture/${t.id}`} target="_blank"
                             className="rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-[#c58b46]/40">
