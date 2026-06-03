@@ -13,10 +13,8 @@ type Doziveto = {
   hero_image: string | null;
   doziveto_naslov: string | null;
   doziveto_ciljna_skupina: string[] | null;
-  doziveto_uvod: string | null;
-  km: number | null;
-  visinska_razlika: number | null;
-  tezavnost: string | null;
+  zakaj: string | null;
+  ambasadorji: { ime: string; foto_url: string | null } | null;
 };
 
 const vsiFilters = [
@@ -38,7 +36,7 @@ export default function DozivetjaPage() {
   useEffect(() => {
     supabase
       .from("predlogi_tur")
-      .select("id, ime, regija, hero_image, doziveto_naslov, doziveto_ciljna_skupina, doziveto_uvod, km, visinska_razlika, tezavnost")
+      .select("id, ime, regija, hero_image, doziveto_naslov, doziveto_ciljna_skupina, zakaj, ambasadorji(ime, foto_url)")
       .eq("je_doziveto", true)
       .eq("status", "approved")
       .order("created_at", { ascending: false })
@@ -140,18 +138,17 @@ export default function DozivetjaPage() {
                     {d.doziveto_naslov || d.ime}
                   </h3>
 
-                  {d.doziveto_uvod && (
-                    <p className="mt-4 flex-1 text-sm leading-7 text-zinc-400 line-clamp-3">
-                      {d.doziveto_uvod}
-                    </p>
-                  )}
-
-                  {(d.km || d.visinska_razlika || d.tezavnost) && (
-                    <div className="mt-6 flex flex-wrap gap-2 rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <div className="mb-1 w-full text-[10px] uppercase tracking-[0.2em] text-zinc-600">Tura</div>
-                      {d.km && <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-zinc-400">{d.km} km</span>}
-                      {d.visinska_razlika && <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-zinc-400">{d.visinska_razlika} vm</span>}
-                      {d.tezavnost && <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-zinc-400">{d.tezavnost}</span>}
+                  {d.zakaj && (
+                    <div className="mt-5 flex flex-1 items-start gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
+                      {d.ambasadorji?.foto_url ? (
+                        <img src={d.ambasadorji.foto_url} alt={d.ambasadorji.ime}
+                          className="h-9 w-9 shrink-0 rounded-full border border-[#c58b46]/30 object-cover" />
+                      ) : (
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 text-sm">🚴</div>
+                      )}
+                      <p className="text-sm leading-6 text-zinc-300 line-clamp-3">
+                        &ldquo;{d.zakaj}&rdquo;
+                      </p>
                     </div>
                   )}
 
