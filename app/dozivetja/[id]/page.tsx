@@ -413,7 +413,7 @@ export default function DozivetjeDetailPage() {
       {d.doziveto_uvod && (
         <section className="px-6 py-14">
           <div className="mx-auto max-w-6xl">
-            <p className="max-w-3xl text-base leading-8 text-zinc-400">
+            <p className="text-lg font-normal leading-8 text-zinc-300 text-justify">
               {d.doziveto_uvod}
             </p>
           </div>
