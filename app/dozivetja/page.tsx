@@ -14,7 +14,7 @@ type Doziveto = {
   doziveto_naslov: string | null;
   doziveto_ciljna_skupina: string[] | null;
   zakaj: string | null;
-  ambasadorji: { ime: string; foto_url: string | null } | null;
+  ambasadorji: { ime: string; foto_url: string | null }[] | { ime: string; foto_url: string | null } | null;
 };
 
 const vsiFilters = [
@@ -138,10 +138,12 @@ export default function DozivetjaPage() {
                     {d.doziveto_naslov || d.ime}
                   </h3>
 
-                  {d.zakaj && (
+                  {d.zakaj && (() => {
+                    const amb = Array.isArray(d.ambasadorji) ? d.ambasadorji[0] ?? null : d.ambasadorji;
+                    return (
                     <div className="mt-5 flex flex-1 items-start gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
-                      {d.ambasadorji?.foto_url ? (
-                        <img src={d.ambasadorji.foto_url} alt={d.ambasadorji.ime}
+                      {amb?.foto_url ? (
+                        <img src={amb.foto_url} alt={amb.ime}
                           className="h-9 w-9 shrink-0 rounded-full border border-[#c58b46]/30 object-cover" />
                       ) : (
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c58b46]/30 bg-[#c58b46]/10 text-sm">🚴</div>
@@ -150,7 +152,8 @@ export default function DozivetjaPage() {
                         &ldquo;{d.zakaj}&rdquo;
                       </p>
                     </div>
-                  )}
+                    );
+                  })()}
 
                   <Link href={`/dozivetja/${d.id}`}
                     className="mt-6 inline-flex justify-center rounded-full bg-[#c58b46] px-5 py-3 text-sm font-black text-black transition hover:opacity-90">
