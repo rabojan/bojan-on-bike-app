@@ -273,43 +273,34 @@ export default function DozivetjeDetailPage() {
   const ritem = (d.ritem_dneva ?? []).filter(k => k.title?.trim());
   const poudarki = (d.poudarki ?? []).filter(p => p.title?.trim());
 
-  // Dinamičen naslov časovnice
+  // Dinamičen naslov časovnice — samo iz vsebine, brez ur
   const _uvod = d.doziveto_uvod ?? "";
   const _podnaslov = d.doziveto_podnaslov ?? "";
-  function generirajNaslovCasovnice(): string {
-    const casovnica = ritem.filter(k => k.time?.trim());
-    const prviCas = casovnica[0]?.time ?? null;
-    const zadnjiCas = casovnica[casovnica.length - 1]?.time ?? null;
-    const besedilo = (_uvod + " " + _podnaslov).toLowerCase();
+  const _ritemBesedilo = ritem.map(k => k.title + " " + k.text).join(" ");
+  const _besedilo = (_uvod + " " + _podnaslov + " " + _ritemBesedilo).toLowerCase();
 
-    // Ključne besede → tematski naslov
-    if (besedilo.includes("vino") || besedilo.includes("vinograd") || besedilo.includes("klet")) {
-      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Od ${prviCas} do ${zadnjiCas} med vinogradi`;
-      return "Dan med vinogradi";
-    }
-    if (besedilo.includes("gozd") || besedilo.includes("gozdni")) {
-      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Od ${prviCas} do ${zadnjiCas} skozi gozd`;
-      return "Dan v gozdu";
-    }
-    if (besedilo.includes("razgled") || besedilo.includes("vrh") || besedilo.includes("gora")) {
-      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Od ${prviCas} do ${zadnjiCas} proti vrhu`;
-      return "Dan z razgledom";
-    }
-    if (besedilo.includes("družin") || besedilo.includes("otrok")) {
-      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Družinski dan od ${prviCas} do ${zadnjiCas}`;
-      return "Družinski kolesarski dan";
-    }
-    if (besedilo.includes("par") || besedilo.includes("romantič")) {
-      if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Dan za dva od ${prviCas} do ${zadnjiCas}`;
-      return "Dan za dva na kolesu";
-    }
-    // Splošni naslov iz časov
-    if (prviCas && zadnjiCas && prviCas !== zadnjiCas) return `Od ${prviCas} do ${zadnjiCas}`;
-    if (prviCas) return `Začetek ob ${prviCas}`;
-    return "Potek dneva";
+  let naslovCasovnice = "Potek dneva";
+  if (_besedilo.includes("pustolov") || _besedilo.includes("improvizacij") || _besedilo.includes("nepredvidlj")) {
+    naslovCasovnice = "Pustolovska pot brez predvidljivosti";
+  } else if (_besedilo.includes("vino") || _besedilo.includes("vinograd") || _besedilo.includes("klet")) {
+    naslovCasovnice = "Dan med vinogradi in okusi";
+  } else if (_besedilo.includes("razgled") && (_besedilo.includes("vrh") || _besedilo.includes("gora") || _besedilo.includes("boč") || _besedilo.includes("pohor"))) {
+    naslovCasovnice = "Vzpon, razgled in spust";
+  } else if (_besedilo.includes("gozd") || _besedilo.includes("gozdni")) {
+    naslovCasovnice = "Skozi gozd do cilja";
+  } else if (_besedilo.includes("razgled") || _besedilo.includes("pogled")) {
+    naslovCasovnice = "Dan z razgledom";
+  } else if (_besedilo.includes("družin") || _besedilo.includes("otrok")) {
+    naslovCasovnice = "Sproščen dan za vso družino";
+  } else if (_besedilo.includes("par") || _besedilo.includes("romantič")) {
+    naslovCasovnice = "Dan za dva na kolesu";
+  } else if (_besedilo.includes("vzpon") || _besedilo.includes("klanec")) {
+    naslovCasovnice = "Vzponi, spusti in vse vmes";
+  } else if (ritem.length >= 4) {
+    naslovCasovnice = "Cel dan na kolesu";
+  } else if (ritem.length > 0) {
+    naslovCasovnice = "Korak za korakom";
   }
-
-  const naslovCasovnice = generirajNaslovCasovnice();
 
   return (
     <main className="min-h-screen bg-[#07110b] text-white">
@@ -384,40 +375,42 @@ export default function DozivetjeDetailPage() {
         </div>
       </section>
 
-      {/* ══ 2. AMBASADOR + UREDNIŠKI UVOD ════════════════════════════════════ */}
-      {(d.ambasador || d.zakaj || d.doziveto_uvod) && (
-        <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-14">
+      {/* ══ 2. AMBASADOR ════════════════════════════════════════════════════ */}
+      {(d.ambasador || d.zakaj) && (
+        <section className="border-y border-white/10 bg-[#0b1a10] px-6 py-12">
           <div className="mx-auto max-w-6xl">
-            <div className="grid gap-10 lg:grid-cols-[auto_1fr] lg:items-start">
-              {/* Ambasador */}
-              {d.ambasador && (
-                <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
-                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-[#07110b]">
-                    {d.ambasador.foto_url ? (
-                      <img src={d.ambasador.foto_url} alt={d.ambasador.ime} className="h-full w-full object-cover" />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-2xl">👤</div>
-                    )}
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c58b46]">Izbral ambasador</div>
-                    <div className="mt-1 font-serif text-lg font-black italic text-white">{d.ambasador.ime}</div>
-                    {d.ambasador.regija && <div className="text-xs text-zinc-500">{d.ambasador.regija}</div>}
-                  </div>
+            <div className="overflow-hidden rounded-[32px] border border-white/10 bg-[#07110b] p-7">
+              <div className="flex items-center gap-5">
+                <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+                  {d.ambasador?.foto_url ? (
+                    <img src={d.ambasador.foto_url} alt={d.ambasador.ime} className="h-full w-full object-cover" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-2xl">👤</div>
+                  )}
                 </div>
-              )}
-              {/* Uredniški uvod + citat */}
-              <div className="space-y-6">
-                {d.doziveto_uvod && (
-                  <p className="text-lg leading-9 text-zinc-300">{d.doziveto_uvod}</p>
-                )}
-                {d.zakaj && (
-                  <blockquote className="border-l-2 border-[#c58b46]/40 pl-6 font-serif text-xl italic leading-8 text-zinc-400">
-                    &ldquo;{d.zakaj}&rdquo;
-                  </blockquote>
-                )}
+                <div>
+                  <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#c58b46]">Izbral ambasador</div>
+                  <div className="mt-1 font-serif text-xl font-black italic text-white">{d.ambasador?.ime}</div>
+                  {d.ambasador?.regija && <div className="text-sm text-zinc-500">{d.ambasador.regija}</div>}
+                </div>
               </div>
+              {d.zakaj && (
+                <blockquote className="mt-6 border-t border-white/10 pt-6 font-serif text-lg italic leading-8 text-zinc-300">
+                  &ldquo;{d.zakaj}&rdquo;
+                </blockquote>
+              )}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* ══ 2b. UREDNIŠKI UVOD ═══════════════════════════════════════════════ */}
+      {d.doziveto_uvod && (
+        <section className="px-6 py-16">
+          <div className="mx-auto max-w-4xl">
+            <p className="text-xl leading-10 text-zinc-300 md:text-2xl md:leading-[3rem]">
+              {d.doziveto_uvod}
+            </p>
           </div>
         </section>
       )}
