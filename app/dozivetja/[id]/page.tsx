@@ -201,7 +201,10 @@ export default function DozivetjeDetailPage() {
 
       if (error || !data) { setNotFound(true); setLoading(false); return; }
 
-      const amb = data.ambasadorji as { ime: string; regija: string | null; foto_url: string | null } | null;
+      const ambRaw = data.ambasadorji;
+      const amb = Array.isArray(ambRaw)
+        ? (ambRaw[0] as { ime: string; regija: string | null; foto_url: string | null } ?? null)
+        : (ambRaw as { ime: string; regija: string | null; foto_url: string | null } | null);
       setD({ ...data, ambasador: amb } as Doziveto);
 
       // Naloži GPX
