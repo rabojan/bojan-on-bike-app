@@ -274,13 +274,13 @@ export default function DozivetjeDetailPage() {
   const poudarki = (d.poudarki ?? []).filter(p => p.title?.trim());
 
   // Dinamičen naslov časovnice
+  const _uvod = d.doziveto_uvod ?? "";
+  const _podnaslov = d.doziveto_podnaslov ?? "";
   function generirajNaslovCasovnice(): string {
     const casovnica = ritem.filter(k => k.time?.trim());
     const prviCas = casovnica[0]?.time ?? null;
     const zadnjiCas = casovnica[casovnica.length - 1]?.time ?? null;
-    const uvod = (d.doziveto_uvod ?? "").toLowerCase();
-    const podnaslov = (d.doziveto_podnaslov ?? "").toLowerCase();
-    const besedilo = uvod + " " + podnaslov;
+    const besedilo = (_uvod + " " + _podnaslov).toLowerCase();
 
     // Ključne besede → tematski naslov
     if (besedilo.includes("vino") || besedilo.includes("vinograd") || besedilo.includes("klet")) {
