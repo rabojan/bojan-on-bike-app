@@ -22,12 +22,13 @@ type TuraCard = {
 
 type DozivetjeCard = {
   id: string;
-  title: string;
+  doziveto_naslov: string | null;
+  ime: string;
   regija: string;
   obmocje: string | null;
-  tip: string[] | null;
+  doziveto_ciljna_skupina: string[] | null;
   hero_image: string | null;
-  tagline: string | null;
+  zakaj: string | null;
 };
 
 const regions = [
@@ -95,9 +96,10 @@ export default function Home() {
           .select("id", { count: "exact", head: true })
           .eq("status", "approved"),
         supabase
-          .from("dozivetja")
-          .select("id, title, regija, obmocje, tip, hero_image, tagline")
-          .eq("status", "published")
+          .from("predlogi_tur")
+          .select("id, doziveto_naslov, ime, regija, obmocje, doziveto_ciljna_skupina, hero_image, zakaj")
+          .eq("je_doziveto", true)
+          .eq("status", "approved")
           .order("created_at", { ascending: false })
           .limit(3),
       ]);
@@ -231,7 +233,7 @@ export default function Home() {
                     {d.hero_image ? (
                       <img
                         src={d.hero_image}
-                        alt={d.title}
+                        alt={d.doziveto_naslov || d.ime}
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       />
                     ) : (
@@ -240,10 +242,10 @@ export default function Home() {
                       </div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a10]/90 to-transparent" />
-                    {d.tip && d.tip.length > 0 && (
+                    {d.doziveto_ciljna_skupina && d.doziveto_ciljna_skupina.length > 0 && (
                       <div className="absolute left-4 top-4">
                         <span className="rounded-full border border-[#c58b46]/40 bg-black/50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] text-[#f4d7ad] backdrop-blur">
-                          {d.tip[0]}
+                          {d.doziveto_ciljna_skupina[0]}
                         </span>
                       </div>
                     )}
@@ -253,11 +255,11 @@ export default function Home() {
                       {d.regija}{d.obmocje ? ` · ${d.obmocje}` : ""}
                     </div>
                     <h3 className="mb-3 font-serif text-2xl font-black italic leading-tight">
-                      {d.title}
+                      {d.doziveto_naslov || d.ime}
                     </h3>
-                    {d.tagline && (
+                    {d.zakaj && (
                       <p className="flex-1 text-sm leading-7 text-zinc-400 line-clamp-2">
-                        {d.tagline}
+                        {d.zakaj}
                       </p>
                     )}
                     <Link
