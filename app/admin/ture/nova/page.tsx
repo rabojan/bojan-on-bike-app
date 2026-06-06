@@ -336,7 +336,7 @@ export default function AdminNovaTuraPage() {
         <section className="rounded-[32px] border border-white/10 bg-black/20 p-7">
           <div className="mb-2 text-[10px] font-black uppercase tracking-[0.35em] text-[#c58b46]">Opis ture</div>
           <p className="mb-5 text-sm text-zinc-500">Glavna zgodba, prikaže se pod naslovom na javni strani.</p>
-          <textarea rows={3} maxLength={160} value={opis} onChange={(e) => setOpis(e.target.value)}
+          <textarea rows={5} maxLength={160} value={opis} onChange={(e) => setOpis(e.target.value)}
             placeholder="Tura se začne pri... Gozd te popelje... Na vrhu se odpre razgled..."
             className="w-full rounded-2xl border border-white/10 bg-[#07110b] px-5 py-4 leading-7 outline-none focus:border-[#c58b46]/60" />
           <div className="mt-2 flex items-center justify-between text-xs">
